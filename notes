@@ -1,4 +1,7 @@
-1. CreaDatos # simulate reflectance r_sim, given d0, lthz. Add noise. -> optimize abs(r(d, lthz)-r_sim)
+Recreate matlab scripts in python
+
+
+1. Simulate reflectance r_sim, given d0, lthz. Add noise. -> optimize abs(r(d, lthz)-r_sim)
 
 CreaDatos.m
 	% *** Construct THz wavelenghts ***
@@ -30,20 +33,21 @@ parametros.m (like consts.py)
 
 2. Kopf_0-100, BG_1000, ref_1000x. (f (MHz), ampl. s., phase. s., ampl. r., phase. r.,). Real measurements ?
 
-r=dlmread('ref_1000x.csv', ',', 1, 0)
-b=dlmread('BG_1000.csv', ',', 1, 0)
+Process3Layers(1-6) scripts
+    r=dlmread('ref_1000x.csv', ',', 1, 0)
+    b=dlmread('BG_1000.csv', ',', 1, 0)
 
-s=dlmread('Kopf_1x_0001', ',', 1, 0) ...
+    s=dlmread('Kopf_1x_0001', ',', 1, 0) ...
 
-f=r(235:end-1,1)*MHz
-lam=c0/f
+    f=r(235:end-1,1)*MHz
+    lam=c0/f
 
-rr=r(235:end-1,2)-b(235:end-1,2)
-ss=s(235:end-1,2)-b(235:end-1,2)
+    rr=r(235:end-1,2)-b(235:end-1,2)
+    ss=s(235:end-1,2)-b(235:end-1,2)
 
-T=ss./rr
+    T=ss./rr
 
-R=T.^2 # measured reflectivity
+    R=T.^2 # measured reflectivity
 
 
 - Implementing least squares algorithm(levenberg-marquardt)...
