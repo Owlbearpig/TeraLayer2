@@ -1,7 +1,6 @@
 import numpy as np
 from consts import *
-from numpy import cos, sin, asin, sum, exp, dot, conj
-
+from numpy import cos, sin, arcsin, sum, exp, dot, conj
 
 # TODO Fix loop index
 def multir(p, lam):
@@ -15,7 +14,7 @@ def multir(p, lam):
     nc = len(n) - 2 # changed
     for h in range(1, sum(len(lam)) - 1):
         for k in range(1, nc + 1):
-            the[k + 1] = asin(n[k] * sin(the[k]) / n[k+1])
+            the[k + 1] = arcsin(n[k] * sin(the[k]) / n[k+1])
             if a == 1:
                 ra[k] = ((n[k] * cos(the[k + 1])) - ((n[k + 1]) * cos(the[k]))) / (
                             (n[k + 1] * cos(the[k])) + (n[k] * cos(the[k + 1])))
