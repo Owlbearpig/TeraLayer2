@@ -1,11 +1,12 @@
 from numpy import pi
 from pathlib import Path
 import os
+from scipy.constants import c as c0
 
 ROOT_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
 
 rad = 180 / pi
-thea=8*pi/180
+thea = 8*pi/180
 a = 1
 n = [1, 1.50, 2.8, 1.50, 1]
 

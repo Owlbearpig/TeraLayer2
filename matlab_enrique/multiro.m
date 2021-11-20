@@ -1,4 +1,4 @@
-function R= multir(p,lam)
+function R= multiro(lam,p)
 
 %%% destripa parametros
 %l=size(p,2);

@@ -52,3 +52,10 @@ Process3Layers(1-6) scripts
 
 - Implementing least squares algorithm(levenberg-marquardt)...
     (should be in scipy.optimize)
+
+########################################################################################################################
+1. Get multir implemented and check output against multir.m. MultirFunctionEval.py == MultirFunctionEval.m. (done)
+2. benchmark
+    multir(d, lambda) # 6 thz wavelengths
+    - python: 1.5 ms / eval
+    - octave: 5.5 ms / eval

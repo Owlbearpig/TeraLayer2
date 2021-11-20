@@ -1,12 +1,13 @@
 clear
 clc
+pkg load optim
+addpath ('E:/Projects/TeraLayer/matlab_enrique')
+r=dlmread('Data/ref_1000x.csv', ',', 1, 0);
+b=dlmread('Data/BG_1000.csv', ',', 1, 0);
 
-r=dlmread('ref_1000x.csv', ',', 1, 0);
-b=dlmread('BG_1000.csv', ',', 1, 0);
-
-s=dlmread('Kopf_1x_0001', ',', 1, 0);
-s2=dlmread('Kopf_1x_0002', ',', 1, 0);
-%s3=dlmread('Kopf_1x_0003', ',', 1, 0);
+s=dlmread('Data/Kopf_1x/Kopf_1x_0001', ',', 1, 0);
+s2=dlmread('Data/Kopf_1x/Kopf_1x_0002', ',', 1, 0);
+%s3=dlmread('Data/Kopf_1x/Kopf_1x_0003', ',', 1, 0);
 %s=(s1+s2+s3)/3;
 f=r(235:end-1,1)*1e6;
 lam=3e8./f;
@@ -35,7 +36,8 @@ for k=1:200
         lb=[0.000001 0.00001 0.000001];
         hb=[0.001   0.001   0.001];
         %options = optimset('TolFun',1e-25,'MaxFunEvals',1e8,'MaxIter',1e4,'TolX',1e-15);
-        options=optimoptions(@lsqcurvefit,'Algorithm','levenberg-marquardt', 'MaxFunctionEvaluations',2000000, 'MaxIterations', 200000, 'StepTolerance',1e-15)
+        options=optimset('Algorithm','levenberg-marquardt', 'MaxFunEvals',2000000, 'MaxIter', 200000, 'TolX',1e-15)
+        %options=optimoptions(@lsqcurvefit,'Algorithm','levenberg-marquardt', 'MaxFunctionEvaluations',2000000, 'MaxIterations', 200000, 'StepTolerance',1e-15)
         
         [d,resnorm] = lsqcurvefit(@multir,di,lam(enes,1),R(enes,1),lb,hb,options);
         ds(k,:)=d;

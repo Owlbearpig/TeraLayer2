@@ -1,6 +1,6 @@
 clear all
 clc
-  addpath ('c:\Users\enriq\Dropbox\CIO\Mlab\work\')
+addpath ('E:/Projects/TeraLayer/matlab_enrique')
 
 for w=1:10
 for q=1:100
