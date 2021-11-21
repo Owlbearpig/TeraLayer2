@@ -1,6 +1,6 @@
 clear
 clc
-
+pkg load optim
 addpath('E:/Projects/TeraLayer/matlab_enrique')
 
 r=dlmread('Data/ref_1000x.csv', ',', 1, 0);
@@ -32,7 +32,18 @@ for _=1:repeats
 end
 elapsed_time = cputime-t;
 %elapsed_time = etime(clock(), t0);
-disp([num2str(1000.*elapsed_time./repeats), ' ms'])
+disp(['Avg. runtime of multir: ', num2str(1000.*elapsed_time./repeats), ' ms'])
+
+di=[0.000045 0.00060 0.000045];
+lb=[0.000001 0.00001 0.000001];
+hb=[0.001   0.001   0.001];
+options.bounds=[lb',hb'];
+t = cputime;
+for _=1:repeats
+  [f, d, cvg, iter, corp, covp, covr, stdresid, Z, r2] = leasqr(lam(ni:nn:nf,1), R(ni:nn:nf,1), di, @multiro, 1e-15, 200000, [], [], [], options);
+end
+elapsed_time = cputime-t;
+disp(['Avg. runtime of optimization: ', num2str(1000.*elapsed_time./repeats), ' ms'])
 
 %{
 plot(lam/1e-3, R(:,1),'color',[0.9 0.9 0.9])

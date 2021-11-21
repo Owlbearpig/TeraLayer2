@@ -1,7 +1,7 @@
 %Fitting
 
 % Create experimental data
-x=[0:1:10]';
+x=[0:1:10].T; # originally transposed in matlab
 y=5+5*x+.2*randn(size(x,1),1);
 
 % Input parameters

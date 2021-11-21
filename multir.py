@@ -1,9 +1,7 @@
-import numpy as np
 from consts import *
 from numpy import cos, sin, arcsin, exp, dot, conj
 
-
-def multir(p, lam):
+def multir(lam, p):
     es = p.copy()
     the = np.zeros(len(lam))
     ra, rb, ta, tb = np.zeros(len(lam)), np.zeros(len(lam)), np.zeros(len(lam)), np.zeros(len(lam))

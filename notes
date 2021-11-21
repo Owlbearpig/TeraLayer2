@@ -54,8 +54,12 @@ Process3Layers(1-6) scripts
     (should be in scipy.optimize)
 
 ########################################################################################################################
-1. Get multir implemented and check output against multir.m. MultirFunctionEval.py == MultirFunctionEval.m. (done)
-2. benchmark
-    multir(d, lambda) # 6 thz wavelengths
-    - python: 1.5 ms / eval
-    - octave: 5.5 ms / eval
+1. Get multir implemented and check output against multir.m. MultirFunctionEval.py == MultirFunctionEval.m.
+(done, plots match)
+
+2. benchmark 6 thz wavelengths (time per eval/convergence) i7-4820k @ 4.59 GHz
+    - python            : (multir, 1.5 ms), (leasqr, 100.0 ms)
+    - python numba      : (multir_numba, 0.11 ms), (leasqr: 11.6 ms)
+    - octave            : (multir, 4.5 ms), (leasqr, 365.5 ms) # not checking if converged to 'correct' minima
+
+3. can't get grid search to converge to correct x. -> how does lm work and why does it converge in this case? p0??
