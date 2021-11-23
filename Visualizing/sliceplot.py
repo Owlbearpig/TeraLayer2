@@ -1,9 +1,69 @@
 import numpy as np
+from numpy import array
 import matplotlib.pyplot as plt
+from functions import format_data, residuals
+from consts import default_mask, um
+from multir_numba import multir_numba
+from matplotlib.widgets import Slider, Button
 
 """
 1. calculate sum(residuals) over 3D grid with some resolution(rez)
 2. 2D plot slices for different z set with slider
 """
 
+lam, R = format_data(mask=default_mask)
 
+rez = 250
+
+lb = array([0.000001, 0.00001, 0.000001])
+ub = array([0.001, 0.001, 0.001])
+
+# initial 'full' grid matching bounds
+grd_x = np.linspace(lb[0], ub[0], rez)
+grd_y = np.linspace(lb[1], ub[1], rez)
+grd_z = np.linspace(lb[2], ub[2], rez)
+
+"""
+grid_vals = np.zeros([rez]*3)
+for i in range(rez):
+    print(f'{i}/{rez}')
+    for j in range(rez):
+        for k in range(rez):
+            p = array([grd_x[i], grd_y[j], grd_z[k]])
+            grid_vals[i, j, k] = sum(residuals(p, multir_numba, lam, R))
+
+np.save(f'{rez}rez_cubed_grid-lb_ub_edges.npy', grid_vals)
+"""
+
+grid_vals = np.load('250rez_cubed_grid-lb_ub_edges.npy')
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+fig.subplots_adjust(left=0.2)
+img = ax.imshow(grid_vals[:, :, 0], vmin=np.min(grid_vals), vmax=np.max(grid_vals), origin='lower',
+                extent=[grd_x[0] * um, grd_x[-1] * um, grd_y[0] * um, grd_y[-1] * um])  # , cmap=plt.get_cmap('autumn')
+ax.set_xlabel('$d_1$')
+ax.set_ylabel('$d_2$')
+
+fig.colorbar(img)
+
+axmax = fig.add_axes([0.05, 0.1, 0.02, 0.8])
+amp_slider = Slider(
+    ax=axmax,
+    label='$d_3$',
+    valstep=grd_z * um,
+    valmin=grd_z[0] * um,
+    valmax=grd_z[-1] * um,
+    valinit=grd_z[0] * um,
+    orientation='vertical'
+)
+
+
+def update(val):
+    idx, = np.where(grd_z * um == val)
+    img.set_data(grid_vals[:, :, idx])
+    fig.canvas.draw()
+
+
+amp_slider.on_changed(update)
+plt.show()
