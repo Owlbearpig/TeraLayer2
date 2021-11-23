@@ -1,6 +1,9 @@
 from numpy import array
 from consts import MHz, c0, data_dir
+from multir_numba import multir_numba
 import pandas as pd
+import matplotlib.pyplot as plt
+from consts import default_mask
 import time
 
 
@@ -40,3 +43,29 @@ def format_data(mask=None):
 
 def residuals(p, fun, x, y0):
     return (fun(x, p)-y0)**2
+
+
+def calc_loss(p):
+    lam, R = format_data(default_mask)
+    return sum((residuals(p, multir_numba, lam, R)))
+
+
+def calc_scipy_loss(p):
+    lam, R = format_data(default_mask)
+    return sum((residuals(p, multir_numba, lam, R))**2)/2
+
+
+def plot(p):
+    from results import d_best
+    lam, R = format_data()
+
+    plt.plot(lam / 1e-3, R, label='measurement')
+    plt.plot(lam[default_mask] / 1e-3, R[default_mask], 'o', color='red')
+    plt.plot(lam / 1e-3, multir_numba(lam, p), label='fit')
+    plt.plot(lam / 1e-3, multir_numba(lam, d_best), label='best fit (scipy/matlab LM-algo)')
+    plt.xlim((0, 2))
+    plt.ylim((0, 1.1))
+    plt.xlabel('THZ-Wavelenght (mm)')
+    plt.ylabel('$r^2$ (arb. units)')
+    plt.legend()
+    plt.show()

@@ -63,3 +63,6 @@ Process3Layers(1-6) scripts
     - octave            : (multir, 4.5 ms), (leasqr, 365.5 ms) # not checking if converged to 'correct' minima
 
 3. can't get grid search to converge to correct x. -> how does lm work and why does it converge in this case? p0??
+4. full bruteforce search shows that global minimum isn't what leastsq gives. What now??
+5. some results give 'weird' reflectances, even though the loss is lower...
+6.

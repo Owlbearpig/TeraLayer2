@@ -22,5 +22,3 @@ um_to_m = 1/um
 
 ni, nf, nn = 400, 640, 40
 default_mask = np.arange(ni, nf, nn)
-
-d_best = np.array([37.29533693, 626.64077655, 37.2953365])*(1/um) # from scipy.optimize (least_sq)

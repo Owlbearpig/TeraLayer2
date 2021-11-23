@@ -2,7 +2,7 @@ import numpy as np
 from numpy import array
 import matplotlib.pyplot as plt
 from functions import format_data, residuals
-from consts import default_mask, um, um_to_m
+from consts import default_mask, um
 from multir_numba import multir_numba
 from matplotlib.widgets import Slider, Button
 
@@ -14,21 +14,18 @@ from matplotlib.widgets import Slider, Button
 lam, R = format_data(mask=default_mask)
 
 # should be resolution of axes d1, d2, d3
-rez_x, rez_y, rez_z = 1000, 1000, 1000
+rez_x, rez_y, rez_z = 500, 500, 500
 
 lb = array([0.000001, 0.00001, 0.000001])
 ub = array([0.001, 0.001, 0.001])
-
-#lb = array([600, 35, 45])*um_to_m
-#ub = array([610, 45, 60])*um_to_m
 
 # initial 'full' grid matching bounds
 grd_x = np.linspace(lb[0], ub[0], rez_x)
 grd_y = np.linspace(lb[1], ub[1], rez_y)
 grd_z = np.linspace(lb[2], ub[2], rez_z)
 
- # generates new values
-grid_vals = np.zeros([rez_x, rez_y, rez_z], dtype=np.float32)
+"""
+grid_vals = np.zeros([rez_x, rez_y, rez_z])
 for i in range(rez_x):
     print(f'{i}/{rez_x}')
     for j in range(rez_y):
@@ -39,8 +36,8 @@ for i in range(rez_x):
 np.save(f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_cubed_grid-lb_ub_edges.npy', grid_vals)
 
 """
-#grid_vals = np.load(f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_cubed_grid-small_lb_ub_edges.npy')
-grid_vals = np.load(f'250rez_cubed_grid-lb_ub_edges.npy')
+grid_vals = np.load('500_500_500_rez_xyz_cubed_grid-lb_ub_edges.npy')
+grid_vals = np.log10(grid_vals)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
@@ -51,6 +48,11 @@ img = ax.imshow(grid_vals[:, :, 0].transpose((1, 0)), vmin=np.min(grid_vals), vm
                 extent=extent)  # , cmap=plt.get_cmap('autumn')
 ax.set_xlabel('$d_1$')
 ax.set_ylabel('$d_2$')
+
+g_min_idx = np.argmin(grid_vals)
+min_x, min_y, min_z = np.unravel_index(g_min_idx, grid_vals.shape)
+print(grd_x[min_x] * um, grd_y[min_y] * um, grd_z[min_z] * um)
+print(np.min(grid_vals))
 
 fig.colorbar(img)
 
@@ -73,4 +75,4 @@ def update(val):
 
 amp_slider.on_changed(update)
 plt.show()
-"""
+
