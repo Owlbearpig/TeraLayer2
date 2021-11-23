@@ -13,35 +13,38 @@ from matplotlib.widgets import Slider, Button
 
 lam, R = format_data(mask=default_mask)
 
-rez = 250
+# should be resolution of axes d1, d2, d3
+rez_x, rez_y, rez_z = 250, 225, 200
 
 lb = array([0.000001, 0.00001, 0.000001])
 ub = array([0.001, 0.001, 0.001])
 
 # initial 'full' grid matching bounds
-grd_x = np.linspace(lb[0], ub[0], rez)
-grd_y = np.linspace(lb[1], ub[1], rez)
-grd_z = np.linspace(lb[2], ub[2], rez)
+grd_x = np.linspace(lb[0], ub[0], rez_x)
+grd_y = np.linspace(lb[1], ub[1], rez_y)
+grd_z = np.linspace(lb[2], ub[2], rez_z)
 
 """
-grid_vals = np.zeros([rez]*3)
-for i in range(rez):
-    print(f'{i}/{rez}')
-    for j in range(rez):
-        for k in range(rez):
+grid_vals = np.zeros([rez_x, rez_y, rez_z])
+for i in range(rez_x):
+    print(f'{i}/{rez_x}')
+    for j in range(rez_y):
+        for k in range(rez_z):
             p = array([grd_x[i], grd_y[j], grd_z[k]])
             grid_vals[i, j, k] = sum(residuals(p, multir_numba, lam, R))
 
-np.save(f'{rez}rez_cubed_grid-lb_ub_edges.npy', grid_vals)
-"""
+np.save(f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_cubed_grid-lb_ub_edges.npy', grid_vals)
 
-grid_vals = np.load('250rez_cubed_grid-lb_ub_edges.npy')
+"""
+grid_vals = np.load('250_225_200_rez_xyz_cubed_grid-lb_ub_edges.npy')
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
+ax.set_title('Residual sum plot')
 fig.subplots_adjust(left=0.2)
-img = ax.imshow(grid_vals[:, :, 0], vmin=np.min(grid_vals), vmax=np.max(grid_vals), origin='lower',
-                extent=[grd_x[0] * um, grd_x[-1] * um, grd_y[0] * um, grd_y[-1] * um])  # , cmap=plt.get_cmap('autumn')
+extent = [grd_x[0] * um, grd_x[-1] * um, grd_y[0] * um, grd_y[-1] * um]
+img = ax.imshow(grid_vals[:, :, 0].transpose((1, 0)), vmin=np.min(grid_vals), vmax=np.max(grid_vals), origin='lower',
+                extent=extent)  # , cmap=plt.get_cmap('autumn')
 ax.set_xlabel('$d_1$')
 ax.set_ylabel('$d_2$')
 
@@ -61,9 +64,9 @@ amp_slider = Slider(
 
 def update(val):
     idx, = np.where(grd_z * um == val)
-    img.set_data(grid_vals[:, :, idx])
+    img.set_data(grid_vals[:, :, idx].transpose((1, 0, 2)))
     fig.canvas.draw()
-
 
 amp_slider.on_changed(update)
 plt.show()
+
