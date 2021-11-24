@@ -13,7 +13,7 @@ cont=0;
 cont2=0;
 enes=floor(200*rand(6,1)+400);
 
-for k=0:10
+for k=0:100
     disp(k)
     s=dlmread(['Data/Kopf_1x/Kopf_1x_0' num2str(k,'%03.f')], ',', 1, 0);
 

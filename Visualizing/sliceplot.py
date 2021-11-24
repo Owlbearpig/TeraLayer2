@@ -14,7 +14,7 @@ from matplotlib.widgets import Slider, Button
 lam, R = format_data(mask=default_mask)
 
 # should be resolution of axes d1, d2, d3
-rez_x, rez_y, rez_z = 500, 500, 500
+rez_x, rez_y, rez_z = 1000, 1000, 1000
 
 lb = array([0.000001, 0.00001, 0.000001])
 ub = array([0.001, 0.001, 0.001])
@@ -36,8 +36,8 @@ for i in range(rez_x):
 np.save(f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_cubed_grid-lb_ub_edges.npy', grid_vals)
 
 """
-grid_vals = np.load('500_500_500_rez_xyz_cubed_grid-lb_ub_edges.npy')
-grid_vals = np.log10(grid_vals)
+grid_vals = np.load('1000_1000_1000_rez_xyz_cubed_grid-lb_ub_edges.npy')
+#grid_vals = np.log10(grid_vals)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
