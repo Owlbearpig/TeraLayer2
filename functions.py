@@ -25,15 +25,15 @@ def load_files(sample_file_idx=0):
 
     r = read_csv(data_dir / 'ref_1000x.csv')
     b = read_csv(data_dir / 'BG_1000.csv')
-    s = read_csv(data_dir / 'Kopf_1x' / f'Kopf_1x_000{sample_file_idx+1}')
+    s = read_csv(data_dir / 'Kopf_1x' / f'Kopf_1x_{sample_file_idx+1:04}')
 
     f = r[slice_0:slice_1, 0] * MHz
 
     return f, r[slice_0:slice_1, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
 
 
-def format_data(mask=None):
-    f, r, b, s = load_files()
+def format_data(mask=None, sample_file_idx=0):
+    f, r, b, s = load_files(sample_file_idx)
 
     lam = c0 / f
 

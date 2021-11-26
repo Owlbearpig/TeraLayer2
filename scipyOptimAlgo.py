@@ -11,7 +11,7 @@ from scipy.optimize import least_squares
 
 chosen_mask = custom_mask
 
-lam, R = format_data(mask=chosen_mask)
+lam, R = format_data(mask=chosen_mask, sample_file_idx=0)
 
 d_goal = array([0.0000378283, 0.0006273254, 0.0000378208])
 
