@@ -20,17 +20,25 @@ def avg_runtime(fun, *args, **kwargs):
     print(f'{fun.__name__}: {1000 * (time.perf_counter() - t0) / repeats} ms / func. eval. ({repeats} calls)')
 
 
-def format_data(mask=None):
+def load_files(sample_file_idx=0):
+    slice_0, slice_1 = 235, -2
+
     r = read_csv(data_dir / 'ref_1000x.csv')
     b = read_csv(data_dir / 'BG_1000.csv')
-    s = read_csv(data_dir / 'Kopf_1x' / 'Kopf_1x_0001')
+    s = read_csv(data_dir / 'Kopf_1x' / f'Kopf_1x_000{sample_file_idx+1}')
 
-    f = r[235:-2, 0] * MHz
+    f = r[slice_0:slice_1, 0] * MHz
+
+    return f, r[slice_0:slice_1, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
+
+
+def format_data(mask=None):
+    f, r, b, s = load_files()
 
     lam = c0 / f
 
-    rr = r[235:-2, 1] - b[235:-2, 1]
-    ss = s[235:-2, 1] - b[235:-2, 1]
+    rr = r - b
+    ss = s - b
     reflectance = ss / rr
 
     reflectivity = reflectance ** 2
@@ -45,6 +53,11 @@ def residuals(p, fun, x, y0):
     return (fun(x, p)-y0)**2
 
 
+# could be a wrapper
+def weighted_residuals(p, fun, x, y0, w):
+    return w*residuals(p, fun, x, y0)
+
+
 def calc_loss(p):
     lam, R = format_data(default_mask)
     return sum((residuals(p, multir_numba, lam, R)))
@@ -55,17 +68,10 @@ def calc_scipy_loss(p):
     return sum((residuals(p, multir_numba, lam, R))**2)/2
 
 
-def plot(p, fun=multir_numba):
-    from results import d_best
-    lam, R = format_data()
+if __name__ == '__main__':
+    from consts import wide_mask
+    lam_w, R_w = format_data(wide_mask)
+    print(lam_w, R_w)
 
-    plt.plot(lam / 1e-3, R, label='measurement')
-    plt.plot(lam[default_mask] / 1e-3, R[default_mask], 'o', color='red')
-    plt.plot(lam / 1e-3, fun(lam, p), label='fit')
-    plt.plot(lam / 1e-3, multir_numba(lam, d_best), label='best fit (scipy/matlab LM-algo)')
-    plt.xlim((0, 2))
-    plt.ylim((0, 1.1))
-    plt.xlabel('THZ-Wavelenght (mm)')
-    plt.ylabel('$r^2$ (arb. units)')
-    plt.legend()
-    plt.show()
+    lam, R = format_data(default_mask)
+    print(lam, R)

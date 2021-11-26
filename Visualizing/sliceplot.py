@@ -2,7 +2,7 @@ import numpy as np
 from numpy import array
 import matplotlib.pyplot as plt
 from functions import format_data, residuals
-from consts import default_mask, um
+from consts import default_mask, um, default_mask_hr, wide_mask, custom_mask
 from multir_numba import multir_numba
 from matplotlib.widgets import Slider, Button
 
@@ -11,10 +11,10 @@ from matplotlib.widgets import Slider, Button
 2. 2D plot slices for different z set with slider
 """
 
-lam, R = format_data(mask=default_mask)
+lam, R = format_data(mask=custom_mask)
 
 # should be resolution of axes d1, d2, d3
-rez_x, rez_y, rez_z = 200, 200, 200
+rez_x, rez_y, rez_z = 100, 100, 100
 
 lb = array([0.000001, 0.00001, 0.000001])
 ub = array([0.001, 0.001, 0.001])
@@ -24,20 +24,21 @@ grd_x = np.linspace(lb[0], ub[0], rez_x)
 grd_y = np.linspace(lb[1], ub[1], rez_y)
 grd_z = np.linspace(lb[2], ub[2], rez_z)
 
-
+#weights = np.array([1*1., 0*0.64410091, 1*0.6191284,  0*0.30976896, 1*0.09930818, 0*0.26071977])
+weights = np.ones_like(R)
 grid_vals = np.zeros([rez_x, rez_y, rez_z])
 for i in range(rez_x):
     print(f'{i}/{rez_x}')
     for j in range(rez_y):
         for k in range(rez_z):
             p = array([grd_x[i], grd_y[j], grd_z[k]])
-            grid_vals[i, j, k] = sum(residuals(p, multir_numba, lam, R)) + 0.1*(sum(p)/(3*ub[0]))*0.74421585
+            grid_vals[i, j, k] = sum(weights*residuals(p, multir_numba, lam, R))
 
 #np.save(f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_cubed_grid-lb_ub_edges.npy', grid_vals)
 
 #grid_vals = np.load('1000_1000_1000_rez_xyz_cubed_grid-lb_ub_edges.npy')
 
-#grid_vals = np.log10(grid_vals)
+grid_vals = np.log10(grid_vals)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)

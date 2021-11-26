@@ -1,4 +1,5 @@
-from functions import plot, calc_loss
+from functions import calc_loss
+from Visualizing.plotting import plot_result
 import numpy as np
 from numpy import array
 from consts import um_to_m
@@ -13,4 +14,4 @@ if __name__ == '__main__':
     print(calc_loss(d_best))
     print(calc_loss(p_full_search))
     #plot(p_brutef_g)
-    plot(p_full_search)
+    plot_result(p_full_search)
