@@ -65,4 +65,21 @@ Process3Layers(1-6) scripts
 3. can't get grid search to converge to correct x. -> how does lm work and why does it converge in this case? p0??
 4. full bruteforce search shows that global minimum isn't what leastsq gives. What now??
 5. some results give 'weird' reflectances, even though the loss is lower...
-6.
+
+6. Assume initial guess is close to optimum -> small search space / tight bounds.
+7. smooth function ...
+8. minimize number of func evals.
+
+9. considering the nfev in grid search (ecAlgo) will be n^3 with n the resolution we can probably never beat scipy opt.
+if we also calculate the derivatives
+
+10. calculate gradient analytically, should be possible
+
+11. test calculated gradient/jacobian in scipy least_squares
+
+12. implement most simple gradient descent algorithm, or similar one to what scipy is using since there nfew+njev <= 40
+scipy default method:
+'trf' : Trust Region Reflective algorithm, particularly suitable
+for large sparse problems with bounds. Generally robust method.
+
+13.

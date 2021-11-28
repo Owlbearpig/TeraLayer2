@@ -4,7 +4,7 @@ from numpy import cos, sin, arcsin, exp, dot, conj
 def multir(lam, p):
     es = p.copy()
     the = np.zeros(len(lam))
-    ra, rb, ta, tb = np.zeros(len(lam)), np.zeros(len(lam)), np.zeros(len(lam)), np.zeros(len(lam))
+    ra, rb, ta, tb = np.zeros(len(n)-1), np.zeros(len(n)-1), np.zeros(len(n)-1), np.zeros(len(n)-1)
     the[0] = thea
 
     R = np.zeros(len(lam))

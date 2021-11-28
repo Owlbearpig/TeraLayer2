@@ -1,8 +1,7 @@
 from numpy import array
 from consts import MHz, c0, data_dir
-from multir_numba import multir_numba
+from model.multir_numba import multir_numba
 import pandas as pd
-import matplotlib.pyplot as plt
 from consts import default_mask
 import time
 

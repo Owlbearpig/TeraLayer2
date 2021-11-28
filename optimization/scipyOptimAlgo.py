@@ -1,15 +1,11 @@
-import numpy as np
-import matplotlib.pyplot as plt
 from numpy import array
-from multir import multir
-from multir_numba import multir_numba
-from multir_1D import multir_1D
-from consts import default_mask, default_mask_hr, um, um_to_m, wide_mask, custom_mask
-from functions import format_data, residuals, avg_runtime, calc_scipy_loss, calc_loss
-from Visualizing.plotting import plot_result
+from model.multir_numba import multir_numba
+from consts import um, um_to_m, custom_mask, default_mask
+from functions import format_data, residuals, calc_loss
+from visualizing.plotting import plot_result
 from scipy.optimize import least_squares
 
-chosen_mask = custom_mask
+chosen_mask = default_mask
 
 lam, R = format_data(mask=chosen_mask, sample_file_idx=0)
 

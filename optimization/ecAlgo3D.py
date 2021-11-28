@@ -1,10 +1,12 @@
 import numpy as np
+import time
 from numpy import arange, array
 from functions import residuals
 import matplotlib.pyplot as plt
-from multir_numba import multir_numba
+from model.multir_numba import multir_numba
 from functions import format_data
-from consts import default_mask, um, d_best
+from consts import default_mask, um, um_to_m
+from results import d_best
 
 """
 Before going to C check if algo is able to optimize multir in a reasonable time
@@ -31,11 +33,16 @@ y0 = R[default_mask]
 
 print(sum(residuals(d_best, fun, x, y0)))
 
-lb = array([0.000001, 0.00001, 0.000001])
-ub = array([0.001, 0.001, 0.001])
+max_its = 2
+rez = 25
 
-max_its = 10
-rez = 50
+p_init = array([25, 600, 25])*um_to_m
+
+lb = p_init - array([25, 40, 25])*um_to_m
+ub = p_init + array([25, 40, 25])*um_to_m
+
+#lb = array([0.000001, 0.00001, 0.000001])
+#ub = array([0.001, 0.001, 0.001])
 
 grd_x0, grd_x1 = lb[0], ub[0]
 grd_y0, grd_y1 = lb[1], ub[1]
@@ -47,10 +54,10 @@ grd_y = np.linspace(grd_y0, grd_y1, rez)
 grd_z = np.linspace(grd_z0, grd_z1, rez)
 
 min_err = 1e100
-vals = 0  # count points searched
+vals = 0
 x_idx_best, y_idx_best, z_idx_best = None, None, None
 ps = np.zeros((max_its, 3))
-
+t0 = time.perf_counter()
 its = 0
 while its < max_its:
     for i in range(0, rez):
@@ -69,24 +76,28 @@ while its < max_its:
     # refine grid to around best vals
 
     # step size is constant and equal in all directions
-    step_size = 10*(grd_x[1] - grd_x[0])
+    step_size = 2*(grd_x[1] - grd_x[0])
     print()
     print('best d (=p):', grd_x[x_idx_best]*um, grd_y[y_idx_best]*um, grd_z[z_idx_best]*um)
     print('residual sum (min_err): ', min_err)
-    print('step size:', step_size)
-    print('x range:', min(grd_x), max(grd_x))
-    print('y range:', min(grd_y), max(grd_y))
-    print('z range:', min(grd_z), max(grd_z))
-    print()
-    grd_x = np.linspace(grd_x[x_idx_best]-step_size, grd_x[x_idx_best]+step_size, rez)
-    grd_y = np.linspace(grd_y[y_idx_best]-step_size, grd_y[y_idx_best]+step_size, rez)
-    grd_z = np.linspace(grd_z[z_idx_best]-step_size, grd_z[z_idx_best]+step_size, rez)
+    print('current step size (um):', step_size*um)
+    print('x (um) range:', min(grd_x)*um, max(grd_x)*um)
+    print('y (um) range:', min(grd_y)*um, max(grd_y)*um)
+    print('z (um) range:', min(grd_z)*um, max(grd_z)*um)
+    print(f'nfunc: {vals}')
 
     # save best result at each iteration
     p = [grd_x[x_idx_best], grd_y[y_idx_best], grd_z[z_idx_best]]
     ps[its] = p
 
+    # refine grid
+    grd_x = np.linspace(grd_x[x_idx_best] - step_size, grd_x[x_idx_best] + step_size, rez)
+    grd_y = np.linspace(grd_y[y_idx_best] - step_size, grd_y[y_idx_best] + step_size, rez)
+    grd_z = np.linspace(grd_z[z_idx_best] - step_size, grd_z[z_idx_best] + step_size, rez)
+
     its = its + 1
+
+print((time.perf_counter() - t0))
 
 res_sums = []
 for p in ps:
@@ -95,7 +106,6 @@ for p in ps:
 
 plt.plot(arange(0, max_its), res_sums)
 plt.show()
-
 
 plt.plot(lam/1e-3, R, label='measurement')
 plt.plot(lam[default_mask]/1e-3, R[default_mask], 'o', color='red')

@@ -60,6 +60,8 @@ while its < max_its:  # this has sligtly differnt sintax in C
         else:  # somewhere not on edge of old grid
             bs_ = (bs_[i_b + 1] - bs_[i_b - 1]) * arange(0, rez - 1) / (rez - 1) + bs_[i_b - 1]
 
+    #TODO question: Shouldn't new grid be made after storing minimum? otherwise we use refined grid
+
     # save best result for each iteration
     p = [as_[i_a], bs_[i_b]]
     ps[its] = p

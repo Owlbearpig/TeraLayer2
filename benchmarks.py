@@ -1,8 +1,7 @@
-import numpy as np
 import matplotlib.pyplot as plt
 from numpy import array
-from multir_numba import multir_numba
-from multir import multir
+from model.multir_numba import multir_numba
+from model.multir import multir
 from consts import default_mask
 from functions import format_data, avg_runtime
 

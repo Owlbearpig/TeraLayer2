@@ -1,5 +1,5 @@
 from functions import calc_loss
-from Visualizing.plotting import plot_result
+from visualizing.plotting import plot_result
 import numpy as np
 from numpy import array
 from consts import um_to_m
