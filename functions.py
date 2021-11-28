@@ -1,8 +1,9 @@
-from numpy import array
+import numpy as np
+from numpy import array, sqrt
 from consts import MHz, c0, data_dir
 from model.multir_numba import multir_numba
 import pandas as pd
-from consts import default_mask
+from consts import default_mask, full_range_mask
 import time
 
 
@@ -49,7 +50,7 @@ def format_data(mask=None, sample_file_idx=0):
 
 
 def residuals(p, fun, x, y0):
-    return (fun(x, p)-y0)**2
+    return (fun(x, p) - y0)**2
 
 
 # could be a wrapper
@@ -59,12 +60,21 @@ def weighted_residuals(p, fun, x, y0, w):
 
 def calc_loss(p):
     lam, R = format_data(default_mask)
-    return sum((residuals(p, multir_numba, lam, R)))
+    return sum((R - multir_numba(lam, p))**2)
+
+
+def calc_full_loss(p):
+    """
+    calculates sum of squared residuals over full wl range
+    :param p:
+    :return:
+    """
+    lam, R = format_data(mask=full_range_mask)
+    return sum((R - multir_numba(lam, p)) ** 2)
 
 
 def calc_scipy_loss(p):
-    lam, R = format_data(default_mask)
-    return sum((residuals(p, multir_numba, lam, R))**2)/2
+    return calc_loss(p)/2
 
 
 if __name__ == '__main__':

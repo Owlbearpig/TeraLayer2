@@ -14,18 +14,16 @@ from matplotlib.widgets import Slider
 lam, R = format_data(mask=default_mask)
 
 # should be resolution of axes d1, d2, d3
-rez_x, rez_y, rez_z = 1000, 1000, 1000
+rez_x, rez_y, rez_z = 100, 100, 100
 
-lb = array([0.000001, 0.000550, 0.000001])
-ub = array([0.000050, 0.000650, 0.000050])
-lb = array([0.000001, 0.00001, 0.000001])
-ub = array([0.001, 0.001, 0.001])
+lb = array([0.000001, 0.000575, 0.000001])
+ub = array([0.000100, 0.000675, 0.000100])
 
 # initial 'full' grid matching bounds
 grd_x = np.linspace(lb[0], ub[0], rez_x)
 grd_y = np.linspace(lb[1], ub[1], rez_y)
 grd_z = np.linspace(lb[2], ub[2], rez_z)
-"""
+
 grid_vals = np.zeros([rez_x, rez_y, rez_z])
 for i in range(rez_x):
     print(f'{i}/{rez_x}')
@@ -33,12 +31,10 @@ for i in range(rez_x):
         for k in range(rez_z):
             p = array([grd_x[i], grd_y[j], grd_z[k]])
             grid_vals[i, j, k] = sum(residuals(p, multir_numba, lam, R))
-"""
-#np.save(f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_cubed_grid-small_lb_ub_edges.npy', grid_vals)
 
-grid_vals = np.load('1000_1000_1000_rez_xyz_cubed_grid-lb_ub_edges.npy')
+# np.save(f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_cubed_grid-small_lb_ub_edges.npy', grid_vals)
 
-#grid_vals = np.log10(grid_vals)
+#grid_vals = np.load('1000_1000_1000_rez_xyz_cubed_grid-lb_ub_edges.npy')
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
@@ -46,7 +42,9 @@ ax.set_title('Residual sum plot')
 fig.subplots_adjust(left=0.2)
 extent = [grd_x[0] * um, grd_x[-1] * um, grd_y[0] * um, grd_y[-1] * um]
 img = ax.imshow(grid_vals[:, :, 0].transpose((1, 0)), vmin=np.min(grid_vals), vmax=np.max(grid_vals), origin='lower',
-                extent=extent, cmap=plt.get_cmap('jet'))
+                cmap=plt.get_cmap('jet'),
+                extent=extent)
+
 ax.set_xlabel('$d_1$')
 ax.set_ylabel('$d_2$')
 
@@ -74,6 +72,6 @@ def update(val):
     img.set_data(grid_vals[:, :, idx].transpose((1, 0, 2)))
     fig.canvas.draw()
 
+
 amp_slider.on_changed(update)
 plt.show()
-
