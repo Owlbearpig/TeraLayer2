@@ -75,7 +75,8 @@ if we also calculate the derivatives
 
 10. calculate gradient analytically, should be possible
 
-11. test calculated gradient/jacobian in scipy least_squares
+11. test calculated gradient/jacobian in scipy least_squares.
+    -> numeric jacobian(if no jac is given) quite similar to analytical one. Both give same result.
 
 12. implement most simple gradient descent algorithm, or similar one to what scipy is using since there nfew+njev <= 40
 scipy default method:
