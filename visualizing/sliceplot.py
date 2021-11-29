@@ -2,7 +2,7 @@ import numpy as np
 from numpy import array
 import matplotlib.pyplot as plt
 from functions import format_data, residuals
-from consts import um, custom_mask, default_mask
+from consts import um, custom_mask, default_mask, full_range_mask
 from model.multir_numba import multir_numba
 from matplotlib.widgets import Slider
 
@@ -11,13 +11,15 @@ from matplotlib.widgets import Slider
 2. 2D plot slices for different z set with slider
 """
 
-lam, R = format_data(mask=default_mask)
+lam, R = format_data(mask=full_range_mask)
 
 # should be resolution of axes d1, d2, d3
-rez_x, rez_y, rez_z = 100, 100, 100
+rez_x, rez_y, rez_z = 250, 250, 250
 
-lb = array([0.000001, 0.000575, 0.000001])
-ub = array([0.000100, 0.000675, 0.000100])
+#lb = array([0.000001, 0.000575, 0.000001])
+#ub = array([0.000100, 0.000675, 0.000100])
+lb = array([0.000001, 0.00001, 0.000001])
+ub = array([0.001, 0.001, 0.001])
 
 # initial 'full' grid matching bounds
 grd_x = np.linspace(lb[0], ub[0], rez_x)
@@ -32,9 +34,10 @@ for i in range(rez_x):
             p = array([grd_x[i], grd_y[j], grd_z[k]])
             grid_vals[i, j, k] = sum(residuals(p, multir_numba, lam, R))
 
-# np.save(f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_cubed_grid-small_lb_ub_edges.npy', grid_vals)
-
+np.save(f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_cubed_grid-lb_ub_edges.npy', grid_vals)
+exit()
 #grid_vals = np.load('1000_1000_1000_rez_xyz_cubed_grid-lb_ub_edges.npy')
+#grid_vals = np.log10(grid_vals)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)

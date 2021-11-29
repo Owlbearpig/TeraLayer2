@@ -1,5 +1,5 @@
 import numpy as np
-from numpy import array, sqrt
+from numpy import array, sqrt, sum
 from consts import MHz, c0, data_dir
 from model.multir_numba import multir_numba
 import pandas as pd

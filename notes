@@ -80,7 +80,7 @@ if we also calculate the derivatives
 
 12. implement most simple gradient descent algorithm, or similar one to what scipy is using since there nfew+njev <= 40
 scipy default method:
-'trf' : Trust Region Reflective algorithm, particularly suitable
-for large sparse problems with bounds. Generally robust method.
+"'trf' : Trust Region Reflective algorithm, particularly suitable
+for large sparse problems with bounds. Generally robust method."
 
 13.

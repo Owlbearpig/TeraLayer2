@@ -1,9 +1,10 @@
-from numpy import array
+from numpy import array, sum
 from model.multir_numba import multir_numba
+from model.explicit_eval import jacobian
 from consts import um, um_to_m, custom_mask, default_mask
 from functions import format_data, calc_loss, calc_full_loss, residuals
 from visualizing.plotting import plot_result
-from scipy.optimize import least_squares
+from scipy.optimize import least_squares, minimize
 
 chosen_mask = default_mask
 
