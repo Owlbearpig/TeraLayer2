@@ -1,6 +1,7 @@
+import numpy as np
 import matplotlib.pyplot as plt
 from functions import format_data, load_files, multir_numba
-from consts import default_mask
+from consts import default_mask, um
 
 def plot_only_y():
     """
@@ -20,6 +21,7 @@ def plot_result(p, fun=multir_numba, mask=default_mask):
     from results import d_best
     lam, R = format_data()
 
+    plt.title(f'fit: {np.round(p*um, 2)} \n best fit: {np.round(d_best*um, 2)}')
     plt.plot(lam / 1e-3, R, label='measurement')
     plt.plot(lam[mask] / 1e-3, R[mask], 'o', color='red')
     plt.plot(lam / 1e-3, fun(lam, p), label='fit')
