@@ -1,51 +1,12 @@
 import time
-
 import numpy as np
 from numba import jit
-#from consts import n, thea, default_mask, wide_mask, full_range_mask
-#from results import d_best
-#from model.multir_numba import multir_numba
+from consts import n, thea, default_mask, wide_mask, full_range_mask
+from results import d_best
 from numpy import cos, sin, exp, array, arcsin, pi, conj, sum
-#from functions import format_data
-import pandas as pd
-from scipy.constants import c as c0
-#from functions import avg_runtime
+from functions import format_data
 from model.multir_numba import multir_numba
 
-def read_csv(file_path):
-    return array(pd.read_csv(file_path, usecols = [i for i in range(5)]))
-
-def load_files():
-    slice_0, slice_1 = 235, -2
-
-    r = read_csv('ref_1000x.csv')
-    b = read_csv('BG_1000.csv')
-    s = read_csv('Kopf_1x_0000')
-
-    f = r[slice_0:slice_1, 0] * 10**6
-
-    return f, r[slice_0:slice_1, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
-
-
-def format_data(mask=None):
-    f, r, b, s = load_files()
-
-    lam = c0 / f
-
-    rr = r - b
-    ss = s - b
-    reflectance = ss / rr
-
-    reflectivity = reflectance ** 2
-
-    if mask is not None:
-        return lam[mask], reflectivity[mask]
-    else:
-        return lam, reflectivity
-
-thea = 8*pi/180
-n = [1, 1.50, 2.8, 1.50, 1]
-full_range_mask = np.arange(250, 1000, 1)
 
 the = array([thea, 0, 0, 0, 0])
 for i in range(0, 4):
@@ -101,7 +62,7 @@ a0, a1, a2, a3, b0, b1, b2, b3 = a(0), a(1), a(2), a(3), b(0), b(1), b(2), b(3)
 # exponents, wl resolved. Indices indicate di.
 f0_0, f0_1, f0_2 = f(0), f(1), f(2)
 
-#@jit(cache=True, nopython=True)
+@jit(cache=True, nopython=True)
 def explicit_reflectance(p):
     f0, f1, f2 = f0_0*p[0], f0_1*p[1], f0_2*p[2]
 
@@ -134,25 +95,12 @@ def explicit_reflectance(p):
 
 
 if __name__ == '__main__':
-    #from functions import avg_runtime
+    from functions import avg_runtime
 
-    d_best = np.array([37.29533693, 626.64077655, 37.2953365]) * 10**-6
+    R_numba = multir_numba(lam, d_best)
+    R_explicit = explicit_reflectance(d_best)
 
-    #R_numba = multir_numba(lam, d_best)
-    #for _ in range(1000):
-    #    explicit_reflectance(d_best)
-    #avg_runtime(explicit_reflectance, d_best)
-    #R_explicit = explicit_reflectance(d_best)
+    avg_runtime(multir_numba, lam, d_best)
+    avg_runtime(explicit_reflectance, d_best)
 
-    #(multir_numba, lam, d_best)
-    #avg_runtime(explicit_reflectance, d_best)
-
-    import datetime
-
-    start = time.perf_counter()
-    for i in range(1000):
-        #R_numba = multir_numba(lam, d_best)
-        R_explicit = explicit_reflectance(d_best)
-    print((time.perf_counter() - start) / 1000)
-
-    #print(np.all(np.isclose(R_numba, R_explicit)))
+    print(np.all(np.isclose(R_numba, R_explicit)))
