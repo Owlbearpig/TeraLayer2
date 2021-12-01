@@ -12,7 +12,7 @@ def read_csv(file_path):
 
 
 def avg_runtime(fun, *args, **kwargs):
-    repeats = 10
+    repeats = 1000
     t0 = time.perf_counter()
     for _ in range(repeats):
         fun(*args, **kwargs)

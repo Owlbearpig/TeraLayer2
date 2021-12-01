@@ -1,8 +1,10 @@
+import time
 import numpy as np
-from numpy import array
+from numpy import array, sum
 from functions import format_data, residuals, avg_runtime
 from consts import um, custom_mask, default_mask, full_range_mask
 from model.multir_numba import multir_numba
+from model.explicitEvalOptimized import explicit_reflectance
 import multiprocessing
 from joblib import Parallel, delayed
 from pathlib import Path
@@ -14,7 +16,7 @@ from pathlib import Path
 lam, R = format_data(mask=full_range_mask)
 
 # should be resolution of axes d1, d2, d3
-rez_x, rez_y, rez_z = 1000, 1000, 1000
+rez_x, rez_y, rez_z = 10, 1000, 1000
 
 #lb = array([0.000001, 0.000575, 0.000001])
 #ub = array([0.000100, 0.000675, 0.000100])
@@ -27,24 +29,7 @@ grd_y = np.linspace(lb[1], ub[1], rez_y)
 grd_z = np.linspace(lb[2], ub[2], rez_z)
 
 
-def processInput(p):
-    return sum(residuals(p, multir_numba, lam, R)).real
-
-"""
-def calc_grid():
-    grid_vals = np.zeros([rez_x, rez_y, rez_z])
-    for i in range(rez_x):
-        for j in range(rez_y):
-            for k in range(rez_z):
-                p = array([grd_x[i], grd_y[j], grd_z[k]])
-                grid_vals[i, j, k] = processInput(p)
-    return grid_vals
-
-#avg_runtime(calc_grid)
-#np.save(f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_cubed_grid-lb_ub_edges.npy', grid_vals)
-"""
-
-def make_inputs():
+def prepare_inputs():
     inputs = np.zeros((rez_x*rez_y*rez_z, 3))
     input_idx = 0
     for i in range(rez_x):
@@ -55,23 +40,28 @@ def make_inputs():
                 input_idx += 1
 
     return inputs
-#inputs = make_inputs()
-#np.save('flat_input_grid_1000x1000x1000entries.npy', inputs)
-#exit()
 
-full_input_grid = np.load('flat_input_grid_1000x1000x1000entries.npy')
+#np.save('flat_input_grid_10x1000x1000entries.npy', full_input_grid)
+
+
+def processBatch(p_arr):
+    return array([sum((explicit_reflectance(p).real-R.real)**2) for p in p_arr])
+
+
+full_input_grid = np.load('flat_input_grid_1000x1000x1000entries.npy', mmap_mode='r')
+
 
 def calc_grid_parallel(batch):
-    num_cores = 10 #multiprocessing.cpu_count()
-    results = Parallel(n_jobs=num_cores)(delayed(processInput)(i) for i in batch)
+    num_cores = 4 #multiprocessing.cpu_count()
+    results = Parallel(n_jobs=num_cores, verbose=1)(delayed(processBatch)(i) for i in np.array_split(batch, num_cores))
 
-    return results
+    return array(results)
 
 
-batch_cnt = 100
-batch_len = len(full_input_grid) // batch_cnt  # ! has to be divisible int for this to work
-for i in range(batch_cnt):
-    print(f'{i}/100')
-    res = calc_grid_parallel(full_input_grid[batch_len*i:batch_len*(i+1)])
-    np.save(str(Path('grid_data') / 'fullgrid_fullrange' /f'batch_{i}.npy'), res)
-
+batch_cnt = 100 # split grid into 100 parts, process each part on all(or num_cores) cpu cores.
+all_batches = np.array_split(full_input_grid, batch_cnt)
+for i, batch in enumerate(all_batches):
+    print(f'Processing batch: {i}/{batch_cnt}')
+    res = calc_grid_parallel(batch)
+    np.save(str(Path('grid_data') / 'fullgrid_fullrange' / f'batch_{i}.npy'), res)
+    print(f'Done {i}/{batch_cnt}.')

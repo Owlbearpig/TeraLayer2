@@ -3,7 +3,7 @@ import numpy as np
 from numba import jit
 from consts import n, thea, default_mask, wide_mask, full_range_mask
 from results import d_best
-from numpy import cos, sin, exp, array, arcsin, pi, conj, sum
+from numpy import cos, sin, exp, array, arcsin, pi, conj, sum, outer
 from functions import format_data
 from model.multir_numba import multir_numba
 
@@ -62,9 +62,10 @@ a0, a1, a2, a3, b0, b1, b2, b3 = a(0), a(1), a(2), a(3), b(0), b(1), b(2), b(3)
 # exponents, wl resolved. Indices indicate di.
 f0_0, f0_1, f0_2 = f(0), f(1), f(2)
 
+
 @jit(cache=True, nopython=True)
 def explicit_reflectance(p):
-    f0, f1, f2 = f0_0*p[0], f0_1*p[1], f0_2*p[2]
+    f0, f1, f2 = p[0]*f0_0, p[1]*f0_1, p[2]*f0_2
 
     # the 8 terms of M_12
     t0_12 = g3 * g2 * g1 * b0 * exp(-f2-f1-f0)
