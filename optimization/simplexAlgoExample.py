@@ -1,40 +1,69 @@
+# simplex.py
+# python 3.4.3
+# demo of simplex optimization
+# aka amoeba method optimization
+# solves x0^2 + x1^2 + x2^2 + . . . = 0
+# (the 'Sphere' function)
+
 import random
-import numpy as np
-from consts import um_to_m, um
-from model.explicitEvalOptimized import explicit_reflectance
-from numpy import array
-from model.explicitEvalOptimized import R0 as R
+import math  # sqrt
 
 
-def error(p):
-    p = array(p)
-    return sum((explicit_reflectance(p).real - R.real) ** 2)
+# ------------------------------------
 
+def show_vector(vector):
+    for i in range(len(vector)):
+        if i % 8 == 0:  # 8 columns
+            print("\n", end="")
+        if vector[i] >= 0.0:
+            print(' ', end="")
+        print("%.4f" % vector[i], end="")  # 4 decimals
+        print(" ", end="")
+    print("\n")
+
+
+# ------------------------------------
+
+def error(position):
+    # Euclidean distance to (0, 0, .. 0)
+    dim = len(position)
+    target = [0.0 for i in range(dim)]
+    dist = 0.0
+    for i in range(dim):
+        dist += (position[i] - target[i]) ** 2
+    return math.sqrt(dist)
+
+
+# ------------------------------------
 
 class Point:
-    def __init__(self, dim, lb, ub):
-        self.position = array([0.0]*dim)
+    def __init__(self, dim, minx, maxx):
+        self.position = [0.0 for i in range(dim)]
 
-        self.position = ((ub - lb) * np.random.random(dim) + lb)
+        for i in range(dim):
+            self.position[i] = ((maxx - minx) *
+                                random.random() + minx)
 
         self.error = error(self.position)  # curr error
 
 
-def Solve(dim, max_epochs, lb, ub):
-    points = [Point(dim, lb, ub) for i in range(3)]  # 3 points
+# ------------------------------------
 
-    points[0].position = lb
-    points[-1].position = ub
+def Solve(dim, max_epochs, minx, maxx):
+    points = [Point(dim, minx, maxx) for i in range(3)]  # 3 points
+
+    for i in range(dim): points[0].position[i] = minx
+    for i in range(dim): points[2].position[i] = maxx
 
     best_idx = -1
     other_idx = -1
     worst_idx = -1
 
-    centroid = [0.0]*dim
-    expanded = [0.0]*dim
-    reflected = [0.0]*dim
-    contracted = [0.0]*dim
-    arbitrary = [0.0]*dim
+    centroid = [0.0 for i in range(dim)]
+    expanded = [0.0 for i in range(dim)]
+    reflected = [0.0 for i in range(dim)]
+    contracted = [0.0 for i in range(dim)]
+    arbitrary = [0.0 for i in range(dim)]
 
     epoch = 0
     while epoch < max_epochs:
@@ -77,7 +106,11 @@ def Solve(dim, max_epochs, lb, ub):
             print("best error = ", end="")
             print("%.6f" % points[best_idx].error, end="")
 
-        if points[best_idx].error < 0.075:
+        if epoch == 10:
+            print("--------------------")
+            print(" . . . ")
+
+        if points[best_idx].error < 1.0e-4:
             if epoch <= 9 or epoch >= 30:
                 print(" reached small error. halting")
             break
@@ -127,7 +160,8 @@ def Solve(dim, max_epochs, lb, ub):
             continue
 
         # try a random point
-        arbitrary = ((ub - lb) * np.random.random(dim) + lb)
+        for i in range(dim):
+            arbitrary[i] = ((maxx - minx) * random.random() + minx)
         arbitrary_err = error(arbitrary)
         if arbitrary_err < points[worst_idx].error:
             if epoch <= 9 or epoch >= 30:
@@ -156,19 +190,29 @@ def Solve(dim, max_epochs, lb, ub):
 
     print("--------------------")
     print("\nBest position found=")
-    print(points[best_idx].position * um)
-    print(points[best_idx].error)
+    show_vector(points[best_idx].position)
 
 
 # ------------------------------------
 
 print("\nBegin simplex optimization using Python demo\n")
-dim = 3
+dim = 5
 random.seed(0)
+
+print("Goal is to solve the Sphere function in " +
+      str(dim) + " variables")
+print("Function has known min = 0.0 at (", end="")
+for i in range(dim - 1):
+    print("0, ", end="")
+print("0)")
+
 max_epochs = 1000
-d0 = array([40, 650, 40]) * um_to_m
 
-lb = d0 - array([10, 25, 10]) * um_to_m
-ub = d0 + array([10, 25, 10]) * um_to_m
+print("Setting max_epochs    = " + str(max_epochs))
+print("\nStarting simplex algorithm\n")
 
-Solve(dim, max_epochs, lb, ub)
+Solve(dim, max_epochs, -10.0, 10.0)
+
+print("\nSimplex algorithm complete")
+
+print("\nEnd simplex optimization demo\n")

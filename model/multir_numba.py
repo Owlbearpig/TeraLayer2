@@ -38,4 +38,4 @@ def multir_numba(lam, p):
         rt = M[0, 1] * tt
         R[h] = rt * conj(rt)
 
-    return conj(R)
+    return conj(R).real

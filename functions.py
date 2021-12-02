@@ -41,7 +41,7 @@ def format_data(mask=None, sample_file_idx=0):
     ss = s - b
     reflectance = ss / rr
 
-    reflectivity = reflectance ** 2
+    reflectivity = (reflectance ** 2).real  # imaginary part should be 0
 
     if mask is not None:
         return lam[mask], reflectivity[mask]
