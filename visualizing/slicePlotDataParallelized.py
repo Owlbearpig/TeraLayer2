@@ -16,7 +16,7 @@ from pathlib import Path
 lam, R = format_data(mask=full_range_mask)
 
 # should be resolution of axes d1, d2, d3
-rez_x, rez_y, rez_z = 10, 1000, 1000
+rez_x, rez_y, rez_z = 1000, 1000, 1000
 
 #lb = array([0.000001, 0.000575, 0.000001])
 #ub = array([0.000100, 0.000675, 0.000100])
@@ -58,7 +58,7 @@ def calc_grid_parallel(batch):
     return array(results)
 
 
-batch_cnt = 100 # split grid into 100 parts, process each part on all(or num_cores) cpu cores.
+batch_cnt = 100  # split grid into 100 parts, process each part distributed to all(or num_cores) cpu cores.
 all_batches = np.array_split(full_input_grid, batch_cnt)
 for i, batch in enumerate(all_batches):
     print(f'Processing batch: {i}/{batch_cnt}')

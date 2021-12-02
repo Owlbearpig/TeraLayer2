@@ -20,7 +20,7 @@ def avg_runtime(fun, *args, **kwargs):
     print(f'{fun.__name__}: {1000 * (time.perf_counter() - t0) / repeats} ms / func. eval. ({repeats} calls)')
 
 
-def load_files(sample_file_idx=0):
+def load_files(sample_file_idx=0, data_type='amplitude'):
     slice_0, slice_1 = 235, -2
 
     r = read_csv(data_dir / 'ref_1000x.csv')
@@ -29,7 +29,10 @@ def load_files(sample_file_idx=0):
 
     f = r[slice_0:slice_1, 0] * MHz
 
-    return f, r[slice_0:slice_1, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
+    if data_type == 'amplitude':
+        return f, r[slice_0:slice_1, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
+    else:
+        return f, r[slice_0:slice_1, 2], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
 
 
 def format_data(mask=None, sample_file_idx=0):
@@ -75,6 +78,9 @@ def calc_full_loss(p):
 
 def calc_scipy_loss(p):
     return calc_loss(p)/2
+
+
+
 
 
 if __name__ == '__main__':

@@ -1,9 +1,10 @@
 import numpy as np
-from numpy import array
+from numpy import array, sum
 import matplotlib.pyplot as plt
 from functions import format_data, residuals
-from consts import um, custom_mask, default_mask, full_range_mask
+from consts import um, custom_mask, default_mask, full_range_mask, wide_mask, high_freq_mask
 from model.multir_numba import multir_numba
+from model.explicitEvalOptimized import explicit_reflectance
 from matplotlib.widgets import Slider
 
 """
@@ -11,36 +12,39 @@ from matplotlib.widgets import Slider
 2. 2D plot slices for different z set with slider
 """
 
-lam, R = format_data(mask=default_mask)
+lam, R = format_data(mask=high_freq_mask)
 
 # should be resolution of axes d1, d2, d3
-rez_x, rez_y, rez_z = 1000, 1000, 1000
+rez_x, rez_y, rez_z = 100, 200, 100
+#rez_x, rez_y, rez_z = 1000, 1000, 1000
 
-#lb = array([0.000001, 0.000575, 0.000001])
-#ub = array([0.000100, 0.000675, 0.000100])
-lb = array([0.000001, 0.000001, 0.000001])
-ub = array([0.001, 0.001, 0.001])
+lb = array([0.000001, 0.000500, 0.000001])
+ub = array([0.000100, 0.000700, 0.000100])
+#lb = array([0.000001, 0.00001, 0.000001])
+#ub = array([0.001, 0.001, 0.001])
 
 # initial 'full' grid matching bounds
 grd_x = np.linspace(lb[0], ub[0], rez_x)
 grd_y = np.linspace(lb[1], ub[1], rez_y)
 grd_z = np.linspace(lb[2], ub[2], rez_z)
 
-"""
+w = np.linspace(0.5, 1, 6)
 grid_vals = np.zeros([rez_x, rez_y, rez_z])
 for i in range(rez_x):
     print(f'{i}/{rez_x}')
     for j in range(rez_y):
         for k in range(rez_z):
             p = array([grd_x[i], grd_y[j], grd_z[k]])
-            grid_vals[i, j, k] = sum(residuals(p, multir_numba, lam, R))
-
-np.save(f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_cubed_grid-lb_ub_edges.npy', grid_vals)
+            grid_vals[i, j, k] = sum((multir_numba(lam, p).real-R.real)**2)
 """
-
-grid_vals = np.load('1000_1000_1000_rez_xyz_cubed_grid-lb_ub_edges.npy')
+np.save(f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_'
+        f'{int(lb[0]*um)}-{int(ub[0]*um)}_{int(lb[1]*um)}-{int(ub[1]*um)}_{int(lb[2]*um)}-{int(ub[2]*um)}_um_weighted.npy',
+        grid_vals)
+"""
+#grid_vals = np.load('1000_1000_1000_rez_xyz_cubed_grid-lb_ub_edges.npy')
 #grid_vals = np.load('250_250_250_rez_xyz_cubed_grid-lb_ub_edges.npy')
-grid_vals = np.log10(grid_vals)
+#grid_vals = np.load('100_200_100_rez_xyz_1-100_500-700_1-100_um.npy')
+#grid_vals = np.log10(grid_vals)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)

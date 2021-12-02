@@ -14,6 +14,7 @@ for i in range(0, 4):
 
 lam, R0 = format_data(mask=default_mask)
 
+
 def a(k):
     enumerator = n[k] * cos(the[k + 1]) - n[k + 1] * cos(the[k])
     denum = n[k + 1] * cos(the[k]) + n[k] * cos(the[k + 1])

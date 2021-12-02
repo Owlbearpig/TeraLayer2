@@ -83,4 +83,9 @@ scipy default method:
 "'trf' : Trust Region Reflective algorithm, particularly suitable
 for large sparse problems with bounds. Generally robust method."
 
-13.
+13. problem: 6 frequency minimum quite different from wide frequency minimum ...
+problem is not finding minimum (simplex works fine) problem is it's wrong compared to 'full' range ...
+
+14. which frequencies produce minimum at the 'right' parameters?
+- full_range_mask works...
+- wide_mask doesnt work

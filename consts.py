@@ -20,6 +20,7 @@ THz = 10**12
 
 um_to_m = 1/um
 
+#ni, nf, nn = 400, 640, 40  # 0-4500 # original data indices
 ni, nf, nn = 400, 640, 40  # 0-4500
 
 default_mask = np.arange(ni, nf, nn)
@@ -30,3 +31,4 @@ custom_mask = np.array([190, 195, 203, 210, 227, 240, 256, 260, 269, 280, 304,
                         345, 370, 380, 400, 422, 430, 459, 480, 501, 415, 538, 560,
                         580, 600, 628, 640, 656])
 full_range_mask = np.arange(250, 1000, 1)
+high_freq_mask = np.arange(250, 600, 1)
