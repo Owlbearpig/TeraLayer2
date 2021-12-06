@@ -1,10 +1,15 @@
-import numpy as np
-from numpy import array, sqrt, sum
-from consts import MHz, c0, data_dir
+from numpy import sum
 from model.multir_numba import multir_numba
 import pandas as pd
-from consts import default_mask, full_range_mask
+from consts import *
 import time
+
+
+def find_files(top_dir=ROOT_DIR, search_str='', file_extension=''):
+    results = [Path(os.path.join(root, name))
+               for root, dirs, files in os.walk(top_dir)
+               for name in files if name.endswith(file_extension) and search_str in str(name)]
+    return results
 
 
 def read_csv(file_path):
@@ -80,7 +85,12 @@ def calc_scipy_loss(p):
     return calc_loss(p)/2
 
 
-
+def map_maskname(mask):
+    mask_map = {'custom_mask_420': custom_mask_420,
+                'default_mask': default_mask,
+                'full_range_mask_new': full_range_mask_new,
+                }
+    return mask_map[mask]
 
 
 if __name__ == '__main__':

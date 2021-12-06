@@ -31,14 +31,3 @@ for i in range(100):
     print('loss over full range: ', calc_full_loss(x), f'(d_best: {calc_full_loss(d_best)})\n')
 
 np.save(str(Path('measurementComparisonResults') / f'{minimizer.__name__}-default_mask'), thicknesses)
-d1, d2, d3 = thicknesses[:, 0]*um, thicknesses[:, 1]*um, thicknesses[:, 2]*um
-print(f'means: d1 {round(np.mean(d1), 2)}, d2 {round(np.mean(d2), 2)}, d3 {round(np.mean(d3), 2)}$')
-print(f'stds: d1 {round(np.std(d1), 2)}, d2 {round(np.std(d2), 2)}, d3 {round(np.std(d3), 2)}$')
-
-plt.plot(thicknesses[:, 0]*um, label='$d_1$')
-plt.plot(thicknesses[:, 1]*um, label='$d_2$')
-plt.plot(thicknesses[:, 2]*um, label='$d_3$')
-plt.ylabel('Thickness (um)')
-plt.xlabel('Measurement')
-plt.legend()
-plt.show()

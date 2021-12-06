@@ -37,6 +37,7 @@ for i in range(rez_x):
     if (i % 10) == 0:
         print(f'{i}/{rez_x}')
     for j in range(rez_y):
+        print(j)
         for k in range(rez_z):
             p = array([grd_x[i], grd_y[j], grd_z[k]])
             grid_vals[i, j, k] = new_eval.error(p)

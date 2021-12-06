@@ -52,8 +52,8 @@ full_input_grid = np.load('flat_input_grid_1000x1000x1000entries.npy', mmap_mode
 
 
 def calc_grid_parallel(batch):
-    num_cores = 4 #multiprocessing.cpu_count()
-    results = Parallel(n_jobs=num_cores, verbose=1)(delayed(processBatch)(i) for i in np.array_split(batch, num_cores))
+    num_cores = 10#  multiprocessing.cpu_count()
+    results = Parallel(n_jobs=num_cores, verbose=1)(delayed(processBatch)(k) for k in np.array_split(batch, num_cores))
 
     return array(results)
 

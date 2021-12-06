@@ -8,26 +8,26 @@ Omega_, Delta_, sigma_, mu_, epsilon_, degree_ = '\u03BC', '\u0394', '\u03C3', '
 
 ROOT_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
 data_dir = Path(ROOT_DIR / 'matlab_enrique' / 'Data')
+optimization_results_dir = Path(ROOT_DIR / 'measurementComparisonResults')
 
 rad = 180 / pi
-thea = 8*pi/180
+thea = 8 * pi / 180
 a = 1
 n = [1, 1.50, 2.8, 1.50, 1]
 
-nm = 10**9
-um = 10**6
-MHz = 10**6
-GHz = 10**9
-THz = 10**12
+nm = 10 ** 9
+um = 10 ** 6
+MHz = 10 ** 6
+GHz = 10 ** 9
+THz = 10 ** 12
 
-um_to_m = 1/um
+um_to_m = 1 / um
 
-#ni, nf, nn = 400, 640, 40  # 0-4500 # original data indices
+# ni, nf, nn = 400, 640, 40  # 0-4500 # original data indices
 ni, nf, nn = 400, 640, 40  # 0-4500
 
 default_mask = np.arange(ni, nf, nn)
 default_mask_hr = np.arange(ni, nf, 1)  # default mask high rez
-
 
 wide_mask = np.arange(250, 1000, 40)
 full_range_mask = np.arange(250, 1000, 1)

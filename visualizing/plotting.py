@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from functions import format_data, load_files, multir_numba
+from functions import format_data, load_files, multir_numba, find_files, map_maskname
 from consts import *
 
 def plot_only_y():
@@ -93,7 +93,35 @@ def plot_measured_phase(sample_idx=0, mask=None):
     plt.show()
 
 
+def plot_thicknesses():
+    optimization_results = find_files(optimization_results_dir, file_extension='npy')
+    for result in optimization_results:
+        method, mask_name = str(result.stem).split('-')
+        if 'default' in mask_name:
+            continue
+        method = method.replace('_minimize', '')
+        mask = map_maskname(mask_name)
+        min_f, max_f = mask[0], mask[-1]
+
+        thicknesses = np.load(result)
+
+        d1, d2, d3 = thicknesses[:, 0] * um, thicknesses[:, 1] * um, thicknesses[:, 2] * um
+        plt.text(0, 500, fr'Avg. $d_1$: {round(np.mean(d1), 2)} $\pm$ {round(np.std(d1), 2)} ({mu_}m)')
+        plt.text(0, 450, fr'Avg. $d_2$: {round(np.mean(d2), 2)} $\pm$ {round(np.std(d2), 2)} ({mu_}m)')
+        plt.text(0, 400, fr'Avg. $d_3$: {round(np.mean(d3), 2)} $\pm$ {round(np.std(d3), 2)} ({mu_}m)')
+
+        plt.title(f'{method}, range: {min_f, max_f} (GHz), rez: {len(mask)}')
+        plt.plot(thicknesses[:, 0] * um, label='$d_1$')
+        plt.plot(thicknesses[:, 1] * um, label='$d_2$')
+        plt.plot(thicknesses[:, 2] * um, label='$d_3$')
+        plt.ylabel(f'Thickness ({mu_}m)')
+        plt.xlabel('Measurement idx')
+        plt.legend()
+        plt.show()
+
+
 if __name__ == '__main__':
-    p = array([ 45.45454545, 629.54545455,  44.44444444])*um_to_m
+    #p = array([ 45.45454545, 629.54545455,  44.44444444])*um_to_m
     #plot_result(p, mask=custom_mask_420)
-    plot_measured_phase(sample_idx=11)
+    #plot_measured_phase(sample_idx=11)
+    plot_thicknesses()
