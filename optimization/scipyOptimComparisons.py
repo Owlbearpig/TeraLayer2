@@ -7,12 +7,13 @@ from results import d_best
 from functions import format_data, calc_loss, calc_full_loss, residuals, avg_runtime
 from visualizing.plotting import plot_result
 from scipy.optimize import least_squares, minimize
+from model.explicitEvalOptimizedClean import ExplicitEval
 from optimization.nelderMeadSource import _minimize_neldermead
 import scipy
 
 mask = default_mask
 
-lam, R = format_data(mask=mask, sample_file_idx=0)
+lam, R = format_data(mask=mask, sample_file_idx=10)
 
 
 def error(p):
@@ -25,14 +26,14 @@ def res_sum_jac(p):
 
 d_goal = array([0.0000378283, 0.0006273254, 0.0000378208])
 
-d0 = array([30, 600, 30]) * um_to_m
-lb = d0 - array([20, 50, 20]) * um_to_m
-hb = d0 + array([20, 50, 20]) * um_to_m
+d0 = array([50, 600, 50]) * um_to_m
+lb = d0 - array([50, 100, 50]) * um_to_m
+hb = d0 + array([50, 100, 50]) * um_to_m
 
 #avg_runtime(minimize, error, d0, bounds=list(zip(lb, hb)), method='Nelder-Mead')
-
-fval, x, iterations, fcalls = _minimize_neldermead(error, d0, bounds=(lb, hb), adaptive=False)
-#avg_runtime(_minimize_neldermead, error, d0, bounds=(lb, hb))
+new_eval = ExplicitEval(mask)
+fval, x, iterations, fcalls = _minimize_neldermead(new_eval.error, d0, bounds=(lb, hb), adaptive=False)
+avg_runtime(_minimize_neldermead, error, d0, bounds=(lb, hb))
 #res = minimize(error, d0, jac=res_sum_jac, method='SLSQP', bounds=list(zip(lb, hb)))
 #x = res.x
 #print(iterations, fcalls)

@@ -17,7 +17,7 @@ def avg_runtime(fun, *args, **kwargs):
     for _ in range(repeats):
         fun(*args, **kwargs)
 
-    print(f'{fun.__name__}: {1000 * (time.perf_counter() - t0) / repeats} ms / func. eval. ({repeats} calls)')
+    print(f'{fun.__name__}: {1e6 * (time.perf_counter() - t0) / repeats} \u03BCs / func. eval. ({repeats} calls)')
 
 
 def load_files(sample_file_idx=0, data_type='amplitude'):
@@ -32,7 +32,7 @@ def load_files(sample_file_idx=0, data_type='amplitude'):
     if data_type == 'amplitude':
         return f, r[slice_0:slice_1, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
     else:
-        return f, r[slice_0:slice_1, 2], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
+        return f, s[slice_0:slice_1, 4], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
 
 
 def format_data(mask=None, sample_file_idx=0):

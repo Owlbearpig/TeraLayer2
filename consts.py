@@ -1,8 +1,10 @@
-from numpy import pi
+from numpy import pi, array, round
 from pathlib import Path
 import numpy as np
 import os
 from scipy.constants import c as c0
+
+Omega_, Delta_, sigma_, mu_, epsilon_, degree_ = '\u03BC', '\u0394', '\u03C3', '\u03BC', '\u03B5', '\u00B0'
 
 ROOT_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
 data_dir = Path(ROOT_DIR / 'matlab_enrique' / 'Data')
@@ -26,9 +28,12 @@ ni, nf, nn = 400, 640, 40  # 0-4500
 default_mask = np.arange(ni, nf, nn)
 default_mask_hr = np.arange(ni, nf, 1)  # default mask high rez
 
+
 wide_mask = np.arange(250, 1000, 40)
-custom_mask = np.array([190, 195, 203, 210, 227, 240, 256, 260, 269, 280, 304,
-                        345, 370, 380, 400, 422, 430, 459, 480, 501, 415, 538, 560,
-                        580, 600, 628, 640, 656])
 full_range_mask = np.arange(250, 1000, 1)
+full_range_mask_new = np.arange(420, 1000, 1)  # based on plot of reference and background, big water line at 1 THz
+full_range_mask_new_low_rez = np.arange(450, 1000, 100)
+custom_mask_420 = array([420, 520, 650, 800, 850, 950])
 high_freq_mask = np.arange(250, 600, 1)
+high_freq_mask_low_rez = np.arange(760, 1000, 40)
+high_freq_mask_low_rez2 = np.arange(640, 920, 40)

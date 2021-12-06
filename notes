@@ -89,3 +89,13 @@ problem is not finding minimum (simplex works fine) problem is it's wrong compar
 14. which frequencies produce minimum at the 'right' parameters?
 - full_range_mask works...
 - wide_mask doesnt work
+
+15. to test simplex optimization + freq. problem:
+    - pick 'reasonable' bounds + rez (done)
+    - do the same calculation for all 100 measurements
+    - 6 freq. + 'full' range (check if mask is full range, look at signal) (420-1000 GHz = 656-235 - 1236-235) (done)
+    - simplex vs bruteforce on the grid
+    -> 4 calculations
+
+16. Problem: (d1,d2,d3) and (d3,d2,d1) seems to have similar losses and are therefore hard to distinguish ...
+    - Can the phase be used for anything???
