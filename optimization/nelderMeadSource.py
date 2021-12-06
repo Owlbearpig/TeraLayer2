@@ -1,5 +1,5 @@
 import numpy as np
-
+from numba import jit
 
 def _minimize_neldermead(func, x0, maxiter=100, xatol=1e-4, fatol=1e-4, adaptive=False, bounds=None):
     fcalls = 0

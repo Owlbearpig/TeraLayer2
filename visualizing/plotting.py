@@ -99,18 +99,26 @@ def plot_thicknesses():
         method, mask_name = str(result.stem).split('-')
         if 'default' in mask_name:
             continue
-        method = method.replace('_minimize', '')
+        method = method.replace('_minimize_', '')
         mask = map_maskname(mask_name)
         min_f, max_f = mask[0], mask[-1]
 
         thicknesses = np.load(result)
+
+        # bounds used (don't change these)
+        d0 = array([50, 600, 50])
+        lb = d0 - array([50, 50, 50])
+        hb = d0 + array([50, 50, 50])
+        plt.text(0, 300, f'Bounds: $(d_1,d_2,d_3)$:\n$d_0=${d0[0], d0[1], d0[2]} $\pm$ 50 ({mu_}m)')
+
 
         d1, d2, d3 = thicknesses[:, 0] * um, thicknesses[:, 1] * um, thicknesses[:, 2] * um
         plt.text(0, 500, fr'Avg. $d_1$: {round(np.mean(d1), 2)} $\pm$ {round(np.std(d1), 2)} ({mu_}m)')
         plt.text(0, 450, fr'Avg. $d_2$: {round(np.mean(d2), 2)} $\pm$ {round(np.std(d2), 2)} ({mu_}m)')
         plt.text(0, 400, fr'Avg. $d_3$: {round(np.mean(d3), 2)} $\pm$ {round(np.std(d3), 2)} ({mu_}m)')
 
-        plt.title(f'{method}, range: {min_f, max_f} (GHz), rez: {len(mask)}')
+        mask_str = f'{mask} (GHz)' if (len(mask) < 10) else ''
+        plt.title(f'{method}, range: {min_f, max_f} (GHz), rez: {len(mask)}\n{mask_str}')
         plt.plot(thicknesses[:, 0] * um, label='$d_1$')
         plt.plot(thicknesses[:, 1] * um, label='$d_2$')
         plt.plot(thicknesses[:, 2] * um, label='$d_3$')

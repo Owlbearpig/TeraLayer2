@@ -1,7 +1,7 @@
 import time
 import numpy as np
 from numba import jit
-from consts import n, thea, default_mask, wide_mask, full_range_mask
+from consts import *
 from results import d_best
 from numpy import cos, sin, exp, array, arcsin, pi, conj, sum, outer
 from functions import format_data
@@ -12,7 +12,7 @@ the = array([thea, 0, 0, 0, 0])
 for i in range(0, 4):
     the[i + 1] = arcsin(n[i] * sin(the[i]) / n[i + 1])
 
-lam, R0 = format_data(mask=full_range_mask)
+lam, R0 = format_data(mask=custom_mask_420)
 
 
 def a(k):

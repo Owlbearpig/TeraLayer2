@@ -1,3 +1,4 @@
+import numpy as np
 from numba import jit
 import functions
 from consts import *
@@ -13,7 +14,8 @@ class ExplicitEval:
         self.s_consts = self.set_semi_consts()
         f, r, b, s = functions.load_files(sample_file_idx)
 
-        print('Selected frequencies (GHz):', f[data_mask]/GHz)
+        print('\nSelected frequencies (GHz):', f[data_mask] / GHz)
+        self.explicit_reflectance(d_best)
 
     def set_semi_consts(self):
         """
@@ -24,7 +26,8 @@ class ExplicitEval:
         for i in range(0, 4):
             self.the[i + 1] = arcsin(n[i] * sin(self.the[i]) / n[i + 1])
 
-        return *list(map(self.a, range(4))), *list(map(self.b, range(4))), *list(map(self.f, range(0, 3)))
+        return *list(map(self.a, range(4))), \
+               *list(map(self.b, range(4))), *list(map(self.f, range(0, 3)))
 
     def a(self, k):
         enumerator = n[k] * cos(self.the[k + 1]) - n[k + 1] * cos(self.the[k])
@@ -61,6 +64,10 @@ class ExplicitEval:
     def explicit_reflectance(self, p):
         return self.calculation(p, self.s_consts)
 
+    def error(self, p):
+        R = self.explicit_reflectance(p)
+        return sum((R-self.R0)*(R-self.R0))
+
     @staticmethod
     @jit(cache=True, nopython=True)
     def calculation(p, s_consts):
@@ -74,34 +81,32 @@ class ExplicitEval:
         f0, f1, f2 = p[0] * f0_0, p[1] * f0_1, p[2] * f0_2
 
         # the 8 terms of M_12
-        t0_12 = b0
-        t1_12 = -a2 * b3 * b0 * exp(2*f2)
-        t2_12 = b1 * exp(2*f0)
-        t3_12 = -a2 * b3 * b1 * exp(2*(f0+f2))
-        t4_12 = -a1 * b0 * b2 * exp(2*f1)
-        t5_12 = b2 * exp(2*(f0+f1))
-        t6_12 = -a1 * b0 * b3 * exp(2*(f1+f2))
-        t7_12 = b3 * exp(2*(f2 + f1 + f0))
+        t0_12 = b0 * exp(-f2 - f1 - f0)
+        t1_12 = -a2 * b3 * b0 * exp(f2 - f1 - f0)
+        t2_12 = b1 * exp(-f2 - f1 + f0)
+        t3_12 = -a2 * b3 * b1 * exp(f2 - f1 + f0)
+        t4_12 = -a1 * b0 * b2 * exp(-f0 - f2 + f1)
+        t5_12 = b2 * exp(-f2 + f1 + f0)
+        t6_12 = -a1 * b0 * b3 * exp(-f0 + f2 + f1)
+        t7_12 = b3 * exp(f2 + f1 + f0)
 
         # the 8 terms of M_22
-        t0_22 = -a3 * b0
-        t1_22 = -b1 * a3 * exp(2*f0)
-        t2_22 = -a2 * b0 * exp(2*f2)
-        t3_22 = -a2 * b1 * exp(2*(f0+f2))
-        t4_22 = a1 * a3 * b2 * b0 * exp(2*f1)
-        t5_22 = -a3 * b2 * exp(2*(f0+f1))
-        t6_22 = exp(2*(f2 + f1 + f0))  # weird term
-        t7_22 = -a1 * b0 * exp(2*(f1+f2))
+        t0_22 = -a3 * b0 * exp(-f1 - f0 - f2)
+        t1_22 = -b1 * a3 * exp(-f1 + f0 - f2)
+        t2_22 = -a2 * b0 * exp(f2 - f0 - f1)
+        t3_22 = -a2 * b1 * exp(f2 - f1 + f0)
+        t4_22 = a1 * a3 * b2 * b0 * exp(-f0 - f2 + f1)
+        t5_22 = -a3 * b2 * exp(-f2 + f0 + f1)
+        t6_22 = exp(f2 + f1 + f0)  # weird term
+        t7_22 = -a1 * b0 * exp(f2 + f1 - f0)
 
         m_12 = t0_12 + t1_12 + t2_12 + t3_12 + t4_12 + t5_12 + t6_12 + t7_12
         m_22 = t0_22 + t1_22 + t2_22 + t3_22 + t4_22 + t5_22 + t6_22 + t7_22
 
         r = m_12 / m_22
+        R = (r * conj(r)).real
 
-        return r * conj(r)
-
-    def error(self, p):
-        return sum((self.explicit_reflectance(p).real - self.R0.real) ** 2)
+        return R
 
 
 if __name__ == '__main__':
@@ -114,16 +119,16 @@ if __name__ == '__main__':
 
     explicit_reflectance.__name__ = 'original explicit_reflectance'
 
-    mask = full_range_mask_new
+    mask = custom_mask_420
     lam, R = format_data(mask)
 
     new_eval = ExplicitEval(mask)
 
-    R_numba = multir_numba(lam, d_best)
-    R_explicit = new_eval.explicit_reflectance(d_best)
+
+    multir_numba(lam, d_best)
+    explicit_reflectance(d_best)
 
     avg_runtime(multir_numba, lam, d_best)
     avg_runtime(explicit_reflectance, d_best)
+    new_eval.explicit_reflectance(d_best)
     avg_runtime(new_eval.explicit_reflectance, d_best)
-
-    print(np.all(np.isclose(R_numba, R_explicit)))

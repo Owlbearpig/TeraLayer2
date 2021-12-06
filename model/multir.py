@@ -40,6 +40,6 @@ def multir(lam, p):
 
         tt = 1 / M[1, 1]
         rt = M[0, 1] * tt
-        R[h] = rt * conj(rt)
+        R[h] = (rt * conj(rt)).real
 
     return conj(R)
