@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "ackley.h"
+#include <time.h>
+#include "loss.h"
 
 #define PI 3.1415926535897932384626433832795
 
@@ -11,27 +11,28 @@
 
 int main(int argc, const char *argv[]) {
 
-  // reading initial point from command line
-  const int n = argc - 1;
-  point_t start;
-  start.x = malloc(n * sizeof(double));
-  for (int i = 0; i < n; i++) {
+    // reading initial point from command line
+    const int n = argc - 1;
+    point_t start;
+    start.x = malloc(n * sizeof(double));
+    for (int i = 0; i < n; i++) {
     start.x[i] = atof(argv[i + 1]);
-  }
+    }
 
-  // cost function parameters
-  ackley_param_t ackley_params;
-  ackley_params.a = 20.0;
-  ackley_params.b = 0.2;
-  ackley_params.c = 2.0 * PI;
+    // evaluate and print starting point
+    printf("Initial point\n");
+    clock_t tic = clock();
+    for (int i = 0; i < 1000; i++){
+        // start.x[0] += i;
+        loss_fun(&start);
+    }
+    clock_t toc = clock();
+    printf("Elapsed: %f us\n", 1e6*((double)(toc - tic) / (1000.0*CLOCKS_PER_SEC)));
 
-  // evaluate and print starting point
-  printf("Initial point\n");
-  ackley_fun(n, &start, &ackley_params);
-  print_point(n, &start);
+    print_point(n, &start);
 
-  // free memory
-  free(start.x);
+    // free memory
+    free(start.x);
 
-  return 0;
+    return 0;
 }

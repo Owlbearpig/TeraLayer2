@@ -17,8 +17,8 @@ void ackley_fun(int n, point_t *point, const void *arg) {
   const ackley_param_t *params = (const ackley_param_t *)arg;
 
   // cost function computation for arguments of exp
-  double sum_squares = 0;
-  double sum_cos = 0;
+  double sum_squares = 0, sum_cos = 0;
+
   for (int i = 0; i < n; i++) {
     sum_squares += SQUARE(point->x[i]);
     sum_cos += cos(params->c * point->x[i]);
