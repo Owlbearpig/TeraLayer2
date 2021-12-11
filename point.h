@@ -1,12 +1,10 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include <complex.h>
-
 // define a generic point containing a position (x) and a value (fx)
 typedef struct {
-  double *x;
-  double fx;
+    double *x;
+    double fx;
 } point_t;
 
 void swap_points(point_t *, point_t *);

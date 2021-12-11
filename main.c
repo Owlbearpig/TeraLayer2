@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "loss.h"
 
-#define PI 3.1415926535897932384626433832795
+#include "loss.h"
+#include "nelder_mead.h"
 
 //-----------------------------------------------------------------------------
 // main
@@ -16,23 +16,40 @@ int main(int argc, const char *argv[]) {
     point_t start;
     start.x = malloc(n * sizeof(double));
     for (int i = 0; i < n; i++) {
-    start.x[i] = atof(argv[i + 1]);
+        start.x[i] = atof(argv[i + 1]);
     }
+
+    // optimisation settings
+    optimset_t optimset;
+    optimset.tolx = 0.01;
+    optimset.tolf = 0.01;
+    optimset.max_iter = 1000;
+    optimset.max_eval = 1000;
+    optimset.verbose = 0;
 
     // evaluate and print starting point
     printf("Initial point\n");
+    loss_fun(&start);
+    print_point(n, &start);
+
+    // time optimization method
+    point_t solution;
     clock_t tic = clock();
     for (int i = 0; i < 1000; i++){
-        // start.x[0] += i;
-        loss_fun(&start);
+        nelder_mead(n, &start, &solution, &loss_fun, &optimset);
     }
     clock_t toc = clock();
-    printf("Elapsed: %f us\n", 1e6*((double)(toc - tic) / (1000.0*CLOCKS_PER_SEC)));
 
-    print_point(n, &start);
+    printf("Elapsed: %f us\n", (double)((toc - tic) / (1000.0*CLOCKS_PER_SEC))*1e6);
+
+
+    // print solution
+    printf("Solution\n");
+    print_point(n, &solution);
 
     // free memory
     free(start.x);
+    free(solution.x);
 
     return 0;
 }
