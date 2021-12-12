@@ -39,6 +39,7 @@ int main(int argc, const char *argv[]) {
     clock_t tic = clock();
     for (int i = 0; i < 1000; i++){
         loss_fun(&start);
+        //nelder_mead(n, &start, &solution, &loss_fun, &optimset);
     }
     clock_t toc = clock();
     printf("Elapsed: %f us\n", (double)((toc - tic) / (1000.0*CLOCKS_PER_SEC))*1e6);

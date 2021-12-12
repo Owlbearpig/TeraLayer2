@@ -42,20 +42,22 @@ void loss_fun(point_t *point) {
         double f1 = g[i]*(point->x[1])*1e-6;
         double f2 = f[i]*(point->x[2])*1e-6;
 
-        double s0 = + f2 + f1 + f0;
-        double s1 = +f2 - f1 - f0;
-        double s2 = +f2 + f1 - f0;
-        double s3 = -f2 + f1 - f0;
+        float s0 = + f2 + f1 + f0;
+        float s1 = +f2 - f1 - f0;
+        float s2 = +f2 + f1 - f0;
+        float s3 = -f2 + f1 - f0;
 
-        double cs0 = cos(s0);
-        double cs1 = cos(s1);
-        double cs2 = cos(s2);
-        double cs3 = cos(s3);
-        double ss0 = sin(s0);
-        double ss1 = sin(s1);
-        double ss2 = sin(s2);
-        double ss3 = sin(s3);
+        // 90% of runtime goes here for sine/cosine ...
+        double cs0 = cosf(s0);
+        double cs1 = cosf(s1);
+        double cs2 = cosf(s2);
+        double cs3 = cosf(s3);
+        double ss0 = sinf(s0);
+        double ss1 = sinf(s1);
+        double ss2 = sinf(s2);
+        double ss3 = sinf(s3);
 
+        // this part downwards takes 0.5 us
         double m_12_r = (1 - a * a) * b * (cs2 - cs1);
         double m_22_r = (1 - a * a) * (cs0 - b * b * cs3);
 
