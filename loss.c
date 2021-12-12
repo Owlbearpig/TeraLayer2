@@ -42,54 +42,27 @@ void loss_fun(point_t *point) {
         double f1 = g[i]*(point->x[1])*1e-6;
         double f2 = f[i]*(point->x[2])*1e-6;
 
-        double s0 = f2 + f1 + f0;
-        double s1 = f2 - f1 - f0;
-        double s2 = f2 + f1 - f0;
+        double s0 = + f2 + f1 + f0;
+        double s1 = +f2 - f1 - f0;
+        double s2 = +f2 + f1 - f0;
         double s3 = -f2 + f1 - f0;
 
-        double t6_22_r = cos(s0);
-        double t0_12_r = a * t6_22_r;
-        double t5_12_r = -b * cos(s1);
-        double t2_22_r = a * t5_12_r;
-        double t1_12_r = -a * t2_22_r;
-        double t2_12_r = b * cos(s2);
-        double t3_22_r = -b * b * cos(s3);
-        double t3_12_r = -a * t3_22_r;
-        double t4_12_r = a * t3_22_r;
-        double t6_12_r = -a * a * t2_12_r;
-        double t7_12_r = -a * t6_22_r;
+        double cs0 = cos(s0);
+        double cs1 = cos(s1);
+        double cs2 = cos(s2);
+        double cs3 = cos(s3);
+        double ss0 = sin(s0);
+        double ss1 = sin(s1);
+        double ss2 = sin(s2);
+        double ss3 = sin(s3);
 
-        double t0_22_r = -a * t0_12_r;
-        double t1_22_r = -a * t2_12_r;
-        double t4_22_r = -a * t4_12_r;
-        double t5_22_r = -a * t5_12_r;
-        double t7_22_r = a * t2_12_r;
+        double m_12_r = (1 - a * a) * b * (cs2 - cs1);
+        double m_22_r = (1 - a * a) * (cs0 - b * b * cs3);
 
-        double m_12_r = t0_12_r + t1_12_r + t2_12_r + t3_12_r + t4_12_r + t5_12_r + t6_12_r + t7_12_r;
-        double m_22_r = t0_22_r + t1_22_r + t2_22_r + t3_22_r + t4_22_r + t5_22_r + t6_22_r + t7_22_r;
+        double m_12_i = - 2 * a * (ss0 + b * b * ss3) + (a * a + 1) * b * (ss1 - ss2);
+        double m_22_i = (a * a + 1) * (ss0 + b * b * ss3) + 2 * a * b * (ss2 - ss1);
 
-        double t6_22_i = sin(s0);
-        double t0_12_i = -a * t6_22_i;
-        double t5_12_i = b * sin(s1);
-        double t2_22_i = -a * t5_12_i;
-        double t1_12_i = -a * t2_22_i;
-        double t2_12_i = -b * sin(s2);
-        double t3_22_i = b * b * sin(s3);
-        double t3_12_i = -a * t3_22_i;
-        double t4_12_i = -a * t3_22_i;
-        double t7_22_i = -a * t2_12_i;
-        double t6_12_i = -a * t7_22_i;
-        double t7_12_i = -a * t6_22_i;
-        double t0_22_i = a * a * t6_22_i;
-        double t1_22_i = -a * t2_12_i;
-        double t4_22_i = -a * t4_12_i;
-        double t5_22_i = -a * t5_12_i;
-
-
-        double m_12_i = t0_12_i + t1_12_i + t2_12_i + t3_12_i + t4_12_i + t5_12_i + t6_12_i + t7_12_i;
-        double m_22_i = t0_22_i + t1_22_i + t2_22_i + t3_22_i + t4_22_i + t5_22_i + t6_22_i + t7_22_i;
-
-        R[i] = (m_12_r*m_12_r + m_12_i*m_12_i)/(m_22_r*m_22_r+m_22_i*m_22_i);
+        R[i] = (m_12_r * m_12_r + m_12_i * m_12_i) / (m_22_r * m_22_r + m_22_i * m_22_i);
     }
 
     // final result
