@@ -4,7 +4,7 @@
 // define a generic point containing a position (x) and a value (fx)
 typedef struct {
     double *x;
-    double fx;
+    float fx;
 } point_t;
 
 void swap_points(point_t *, point_t *);

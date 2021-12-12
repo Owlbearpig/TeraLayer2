@@ -32,16 +32,16 @@ int main(int argc, const char *argv[]) {
     loss_fun(&start);
     print_point(n, &start);
 
-    // time optimization method
     point_t solution;
+    nelder_mead(n, &start, &solution, &loss_fun, &optimset);
+
+    // quick timer
     clock_t tic = clock();
     for (int i = 0; i < 1000; i++){
-        nelder_mead(n, &start, &solution, &loss_fun, &optimset);
+        loss_fun(&start);
     }
     clock_t toc = clock();
-
     printf("Elapsed: %f us\n", (double)((toc - tic) / (1000.0*CLOCKS_PER_SEC))*1e6);
-
 
     // print solution
     printf("Solution\n");
