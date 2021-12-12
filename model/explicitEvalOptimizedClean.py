@@ -14,7 +14,9 @@ class ExplicitEval:
         self.s_consts = self.set_semi_consts()
         f, r, b, s = functions.load_files(sample_file_idx)
 
-        print('\nSelected frequencies (GHz):', f[data_mask] / GHz)
+        print(f'\nMeasured reflectance: {self.R0}')
+        print('Selected frequencies (GHz):', f[data_mask] / GHz)
+        print(f'Idx of selected sample: {sample_file_idx}')
         self.explicit_reflectance(d_best)
 
     def set_semi_consts(self):
@@ -123,7 +125,6 @@ if __name__ == '__main__':
     lam, R = format_data(mask)
 
     new_eval = ExplicitEval(mask)
-
 
     multir_numba(lam, d_best)
     explicit_reflectance(d_best)

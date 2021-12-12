@@ -15,9 +15,7 @@ from model.explicitEvalOptimizedClean import ExplicitEval
 
 mask = full_range_mask_new
 
-print(mask)
-
-new_eval = ExplicitEval(mask, sample_file_idx=4)
+new_eval = ExplicitEval(mask, sample_file_idx=10)
 # should be resolution of axes d1, d2, d3
 rez_x, rez_y, rez_z = 100, 100, 100
 #rez_x, rez_y, rez_z = 1000, 1000, 1000
@@ -34,10 +32,9 @@ grd_z = np.linspace(lb[2], ub[2], rez_z)
 
 grid_vals = np.zeros([rez_x, rez_y, rez_z])
 for i in range(rez_x):
-    if (i % 10) == 0:
+    if (i % 5) == 0:
         print(f'{i}/{rez_x}')
     for j in range(rez_y):
-        print(j)
         for k in range(rez_z):
             p = array([grd_x[i], grd_y[j], grd_z[k]])
             grid_vals[i, j, k] = new_eval.error(p)

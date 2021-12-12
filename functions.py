@@ -17,7 +17,7 @@ def read_csv(file_path):
 
 
 def avg_runtime(fun, *args, **kwargs):
-    repeats = 1000
+    repeats = 100
     t0 = time.perf_counter()
     for _ in range(repeats):
         fun(*args, **kwargs)
@@ -30,7 +30,7 @@ def load_files(sample_file_idx=0, data_type='amplitude'):
 
     r = read_csv(data_dir / 'ref_1000x.csv')
     b = read_csv(data_dir / 'BG_1000.csv')
-    s = read_csv(data_dir / 'Kopf_1x' / f'Kopf_1x_{sample_file_idx+1:04}')
+    s = read_csv(data_dir / 'Kopf_1x' / f'Kopf_1x_{sample_file_idx:04}')
 
     f = r[slice_0:slice_1, 0] * MHz
 
@@ -66,23 +66,20 @@ def weighted_residuals(p, fun, x, y0, w):
     return w*residuals(p, fun, x, y0)
 
 
-def calc_loss(p):
-    lam, R = format_data(default_mask)
-    return sum((R - multir_numba(lam, p))**2)
+def calc_loss(p, **kwargs):
+    lam, R0 = format_data(**kwargs)
+    return sum((R0 - multir_numba(lam, p))**2)
 
 
-def calc_full_loss(p):
+def calc_full_loss(p, **kwargs):
     """
     calculates sum of squared residuals over full wl range
-    :param p:
-    :return:
     """
-    lam, R = format_data(mask=full_range_mask)
-    return sum((R - multir_numba(lam, p)) ** 2)
+    return calc_loss(p, mask=full_range_mask, **kwargs)
 
 
 def calc_scipy_loss(p):
-    return calc_loss(p)/2
+    return calc_loss(p)/len(p)
 
 
 def map_maskname(mask):

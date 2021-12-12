@@ -99,3 +99,38 @@ problem is not finding minimum (simplex works fine) problem is it's wrong compar
 
 16. Problem: (d1,d2,d3) and (d3,d2,d1) seems to have similar losses and are therefore hard to distinguish ...
     - Can the phase be used for anything???
+        -> look at CW measurement evaluation, do we measure phase in the final setup?
+
+17. benchmark 6 thz wavelengths(custom mask 420) (time per eval/convergence) i7-4820k @ 4.59 GHz
+    - ExplicitEvalOptimizedClean + _minimize_neldermead     : 3.5 ms / convergence (1000 calls), scipy copy
+
+18. to get below 1 ms implement C;
+    - ExplicitEvalOptimizedClean
+    - _minimize_neldermead (already exists but without bounds, https://github.com/matteotiziano/nelder-mead)
+
+19. found out a lot of variables are repeated : )
+    a0=-a, a1=-b, a2=b, a3=a, b0=a, b1=b, b2=-b, b3=-a, with a=0.19737935744311108, b=0.300922921527581
+    f0_0 = [0.+13235.26131362j 0.+16379.02884655j 0.+20465.92663936j 0.+25181.57793875j 0.+26753.46170521j 0.+29897.22923814j]
+    f0_1 = [0.+24705.82111877j 0.+30574.18718023j 0.+38203.06306014j 0.+47005.61215233j 0.+49939.79518306j 0.+55808.16124453j]
+    f0_2 = [0.+13235.26131362j 0.+16379.02884655j 0.+20465.92663936j 0.+25181.57793875j 0.+26753.46170521j 0.+29897.22923814j]
+
+20. benchmark C implementation of model + optimization,
+    6 thz wavelengths(custom mask 420) (time per eval/convergence) i7-4820k @ 4.59 GHz
+    - loss.c                     : 2-3 us / call (1000 calls)
+    - loss.c + nelder_mead.c     : 400 us / convergence. nit: 77, nfev: 143 (1000 calls), github
+    - loss.c + nelder_mead.c     : 570 us / convergence. nit: 100, nfev: 187 (1000 calls), github
+    (tighter break condition criteria)
+    - loss.c + nelder_mead.c     : 1363 us / convergence. nit: 100, nfev: 187 (1000 calls), github
+    (tighter break condition criteria + Makefile_slow)
+
+21. depending on x0 can go to negative values (e.g. [20, 580, 20], works for [25, 580, 25])
+    -> should probably add bounds.
+
+22. runtime increases with x0 distance to minimum
+    -> can go above 1 ms (e.g. [10, 600, 10] converges to [44 630 44] in 1.1 ms)
+    -> tighten tolx, tolf = 0.01 can reduce runtime to 0.9 ms
+
+23. Benchmark optimized loss.c + simplex
+    -> for x0 = [35 600 35]:
+        -> 127 us on i7  (loss.c is too fast to time???)
+        -> 900 us on redpitaya (Dual-Core ARM Cortex-A9 MPCore) (loss.c: 12.9 us / call)

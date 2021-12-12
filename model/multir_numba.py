@@ -7,7 +7,7 @@ def multir_numba(lam, p):
     thea = 8.0 * pi / 180.0
     n = (1.0, 1.50, 2.8, 1.50, 1.0)
     es = p.copy()
-    the = np.zeros(len(lam))
+    the = np.zeros(len(lam))#np.array([thea, 0, 0, 0, 0, 0])
     ra, rb, ta, tb = np.zeros(len(lam)), np.zeros(len(lam)), np.zeros(len(lam)), np.zeros(len(lam))
     the[0] = thea
 
