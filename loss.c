@@ -42,10 +42,10 @@ void loss_fun(point_t *point) {
         double f1 = g[i]*(point->x[1])*1e-6;
         double f2 = f[i]*(point->x[2])*1e-6;
 
-        float s0 = + f2 + f1 + f0;
-        float s1 = +f2 - f1 - f0;
-        float s2 = +f2 + f1 - f0;
-        float s3 = -f2 + f1 - f0;
+        double s0 = + f2 + f1 + f0;
+        double s1 = +f2 - f1 - f0;
+        double s2 = +f2 + f1 - f0;
+        double s3 = -f2 + f1 - f0;
 
         // 90% of runtime goes here for sine/cosine ...
         double cs0 = cosf(s0);
