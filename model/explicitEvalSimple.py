@@ -20,7 +20,7 @@ sine_sign = lambda x: 1 if (x % (2 * pi) < pi) else -1
 
 def sine(x):
     #print(x)
-    x -= (x > pi) * (2 * pi)
+    #x -= (x > pi) * (2 * pi)
     #print(x)
 
     B = 4 / pi
@@ -41,19 +41,19 @@ def explicit_reflectance(p):
     R = np.zeros(6)
     for i in range(6):
         if i != 2:
-            continue
+            pass
         f0 = f[i] * p[0]
         f1 = g[i] * p[1]
         f2 = f[i] * p[2]
 
         s0, s1, s2, s3 = f2 + f1 + f0, f2 - f1 - f0, f2 + f1 - f0, - f2 + f1 - f0
 
-        print(s0, s1, s2, s3)
-        s0 = s0 % (2 * pi)
-        s1 = s1 % (2 * pi)
-        s2 = s2 % (2 * pi)
-        s3 = s3 % (2 * pi)
-        print(s0, s1, s2, s3)
+        #print(s0, s1, s2, s3)
+        s0 = s0 % (2 * pi) - pi
+        s1 = s1 % (2 * pi) - pi
+        s2 = s2 % (2 * pi) - pi
+        s3 = s3 % (2 * pi) - pi
+        #print(s0, s1, s2, s3)
 
         cs0, cs1, cs2, cs3 = cose(s0), cose(s1), cose(s2), cose(s3)
         ss0, ss1, ss2, ss3 = sine(s0), sine(s1), sine(s2), sine(s3)
@@ -85,14 +85,14 @@ if __name__ == '__main__':
     p0 = np.array([35, 600, 35]) * um_to_m
     R_numba = multir_numba(lam, p0)
     R_explicit = explicit_reflectance(p0)
-    exit()
+    #exit()
 
     #avg_runtime(multir_numba, lam, d_best)
     #avg_runtime(explicit_reflectance, d_best)
 
     print(R_numba)
     print(R_explicit)
-    print(R_numba-R_explicit)
+    #print(R_numba-R_explicit)
     print(np.all(np.isclose(R_numba, R_explicit)))
 
     print(calc_loss(p0, mask=mask, sample_file_idx=sample_idx))
