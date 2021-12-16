@@ -36,13 +36,14 @@ int main(int argc, const char *argv[]) {
     nelder_mead(n, &start, &solution, &loss_fun, &optimset);
 
     // quick timer
+    int nit = 1000;
     clock_t tic = clock();
-    for (int i = 0; i < 1000; i++){
-        loss_fun(&start);
-        //nelder_mead(n, &start, &solution, &loss_fun, &optimset);
+    for (int i = 0; i < nit; i++){
+        //loss_fun(&start);
+        nelder_mead(n, &start, &solution, &loss_fun, &optimset);
     }
     clock_t toc = clock();
-    printf("Elapsed: %f us\n", (double)((toc - tic) / (1000.0*CLOCKS_PER_SEC))*1e6);
+    printf("Elapsed: %f us / call\n", (double) (toc - tic)*1e6 / (double) (nit*CLOCKS_PER_SEC));
 
     // print solution
     printf("Solution\n");
@@ -54,3 +55,4 @@ int main(int argc, const char *argv[]) {
 
     return 0;
 }
+
