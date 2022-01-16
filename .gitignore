@@ -1,0 +1,7 @@
+# Project exclude paths
+/C_implementation/cmake-build-debug/
+/C_implementation/.idea/
+
+/data_evaluation/__pycache__/
+/data_evaluation/.idea/
+
