@@ -44,7 +44,6 @@ def format_data(mask=None, sample_file_idx=0):
     f, r, b, s = load_files(sample_file_idx)
 
     lam = c0 / f
-
     rr = r - b
     ss = s - b
     reflectance = ss / rr
@@ -52,6 +51,7 @@ def format_data(mask=None, sample_file_idx=0):
     reflectivity = (reflectance ** 2).real  # imaginary part should be 0
 
     if mask is not None:
+        print(f[mask]/GHz, 'Selected frequencies (GHz)')
         return lam[mask], reflectivity[mask]
     else:
         return lam, reflectivity
@@ -92,8 +92,12 @@ def map_maskname(mask):
 
 if __name__ == '__main__':
     from consts import wide_mask
-    lam_w, R_w = format_data(wide_mask)
+    sample_idx = 10
+    lam_w, R_w = format_data(wide_mask, sample_file_idx=sample_idx)
     print(lam_w, R_w)
 
-    lam, R = format_data(default_mask)
+    lam, R = format_data(default_mask, sample_file_idx=sample_idx)
+    print(lam, R)
+
+    lam, R = format_data(custom_mask_420, sample_file_idx=sample_idx)
     print(lam, R)
