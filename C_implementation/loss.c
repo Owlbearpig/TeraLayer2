@@ -26,16 +26,16 @@ const float g[wl_cnt] = {
 /*const float R0[wl_cnt] = {0.00935363, 0.41417285, 0.09113865,
                            0.18839357, 0.01541133, 0.08548127};
 */
-// measured reflectance (sample idx=10)
+// measured reflectance (sample idx=10) [421. 521. 651. 801. 851. 951.] GHz
 const float R0[wl_cnt] = {(float) 0.01619003, (float) 0.3079267,  (float) 0.11397636,
                           (float) 0.13299026, (float) 0.05960753, (float) 0.08666484};
 
 float sine(float x) {
     const float B = 4/PI;
     const float C = -4/(PI*PI);
+    const float P = 0.225;
 
     float y = B * x + C * x * fabsf(x);
-    const float P = (float) 0.225;
 
     return P * (y * fabsf(y) - y) + y;   // Q * y + P * y * abs(y)
 }

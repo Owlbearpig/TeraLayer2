@@ -15,7 +15,6 @@ class ExplicitEval:
         f, r, b, s = functions.load_files(sample_file_idx)
 
         print(f'\nMeasured reflectance: {self.R0}')
-        print('Selected frequencies (GHz):', f[data_mask] / GHz)
         print(f'Idx of selected sample: {sample_file_idx}')
         self.explicit_reflectance(d_best)
 

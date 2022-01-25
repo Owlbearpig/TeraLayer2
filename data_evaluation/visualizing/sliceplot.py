@@ -13,15 +13,15 @@ from model.explicitEvalOptimizedClean import ExplicitEval
 2. 2D plot slices for different z set with slider
 """
 
-mask = full_range_mask_new
+mask = custom_mask_420
 
 new_eval = ExplicitEval(mask, sample_file_idx=10)
 # should be resolution of axes d1, d2, d3
 rez_x, rez_y, rez_z = 100, 100, 100
 #rez_x, rez_y, rez_z = 1000, 1000, 1000
 
-lb = array([0.000001, 0.000550, 0.000001])
-ub = array([0.000100, 0.000650, 0.000100])
+lb = array([0.000001, 0.000400, 0.000001])
+ub = array([0.000100, 0.000700, 0.000100])
 #lb = array([0.000001, 0.00001, 0.000001])
 #ub = array([0.001, 0.001, 0.001])
 
@@ -65,8 +65,8 @@ min_x, min_y, min_z = np.unravel_index(g_min_idx, grid_vals.shape)
 print(grd_x[min_x] * um, grd_y[min_y] * um, grd_z[min_z] * um)
 print(np.min(grid_vals))
 
-fig.colorbar(img)
-
+cbar = fig.colorbar(img)
+cbar.set_label('log10(loss)', rotation=270, labelpad=10)
 axmax = fig.add_axes([0.05, 0.1, 0.02, 0.8])
 amp_slider = Slider(
     ax=axmax,
