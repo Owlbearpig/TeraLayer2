@@ -22,10 +22,8 @@ def rawADC2Volt(raw_val):
     return raw_val*(30.0+4.99)/(4.99*0xFFF)
 
 
-HOST = '192.168.178.24'  # The server's hostname or IP address
+HOST = '192.168.0.102'  # The server's hostname or IP address
 PORT = 1001        # The port used by the server
-
-total_byte_cnt, avg_byte_cnt = 0, 0
 
 
 @dataclass
@@ -36,51 +34,47 @@ class DataBin:
     data: list = field(default_factory=list)
 
 
+total_byte_cnt, avg_byte_cnt = 0, 0
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     sock.connect((HOST, PORT))
 
-    bin_cnt = 4
-    #bin_lengths = [7, 1, 4, 4]
-    bin_lengths = [4, 4, 4, 4]
-    group_len = sum(bin_lengths)
+    chunk_len = 16
     bin0, bin1, bin2, bin3 = [], [], [], []
-    cntr, data = 1, []
+    data = []
+    cleared = False
     t0 = timeit.default_timer()
     while True:
-        buffer = sock.recv(256*1024)
-        #print(buffer)
-        b = buffer.hex()
-        print(b)
-        b = b[50:]
-        b = b[b.find(8*'0')+8:]
-        print(b)
+        buffer = sock.recv(chunk_len)
+        print(buffer)
+        print(len(buffer))
+        if ((timeit.default_timer() - t0) < 1) and not cleared:
+            cleared = True
+            continue
+        t0 = timeit.default_timer()
+        buffer = buffer.hex()
 
-        for i in range(0, len(b), group_len):
-            try:
-                slice_ = b[i:(i+group_len)]
-                print(slice_)
-                slice0, slice1, slice2, slice3 = slice_[0:4], slice_[4:8], slice_[8:12], slice_[12:16]
-                bin0.append(int(slice0, 16))
-                bin1.append(int(slice1, 16))
-                bin2.append(int(slice2, 16))
-                bin3.append(int(slice3, 16))
-                print(slice0, slice1, slice2, slice3)
-            except Exception:
-                continue
+        for i in range(0, len(buffer), chunk_len):
+            slice_ = buffer[i:(i+chunk_len)]
+            slice0, slice1, slice2, slice3 = slice_[0:4], slice_[4:8], slice_[8:12], slice_[12:16]
+            bin0.append(int.from_bytes(slice0, byteorder='little', signed=True))#int(slice0, 16))
+            bin1.append(int.from_bytes(slice1, byteorder='little', signed=True))
+            bin2.append(int(slice2, 16))
+            bin3.append(int(slice3, 16))
+            print(slice0, slice1, slice2, slice3)
 
-        l = len(b) // 2 # 2 hex numbers / byte
+        bl = len(buffer) // 2  # 4 bit / hex
 
-        total_byte_cnt += l
-        avg_byte_cnt += l
+        total_byte_cnt += bl
+        avg_byte_cnt += bl
         dt = timeit.default_timer() - t0
         if dt >= 2:
-            #print(f"{(avg_byte_cnt / MB) / dt} MB/s. {total_byte_cnt} total bytes received")
+            print(f"{(avg_byte_cnt / MB) / dt} MB/s. {total_byte_cnt} total bytes received")
             avg_byte_cnt = 0
             t0 = timeit.default_timer()
 
-        cntr -= 1
-        if cntr <= 0:
+        if total_byte_cnt >= 256*1024:
             break
+
 
 def fft(data):
     Y = np.fft.rfft(data - np.mean(data))
@@ -90,13 +84,14 @@ def fft(data):
 
     return freq, Y
 
+
 bins = [np.array(bin) for bin in [bin0, bin1, bin2, bin3]]
 
 plt.plot(*fft(bins[0]), label='bin0 fft')
 plt.legend()
 plt.show()
 
-plt.plot(bins[0], label='bin0')
+plt.scatter(np.arange(len(bins[0])), bins[0], label='bin0')
 plt.legend()
 plt.show()
 
@@ -104,7 +99,7 @@ plt.plot(*fft(bins[1]), label='bin1 fft')
 plt.legend()
 plt.show()
 
-plt.plot(bins[1], label='bin1')
+plt.scatter(np.arange(len(bins[1])), bins[1], label='bin1')
 plt.legend()
 plt.show()
 
