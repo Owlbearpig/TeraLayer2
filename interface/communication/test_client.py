@@ -9,8 +9,8 @@ import socket
 MB = 10**6
 plt.ion()
 fig = plt.figure()
-#HOST = '192.168.0.102'  # The server's hostname or IP address
-HOST = '192.168.178.24'  # The server's hostname or IP address
+HOST = '192.168.0.102'  # The server's hostname or IP address
+#HOST = '192.168.178.24'  # The server's hostname or IP address
 PORT = 1001        # The port used by the server
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -44,8 +44,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         bin0, bin1, bin2, bin3 = [], [], [], []
 
         byte_cnt += len(buffer) // 2
-        if byte_cnt >= 256*1024:
-            continue
+        #if byte_cnt >= 256*1024:
+        #    continue
 
 
 def fft(data):

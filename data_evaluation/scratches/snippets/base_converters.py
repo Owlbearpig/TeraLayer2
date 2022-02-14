@@ -55,6 +55,26 @@ def fraction_to_bin(frac, frac_width):
     return res
 
 
+def add_one(s):
+    # TODO NOT DONE
+    print("dont use this method")
+    import re
+    sep_loc = [m.start() for m in re.finditer("_", s)]
+
+    s = s.replace("_", "")
+
+    return sep_loc
+
+
+def dec_to_twoscompl(r, int_width=8, frac_width=23):
+    if r > 0:
+        return "0_" + int_to_bin(r, int_width=int_width) + "_" + fraction_to_bin(r, frac_width=frac_width)
+    else:
+        res = "0_" + int_to_bin(r, int_width=int_width) + "_" + fraction_to_bin(r, frac_width=frac_width)
+        res = invert_bin(res)
+        # TODO add one before returning result
+
+
 def real_to_bin(n):
     # TODO fix 2s complement neg vals. This is 1s complement?
     # default precision: W(32, 8, 23)
@@ -65,6 +85,7 @@ def real_to_bin(n):
 
     return sign_bit + "_" + int_to_bin(n, int_width=8) + "_" + fraction_to_bin(n, frac_width=23)
 
+
 def twos_compl_to_dec(s, p=23):
     res = 0
     for i, b in enumerate(s):
@@ -74,14 +95,16 @@ def twos_compl_to_dec(s, p=23):
             res += int(b)*2**(len(s)-i-1)
     return res / (2**p)
 
+
 def invert_bin(s):
-    s = s.replace("_", "")
     res = ""
     for b in s:
         if b == "0":
             res += "1"
-        else:
+        elif b == "1":
             res += "0"
+        else:
+            res += b
     return res
 
 
@@ -93,17 +116,22 @@ a_fp_1_8_23 = "0_" + int_to_bin(a, int_width=8) + "_" + fraction_to_bin(a, frac_
 
 b_fp_1_8_23 = "0_" + int_to_bin(b, int_width=8) + "_" + fraction_to_bin(b, frac_width=23)
 
-print(int_to_bin(15, 10))
-print(fraction_to_bin(0.9, 6))
+#print(int_to_bin(15, 10))
+#print(fraction_to_bin(0.9, 6))
 real = real_to_bin(0.225)
 
-print(real)
+#print(real)
 #print(pi2_inv)
 #print(bin_to_dec(pi2_inv))
 #print(1/(2*np.pi))
-real_inv = invert_bin("00000000001100111110000001011110")
-#print(real_inv)
+pi_half = dec_to_twoscompl(pi/2)
+print(pi_half)
+dec_n = twos_compl_to_dec("00000010001111111101110000000111", p=23)
+print(dec_n)
+dec_n = twos_compl_to_dec("11111111000110111001110010011101", p=23)
+print(dec_n)
 #print(bin_to_dec("0_00100110_11000111000100101100101"))
 #print(twos_compl_to_dec("11111110100010010011001111010011", p=23))
 #print(twos_compl_to_dec("11111111110011000001111110100010"))
 #print(-4 / (pi * pi))
+
