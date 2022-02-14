@@ -37,6 +37,39 @@ def cose(x):
 
     return sine(x)
 
+
+def correct_mod(s):
+    return s % (2 * pi) - pi
+
+
+def c_mod(s):
+    #print(s)
+    #print(s/(2*pi) - (s < 0) )
+    #print(int(s / (2*pi)) - (s < 0))
+    #print(2*pi*(int(s / (2*pi)) - (s < 0)))
+    res = s - 2*pi*(int(s / (2*pi)) - (s < 0)) - pi
+    print(res)
+    return res
+
+
+def test_mod(s):
+    if (-pi < s) and (s < pi):
+        return s
+
+    if s > 0:
+        while s > 2*pi:
+            s -= 2*pi
+    else:
+        while s < -2*pi:
+            s += 2*pi
+
+    if s < -pi:
+        return s + 2*pi
+    elif s > pi:
+        return s - 2*pi
+    else:
+        return s
+
 def explicit_reflectance(p):
     R = np.zeros(6)
     for i in range(6):
@@ -48,13 +81,20 @@ def explicit_reflectance(p):
 
         s0, s1, s2, s3 = f2 + f1 + f0, f2 - f1 - f0, f2 + f1 - f0, - f2 + f1 - f0
 
-        #print(s0, s1, s2, s3)
+        s0 = c_mod(s0)
+        s1 = c_mod(s1)
+        s2 = c_mod(s2)
+        s3 = c_mod(s3)
+
+        """        
         s0 = s0 % (2 * pi) - pi
         s1 = s1 % (2 * pi) - pi
         s2 = s2 % (2 * pi) - pi
         s3 = s3 % (2 * pi) - pi
         #print(s0, s1, s2, s3)
-
+        """
+        #print(s0, s1, s2, s3)
+        exit()
         cs0, cs1, cs2, cs3 = cose(s0), cose(s1), cose(s2), cose(s3)
         ss0, ss1, ss2, ss3 = sine(s0), sine(s1), sine(s2), sine(s3)
 
@@ -83,6 +123,7 @@ if __name__ == '__main__':
     lam, R0 = format_data(mask=mask, sample_file_idx=sample_idx)
 
     p0 = np.array([35, 600, 35]) * um_to_m
+    p0 = np.array([500, 500, 500]) * um_to_m
     R_numba = multir_numba(lam, p0)
     R_explicit = explicit_reflectance(p0)
     #exit()

@@ -31,9 +31,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             bin2.append(int.from_bytes(slice2, byteorder='little', signed=True))
             bin3.append(int.from_bytes(slice3, byteorder='little', signed=True))
 
-            #print(slice0.hex(), slice1.hex(), slice2.hex(), slice3.hex())
-
-        plt.plot(bin0)
+            print(slice0.hex(), slice1.hex(), slice2.hex(), slice3.hex())
+        bins = [np.array(bin) for bin in [bin0, bin1, bin2, bin3]]
+        plt.plot(bins[0])
+        plt.plot(bins[2])
+        #plt.plot(np.arctan2(bins[0], bins[2]))
+        #plt.plot(np.sqrt(bins[0]**2+bins[2]**2))
         plt.draw()
         plt.pause(0.00001)
         fig.clear()
