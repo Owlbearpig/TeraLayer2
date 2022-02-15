@@ -18,18 +18,20 @@ g = array([
 
 sine_sign = lambda x: 1 if (x % (2 * pi) < pi) else -1
 
+
 def sine(x):
-    #print(x)
     #x -= (x > pi) * (2 * pi)
-    #print(x)
+    #x = 1.337
 
     B = 4 / pi
     C = -4 / (pi * pi)
 
     y = B * x + C * x * abs(x)
-    P = 0.225
 
-    return P * (y * abs(y) - y) + y
+    P = 0.225
+    res = P * (y * abs(y) - y) + y
+
+    return res
 
 def cose(x):
     x += pi/2
@@ -43,12 +45,7 @@ def correct_mod(s):
 
 
 def c_mod(s):
-    #print(s)
-    #print(s/(2*pi) - (s < 0) )
-    #print(int(s / (2*pi)) - (s < 0))
-    #print(2*pi*(int(s / (2*pi)) - (s < 0)))
     res = s - 2*pi*(int(s / (2*pi)) - (s < 0)) - pi
-
     return res
 
 
@@ -86,53 +83,20 @@ def explicit_reflectance(p):
         s2 = c_mod(s2)
         s3 = c_mod(s3)
 
-        """        
-        s0 = s0 % (2 * pi) - pi
-        s1 = s1 % (2 * pi) - pi
-        s2 = s2 % (2 * pi) - pi
-        s3 = s3 % (2 * pi) - pi
-        #print(s0, s1, s2, s3)
-        """
-        #print(s0, s1, s2, s3)
-
-        cs0, cs1, cs2, cs3 = cose(s0), cose(s1), cose(s2), cose(s3)
         ss0, ss1, ss2, ss3 = sine(s0), sine(s1), sine(s2), sine(s3)
+        cs0, cs1, cs2, cs3 = cose(s0), cose(s1), cose(s2), cose(s3)
 
-        #print(cs0, cs1, cs2, cs3)
-        #print(ss0, ss1, ss2, ss3, '\n')
+        print("ss0, ss1, ss2, ss3 =", ss0, ss1, ss2, ss3)
+        print("cs0, cs1, cs2, cs3 =", cs0, cs1, cs2, cs3)
+        exit()
 
-        """
         m_12_r = (1 - a * a) * b * (cs2 - cs1)
         m_22_r = (1 - a * a) * (cs0 - b * b * cs3)
 
         m_12_i = - 2 * a * (ss0 + b * b * ss3) + (a * a + 1) * b * (ss1 - ss2)
         m_22_i = (a * a + 1) * (ss0 + b * b * ss3) + 2 * a * b * (ss2 - ss1)
-        """
 
-
-        """
-        c0 = (b - a * a * b) # 0.28919938256364347
-        c1 = (1 - a * a) # 0.9610413892553445
-        b_sqrd = b * b  # 0.09055460470069467
-        c2 = (a * a * b + b) # 0.3126464604915185
-        c3 = 2 * a * b # 0.11879194578203535
-        c4 = (a * a + 1) # 1.0389586107446553
-        c5 = - 2 * a # -0.39475871488622216
-        
-        m_12_r = c0 * (cs2 - cs1)
-        m_22_r = c1 * (cs0 - b_sqrd * cs3)
-
-        m_12_i = c5 * (ss0 + b_sqrd * ss3) + c2 * (ss1 - ss2)
-        m_22_i = c4 * (ss0 + b_sqrd * ss3) + c3 * (ss2 - ss1)
-        
-        """
-
-        m_12_r = (1 - a * a) * b * (cs2 - cs1)
-        m_22_r = (1 - a * a) * (cs0 - b * b * cs3)
-
-        m_12_i = - 2 * a * (ss0 + b * b * ss3) + (a * a * b + b) * (ss1 - ss2)
-        m_22_i = (a * a + 1) * (ss0 + b * b * ss3) + 2 * a * b * (ss2 - ss1)
-        #print((m_22_r * m_22_r + m_22_i * m_22_i))
+        #print(m_12_r, m_22_r, m_12_i, m_22_i)
 
         R[i] = (m_12_r * m_12_r + m_12_i * m_12_i) / (m_22_r * m_22_r + m_22_i * m_22_i)
 
@@ -156,13 +120,12 @@ if __name__ == '__main__':
     #avg_runtime(multir_numba, lam, d_best)
     #avg_runtime(explicit_reflectance, d_best)
 
-    #print(R_numba)
-    print("R_explicit", R_explicit)
-    #print(0.000258440617471933-R_explicit[0])
+    print(R_numba)
+    print(R_explicit)
     #print(R_numba-R_explicit)
-    #print(np.all(np.isclose(R_numba, R_explicit)))
+    print(np.all(np.isclose(R_numba, R_explicit)))
 
-    #print(calc_loss(p0, mask=mask, sample_file_idx=sample_idx))
+    print(calc_loss(p0, mask=mask, sample_file_idx=sample_idx))
 
     d0 = array([50, 600, 50]) * um_to_m
     lb = d0 - array([50, 100, 50]) * um_to_m
