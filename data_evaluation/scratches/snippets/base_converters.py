@@ -66,6 +66,7 @@ def real_to_bin(n):
     return sign_bit + "_" + int_to_bin(n, int_width=8) + "_" + fraction_to_bin(n, frac_width=23)
 
 def twos_compl_to_dec(s, p=23):
+    s = s.replace("_", "")
     res = 0
     for i, b in enumerate(s):
         if i == 0:
@@ -75,13 +76,14 @@ def twos_compl_to_dec(s, p=23):
     return res / (2**p)
 
 def invert_bin(s):
-    s = s.replace("_", "")
     res = ""
     for b in s:
         if b == "0":
             res += "1"
-        else:
+        elif b == "1":
             res += "0"
+        else:
+            res += b
     return res
 
 
@@ -93,16 +95,18 @@ a_fp_1_8_23 = "0_" + int_to_bin(a, int_width=8) + "_" + fraction_to_bin(a, frac_
 
 b_fp_1_8_23 = "0_" + int_to_bin(b, int_width=8) + "_" + fraction_to_bin(b, frac_width=23)
 
-print(int_to_bin(15, 10))
-print(fraction_to_bin(0.9, 6))
-real = real_to_bin(0.225)
-
-print(real)
+#print(int_to_bin(15, 10))
+#print(fraction_to_bin(0.9, 6))
+r = 2.6003132858396338507311637665635e-4
+b = real_to_bin(r)
+print(b)
+#print(twos_compl_to_dec("00000000011000011110010000101000"))
 #print(pi2_inv)
 #print(bin_to_dec(pi2_inv))
 #print(1/(2*np.pi))
-real_inv = invert_bin("00000000001100111110000001011110")
+real_inv = invert_bin("0_00000000_01100101000011101110100")
 #print(real_inv)
+
 #print(bin_to_dec("0_00100110_11000111000100101100101"))
 #print(twos_compl_to_dec("11111110100010010011001111010011", p=23))
 #print(twos_compl_to_dec("11111111110011000001111110100010"))

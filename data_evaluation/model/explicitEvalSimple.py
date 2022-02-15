@@ -48,7 +48,7 @@ def c_mod(s):
     #print(int(s / (2*pi)) - (s < 0))
     #print(2*pi*(int(s / (2*pi)) - (s < 0)))
     res = s - 2*pi*(int(s / (2*pi)) - (s < 0)) - pi
-    print(res)
+
     return res
 
 
@@ -94,20 +94,45 @@ def explicit_reflectance(p):
         #print(s0, s1, s2, s3)
         """
         #print(s0, s1, s2, s3)
-        exit()
+
         cs0, cs1, cs2, cs3 = cose(s0), cose(s1), cose(s2), cose(s3)
         ss0, ss1, ss2, ss3 = sine(s0), sine(s1), sine(s2), sine(s3)
 
         #print(cs0, cs1, cs2, cs3)
         #print(ss0, ss1, ss2, ss3, '\n')
 
+        """
         m_12_r = (1 - a * a) * b * (cs2 - cs1)
         m_22_r = (1 - a * a) * (cs0 - b * b * cs3)
 
         m_12_i = - 2 * a * (ss0 + b * b * ss3) + (a * a + 1) * b * (ss1 - ss2)
         m_22_i = (a * a + 1) * (ss0 + b * b * ss3) + 2 * a * b * (ss2 - ss1)
+        """
 
-        #print(m_12_r, m_22_r, m_12_i, m_22_i)
+
+        """
+        c0 = (b - a * a * b) # 0.28919938256364347
+        c1 = (1 - a * a) # 0.9610413892553445
+        b_sqrd = b * b  # 0.09055460470069467
+        c2 = (a * a * b + b) # 0.3126464604915185
+        c3 = 2 * a * b # 0.11879194578203535
+        c4 = (a * a + 1) # 1.0389586107446553
+        c5 = - 2 * a # -0.39475871488622216
+        
+        m_12_r = c0 * (cs2 - cs1)
+        m_22_r = c1 * (cs0 - b_sqrd * cs3)
+
+        m_12_i = c5 * (ss0 + b_sqrd * ss3) + c2 * (ss1 - ss2)
+        m_22_i = c4 * (ss0 + b_sqrd * ss3) + c3 * (ss2 - ss1)
+        
+        """
+
+        m_12_r = (1 - a * a) * b * (cs2 - cs1)
+        m_22_r = (1 - a * a) * (cs0 - b * b * cs3)
+
+        m_12_i = - 2 * a * (ss0 + b * b * ss3) + (a * a * b + b) * (ss1 - ss2)
+        m_22_i = (a * a + 1) * (ss0 + b * b * ss3) + 2 * a * b * (ss2 - ss1)
+        #print((m_22_r * m_22_r + m_22_i * m_22_i))
 
         R[i] = (m_12_r * m_12_r + m_12_i * m_12_i) / (m_22_r * m_22_r + m_22_i * m_22_i)
 
@@ -131,12 +156,13 @@ if __name__ == '__main__':
     #avg_runtime(multir_numba, lam, d_best)
     #avg_runtime(explicit_reflectance, d_best)
 
-    print(R_numba)
-    print(R_explicit)
+    #print(R_numba)
+    print("R_explicit", R_explicit)
+    #print(0.000258440617471933-R_explicit[0])
     #print(R_numba-R_explicit)
-    print(np.all(np.isclose(R_numba, R_explicit)))
+    #print(np.all(np.isclose(R_numba, R_explicit)))
 
-    print(calc_loss(p0, mask=mask, sample_file_idx=sample_idx))
+    #print(calc_loss(p0, mask=mask, sample_file_idx=sample_idx))
 
     d0 = array([50, 600, 50]) * um_to_m
     lb = d0 - array([50, 100, 50]) * um_to_m
