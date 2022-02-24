@@ -77,7 +77,7 @@ def explicit_reflectance(p):
         f2 = f[i] * p[2]
 
         s0, s1, s2, s3 = f2 + f1 + f0, f2 - f1 - f0, f2 + f1 - f0, - f2 + f1 - f0
-
+        print(s0)
         s0 = c_mod(s0)
         s1 = c_mod(s1)
         s2 = c_mod(s2)
@@ -86,18 +86,15 @@ def explicit_reflectance(p):
         ss0, ss1, ss2, ss3 = sine(s0), sine(s1), sine(s2), sine(s3)
         cs0, cs1, cs2, cs3 = cose(s0), cose(s1), cose(s2), cose(s3)
 
-        print("ss0, ss1, ss2, ss3 =", ss0, ss1, ss2, ss3)
-        print("cs0, cs1, cs2, cs3 =", cs0, cs1, cs2, cs3)
-        exit()
-
         m_12_r = (1 - a * a) * b * (cs2 - cs1)
         m_22_r = (1 - a * a) * (cs0 - b * b * cs3)
 
         m_12_i = - 2 * a * (ss0 + b * b * ss3) + (a * a + 1) * b * (ss1 - ss2)
         m_22_i = (a * a + 1) * (ss0 + b * b * ss3) + 2 * a * b * (ss2 - ss1)
 
-        #print(m_12_r, m_22_r, m_12_i, m_22_i)
-
+        e = (m_12_r * m_12_r + m_12_i * m_12_i)
+        d = (m_22_r * m_22_r + m_22_i * m_22_i)
+        print(e, 1/d)
         R[i] = (m_12_r * m_12_r + m_12_i * m_12_i) / (m_22_r * m_22_r + m_22_i * m_22_i)
 
     return R
@@ -110,22 +107,31 @@ if __name__ == '__main__':
     sample_idx = 10
 
     lam, R0 = format_data(mask=mask, sample_file_idx=sample_idx)
-
+    print(R0)
     p0 = np.array([35, 600, 35]) * um_to_m
+    #p0 = np.array([10, 750, 400]) * um_to_m
     p0 = np.array([500, 500, 500]) * um_to_m
+    #p0 = np.array([500, 500, 500]) * um_to_m
     R_numba = multir_numba(lam, p0)
     R_explicit = explicit_reflectance(p0)
-    #exit()
 
+    print(R_explicit)
+    exit()
+    for i in range(0, 6):
+        p = np.array([500+i*10, 500+i*20, 500+i*30]) * um_to_m
+        R_ = explicit_reflectance(p)
+        print(p*10**6)
+        print(R_[0])
+    exit()
     #avg_runtime(multir_numba, lam, d_best)
     #avg_runtime(explicit_reflectance, d_best)
 
-    print(R_numba)
-    print(R_explicit)
+    #print(R_numba)
+    #print(R_explicit)
     #print(R_numba-R_explicit)
-    print(np.all(np.isclose(R_numba, R_explicit)))
+    #print(np.all(np.isclose(R_numba, R_explicit)))
 
-    print(calc_loss(p0, mask=mask, sample_file_idx=sample_idx))
+    #print(calc_loss(p0, mask=mask, sample_file_idx=sample_idx))
 
     d0 = array([50, 600, 50]) * um_to_m
     lb = d0 - array([50, 100, 50]) * um_to_m
@@ -135,4 +141,4 @@ if __name__ == '__main__':
     error = lambda p: sum((explicit_reflectance(p) - R0)**2)
     fval, x, iterations, fcalls = _minimize_neldermead(error, d0, bounds=(lb, hb), adaptive=False)
 
-    print(fval, x*um, iterations, fcalls)
+    #print(fval, x*um, iterations, fcalls)
