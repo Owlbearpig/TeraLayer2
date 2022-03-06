@@ -13,6 +13,7 @@ int main(int argc, const char *argv[]) {
 
     // reading initial point from command line
     const int n = argc - 1;
+    printf("n = %d\n", n);
     point_t start;
     start.x = malloc(n * sizeof(double));
     for (int i = 0; i < n; i++) {
@@ -39,8 +40,8 @@ int main(int argc, const char *argv[]) {
     int nit = 1000;
     clock_t tic = clock();
     for (int i = 0; i < nit; i++){
-        //loss_fun(&start);
-        nelder_mead(n, &start, &solution, &loss_fun, &optimset);
+        loss_fun(&start);
+        //nelder_mead(n, &start, &solution, &loss_fun, &optimset);
     }
     clock_t toc = clock();
     printf("Elapsed: %f us / call\n", (double) (toc - tic)*1e6 / (double) (nit*CLOCKS_PER_SEC));

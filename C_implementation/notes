@@ -1,0 +1,107 @@
+n = 3
+First we make initial simplex consisting of 3+1 nD points each with d0_0, d1_0, d2_0
+
+p0
+30.00
+620.00
+30.00
+
+p1
+31.50
+620.00
+30.00
+
+p2
+30.00
+651.00
+30.00
+
+p3
+30.00
+620.00
+31.50
+
+lambda =
+	rho = 1
+	rho*chi = 2
+	rho*gamma = 0.5
+	-gamma = -0.5
+
+SIGMA = 0.5 // shrink parameter
+
+calc fx for each point -> sort points in the simplex, first point has smallest fx. (Overhead)
+this is used further down again.
+
+compute the simplex centroid (average position) (Overhead)
+this is used further down again.
+
+void copy_point(int n, const point_t *src, point_t *dst) {
+    memcpy(dst->x, src->x, sizeof(double) * n);
+    dst->fx = src->fx;
+}
+
+void update_point(const simplex_t *simplex, const point_t *centroid, double lambda, point_t *point) {
+const int n = simplex->n;
+    for (int j = 0; j < n; j++) {
+        point->x[j] = (1.0 + lambda) * centroid->x[j] - lambda * simplex->p[n].x[j];
+    }
+}
+
+// internal points
+point_t point_r;
+point_t point_e;
+point_t point_c;
+point_t centroid;
+
+**start of while loop** (eg change into for loop and do 100 iterations).
+shrink = False
+
+update_point(RHO, &point_r);  // set init values of r
+cost_function(&point_r); // calc and set fx of r
+
+if (point_r.fx < simplex.p[0].fx)
+    update_point(RHO * CHI, &point_e);
+    cost_function(&point_e);
+    if (point_e.fx < point_r.fx)
+        // expand
+        copy_point(n, &point_e, simplex.p + n);
+    else
+        // reflect
+        copy_point(n, &point_r, simplex.p + n);
+else
+    if (point_r.fx < simplex.p[n - 1].fx)
+        // reflect
+        copy_point(n, &point_r, simplex.p + n);
+    else
+        if (point_r.fx < simplex.p[n].fx)
+            update_point(RHO * GAMMA, &point_c);
+            cost_function(&point_c);
+            if (point_c.fx <= point_r.fx)
+                // contract outside
+                copy_point(n, &point_c, simplex.p + n);
+            else
+                // shrink
+                shrink = 1;
+        else
+            update_point(&simplex, &centroid, -GAMMA, &point_c);
+            cost_function(&point_c);
+            if (point_c.fx <= simplex.p[n].fx)
+                // contract inside
+                copy_point(n, &point_c, simplex.p + n);
+            else
+                // shrink
+                shrink = 1;
+if (shrink)
+    simplex.p[i].x[j] = simplex.p[0].x[j] + SIGMA * (simplex.p[i].x[j] - simplex.p[0].x[j]);
+    cost_function(simplex.p + i);
+    simplex_sort(&simplex);
+else
+    // sort points ?
+    for (int i = n - 1; i >= 0 && simplex.p[i + 1].fx < simplex.p[i].fx; i--) {
+        swap_points(simplex.p + (i + 1), simplex.p + i);
+    }
+    get_centroid(&simplex, &centroid);
+
+// save solution in output argument
+solution->x = malloc(n * sizeof(double));
+copy_point(n, simplex.p + 0, solution); // solution in p0

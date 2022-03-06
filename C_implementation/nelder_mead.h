@@ -11,8 +11,8 @@
 
 #define RHO 1.0
 #define CHI 2.0
-#define GAMMA 0.5
-#define SIGMA 0.5
+#define GAMMA 0.5//0.5
+#define SIGMA 0.5//0.5
 
 // define a simplex struct containing an array of n+1 points (p)
 // each having dimension (n)

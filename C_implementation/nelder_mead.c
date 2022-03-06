@@ -56,6 +56,7 @@ void nelder_mead(int n, const point_t *start, point_t *solution,
         for (int j = 0; j < n; j++) {
             simplex.p[i].x[j] = (i - 1 == j) ? (start->x[j] != 0.0 ? 1.05 * start->x[j] : 0.00025) : start->x[j];
         }
+        printf("p%d, d0: %f, d1: %f, d2: %f\n", i, simplex.p[i].x[0], simplex.p[i].x[1], simplex.p[i].x[2]);
         cost_function(simplex.p + i);
         eval_count++;
     }
