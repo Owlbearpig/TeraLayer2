@@ -1,13 +1,13 @@
-from base_converters import bin_to_dec, unsigned_dec_to_bin, fraction_to_bin
+from base_converters import bin_to_dec, unsigned_dec_to_bin, fraction_to_bin, dec_to_twoscompl
 import itertools
 import matplotlib.pyplot as plt
 import numpy as np
 
 x = np.linspace(0.5, 2, 10**5)
 
-plt.plot(x, 1/x)
+#plt.plot(x, 1/x)
 #plt.plot(np.linspace(0, 2, len(recip_bins)), recip_bins)
-plt.show()
+#plt.show()
 
 # 1, 15
 bit_strs = [''.join(i) for i in itertools.product('01', repeat=15)]
@@ -34,9 +34,8 @@ with open('recip_lut.mem', 'w') as file:
         file.write(b+'\n')
 
 with open('recip_lut_extended.mem', 'w') as file:
-    for x in np.linspace(0.000001, 1.99999, 2**16):
-        if 1/x >= 2:
-            x = 0.50001
-        file.write(str(int(1/x)) + fraction_to_bin(1/x, frac_width=15) + '\n')
+    for x in np.linspace(0.5, 2.5, 2**16):
+        recip_x_2 = dec_to_twoscompl(1/x, int_width=2, frac_width=14)
+        file.write(recip_x_2 + '\n')
 
 
