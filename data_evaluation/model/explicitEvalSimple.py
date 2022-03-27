@@ -79,17 +79,17 @@ def explicit_reflectance(p):
         f2 = f[i] * p[2]
 
         s0, s1, s2, s3 = f2 + f1 + f0, f2 - f1 - f0, f2 + f1 - f0, - f2 + f1 - f0
-        print("s0, s1, s2, s3", s0, s1, s2, s3)
+        #print("s0, s1, s2, s3", s0, s1, s2, s3)
         s0 = c_mod(s0)
         s1 = c_mod(s1)
         s2 = c_mod(s2)
         s3 = c_mod(s3)
-        print("s0, s1, s2, s3", s0, s1, s2, s3)
+        #print("s0, s1, s2, s3", s0, s1, s2, s3)
         ss0, ss1, ss2, ss3 = sine(s0), sine(s1), sine(s2), sine(s3)
         cs0, cs1, cs2, cs3 = cose(s0), cose(s1), cose(s2), cose(s3)
 
-        print("ss0, ss1, ss2, ss3", ss0, ss1, ss2, ss3)
-        print("cs0, cs1, cs2, cs3", cs0, cs1, cs2, cs3)
+        #print("ss0, ss1, ss2, ss3", ss0, ss1, ss2, ss3)
+        #print("cs0, cs1, cs2, cs3", cs0, cs1, cs2, cs3)
 
         #""" #correct
         m_12_r = (1 - a * a) * b * (cs2 - cs1)
@@ -117,9 +117,9 @@ def explicit_reflectance(p):
         """ # also working
         e = (m_12_r * m_12_r + m_12_i * m_12_i)
         d = (m_22_r * m_22_r + m_22_i * m_22_i)
-        print("m_12_r, m_12_i, m_22_r, m_22_i", m_12_r, m_12_i, m_22_r, m_22_i)
+        #print("m_12_r, m_12_i, m_22_r, m_22_i", m_12_r, m_12_i, m_22_r, m_22_i)
 
-        print(e, d)
+        #print(e, d)
 
         R[i] = (m_12_r * m_12_r + m_12_i * m_12_i) / (m_22_r * m_22_r + m_22_i * m_22_i)
 
@@ -134,9 +134,9 @@ if __name__ == '__main__':
 
     lam, R0 = format_data(mask=mask, sample_file_idx=sample_idx)
     print("R0", R0)
-    p0 = np.array([35, 600, 35]) * um_to_m
+    #p0 = np.array([35, 600, 35]) * um_to_m
     #p0 = np.array([10, 750, 400]) * um_to_m
-    p0 = np.array([500, 500, 500]) * um_to_m
+    p0 = np.array([30, 651, 30]) * um_to_m
     #p0 = np.array([500, 500, 500]) * um_to_m
     R_numba = multir_numba(lam, p0)
     R_explicit = explicit_reflectance(p0)

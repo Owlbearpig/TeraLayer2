@@ -40,7 +40,7 @@ def load_files(sample_file_idx=0, data_type='amplitude'):
         return f, s[slice_0:slice_1, 4], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
 
 
-def format_data(mask=None, sample_file_idx=0):
+def format_data(mask=None, sample_file_idx=0, verbose=True):
     f, r, b, s = load_files(sample_file_idx)
 
     lam = c0 / f
@@ -51,7 +51,8 @@ def format_data(mask=None, sample_file_idx=0):
     reflectivity = (reflectance ** 2).real  # imaginary part should be 0
 
     if mask is not None:
-        print(f[mask]/GHz, 'Selected frequencies (GHz)')
+        if verbose:
+            print(f[mask]/GHz, 'Selected frequencies (GHz)')
         return lam[mask], reflectivity[mask]
     else:
         return lam, reflectivity

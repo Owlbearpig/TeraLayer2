@@ -89,14 +89,16 @@ def real_to_bin(n, int_w=8, frac_w=23):
 
 
 def twos_compl_to_dec(s, p=23):
-    s = s.replace("_", "")
+    bad_chars = ["b", "_"]
+    for char in bad_chars:
+        s = s.replace(char, "")
     res = 0
     for i, b in enumerate(s):
         if i == 0:
             res -= int(b)*2**(len(s)-1)
         else:
             res += int(b)*2**(len(s)-i-1)
-    return res / (2**p)
+    return res / (2 ** p)
 
 
 def invert_bin(s):
@@ -140,9 +142,9 @@ if __name__ == '__main__':
 
     #exit()
     #print(bin_to_dec(a_fp_1_8_23))
-    i, p = 12, 2
-    n2 = dec_to_twoscompl(651, int_width=i, frac_width=p)
-    n10 = twos_compl_to_dec("00111100000110", p=2)
+    i, p = 12, 17
+    n2 = dec_to_twoscompl(30.5, int_width=i, frac_width=p)
+    n10 = twos_compl_to_dec("00000100110101011110", p=p)
     print(n2, n10)
     exit()
     #print(a_fp_1_8_23)
@@ -157,10 +159,10 @@ if __name__ == '__main__':
     #print(pi2_inv)
     #print(bin_to_dec(pi2_inv))
     #print(1/(2*np.pi))
-    bin_str = real_to_bin(2.928132598615621, int_w=7, frac_w=17)
-    print(bin_str)
-    dec_n = twos_compl_to_dec("00000000_01010100011110101110000", p=23)
-    print(dec_n)
+    #bin_str = real_to_bin(2.928132598615621, int_w=7, frac_w=17)
+    #print(bin_str)
+    #dec_n = twos_compl_to_dec("00000100110101000110", p=17)
+    #print(dec_n)
 
     #print(bin_to_dec("0_00100110_11000111000100101100101"))
     #print(twos_compl_to_dec("11111110100010010011001111010011", p=23))
