@@ -6,6 +6,8 @@ a = np.random.randint(0, 10, 4)
 
 p0, p1, p2, p3 = a
 
+# check this instead: https://stackoverflow.com/questions/6145364/sort-4-number-with-few-comparisons : )
+
 c0, c1, c2, c3, c4, c5 = p0 < p1, p0 < p2, p0 < p3, p1 < p2, p1 < p3, p2 < p3
 c0_min, c1_min, c2_min, c3_min = c0 and c1 and c2, c3 and c4 and not c0, not c1 and not c3 and c5, not c2 and not c4 and not c5
 c0_max, c1_max, c2_max, c3_max = not c0 and not c1 and not c2, not c3 and not c4 and c0, c1 and c3 and not c5, c5 and c4 and c2
