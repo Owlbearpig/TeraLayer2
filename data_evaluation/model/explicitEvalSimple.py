@@ -134,6 +134,7 @@ if __name__ == '__main__':
 
     lam, R0 = format_data(mask=mask, sample_file_idx=sample_idx)
     print("R0", R0)
+
     #p0 = np.array([35, 600, 35]) * um_to_m
     #p0 = np.array([10, 750, 400]) * um_to_m
     p0 = np.array([30, 651, 30]) * um_to_m
