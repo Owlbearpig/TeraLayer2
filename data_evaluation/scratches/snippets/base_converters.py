@@ -144,7 +144,7 @@ if __name__ == '__main__':
     #print(bin_to_dec(a_fp_1_8_23))
     i, p = 12, 17
     n2 = dec_to_twoscompl(30.5, int_width=i, frac_width=p)
-    n10 = twos_compl_to_dec("00000100110101011110", p=p)
+    n10 = twos_compl_to_dec("00000000011111100100", p=p)
     print(n2, n10)
     exit()
     #print(a_fp_1_8_23)

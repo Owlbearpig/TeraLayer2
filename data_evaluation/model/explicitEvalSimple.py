@@ -133,11 +133,10 @@ if __name__ == '__main__':
     sample_idx = 10
 
     lam, R0 = format_data(mask=mask, sample_file_idx=sample_idx)
-    print("R0", R0)
 
     #p0 = np.array([35, 600, 35]) * um_to_m
     #p0 = np.array([10, 750, 400]) * um_to_m
-    p0 = np.array([30, 651, 30]) * um_to_m
+    p0 = np.array([30, 620, 31.5]) * um_to_m
     #p0 = np.array([500, 500, 500]) * um_to_m
     R_numba = multir_numba(lam, p0)
     R_explicit = explicit_reflectance(p0)
@@ -166,10 +165,16 @@ if __name__ == '__main__':
 
     # avg_runtime(minimize, error, d0, bounds=list(zip(lb, hb)), method='Nelder-Mead')
     error = lambda p: sum((explicit_reflectance(p) - R0)**2)
-    print('error:', error(p0))
-    print("(R-R0)**2", (explicit_reflectance(p0) - R0)**2)
     #print('error:', error(p0 + array([1, 0, 0])*um_to_m))
     #print(R0)
     fval, x, iterations, fcalls = _minimize_neldermead(error, d0, bounds=(lb, hb), adaptive=False)
 
     #print(fval, x*um, iterations, fcalls)
+    from scratches.snippets.base_converters import dec_to_twoscompl
+    dp, p = 3, 17
+    print(f"R0_idx{sample_idx}:", R0)
+    print(f"R (dec):", explicit_reflectance(p0))
+    print(f"R (bin):", [dec_to_twoscompl(r, dp, p) for r in explicit_reflectance(p0)])
+    #print(f"diff^2: ", (explicit_reflectance(p0) - R0) ** 2)
+    print('error:', error(p0))
+    print("(R-R0)**2", (explicit_reflectance(p0) - R0) ** 2)
