@@ -2,13 +2,13 @@ from snippets.base_converters import twos_compl_to_dec
 from pathlib import Path
 import re
 
-log_file_stub = "display_output"
-vivado_project_path = Path(r"H:\IPs\of1")
+log_file_stub = "sim_output"
+vivado_project_path = Path(r"/media/alex/WDElements/IPs/eval")
 
 
 def convert_file(file_path):
     print("convert:", file_path)
-    with open("converted" + str(file_path.name).replace("display_output", ""), "w") as outfile:
+    with open("converted" + str(file_path.name).replace("sim_output", "sim_output"), "w") as outfile:
         with open(file_path) as infile:
             lines = infile.readlines()
             for line in lines:
@@ -28,6 +28,12 @@ def convert_file(file_path):
                                 bin_str = "0" + bin_str # state is unsigned and 4 bit long number.
                                 dec = twos_compl_to_dec(bin_str, p=0)
                                 converted_line += str(int(dec))
+                            elif len(bin_str) == 34:
+                                dec = twos_compl_to_dec(bin_str, p=22)
+                                converted_line += str(round(dec, 6))
+                            elif len(bin_str) == 25:
+                                dec = twos_compl_to_dec(bin_str, p=22)
+                                converted_line += str(round(dec, 6))
                             elif len(bin_str) == 29:  # coords
                                 dec = twos_compl_to_dec(bin_str, p=p)
                                 converted_line += str(round(dec, 3))
@@ -36,9 +42,6 @@ def convert_file(file_path):
                                 converted_line += str(round(dec, 8))
                             elif len(bin_str) == 50: # input module, m
                                 dec = twos_compl_to_dec(bin_str, p=20+p)
-                                converted_line += str(round(dec, 8))
-                            elif len(bin_str) == 25: # input module, p
-                                dec = twos_compl_to_dec(bin_str, p=p)
                                 converted_line += str(round(dec, 8))
                             elif len(bin_str) == 23: # cordic format, r_int
                                 dec = twos_compl_to_dec(bin_str, p=p)

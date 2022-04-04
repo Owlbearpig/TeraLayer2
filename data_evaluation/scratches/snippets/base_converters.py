@@ -166,16 +166,30 @@ def print_lst_verilog(lst_str, pd=12, p=17, point_name="i"):
 
 
 def convert_measurement_to_bin(sample_idx=0, pd=3, p=23):
-    mask = custom_mask_420
+    for sample_idx in range(100):
+        mask = custom_mask_420
+        lam, R0 = format_data(mask=mask, sample_file_idx=sample_idx, verbose=False)
+        """
+        3'b000 : begin
+				// sample idx 10
+				cur_data <= {
+				25'b000_0000010000100101000001, // 0.01619002948879064
+				25'b000_0100111011010100010010, // 0.30792670455455484
+				25'b000_0001110100101101100011, // 0.11397636227824881
+				25'b000_0010001000001011101001, // 0.13299025931927916
+				25'b000_0000111101000010011100, // 0.05960753001314391
+				25'b000_0001011000101111101010 // 0.08666484218325601
+				}; 
+			end
+        
+        """
+        print(f"8\'b{int_to_bin(sample_idx, 8)} : begin")
+        print(f"// sample idx {sample_idx}")
+        print("cur_data <= {")
+        for i, R0_i in enumerate(R0):
+            print(f"{dec_to_twoscompl(R0_i, pd, p, format=True)}" + "," * (len(R0) - 1 != i) + f" // {R0_i}")
+        print("};\nend")
 
-    lam, R0 = format_data(mask=mask, sample_file_idx=sample_idx)
-    print(f"R0_{sample_idx}", R0)
-    print()
-    print(f"// sample idx {sample_idx}")
-    print("cur_data <= {")
-    for i, R0_i in enumerate(R0):
-        print(f"{dec_to_twoscompl(R0_i, pd, p, format=True)}" + "," * (len(R0) - 1 != i) + f" // {R0_i}")
-    print("};")
 
 
 def convert_constants_fg(pd=0, p=23):
