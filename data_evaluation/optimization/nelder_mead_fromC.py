@@ -91,6 +91,8 @@ if __name__ == '__main__':
 
     with open("solutions.txt", "a") as file:
         for sample_idx in range(100):
+            if sample_idx != 0:
+                break # continue
             print(sample_idx)
             n = 3
 
@@ -98,7 +100,8 @@ if __name__ == '__main__':
             CHI = 2.0
             GAMMA = 0.5
             SIGMA = 0.5
-            verbose = False
+            verbose = True
+            save_output = False
 
             p_r = Point(name="p_r")
             p_e = Point(name="p_e")
@@ -110,6 +113,10 @@ if __name__ == '__main__':
 
             simplex = initial_simplex(p_start)
             get_centroid(simplex, p_ce)
+            if verbose:
+                print("initial simplex and centroid:")
+                print(simplex)
+                print(p_ce, "\n")
 
             for i in range(1, 100):
                 update_point(simplex, p_ce, RHO, p_r)
@@ -151,10 +158,10 @@ if __name__ == '__main__':
                         else:
                             update_point(simplex, p_ce, -GAMMA, p_c)
                             cost(p_c, sample_idx)
-                            if p_c.fx <= simplex.p[n].fx:
+                            if p_c.fx <= simplex.p[3].fx:
                                 if verbose:
-                                    print("difference p_c.fx <= simplex.p[n].fx",
-                                          f'{abs(p_c.fx - simplex.p[n].fx):.20f}')
+                                    print("difference p_c.fx <= simplex.p[3].fx",
+                                          f'{abs(p_c.fx - simplex.p[3].fx):.20f}')
                                     print("contract in")
                                 copy_point(p_c, simplex.p[3])
                             else:
@@ -174,14 +181,15 @@ if __name__ == '__main__':
                         swap_points(simplex.p[k + 1], simplex.p[k])
 
                 get_centroid(simplex, p_ce)
-                """
-                print(p_r)
-                print(p_e)
-                print(p_c)
-                print(p_ce)
-                print(simplex)
-                print(f"iteration {i} done\n")
-                """
+                if verbose:
+                    print(p_r)
+                    print(p_e)
+                    print(p_c)
+                    print(p_ce)
+                    print(simplex)
+                    print(f"iteration {i} done\n")
+
             # solution in p0
             print(simplex.p[0])
-            file.write(f"[{simplex.p[0].x[0], simplex.p[0].x[1], simplex.p[0].x[2]} ]\n")
+            if save_output:
+                file.write(f"[{simplex.p[0].x[0], simplex.p[0].x[1], simplex.p[0].x[2]} ]\n")
