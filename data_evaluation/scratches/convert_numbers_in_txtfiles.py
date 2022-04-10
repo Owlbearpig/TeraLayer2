@@ -18,7 +18,7 @@ def convert_file(file_path):
                 for i, char in enumerate(line):
                     if char not in ["0", "1"]:
                         if line[i-1] in ["0", "1"]:
-                            p = 22
+                            p = 17
                             if (len(bin_str) == 1) | (len(bin_str) == 2): # small bin_strs are likely dec already
                                 converted_line += bin_str
                             elif len(bin_str) == 8:
@@ -31,10 +31,10 @@ def convert_file(file_path):
                                 #converted_line += f"{str(int(dec))}, ({bin_str[1:]})"
                                 converted_line += f"{str(int(dec))}"
                             elif len(bin_str) == 34:
-                                dec = twos_compl_to_dec(bin_str, p=22)
+                                dec = twos_compl_to_dec(bin_str, p=p)
                                 converted_line += str(round(dec, 6))
                             elif len(bin_str) == 25:
-                                dec = twos_compl_to_dec(bin_str, p=22)
+                                dec = twos_compl_to_dec(bin_str, p=p)
                                 converted_line += str(round(dec, 6))
                             elif len(bin_str) == 29:  # coords
                                 dec = twos_compl_to_dec(bin_str, p=p)

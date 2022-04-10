@@ -5,5 +5,12 @@ utilization:
 name, LUTs, Slice registers, F7 Muxes, Block RAM, DSPs, bonded IOB
 eval_bd_wrapper	13010	1092	102	32	133	254
 
+converted_sim_output_13bit_prec2.txt:
+
+vivado sim result for p=17 and measurement data with 3Q17.
+utilization:
+name, LUTs, Slice registers, F7 Muxes, Block RAM, DSPs, bonded IOB
+eval_bd_wrapper 6929 946 87 32 76 209
+
 
 
