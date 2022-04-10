@@ -165,7 +165,7 @@ def print_lst_verilog(lst_str, pd=12, p=17, point_name="i"):
         print(f"{point_name}_d{i} = {len(b_str) - 1}'b{b_str}; // {twos_compl_to_dec(bin_str_lst[i], p)}")
 
 
-def convert_measurement_to_bin(sample_idx=0, pd=3, p=23):
+def convert_measurement_to_bin(pd=3, p=23):
     for sample_idx in range(100):
         mask = custom_mask_420
         lam, R0 = format_data(mask=mask, sample_file_idx=sample_idx, verbose=False)
@@ -187,7 +187,9 @@ def convert_measurement_to_bin(sample_idx=0, pd=3, p=23):
         print(f"// sample idx {sample_idx}")
         print("cur_data <= {")
         for i, R0_i in enumerate(R0):
-            print(f"{dec_to_twoscompl(R0_i, pd, p, format=True)}" + "," * (len(R0) - 1 != i) + f" // {R0_i}")
+            bin_str = f"{dec_to_twoscompl(R0_i, pd, p, format=True)}"
+            #bin_str = bin_str[:21] + "0"*(22-13)
+            print(bin_str + "," * (len(R0) - 1 != i) + f" // {R0_i}")
         print("};\nend")
 
 
@@ -298,9 +300,9 @@ def machine_constant(pd=0, p=22):
 if __name__ == '__main__':
     # machine_constant(pd=0, p=22)
     # generate_initial_simplex_and_centroid(array([30, 620, 30]), pd=12, p=22)
-    s = "[ 36.03778188 629.53328928  52.8500699 ]"
+    s = "[50 619 40]"
     # print_lst_verilog(s, p=22)
-    convert_measurement_to_bin(sample_idx=42, pd=3, p=22)  # pd should be 3
+    convert_measurement_to_bin(pd=3, p=17)  # pd should be 3
     # convert_constants_fg(pd=0, p=22) # pd should be 0
     # cordic_format_constants(pd=8, p=22)  # pd should be 8
     # convert_cos_constants(pd=4, p=22)  # pd should be 4

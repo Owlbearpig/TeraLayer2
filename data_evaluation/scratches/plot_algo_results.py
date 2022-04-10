@@ -5,8 +5,8 @@ import numpy as np
 
 from consts import ROOT_DIR
 
-sim_result_path = ROOT_DIR / Path("scratches") / Path("convertedsim_output.txt")
-python_result_path = ROOT_DIR / Path("optimization") / Path("solutions.txt")
+sim_result_path = ROOT_DIR / "scratches" / "vivado_sim_results" / "converted_sim_output_13bit_prec.txt"
+python_result_path = ROOT_DIR / "optimization" / "solutions_workingversion.txt"
 
 sim_results = []
 with open(sim_result_path) as file:
@@ -25,14 +25,20 @@ with open(python_result_path) as file:
 python_result = np.array(python_result)
 sim_results = np.array(sim_results)
 
-plt.plot(python_result[:, 0], label="d0 python")
-plt.plot(sim_results[:, 0], ".", label="d0 fpga sim")
+sample_idx_py, sample_idx_fpga = range(len(python_result[:, 0])), range(len(sim_results[:, 0]))
 
-plt.plot(python_result[:, 1], label="d1 python", color="b")
-plt.plot(sim_results[:, 1], ".", label="d1 fpga sim")
+plt.plot(sample_idx_py, python_result[:, 0], label="d0 python")
+plt.plot(sample_idx_py, python_result[:, 1], label="d1 python", color="b")
+plt.plot(sample_idx_py, python_result[:, 2], label="d2 python")
 
-plt.plot(python_result[:, 2], label="d2 python")
-plt.plot(sim_results[:, 2], ".", label="d2 fpga sim")
+plt.plot(sample_idx_fpga, sim_results[:, 0], ".", label="d0 vivado sim")
+plt.plot(sample_idx_fpga, sim_results[:, 1], ".", label="d1 vivado sim")
+plt.plot(sample_idx_fpga, sim_results[:, 2], ".", label="d2 vivado sim")
+
+plt.text(10, 530, "vivado sim means:")
+for i in range(3):
+    s = f"$mean(d_{i}) = {np.round(np.mean(sim_results[:, i]), 2)}\pm{np.round(np.std(sim_results[:, i]), 2)}$ $\mu m$"
+    plt.text(10, 500-i*30, s)
 
 plt.ylabel("Layer width (µm)")
 plt.xlabel("Sample idx")

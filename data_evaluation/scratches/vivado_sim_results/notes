@@ -1,0 +1,9 @@
+converted_sim_output_13bit_prec.txt:
+
+vivado sim result for p=22 and measurement data with 3Q22 where last 9 bits are set to 0.
+utilization:
+name, LUTs, Slice registers, F7 Muxes, Block RAM, DSPs, bonded IOB
+eval_bd_wrapper	13010	1092	102	32	133	254
+
+
+

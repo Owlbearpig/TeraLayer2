@@ -2,13 +2,14 @@ from snippets.base_converters import twos_compl_to_dec
 from pathlib import Path
 import re
 
-log_file_stub = "display_output_machine"
+log_file_stub = "sim_output"
 vivado_project_path = Path(r"H:\IPs\eval")
 
 
 def convert_file(file_path):
-    print("convert:", file_path)
-    with open("converted" + str(file_path.name).replace("sim_output", "sim_output"), "w") as outfile:
+    outfile_name = "converted_" + str(file_path.name)
+    print(f"Converting: {str(file_path)}. \nConverted file name: {outfile_name}")
+    with open(outfile_name, "w") as outfile:
         with open(file_path) as infile:
             lines = infile.readlines()
             for line in lines:
@@ -27,7 +28,8 @@ def convert_file(file_path):
                             elif len(bin_str) == 5:
                                 bin_str = "0" + bin_str # state is unsigned and 4 bit long number.
                                 dec = twos_compl_to_dec(bin_str, p=0)
-                                converted_line += f"{str(int(dec))}, ({bin_str[1:]})"
+                                #converted_line += f"{str(int(dec))}, ({bin_str[1:]})"
+                                converted_line += f"{str(int(dec))}"
                             elif len(bin_str) == 34:
                                 dec = twos_compl_to_dec(bin_str, p=22)
                                 converted_line += str(round(dec, 6))

@@ -91,8 +91,6 @@ if __name__ == '__main__':
 
     with open("solutions.txt", "a") as file:
         for sample_idx in range(100):
-            if sample_idx != 0:
-                break # continue
             print(sample_idx)
             n = 3
 
@@ -100,8 +98,8 @@ if __name__ == '__main__':
             CHI = 2.0
             GAMMA = 0.5
             SIGMA = 0.5
-            verbose = True
-            save_output = False
+            verbose = False
+            save_output = True
 
             p_r = Point(name="p_r")
             p_e = Point(name="p_e")
