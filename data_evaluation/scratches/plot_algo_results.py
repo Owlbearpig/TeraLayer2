@@ -7,7 +7,7 @@ from consts import ROOT_DIR
 # converted_sim_output_13bit_prec p=22
 # converted_sim_output_13bit_prec2 p=17
 sim_result_path = ROOT_DIR / "scratches" / "vivado_sim_results" / "converted_sim_output_13bit_prec2.txt"
-python_result_path = ROOT_DIR / "optimization" / "solutions_workingversion.txt"
+python_result_path = ROOT_DIR / "optimization" / "solutions_oldversion.txt"
 
 sim_results = []
 with open(sim_result_path) as file:

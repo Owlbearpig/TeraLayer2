@@ -165,25 +165,32 @@ def print_lst_verilog(lst_str, pd=12, p=17, point_name="i"):
         print(f"{point_name}_d{i} = {len(b_str) - 1}'b{b_str}; // {twos_compl_to_dec(bin_str_lst[i], p)}")
 
 
-def convert_measurement_to_bin(pd=3, p=23):
+def convert_measurement_to_bin(pd=3, p=23, short=False):
+    short_cntr = 0
     for sample_idx in range(100):
         mask = custom_mask_420
         lam, R0 = format_data(mask=mask, sample_file_idx=sample_idx, verbose=False)
+        if short and (sample_idx not in [0, 10]):
+            continue
         """
         3'b000 : begin
-				// sample idx 10
-				cur_data <= {
-				25'b000_0000010000100101000001, // 0.01619002948879064
-				25'b000_0100111011010100010010, // 0.30792670455455484
-				25'b000_0001110100101101100011, // 0.11397636227824881
-				25'b000_0010001000001011101001, // 0.13299025931927916
-				25'b000_0000111101000010011100, // 0.05960753001314391
-				25'b000_0001011000101111101010 // 0.08666484218325601
-				}; 
-			end
+                // sample idx 10
+                cur_data <= {
+                25'b000_0000010000100101000001, // 0.01619002948879064
+                25'b000_0100111011010100010010, // 0.30792670455455484
+                25'b000_0001110100101101100011, // 0.11397636227824881
+                25'b000_0010001000001011101001, // 0.13299025931927916
+                25'b000_0000111101000010011100, // 0.05960753001314391
+                25'b000_0001011000101111101010 // 0.08666484218325601
+                }; 
+            end
         
         """
-        print(f"8\'b{int_to_bin(sample_idx, 8)} : begin")
+        if not short:
+            print(f"8\'b{int_to_bin(sample_idx, 8)} : begin")
+        else:
+            print(f"3\'b{int_to_bin(short_cntr, 3)} : begin")
+            short_cntr += 1
         print(f"// sample idx {sample_idx}")
         print("cur_data <= {")
         for i, R0_i in enumerate(R0):
@@ -191,7 +198,6 @@ def convert_measurement_to_bin(pd=3, p=23):
             #bin_str = bin_str[:21] + "0"*(22-13)
             print(bin_str + "," * (len(R0) - 1 != i) + f" // {R0_i}")
         print("};\nend")
-
 
 
 def convert_constants_fg(pd=0, p=23):
@@ -302,7 +308,7 @@ if __name__ == '__main__':
     # generate_initial_simplex_and_centroid(array([30, 620, 30]), pd=12, p=22)
     s = "[50 619 40]"
     # print_lst_verilog(s, p=22)
-    convert_measurement_to_bin(pd=3, p=17)  # pd should be 3
+    convert_measurement_to_bin(pd=3, p=14, short=True)  # pd should be 3
     # convert_constants_fg(pd=0, p=22) # pd should be 0
     # cordic_format_constants(pd=8, p=22)  # pd should be 8
     # convert_cos_constants(pd=4, p=22)  # pd should be 4
