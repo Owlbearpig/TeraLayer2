@@ -11,7 +11,7 @@ if os.name == "posix":
     vivado_project_path = Path(r"/media/alex/WDElements/IPs")
 else:
     vivado_project_path = Path(r"H:\IPs")
-p = 13
+p = 8
 show_bin_str = False
 
 

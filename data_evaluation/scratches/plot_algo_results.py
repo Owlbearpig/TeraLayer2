@@ -10,7 +10,9 @@ from consts import ROOT_DIR
 # converted_sim_output_13bit_prec4 p=15
 # converted_sim_output_13bit_prec5 p=14
 # converted_sim_output_13bit_prec6 p=13
-sim_result_path = ROOT_DIR / "scratches" / "vivado_sim_results" / "converted_sim_output_13bit_prec6.txt"
+# converted_sim_output_13bit_prec7 p=12
+# converted_sim_output_13bit_prec8 p=8
+sim_result_path = ROOT_DIR / "scratches" / "vivado_sim_results" / "converted_sim_output_13bit_prec7.txt"
 python_result_path = ROOT_DIR / "optimization" / "solutions_oldversion.txt"
 
 sim_results = []
