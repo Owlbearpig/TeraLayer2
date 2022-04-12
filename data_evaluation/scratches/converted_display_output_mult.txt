@@ -1,0 +1,450 @@
+f1, xxxxxxxxxxxxxxxxxx
+f2, xxxxxxxxxxxxxxxxxx
+m, xxxxxxxxxxxxxxxxxx
+clk cycle 0 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 1 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 2 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 3 done 
+
+f1, 0.01583862
+f2, 1.28057861
+m, 0.02026367
+clk cycle 4 done 
+
+f1, 0.37780762
+f2, 0.87588501
+m, 0.3309021
+clk cycle 5 done 
+
+f1, 0.24575806
+f2, 0.99072266
+m, 0.24346924
+clk cycle 6 done 
+
+f1, 0.4760437
+f2, 0.8067627
+m, 0.3840332
+clk cycle 7 done 
+
+f1, 0.14883423
+f2, 1.09579468
+m, 0.16308594
+clk cycle 8 done 
+
+f1, 0.32220459
+f2, 0.91992188
+m, 0.29638672
+clk cycle 9 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 10 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 11 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 12 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 13 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 14 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 15 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 16 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 17 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 18 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 19 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 20 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 21 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 22 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 23 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 24 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 25 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 26 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 27 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 28 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 29 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 30 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 31 done 
+
+f1, 3.052e-05
+f2, 1.30734253
+m, 3.052e-05
+clk cycle 32 done 
+
+f1, 0.24700928
+f2, 0.98919678
+m, 0.24432373
+clk cycle 33 done 
+
+f1, 0.36206055
+f2, 0.88821411
+m, 0.32156372
+clk cycle 34 done 
+
+f1, 0.48547363
+f2, 0.80038452
+m, 0.3885498
+clk cycle 35 done 
+
+f1, 0.04855347
+f2, 1.23095703
+m, 0.05975342
+clk cycle 36 done 
+
+f1, 0.20761108
+f2, 1.02804565
+m, 0.21340942
+clk cycle 37 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 38 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 39 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 40 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 41 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 42 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 43 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 44 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 45 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 46 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 47 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 48 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 49 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 50 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 51 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 52 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 53 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 54 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 55 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 56 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 57 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 58 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 59 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 60 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 61 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 62 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 63 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 64 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 65 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 66 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 67 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 68 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 69 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 70 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 71 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 72 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 73 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 74 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 75 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 76 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 77 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 78 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 79 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 80 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 81 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 82 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 83 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 84 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 85 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 86 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 87 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 88 done 
+
+f1, 0.0
+f2, 1.30926514
+m, 0.0
+clk cycle 89 done 
+

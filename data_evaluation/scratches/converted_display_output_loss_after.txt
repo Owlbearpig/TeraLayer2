@@ -1,0 +1,540 @@
+r, xxxxxxxxxxxxxxxxxx
+r0, xxxxxxxxxxxxxxxxxx
+diff_sqr, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+r_total_loss, 0.0
+clk cycle 0 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 1 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 2 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 3 done 
+
+r, 0.02026367
+r0, 0.01379395
+diff_sqr, 4.2e-05
+r_total_loss, 0.0
+clk cycle 4 done 
+
+r, 0.3309021
+r0, 0.33526611
+diff_sqr, 1.9e-05
+r_total_loss, 4.2e-05
+clk cycle 5 done 
+
+r, 0.24346924
+r0, 0.08914185
+diff_sqr, 0.023817
+r_total_loss, 6.1e-05
+clk cycle 6 done 
+
+r, 0.3840332
+r0, 0.21856689
+diff_sqr, 0.027379
+r_total_loss, 0.023878
+clk cycle 7 done 
+
+r, 0.16308594
+r0, 0.09707642
+diff_sqr, 0.004357
+r_total_loss, 0.051257
+clk cycle 8 done 
+
+r, 0.29638672
+r0, 0.03945923
+diff_sqr, 0.066012
+r_total_loss, 0.055614
+clk cycle 9 done 
+
+r, 0.0
+r0, 0.0
+diff_sqr, 0.0
+r_total_loss, 0.121626
+clk cycle 10 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 11 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 12 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 13 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 14 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 15 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 16 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 17 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 18 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 19 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 20 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 21 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 22 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 23 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 24 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 25 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 26 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 27 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 28 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 29 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 30 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 31 done 
+
+r, 3.052e-05
+r0, 0.01379395
+diff_sqr, 0.000189
+r_total_loss, 0.0
+clk cycle 32 done 
+
+r, 0.24432373
+r0, 0.33526611
+diff_sqr, 0.008271
+r_total_loss, 0.000189
+clk cycle 33 done 
+
+r, 0.32156372
+r0, 0.08914185
+diff_sqr, 0.05402
+r_total_loss, 0.00846
+clk cycle 34 done 
+
+r, 0.3885498
+r0, 0.21856689
+diff_sqr, 0.028894
+r_total_loss, 0.06248
+clk cycle 35 done 
+
+r, 0.05975342
+r0, 0.09707642
+diff_sqr, 0.001393
+r_total_loss, 0.091374
+clk cycle 36 done 
+
+r, 0.21340942
+r0, 0.03945923
+diff_sqr, 0.030259
+r_total_loss, 0.092767
+clk cycle 37 done 
+
+r, 0.0
+r0, 0.0
+diff_sqr, 0.0
+r_total_loss, 0.123026
+clk cycle 38 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 39 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 40 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 41 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 42 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 43 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 44 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 45 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 46 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 47 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 48 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 49 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 50 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 51 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 52 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 53 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 54 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 55 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 56 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 57 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 58 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 59 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 60 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 61 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 62 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 63 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 64 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 65 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 66 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 67 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 68 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 69 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 70 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 71 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 72 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 73 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 74 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 75 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 76 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 77 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 78 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 79 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 80 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 81 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 82 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 83 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 84 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 85 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 86 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 87 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 88 done 
+
+r, 0.0
+r0, 0.01379395
+diff_sqr, 0.00019
+r_total_loss, 0.0
+clk cycle 89 done 
+

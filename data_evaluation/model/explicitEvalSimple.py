@@ -137,7 +137,7 @@ if __name__ == '__main__':
 
     #p0 = np.array([35, 600, 35]) * um_to_m
     #p0 = np.array([10, 750, 400]) * um_to_m
-    p0 = np.array([50, 619,  40], dtype=np.float32) * um_to_m
+    p0 = np.array([31.162230968475342, 630.244384765625,  31.162230968475342], dtype=np.float32) * um_to_m
     #p0 = np.array([500, 500, 500]) * um_to_m
     #R_numba = multir_numba(lam, p0)
     R_explicit = explicit_reflectance(p0)

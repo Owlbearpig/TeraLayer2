@@ -2,7 +2,7 @@
 copy paste console input into vivado tcl console
 
 """
-precision = 14
+precision = 13
 
 # set precision property of all rtl blocks
 block_lst = ["controller_0", "input_module_0", "cordic_format_0", "cordic_format_1", "cordic_format_2",
@@ -22,7 +22,8 @@ for in_port in in_port_lst:
 for out_port in out_port_lst:
     print(f"delete_bd_objs [get_bd_nets {out_port[0]}_{out_port[1]}] [get_bd_ports {out_port[1]}]")
 print("endgroup\n")
-# regen ports
+
+# recreate ports
 block_port_lst_in = [(12 + precision - 1, "controller_0", "i_d0"), (12 + precision - 1, "controller_0", "i_d1"),
                      (12 + precision - 1, "controller_0", "i_d2"), (6 * (3 + precision) - 1, "loss_0", "cur_data")]
 block_port_lst_out = [((3 + precision) - 1, "loss_0", "o_total_loss")]

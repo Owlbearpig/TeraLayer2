@@ -6,7 +6,11 @@ import numpy as np
 from consts import ROOT_DIR
 # converted_sim_output_13bit_prec p=22
 # converted_sim_output_13bit_prec2 p=17
-sim_result_path = ROOT_DIR / "scratches" / "vivado_sim_results" / "converted_sim_output_13bit_prec2.txt"
+# converted_sim_output_13bit_prec3 p=16
+# converted_sim_output_13bit_prec4 p=15
+# converted_sim_output_13bit_prec5 p=14
+# converted_sim_output_13bit_prec6 p=13
+sim_result_path = ROOT_DIR / "scratches" / "vivado_sim_results" / "converted_sim_output_13bit_prec6.txt"
 python_result_path = ROOT_DIR / "optimization" / "solutions_oldversion.txt"
 
 sim_results = []
