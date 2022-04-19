@@ -2,7 +2,7 @@
 copy paste console input into vivado tcl console
 
 """
-precision = 12
+precision = 22
 
 # set precision property of all rtl blocks
 block_lst = ["controller_0", "input_module_0", "cordic_format_0", "cordic_format_1", "cordic_format_2",
