@@ -308,7 +308,7 @@ if __name__ == '__main__':
     # generate_initial_simplex_and_centroid(array([30, 620, 30]), pd=12, p=22)
     s = "[31.162231 630.244385 31.162231]"
     #print_lst_verilog(s, p=22)
-    convert_measurement_to_bin(pd=3, p=8, short=False)  # pd should be 3
+    convert_measurement_to_bin(pd=3, p=10, short=False)  # pd should be 3
     # convert_constants_fg(pd=0, p=22) # pd should be 0
     # cordic_format_constants(pd=8, p=22)  # pd should be 8
     # convert_cos_constants(pd=4, p=22)  # pd should be 4

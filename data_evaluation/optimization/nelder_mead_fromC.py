@@ -91,6 +91,8 @@ if __name__ == '__main__':
 
     with open("solutions.txt", "a") as file:
         for sample_idx in range(100):
+            if sample_idx != 0:
+                pass
             print(sample_idx)
             n = 3
 
@@ -99,14 +101,14 @@ if __name__ == '__main__':
             GAMMA = 0.5
             SIGMA = 0.5
             verbose = False
-            save_output = True
+            save_output = False
 
             p_r = Point(name="p_r")
             p_e = Point(name="p_e")
             p_c = Point(name="p_c")
             p_ce = Point(name="p_ce")
 
-            p_start = Point(array([30, 620, 30]))  # start 30 620 30
+            p_start = Point(array([30, 600, 30]))  # start 30 620 30
             cost(p_start, sample_idx)
 
             simplex = initial_simplex(p_start)

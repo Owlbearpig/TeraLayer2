@@ -1,12 +1,10 @@
 converted_sim_output_13bit_prec.txt:
 vivado sim result for p=22 and measurement data with 3Q22 where last 9 bits are set to 0.
-utilization:
 name, LUTs, Slice registers, F7 Muxes, Block RAM, DSPs, bonded IOB
 eval_bd_wrapper	13010	1092	102	32	133	254
 
 converted_sim_output_13bit_prec2.txt:
 vivado sim result for p=17 and measurement data with 3Q17.
-utilization:
 name, LUTs, Slice registers, F7 Muxes, Block RAM, DSPs, bonded IOB
 eval_bd_wrapper 6929 946 87 32 76 209
 
@@ -40,5 +38,8 @@ vivado sim result for p=8 and measurement data with 3Q8.
 name, LUTs, Slice registers, F7 Muxes, Block RAM, DSPs, bonded IOB
 eval_bd_wrapper 2370 543 6 20 67 128
 
-
-
+converted_sim_output_13bit_prec9.txt:
+vivado sim result for p=10 and measurement data with 3Q10.
+name, LUTs, Slice registers, F7 Muxes, Block RAM, DSPs, bonded IOB
+eval_bd_wrapper 2695 603 0 24 71 146
+eval_bd_wrapper low_dsp alternative: 12034 634 0 24 3 146

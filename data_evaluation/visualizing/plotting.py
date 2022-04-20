@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
-from functions import format_data, load_files, multir_numba, find_files, map_maskname
+from functions import format_data, load_files, multir_numba, find_files, map_maskname, format_data_avg
+from model.multir import multir
 from consts import *
+
 
 def plot_only_y():
     """
@@ -16,20 +18,26 @@ def plot_only_y():
     plt.legend()
     plt.show()
 
-def plot_result(p, fun=multir_numba, mask=default_mask, sample_file_idx=0):
+
+def plot_result(p, fun=multir, mask=default_mask, sample_file_idx=0, x_lim=(0, 2), fun_comparison=None, use_avg=False):
     from results import d_best
-    lam, R = format_data(sample_file_idx=sample_file_idx)
+    if use_avg:
+        lam, R = format_data_avg()
+    else:
+        lam, R = format_data(sample_file_idx=sample_file_idx)
 
-    plt.title(f'fit: {np.round(p*um, 2)} \n best fit: {np.round(d_best*um, 2)}')
-    plt.plot(lam / 1e-3, R, label='measurement')
+    plt.title(f'fit: {np.round(p * um, 2)} \n best fit: {np.round(d_best * um, 2)}')
+    plt.plot(lam / 1e-3, R, label='Measurement')
     plt.plot(lam[mask] / 1e-3, R[mask], 'o', color='red')
-    plt.plot(lam / 1e-3, fun(lam, p), label='fit')
+    plt.plot(lam / 1e-3, fun(lam, p), label='Fit')
     plt.plot(lam / 1e-3, multir_numba(lam, d_best), label='best fit (scipy/matlab LM-algo)')
+    if fun_comparison:
+        plt.plot(lam / 1e-3, fun_comparison(lam, p), label='Fit (comparison func.)')
 
-    plt.xlim((0, 2))
+    plt.xlim(x_lim)
     plt.ylim((0, 1.1))
     plt.xlabel('THZ-Wavelenght (mm)')
-    plt.ylabel('$r^2$ (arb. units)')
+    plt.ylabel('$R_0$ (arb. units)')
     plt.legend()
     plt.show()
 
@@ -46,11 +54,11 @@ def plot_measured_ampl(sample_idx=0, x_axis='wl'):
         x = f / GHz
         plt.xlabel('THZ-Frequency (GHz)')
 
-    plt.plot(x, 10*np.log10(r), label='reference')
-    plt.plot(x, 10*np.log10(b), label='background')
-    plt.plot(x, 10*np.log10(s), label=f'sample Kopf_1x_{sample_idx+1:04}')
+    plt.plot(x, 10 * np.log10(r), label='reference')
+    plt.plot(x, 10 * np.log10(b), label='background')
+    plt.plot(x, 10 * np.log10(s), label=f'sample Kopf_1x_{sample_idx + 1:04}')
 
-    #plt.ylim((0, 1.1))
+    # plt.ylim((0, 1.1))
     plt.ylabel('Amplitude (dB)')
     plt.legend()
     plt.show()
@@ -76,17 +84,17 @@ def plot_measured_phase(sample_idx=0, mask=None):
     f, r, b, s = load_files(sample_file_idx=sample_idx, data_type='phase')
     if mask is not None:
         f, r, b, s = f[mask], r[mask], b[mask], s[mask]
-    data_slice = (f < 850*GHz)*(f > 300*GHz)
+    data_slice = (f < 850 * GHz) * (f > 300 * GHz)
     f, r, b, s = f[data_slice], np.unwrap(r[data_slice]), np.unwrap(b[data_slice]), np.unwrap(s[data_slice])
-    #f, r, b, s = f[data_slice], (r[data_slice]), (b[data_slice]), (s[data_slice])
+    # f, r, b, s = f[data_slice], (r[data_slice]), (b[data_slice]), (s[data_slice])
     lam = c0 / f
 
-    plt.plot(f/GHz, r, label='reference')
-    #plt.plot(lam / 1e-3, b, label='background')
-    plt.plot(f/GHz, s, label=f'sample Kopf_1x_{sample_idx+1:04}')
-    plt.plot(f/GHz, abs(r-s), label=f'abs(r-s)')
-    #plt.xlim((0, 2))
-    #plt.ylim((0, 1.1))
+    plt.plot(f / GHz, r, label='reference')
+    # plt.plot(lam / 1e-3, b, label='background')
+    plt.plot(f / GHz, s, label=f'sample Kopf_1x_{sample_idx + 1:04}')
+    plt.plot(f / GHz, abs(r - s), label=f'abs(r-s)')
+    # plt.xlim((0, 2))
+    # plt.ylim((0, 1.1))
     plt.xlabel('Frequency (GHz)')
     plt.ylabel('phase (rad)')
     plt.legend()
@@ -111,7 +119,6 @@ def plot_thicknesses():
         hb = d0 + array([50, 50, 50])
         plt.text(0, 300, f'Bounds: $(d_1,d_2,d_3)$:\n$d_0=${d0[0], d0[1], d0[2]} $\pm$ 50 ({mu_}m)')
 
-
         d1, d2, d3 = thicknesses[:, 0] * um, thicknesses[:, 1] * um, thicknesses[:, 2] * um
         plt.text(0, 500, fr'Avg. $d_1$: {round(np.mean(d1), 2)} $\pm$ {round(np.std(d1), 2)} ({mu_}m)')
         plt.text(0, 450, fr'Avg. $d_2$: {round(np.mean(d2), 2)} $\pm$ {round(np.std(d2), 2)} ({mu_}m)')
@@ -129,7 +136,7 @@ def plot_thicknesses():
 
 
 if __name__ == '__main__':
-    #p = array([ 45.45454545, 629.54545455,  44.44444444])*um_to_m
-    #plot_result(p, mask=custom_mask_420)
-    #plot_measured_phase(sample_idx=11)
-    plot_thicknesses()
+    p = array([166.66331658291458, 497.98994974874375, 553.2110552763819]) * um_to_m
+    plot_result(p, mask=custom_mask_420, sample_file_idx=10, x_lim=(0, 1), use_avg=True)
+    # plot_measured_phase(sample_idx=11)
+    # plot_thicknesses()

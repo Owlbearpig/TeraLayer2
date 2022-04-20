@@ -4,18 +4,23 @@ import functions
 from consts import *
 from results import d_best
 from numpy import cos, sin, exp, array, arcsin, pi, conj, sum
-from functions import format_data
+from functions import format_data, format_data_avg
 from model.multir_numba import multir_numba
 
 
 class ExplicitEval:
-    def __init__(self, data_mask, sample_file_idx=0):
-        self.lam, self.R0 = format_data(data_mask, sample_file_idx)
+    def __init__(self, data_mask, sample_file_idx=0, use_avg=False):
+        if use_avg:
+            self.lam, self.R0 = format_data_avg(data_mask)
+        else:
+            self.lam, self.R0 = format_data(data_mask, sample_file_idx)
+            print(f'Idx of selected sample: {sample_file_idx}')
+
         self.s_consts = self.set_semi_consts()
         f, r, b, s = functions.load_files(sample_file_idx)
 
         print(f'\nMeasured reflectance: {self.R0}')
-        print(f'Idx of selected sample: {sample_file_idx}')
+
         self.explicit_reflectance(d_best)
 
     def set_semi_consts(self):

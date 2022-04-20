@@ -58,6 +58,35 @@ def format_data(mask=None, sample_file_idx=0, verbose=True):
         return lam, reflectivity
 
 
+def format_data_avg(mask=None, verbose=True):
+    if verbose:
+        print(f"using average of all {data_file_cnt} data files")
+
+    s_all = []
+    for sample_file_idx in range(data_file_cnt):
+        _, _, _, s = load_files(sample_file_idx)
+        s_all.append(s)
+
+    s_avg = np.mean(np.array(s_all), axis=0)
+
+    f, r, b, _ = load_files(0)
+
+    lam = c0 / f
+    rr = r - b
+    ss = s_avg - b
+    reflectance = ss / rr
+
+    reflectivity = (reflectance ** 2).real  # imaginary part should be 0
+
+    if mask is not None:
+        if verbose:
+            print(f[mask] / GHz, 'Selected frequencies (GHz)')
+        return lam[mask], reflectivity[mask]
+    else:
+        return lam, reflectivity
+
+
+
 def residuals(p, fun, x, y0):
     return (fun(x, p) - y0)**2
 
@@ -93,12 +122,16 @@ def map_maskname(mask):
 
 if __name__ == '__main__':
     from consts import wide_mask
-    sample_idx = 10
-    lam_w, R_w = format_data(wide_mask, sample_file_idx=sample_idx)
-    print(lam_w, R_w)
+    from visualizing.plotting import plot_R
+    #sample_idx = 10
+    #lam_w, R_w = format_data(wide_mask, sample_file_idx=sample_idx)
+    #print(lam_w, R_w)
 
-    lam, R = format_data(default_mask, sample_file_idx=sample_idx)
-    print(lam, R)
+    #lam, R = format_data(default_mask, sample_file_idx=sample_idx)
+    #print(lam, R)
 
-    lam, R = format_data(custom_mask_420, sample_file_idx=sample_idx)
-    print(lam, R)
+    #lam, R = format_data(custom_mask_420, sample_file_idx=sample_idx)
+    #print(lam, R)
+
+    lam, R_avg = format_data_avg()
+    plot_R(lam, R_avg)

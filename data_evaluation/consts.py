@@ -11,6 +11,8 @@ ROOT_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
 data_dir = Path(ROOT_DIR / 'matlab_enrique' / 'Data')
 optimization_results_dir = Path(ROOT_DIR / 'measurementComparisonResults')
 
+data_file_cnt = 100
+
 rad = 180 / pi
 thea = 8 * pi / 180
 a = 1
