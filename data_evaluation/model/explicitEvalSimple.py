@@ -98,24 +98,7 @@ def explicit_reflectance(p):
 
         m_12_i = - 2 * a * (ss0 + b * b * ss3) + (a * a + 1) * b * (ss1 - ss2)
         m_22_i = (a * a + 1) * (ss0 + b * b * ss3) + 2 * a * b * (ss2 - ss1)
-        #""" #correct
-        """ # also working
-        c0 = (1 - a * a) * b
-        c1 = (1 - a * a)
-        c2 = (a * a + 1) * b
-        c3 = - 2 * a
-        c4 = (a * a + 1)
-        c5 = 2 * a * b
-        c6 = - 2 * a * b * b
-        c7 = - (1 - a * a) * b * b
-        c8 = (a * a + 1) * b * b
 
-        m_12_r = c0 * (cs2 - cs1)
-        m_22_r = c1 * cs0 + c7 * cs3
-
-        m_12_i = c3 * ss0 + c6 * ss3 + c2 * (ss1 - ss2)
-        m_22_i = c4 * ss0 + c8 * ss3 + c5 * (ss2 - ss1)
-        """ # also working
         e = (m_12_r * m_12_r + m_12_i * m_12_i)
         d = (m_22_r * m_22_r + m_22_i * m_22_i)
         #print("m_12_r, m_12_i, m_22_r, m_22_i", m_12_r, m_12_i, m_22_r, m_22_i)
