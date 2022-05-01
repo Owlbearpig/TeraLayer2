@@ -15,8 +15,9 @@ from model.explicitEvalOptimizedClean import ExplicitEval
 
 mask = custom_mask_420
 sample_idx = 10
-use_avg = True
-new_eval = ExplicitEval(mask, sample_file_idx=sample_idx, use_avg=use_avg)
+enable_avg = False
+model_calc = True
+new_eval = ExplicitEval(mask, sample_file_idx=sample_idx, enable_avg=enable_avg)
 
 # should be resolution of axes d1, d2, d3
 rez_x, rez_y, rez_z = 200, 200, 200
@@ -33,11 +34,21 @@ grd_y = np.linspace(lb[1], ub[1], rez_y)
 grd_z = np.linspace(lb[2], ub[2], rez_z)
 
 file_name = f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_' \
-            f'{int(lb[0] * um)}-{int(ub[0] * um)}_{int(lb[1] * um)}-{int(ub[1] * um)}_{int(lb[2] * um)}-{int(ub[2] * um)}_'
-if use_avg:
-    file_name += f'sample_avgs.npy'
+            f'{int(lb[0] * um)}-{int(ub[0] * um)}_' \
+            f'{int(lb[1] * um)}-{int(ub[1] * um)}_' \
+            f'{int(lb[2] * um)}-{int(ub[2] * um)}'
+
+if model_calc:
+    file_name += f'_model_calc'
+
+    p0 = array([45, 628, 80]) * um_to_m
+    new_eval.set_R0(p0)
+
+if enable_avg:
+    file_name += f'_sample_avgs'
 else:
-    file_name += f'sample_idx{sample_idx}.npy'
+    file_name += f'_sample_idx{sample_idx}' * (not model_calc)
+file_name += '.npy'
 
 # Cache ;)
 try:
@@ -57,6 +68,7 @@ except FileNotFoundError:
 # grid_vals = np.load('1000_1000_1000_rez_xyz_cubed_grid-lb_ub_edges.npy')
 # grid_vals = np.load('250_250_250_rez_xyz_cubed_grid-lb_ub_edges.npy')
 # grid_vals = np.load('100_200_100_rez_xyz_1-100_500-700_1-100_um.npy')
+
 grid_vals = np.log10(grid_vals)
 
 fig = plt.figure()

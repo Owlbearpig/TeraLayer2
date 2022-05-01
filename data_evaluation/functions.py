@@ -13,7 +13,7 @@ def find_files(top_dir=ROOT_DIR, search_str='', file_extension=''):
 
 
 def read_csv(file_path):
-    return array(pd.read_csv(file_path, usecols = [i for i in range(5)]))
+    return array(pd.read_csv(file_path, usecols=[i for i in range(5)]))
 
 
 def avg_runtime(fun, *args, **kwargs):
@@ -25,25 +25,40 @@ def avg_runtime(fun, *args, **kwargs):
     print(f'{fun.__name__}: {1e6 * (time.perf_counter() - t0) / repeats} \u03BCs / func. eval. ({repeats} calls)')
 
 
-def load_files(sample_file_idx=0, data_type='amplitude'):
-    slice_0, slice_1 = 235, -2
-
+def load_ref_file():
     r = read_csv(data_dir / 'ref_1000x.csv')
+    slice_0, slice_1 = settings['data_range_idx']
+
+    return r[slice_0:slice_1]
+
+
+def f_axis():
+    r = load_ref_file()
+    return r[:, 0] * MHz
+
+
+def lam_axis():
+    return c0 / f_axis()
+
+
+def load_files(sample_file_idx=0, data_type='amplitude'):
+    slice_0, slice_1 = settings['data_range_idx']
+
+    r = load_ref_file()
     b = read_csv(data_dir / 'BG_1000.csv')
     s = read_csv(data_dir / 'Kopf_1x' / f'Kopf_1x_{sample_file_idx:04}')
 
-    f = r[slice_0:slice_1, 0] * MHz
-
     if data_type == 'amplitude':
-        return f, r[slice_0:slice_1, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
-    else:
-        return f, s[slice_0:slice_1, 4], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
+        return r[:, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
+    else:  # phase data columns
+        return s[slice_0:slice_1, 4], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
 
 
 def format_data(mask=None, sample_file_idx=0, verbose=True):
-    f, r, b, s = load_files(sample_file_idx)
+    f = f_axis()
+    r, b, s = load_files(sample_file_idx)
 
-    lam = c0 / f
+    lam = lam_axis()
     rr = r - b
     ss = s - b
     reflectance = ss / rr
@@ -52,7 +67,7 @@ def format_data(mask=None, sample_file_idx=0, verbose=True):
 
     if mask is not None:
         if verbose:
-            print(f[mask]/GHz, 'Selected frequencies (GHz)')
+            print(f[mask] / GHz, 'Selected frequencies (GHz)')
         return lam[mask], reflectivity[mask]
     else:
         return lam, reflectivity
@@ -64,14 +79,14 @@ def format_data_avg(mask=None, verbose=True):
 
     s_all = []
     for sample_file_idx in range(data_file_cnt):
-        _, _, _, s = load_files(sample_file_idx)
+        _, _, s = load_files(sample_file_idx)
         s_all.append(s)
 
     s_avg = np.mean(np.array(s_all), axis=0)
 
-    f, r, b, _ = load_files(0)
+    r, b, _ = load_files(0)
+    lam, f = lam_axis(), f_axis()
 
-    lam = c0 / f
     rr = r - b
     ss = s_avg - b
     reflectance = ss / rr
@@ -86,19 +101,18 @@ def format_data_avg(mask=None, verbose=True):
         return lam, reflectivity
 
 
-
 def residuals(p, fun, x, y0):
-    return (fun(x, p) - y0)**2
+    return (fun(x, p) - y0) ** 2
 
 
 # could be a wrapper
 def weighted_residuals(p, fun, x, y0, w):
-    return w*residuals(p, fun, x, y0)
+    return w * residuals(p, fun, x, y0)
 
 
 def calc_loss(p, **kwargs):
     lam, R0 = format_data(**kwargs)
-    return sum((R0 - multir_numba(lam, p))**2)
+    return sum((R0 - multir_numba(lam, p)) ** 2)
 
 
 def calc_full_loss(p, **kwargs):
@@ -109,7 +123,7 @@ def calc_full_loss(p, **kwargs):
 
 
 def calc_scipy_loss(p):
-    return calc_loss(p)/len(p)
+    return calc_loss(p) / len(p)
 
 
 def map_maskname(mask):
@@ -123,15 +137,16 @@ def map_maskname(mask):
 if __name__ == '__main__':
     from consts import wide_mask
     from visualizing.plotting import plot_R
-    #sample_idx = 10
-    #lam_w, R_w = format_data(wide_mask, sample_file_idx=sample_idx)
-    #print(lam_w, R_w)
 
-    #lam, R = format_data(default_mask, sample_file_idx=sample_idx)
-    #print(lam, R)
+    # sample_idx = 10
+    # lam_w, R_w = format_data(wide_mask, sample_file_idx=sample_idx)
+    # print(lam_w, R_w)
 
-    #lam, R = format_data(custom_mask_420, sample_file_idx=sample_idx)
-    #print(lam, R)
+    # lam, R = format_data(default_mask, sample_file_idx=sample_idx)
+    # print(lam, R)
+
+    # lam, R = format_data(custom_mask_420, sample_file_idx=sample_idx)
+    # print(lam, R)
 
     lam, R_avg = format_data_avg()
     plot_R(lam, R_avg)

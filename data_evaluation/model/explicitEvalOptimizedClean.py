@@ -4,24 +4,26 @@ import functions
 from consts import *
 from results import d_best
 from numpy import cos, sin, exp, array, arcsin, pi, conj, sum
-from functions import format_data, format_data_avg
+from functions import format_data, format_data_avg, lam_axis
 from model.multir_numba import multir_numba
 
 
 class ExplicitEval:
-    def __init__(self, data_mask, sample_file_idx=0, use_avg=False):
-        if use_avg:
+    def __init__(self, data_mask, sample_file_idx=0, enable_avg=False):
+        if enable_avg:
             self.lam, self.R0 = format_data_avg(data_mask)
         else:
             self.lam, self.R0 = format_data(data_mask, sample_file_idx)
             print(f'Idx of selected sample: {sample_file_idx}')
 
         self.s_consts = self.set_semi_consts()
-        f, r, b, s = functions.load_files(sample_file_idx)
+        self.unit_scale_factor = 1
 
-        print(f'\nMeasured reflectance: {self.R0}')
+        print(f'\nMeasured reflectance (R0):  {self.R0}')
 
-        self.explicit_reflectance(d_best)
+    def set_R0(self, p0):
+        self.R0 = self.explicit_reflectance(p0)
+        print(f'\nSet new R0 to: {self.R0}\n')
 
     def set_semi_consts(self):
         """
@@ -68,7 +70,7 @@ class ExplicitEval:
         return 1j * 2 * pi * n[k + 1] / self.lam
 
     def explicit_reflectance(self, p):
-        return self.calculation(p, self.s_consts)
+        return self.calculation(p * self.unit_scale_factor, self.s_consts)
 
     def error(self, p):
         R = self.explicit_reflectance(p)
