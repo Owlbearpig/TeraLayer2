@@ -166,15 +166,7 @@ if __name__ == '__main__':
                                 copy_point(p_c, simplex.p[3])
                             else:
                                 break
-                # print(simplex)
 
-                # c1 = simplex.p[2].fx < simplex.p[3].fx
-                # c2 = simplex.p[1].fx < simplex.p[2].fx
-                # c3 = simplex.p[1].fx < simplex.p[3].fx
-                # c4 = simplex.p[0].fx < simplex.p[3].fx
-                # c5 = simplex.p[0].fx < simplex.p[1].fx
-                # c6 = simplex.p[0].fx < simplex.p[2].fx
-                # print(f"c1: {c1}, c2: {c2}, c3: {c3}, c4: {c4}, c5: {c5}, c6: {c6}")
                 # insertion sort
                 for k in [2, 1, 0]:
                     if simplex.p[k + 1].fx < simplex.p[k].fx:
@@ -189,7 +181,7 @@ if __name__ == '__main__':
                     print(simplex)
                     print(f"iteration {i} done\n")
 
-            # solution in p0
+            # solution in p0 of simplex
             print(simplex.p[0])
             if save_output:
                 file.write(f"[{simplex.p[0].x[0], simplex.p[0].x[1], simplex.p[0].x[2]} ]\n")

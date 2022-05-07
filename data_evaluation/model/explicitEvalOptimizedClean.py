@@ -132,6 +132,14 @@ if __name__ == '__main__':
 
     new_eval = ExplicitEval(mask)
 
+    d_custom1 = array([44, 680, 36]) * um_to_m
+    d_custom2 = array([36, 680, 44]) * um_to_m
+    d_custom3 = array([44, 36, 680]) * um_to_m
+
+    print(new_eval.explicit_reflectance(d_custom1))
+    print(new_eval.explicit_reflectance(d_custom2))
+    print(new_eval.explicit_reflectance(d_custom3), "\n")
+
     multir_numba(lam, d_best)
     explicit_reflectance(d_best)
 
