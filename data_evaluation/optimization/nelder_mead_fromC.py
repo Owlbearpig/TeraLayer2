@@ -52,10 +52,18 @@ def update_point(simplex, p_ce, lambda_, p):
     p.x = (1 + lambda_) * p_ce.x - lambda_ * simplex.p[3].x
 
 
-def cost(p, sample_idx=10):
+def cost_og(p, sample_idx=10):
     mask = custom_mask_420
 
     _, R0 = format_data(mask=mask, sample_file_idx=sample_idx, verbose=False)
+
+    p.fx = sum((explicit_reflectance(p.x * um_to_m) - R0) ** 2)
+
+
+def cost_model(p, *args):
+    p_sol = Point(array([50, 500, 50]))
+
+    R0 = explicit_reflectance(p_sol.x * um_to_m)
 
     p.fx = sum((explicit_reflectance(p.x * um_to_m) - R0) ** 2)
 
@@ -66,7 +74,7 @@ def simplex_sort(simplex):
         p.name = f"p{i}"
 
 
-def initial_simplex(p_start, only_coords=False):
+def initial_simplex(p_start, only_coords=False, cost_func=cost_og):
     n = 3
 
     simplex = Simplex(Point(name="p0"), Point(name="p1"), Point(name="p2"), Point(name="p3"))
@@ -80,7 +88,7 @@ def initial_simplex(p_start, only_coords=False):
             else:
                 simplex.p[i].x[j] = p_start.x[j]
         if not only_coords:
-            cost(simplex.p[i], sample_idx)
+            cost_func(simplex.p[i], sample_idx)
     if not only_coords:
         simplex_sort(simplex)
 
@@ -88,11 +96,12 @@ def initial_simplex(p_start, only_coords=False):
 
 
 if __name__ == '__main__':
+    cost_func = cost_model
 
     with open("solutions.txt", "a") as file:
         for sample_idx in range(100):
             if sample_idx != 0:
-                pass
+                continue
             print(sample_idx)
             n = 3
 
@@ -108,10 +117,10 @@ if __name__ == '__main__':
             p_c = Point(name="p_c")
             p_ce = Point(name="p_ce")
 
-            p_start = Point(array([30, 600, 30]))  # start 30 620 30
-            cost(p_start, sample_idx)
+            p_start = Point(array([40, 450, 40]))  # start 30 620 30
+            cost_func(p_start, sample_idx)
 
-            simplex = initial_simplex(p_start)
+            simplex = initial_simplex(p_start, cost_func=cost_func)
             get_centroid(simplex, p_ce)
             if verbose:
                 print("initial simplex and centroid:")
@@ -120,13 +129,13 @@ if __name__ == '__main__':
 
             for i in range(1, 100):
                 update_point(simplex, p_ce, RHO, p_r)
-                cost(p_r, sample_idx)
+                cost_func(p_r, sample_idx)
 
                 if (p_r.fx < simplex.p[0].fx):
                     if verbose:
                         print("difference p_r.fx < simplex.p[0].fx", f'{abs(p_r.fx - simplex.p[0].fx):.20f}')
                     update_point(simplex, p_ce, RHO * CHI, p_e)
-                    cost(p_e, sample_idx)
+                    cost_func(p_e, sample_idx)
                     if p_e.fx < p_r.fx:
                         if verbose:
                             print("difference p_e.fx < p_r.fx", f'{abs(p_e.fx - p_r.fx):.20f}')
@@ -147,7 +156,7 @@ if __name__ == '__main__':
                             if verbose:
                                 print("difference p_r.fx < simplex.p[3].fx", f'{abs(p_r.fx - simplex.p[3].fx):.20f}')
                             update_point(simplex, p_ce, RHO * GAMMA, p_c)
-                            cost(p_c, sample_idx)
+                            cost_func(p_c, sample_idx)
                             if p_c.fx <= p_r.fx:
                                 if verbose:
                                     print("difference p_c.fx <= p_r.fx", f'{abs(p_c.fx - p_r.fx):.20f}')
@@ -157,7 +166,7 @@ if __name__ == '__main__':
                                 break  # out completely...
                         else:
                             update_point(simplex, p_ce, -GAMMA, p_c)
-                            cost(p_c, sample_idx)
+                            cost_func(p_c, sample_idx)
                             if p_c.fx <= simplex.p[3].fx:
                                 if verbose:
                                     print("difference p_c.fx <= simplex.p[3].fx",
