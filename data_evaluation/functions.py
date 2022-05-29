@@ -140,10 +140,19 @@ def get_phase_measured(sample_file_idx=0, mask=None):
 
     if mask is not None:
         f, r, b, s = f[mask], r[mask], b[mask], s[mask]
-    data_slice = (f < 850 * GHz) * (f > 300 * GHz)
+    data_slice = (f < 1000 * GHz) * (f > 250 * GHz)
 
     return f[data_slice], r[data_slice], b[data_slice], s[data_slice]
 
+
+def get_freq_idx(freqs):
+    f = f_axis()
+    print(f)
+    res = []
+    for freq in freqs:
+        res.append(np.argmin(np.abs(f/GHz-freq)))
+
+    return res
 
 if __name__ == '__main__':
     from consts import wide_mask
@@ -162,4 +171,7 @@ if __name__ == '__main__':
     # lam, R_avg = format_data_avg()
     # plot_R(lam, R_avg)
 
-    f, r, b, s  = get_phase_measured(sample_file_idx=10)
+    f, r, b, s = get_phase_measured(sample_file_idx=10)
+
+    # print(get_freq_idx([421., 521., 651., 801., 851., 951.]))
+    print(get_freq_idx([300, 351, 500, 600, 800, 951]))

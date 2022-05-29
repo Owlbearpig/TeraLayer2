@@ -4,7 +4,7 @@ import functions
 from consts import *
 from results import d_best
 from numpy import cos, sin, exp, array, arcsin, pi, conj, sum
-from functions import format_data, format_data_avg, lam_axis
+from functions import format_data, format_data_avg, lam_axis, get_phase_measured
 from model.multir_numba import multir_numba
 
 
@@ -15,6 +15,9 @@ class ExplicitEval:
         else:
             self.lam, self.R0 = format_data(data_mask, sample_file_idx)
             print(f'Idx of selected sample: {sample_file_idx}')
+
+        f, r, b, s = get_phase_measured(sample_file_idx=sample_file_idx, mask=data_mask)
+        self.freqs, self.ref_phase, self.bg_phase, self.sam_phase = f, r, b, s
 
         self.s_consts = self.set_semi_consts()
         self.unit_scale_factor = 1
@@ -69,16 +72,27 @@ class ExplicitEval:
         """
         return 1j * 2 * pi * n[k + 1] / self.lam
 
-    def explicit_reflectance(self, p):
-        return self.calculation(p * self.unit_scale_factor, self.s_consts)
+    def explicit_reflectance(self, p, return_magn=True):
+        return self.calculation(p * self.unit_scale_factor, self.s_consts, return_magn=return_magn)
 
     def error(self, p):
         R = self.explicit_reflectance(p)
         return sum((R-self.R0)*(R-self.R0))
 
+    def error_phase(self, p):
+        _, _, _, _, phi5, phi6 = self.explicit_reflectance(p, return_magn=False)
+        phi1_sam, phi2_sam, phi3_sam, phi4_sam = self.sam_phase[0:4]
+        phi1_ref, phi2_ref, phi3_ref, phi4_ref = self.ref_phase[0:4]
+        phi1, phi2, phi3, phi4 = phi1_sam-phi1_ref, phi2_sam-phi2_ref, phi3_sam-phi3_ref, phi4_sam-phi4_ref
+
+        return sum((phi6 - (phi1 - phi2))**2 + (phi5 - (phi3 - phi4))**2)
+
+    def combined_error(self, p):
+        return np.log10(self.error(p)) + np.log10(self.error_phase(p))
+
     @staticmethod
     @jit(cache=True, nopython=True)
-    def calculation(p, s_consts):
+    def calculation(p, s_consts, return_magn=True):
         """
         Note: g(k) = c(k) * d(k) - a(k) * b(k) in paper calculation is always 1.
         :param p: parameters
@@ -112,9 +126,11 @@ class ExplicitEval:
         m_22 = t0_22 + t1_22 + t2_22 + t3_22 + t4_22 + t5_22 + t6_22 + t7_22
 
         r = m_12 / m_22
-        R = (r * conj(r)).real
 
-        return R
+        if return_magn:
+            return (r * conj(r)).real
+        else:
+            return np.angle(r)
 
 
 if __name__ == '__main__':

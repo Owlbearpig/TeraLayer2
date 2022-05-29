@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from functions import (format_data, load_files, multir_numba, find_files,
-                       map_maskname, format_data_avg, get_phase_measured)
+                       map_maskname, format_data_avg, get_phase_measured, f_axis)
 from model.multir import multir
 from consts import *
 
@@ -44,20 +44,22 @@ def plot_result(p, fun=multir, mask=default_mask, sample_file_idx=0, x_lim=(0, 2
 
 
 def plot_measured_ampl(sample_idx=0, x_axis='wl'):
-    f, r, b, s = load_files(sample_file_idx=sample_idx)
+    f = f_axis()
+    r, b, s = load_files(sample_file_idx=sample_idx)
     lam, R = format_data()
 
     if x_axis == 'wl':
         x = lam / 1e-3
-        plt.xlim((0, 2))
-        plt.xlabel('THZ-Wavelenght (mm)')
+        plt.xlim((0, 1))
+        plt.xlabel('THZ-Wavelength (mm)')
     else:
         x = f / GHz
+        plt.xlim((0, 1000))
         plt.xlabel('THZ-Frequency (GHz)')
 
-    plt.plot(x, 10 * np.log10(r), label='reference')
-    plt.plot(x, 10 * np.log10(b), label='background')
-    plt.plot(x, 10 * np.log10(s), label=f'sample Kopf_1x_{sample_idx + 1:04}')
+    plt.plot(x, -10 * np.log10(r), label='reference')
+    plt.plot(x, -10 * np.log10(b), label='background')
+    plt.plot(x, -10 * np.log10(s), label=f'sample Kopf_1x_{sample_idx + 1:04}')
 
     # plt.ylim((0, 1.1))
     plt.ylabel('Amplitude (dB)')
@@ -135,7 +137,8 @@ def plot_thicknesses():
 
 
 if __name__ == '__main__':
-    # p = array([166.66331658291458, 497.98994974874375, 553.2110552763819]) * um_to_m
-    # plot_result(p, mask=custom_mask_420, sample_file_idx=10, x_lim=(0, 1), use_avg=True)
+    p = array([166.66331658291458, 497.98994974874375, 553.2110552763819]) * um_to_m
+    #plot_result(p, mask=custom_mask_420, sample_file_idx=10, x_lim=(0, 1), use_avg=False)
     plot_measured_phase(sample_idx=10)
     # plot_thicknesses()
+    plot_measured_ampl(sample_idx=10, x_axis="g")
