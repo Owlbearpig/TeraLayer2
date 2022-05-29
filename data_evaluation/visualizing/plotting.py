@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
-from functions import format_data, load_files, multir_numba, find_files, map_maskname, format_data_avg
+from functions import (format_data, load_files, multir_numba, find_files,
+                       map_maskname, format_data_avg, get_phase_measured)
 from model.multir import multir
 from consts import *
 
@@ -81,12 +82,10 @@ def plot_measured_phase(sample_idx=0, mask=None):
     :param sample_idx:
     :return:
     """
-    f, r, b, s = load_files(sample_file_idx=sample_idx, data_type='phase')
-    if mask is not None:
-        f, r, b, s = f[mask], r[mask], b[mask], s[mask]
-    data_slice = (f < 850 * GHz) * (f > 300 * GHz)
-    f, r, b, s = f[data_slice], np.unwrap(r[data_slice]), np.unwrap(b[data_slice]), np.unwrap(s[data_slice])
-    # f, r, b, s = f[data_slice], (r[data_slice]), (b[data_slice]), (s[data_slice])
+    f, r, b, s = get_phase_measured(sample_file_idx=sample_idx, mask=mask)
+
+    f, r, b, s = f, np.unwrap(r), np.unwrap(b), np.unwrap(s)
+
     lam = c0 / f
 
     plt.plot(f / GHz, r, label='reference')
@@ -136,7 +135,7 @@ def plot_thicknesses():
 
 
 if __name__ == '__main__':
-    p = array([166.66331658291458, 497.98994974874375, 553.2110552763819]) * um_to_m
-    plot_result(p, mask=custom_mask_420, sample_file_idx=10, x_lim=(0, 1), use_avg=True)
-    # plot_measured_phase(sample_idx=11)
+    # p = array([166.66331658291458, 497.98994974874375, 553.2110552763819]) * um_to_m
+    # plot_result(p, mask=custom_mask_420, sample_file_idx=10, x_lim=(0, 1), use_avg=True)
+    plot_measured_phase(sample_idx=10)
     # plot_thicknesses()

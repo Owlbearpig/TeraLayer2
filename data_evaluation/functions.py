@@ -50,7 +50,7 @@ def load_files(sample_file_idx=0, data_type='amplitude'):
 
     if data_type == 'amplitude':
         return r[:, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
-    else:  # phase data columns
+    else:  # phase data columns, ref values are also present in each measurement file
         return s[slice_0:slice_1, 4], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
 
 
@@ -134,6 +134,17 @@ def map_maskname(mask):
     return mask_map[mask]
 
 
+def get_phase_measured(sample_file_idx=0, mask=None):
+    f = f_axis()
+    r, b, s = load_files(sample_file_idx, data_type='phase')
+
+    if mask is not None:
+        f, r, b, s = f[mask], r[mask], b[mask], s[mask]
+    data_slice = (f < 850 * GHz) * (f > 300 * GHz)
+
+    return f[data_slice], r[data_slice], b[data_slice], s[data_slice]
+
+
 if __name__ == '__main__':
     from consts import wide_mask
     from visualizing.plotting import plot_R
@@ -148,5 +159,7 @@ if __name__ == '__main__':
     # lam, R = format_data(custom_mask_420, sample_file_idx=sample_idx)
     # print(lam, R)
 
-    lam, R_avg = format_data_avg()
-    plot_R(lam, R_avg)
+    # lam, R_avg = format_data_avg()
+    # plot_R(lam, R_avg)
+
+    f, r, b, s  = get_phase_measured(sample_file_idx=10)

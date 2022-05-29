@@ -16,15 +16,15 @@ from model.explicitEvalOptimizedClean import ExplicitEval
 mask = custom_mask_420
 sample_idx = 10
 enable_avg = False
-model_calc = True
+model_calc = False
 new_eval = ExplicitEval(mask, sample_file_idx=sample_idx, enable_avg=enable_avg)
 
 # should be resolution of axes d1, d2, d3
 rez_x, rez_y, rez_z = 200, 200, 200
 # rez_x, rez_y, rez_z = 1000, 1000, 1000
 
-#lb = array([0.000001, 0.000400, 0.000001]) # realistic bounds
-#ub = array([0.000100, 0.000700, 0.000100])
+# lb = array([0.000001, 0.000400, 0.000001]) # realistic bounds
+# ub = array([0.000100, 0.000700, 0.000100])
 lb = array([0.000001, 0.000001, 0.000001])
 ub = array([0.001, 0.001, 0.001])
 
@@ -64,10 +64,6 @@ except FileNotFoundError:
                 grid_vals[i, j, k] = new_eval.error(p)
 
     np.save(file_name, grid_vals)
-
-# grid_vals = np.load('1000_1000_1000_rez_xyz_cubed_grid-lb_ub_edges.npy')
-# grid_vals = np.load('250_250_250_rez_xyz_cubed_grid-lb_ub_edges.npy')
-# grid_vals = np.load('100_200_100_rez_xyz_1-100_500-700_1-100_um.npy')
 
 grid_vals = np.log10(grid_vals)
 
