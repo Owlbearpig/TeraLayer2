@@ -33,7 +33,8 @@ def map_plot(error_func):
             for k in range(rez_z):
                 p = array([grd_x[i], grd_y[j], grd_z[k]])
                 grid_vals[i, j, k] = error_func(p)
-
+            print(i, j)
+    grid_vals_og = grid_vals.copy()
     grid_vals = np.log10(grid_vals)
 
     fig = plt.figure()
@@ -75,3 +76,5 @@ def map_plot(error_func):
 
     amp_slider.on_changed(update)
     plt.show()
+
+    return grid_vals_og

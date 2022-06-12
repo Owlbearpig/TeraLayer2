@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import numpy as np
+
 from functions import (format_data, load_files, multir_numba, find_files,
                        map_maskname, format_data_avg, get_phase_measured, f_axis)
 from model.multir import multir
@@ -78,6 +80,11 @@ def plot_R(lam, R):
     plt.show()
 
 
+"""
+475 - 575 GHz
+"""
+
+
 def plot_measured_phase(sample_idx=0, mask=None):
     """
     check commented out parts ... (unwrapping)
@@ -86,14 +93,26 @@ def plot_measured_phase(sample_idx=0, mask=None):
     """
     f, r, b, s = get_phase_measured(sample_file_idx=sample_idx, mask=mask)
 
-    f, r, b, s = f, np.unwrap(r), np.unwrap(b), np.unwrap(s)
+    data_slice = (f > 0 * GHz) * (f < 1000 * GHz)
 
-    lam = c0 / f
+    r, s = r[data_slice], s[data_slice]
+    r, s = np.unwrap(r), np.unwrap(s)
+    r, s = np.abs(r), np.abs(s)
+
+    fit_slice = (f > 475 * GHz) * (f < 575 * GHz)
+
+    pr, ps = np.polyfit(f[fit_slice] / GHz, r[fit_slice], 1), np.polyfit(f[fit_slice] / GHz, s[fit_slice], 1)
+    r -= pr[1]
+    s -= ps[1]
+
+    plt.plot(f / GHz, r, label='ref')
+    plt.plot(f[fit_slice] / GHz, r[fit_slice])
+    plt.plot(f / GHz, pr[0] * f / GHz, label='lin. interpol ref')
+    plt.plot(f / GHz, ps[0] * f / GHz, label='lin. interpol sam')
 
     plt.plot(f / GHz, r, label='reference')
-    # plt.plot(lam / 1e-3, b, label='background')
     plt.plot(f / GHz, s, label=f'sample Kopf_1x_{sample_idx + 1:04}')
-    plt.plot(f / GHz, abs(r - s), label=f'abs(r-s)')
+    # plt.plot(f / GHz, (r - s), label=f'(r-s)')
     # plt.xlim((0, 2))
     # plt.ylim((0, 1.1))
     plt.xlabel('Frequency (GHz)')
@@ -138,7 +157,7 @@ def plot_thicknesses():
 
 if __name__ == '__main__':
     p = array([166.66331658291458, 497.98994974874375, 553.2110552763819]) * um_to_m
-    #plot_result(p, mask=custom_mask_420, sample_file_idx=10, x_lim=(0, 1), use_avg=False)
+    # plot_result(p, mask=custom_mask_420, sample_file_idx=10, x_lim=(0, 1), use_avg=False)
     plot_measured_phase(sample_idx=10)
     # plot_thicknesses()
-    plot_measured_ampl(sample_idx=10, x_axis="g")
+    # plot_measured_ampl(sample_idx=10, x_axis="g")

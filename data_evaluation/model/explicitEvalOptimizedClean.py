@@ -72,8 +72,8 @@ class ExplicitEval:
         """
         return 1j * 2 * pi * n[k + 1] / self.lam
 
-    def explicit_reflectance(self, p, return_magn=True):
-        return self.calculation(p * self.unit_scale_factor, self.s_consts, return_magn=return_magn)
+    def explicit_reflectance(self, p, return_magn=True, return_r=False):
+        return self.calculation(p * self.unit_scale_factor, self.s_consts, return_magn, return_r)
 
     def error(self, p):
         R = self.explicit_reflectance(p)
@@ -91,8 +91,8 @@ class ExplicitEval:
         return np.log10(self.error(p)) + np.log10(self.error_phase(p))
 
     @staticmethod
-    @jit(cache=True, nopython=True)
-    def calculation(p, s_consts, return_magn=True):
+    #@jit(cache=True, nopython=True)
+    def calculation(p, s_consts, return_magn=True, return_r=False):
         """
         Note: g(k) = c(k) * d(k) - a(k) * b(k) in paper calculation is always 1.
         :param p: parameters
@@ -126,6 +126,9 @@ class ExplicitEval:
         m_22 = t0_22 + t1_22 + t2_22 + t3_22 + t4_22 + t5_22 + t6_22 + t7_22
 
         r = m_12 / m_22
+
+        if return_r:
+            return r
 
         if return_magn:
             return (r * conj(r)).real

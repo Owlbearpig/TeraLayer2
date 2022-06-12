@@ -37,6 +37,7 @@ default_mask = np.arange(ni, nf, nn)
 default_mask_hr = np.arange(ni, nf, 1)  # default mask high rez
 
 wide_mask = np.arange(250, 1000, 40)
+all_freqs_lowend = np.arange(0, 1000, 1)
 full_range_mask = np.arange(250, 1000, 1)
 full_range_mask_new = np.arange(420, 1000, 1)  # based on plot of reference and background, big water line at 1 THz
 full_range_mask_new_low_rez = np.arange(450, 1000, 100)
