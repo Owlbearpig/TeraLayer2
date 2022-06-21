@@ -1,8 +1,7 @@
 import numpy as np
 from numba import jit
-import functions
 from consts import *
-from results import d_best
+
 from numpy import cos, sin, exp, array, arcsin, pi, conj, sum
 from functions import format_data, format_data_avg, lam_axis, get_phase_measured
 from model.multir_numba import multir_numba
@@ -70,6 +69,7 @@ class ExplicitEval:
         :param k: di index
         :return: array with length == len(lam)
         """
+
         return 1j * 2 * pi * n[k + 1] / self.lam
 
     def explicit_reflectance(self, p, return_magn=True, return_r=False):
@@ -141,6 +141,7 @@ if __name__ == '__main__':
     Problem: Runs slower for large frequency arrays compared to old implementation, 
     even though for low frequency count (6 freqs.) it's faster... why? Array calculations?
     """
+    from results import d_best
     from functions import avg_runtime
     from explicitEvalOptimized import explicit_reflectance
 

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-
+from model.explicitEvalOptimizedClean import ExplicitEval
 from functions import (format_data, load_files, multir_numba, find_files,
                        map_maskname, format_data_avg, get_phase_measured, f_axis)
 from model.multir import multir
@@ -94,9 +94,14 @@ def plot_measured_phase(sample_idx=0, mask=None):
     f, r, b, s = get_phase_measured(sample_file_idx=sample_idx, mask=mask)
 
     data_slice = (f > 0 * GHz) * (f < 1000 * GHz)
+    #data_slice = (f > 0 * GHz)
 
-    r, s = r[data_slice], s[data_slice]
-    r, s = np.unwrap(r), np.unwrap(s)
+    r, s, b = r[data_slice], s[data_slice], b[data_slice]
+
+    
+    r, s, b = np.unwrap(r), np.unwrap(s), np.unwrap(b)
+
+    """
     r, s = np.abs(r), np.abs(s)
 
     fit_slice = (f > 475 * GHz) * (f < 575 * GHz)
@@ -104,21 +109,19 @@ def plot_measured_phase(sample_idx=0, mask=None):
     pr, ps = np.polyfit(f[fit_slice] / GHz, r[fit_slice], 1), np.polyfit(f[fit_slice] / GHz, s[fit_slice], 1)
     r -= pr[1]
     s -= ps[1]
+    """
 
-    plt.plot(f / GHz, r, label='ref')
-    plt.plot(f[fit_slice] / GHz, r[fit_slice])
-    plt.plot(f / GHz, pr[0] * f / GHz, label='lin. interpol ref')
-    plt.plot(f / GHz, ps[0] * f / GHz, label='lin. interpol sam')
+    #plt.plot(f[fit_slice] / GHz, r[fit_slice])
+    #plt.plot(f / GHz, pr[0] * f / GHz, label='lin. interpol ref')
+    #plt.plot(f / GHz, ps[0] * f / GHz, label='lin. interpol sam')
 
     plt.plot(f / GHz, r, label='reference')
     plt.plot(f / GHz, s, label=f'sample Kopf_1x_{sample_idx + 1:04}')
-    # plt.plot(f / GHz, (r - s), label=f'(r-s)')
+    #plt.plot(f / GHz, (s - r), label=f'(s-r)')
     # plt.xlim((0, 2))
     # plt.ylim((0, 1.1))
     plt.xlabel('Frequency (GHz)')
     plt.ylabel('phase (rad)')
-    plt.legend()
-    plt.show()
 
 
 def plot_thicknesses():
@@ -154,10 +157,45 @@ def plot_thicknesses():
         plt.legend()
         plt.show()
 
+def plot_ref(sample_file_idx=10):
+    f = f_axis()
+    r_phase, b_phase, s_phase = load_files(sample_file_idx, data_type='phase')
+    r, b, s = load_files(sample_file_idx, data_type='amplitude')
+    rz = r * np.exp(1j*r_phase)
+    plt.plot(f, 20*np.log10(np.abs(rz)))
+    plt.show()
+
+
 
 if __name__ == '__main__':
-    p = array([166.66331658291458, 497.98994974874375, 553.2110552763819]) * um_to_m
+    # p = array([166.66331658291458, 497.98994974874375, 553.2110552763819]) * um_to_m
     # plot_result(p, mask=custom_mask_420, sample_file_idx=10, x_lim=(0, 1), use_avg=False)
-    plot_measured_phase(sample_idx=10)
+    # plot_measured_phase(sample_idx=59)
+
+    mask = np.arange(0, 4263, 1)
+
+    new_model = ExplicitEval(data_mask=mask, sample_file_idx=10)
+    p = array([548.1909547738694, 819.2763819095478, 116.46231155778895]) * um_to_m
+    p = array([2860, 4997, 0]) * um_to_m
+    r = new_model.explicit_reflectance(p, return_magn=False, return_r=True)
+
+    freqs = new_model.freqs
+
+    plt.plot(new_model.freqs / GHz, np.abs(r), label="model abs(r)")
+    plt.xlabel("frequency (GHz)")
+    plt.show()
+    #plt.plot(new_model.freqs / GHz, np.unwrap(np.angle(r)), label="model")
+    dt = 1 / np.mean(np.diff(freqs))
+
+    t = mask * dt
+
+    r_fd = np.fft.fft(r, len(r))
+
+    plt.plot(t*c0, np.abs(r_fd))
+    plt.xlabel("length (m)")
+    plt.show()
+
+
     # plot_thicknesses()
     # plot_measured_ampl(sample_idx=10, x_axis="g")
+    # plot_ref()

@@ -18,9 +18,24 @@ optimization_results_dir = Path(ROOT_DIR / 'measurementComparisonResults')
 data_file_cnt = 100
 
 rad = 180 / pi
-thea = 8 * pi / 180
+# thea = 8 * pi / 180
+thea = 10 * pi / 180
 a = 1
-n = [1, 1.50, 2.8, 1.50, 1]
+
+"""
+20 1/cm POM 0.0477
+0.25 1/cm PTFE 0.0006
+@1 THz
+
+5 1/cm POM 0.0120
+~0.25 1/cm PTFE 0.0006
+@0.5 THz
+
+"""
+
+#n = [1, 1.50, 2.8, 1.50, 1]
+#n = [1, 1.35+0.0006*1j, 1.68+0.0120*1j, 1, 1]
+n = [1, 1.35, 1.68, 1, 1]
 
 nm = 10 ** 9
 um = 10 ** 6

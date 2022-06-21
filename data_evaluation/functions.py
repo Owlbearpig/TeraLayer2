@@ -3,6 +3,7 @@ from model.multir_numba import multir_numba
 import pandas as pd
 from consts import *
 import time
+import string
 
 
 def find_files(top_dir=ROOT_DIR, search_str='', file_extension=''):
@@ -29,7 +30,8 @@ def load_ref_file():
     r = read_csv(data_dir / 'ref_1000x.csv')
     slice_0, slice_1 = settings['data_range_idx']
 
-    return r[slice_0:slice_1]
+    return r[:]
+    #return r[slice_0:slice_1]
 
 
 def f_axis():
@@ -49,9 +51,11 @@ def load_files(sample_file_idx=0, data_type='amplitude'):
     s = read_csv(data_dir / 'Kopf_1x' / f'Kopf_1x_{sample_file_idx:04}')
 
     if data_type == 'amplitude':
-        return r[:, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
+        #return r[:, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
+        return r[:, 1], b[:, 1], s[:, 1]
     else:  # phase data columns, ref values are also present in each measurement file
-        return s[slice_0:slice_1, 4], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
+        #return s[slice_0:slice_1, 4], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
+        return s[:, 4], b[:, 2], s[:, 2]
 
 
 def format_data(mask=None, sample_file_idx=0, verbose=True):
@@ -142,7 +146,27 @@ def get_phase_measured(sample_file_idx=0, mask=None):
         return f[mask], r[mask], b[mask], s[mask]
     else:
         full_range = (f < 1000 * GHz) * (f > 250 * GHz)
+        # full_range = (f > 250 * GHz)
         return f[full_range], r[full_range], b[full_range], s[full_range]
+
+
+def get_full_measurement(sample_file_idx=0, mask=None, f_slice=None):
+    f = f_axis()
+    r_pha, b_pha, s_pha = load_files(sample_file_idx, data_type='phase')
+    r_amp, b_amp, s_amp = load_files(sample_file_idx, data_type='amplitude')
+
+    r_z, b_z, s_z = r_amp*np.exp(1j*r_pha), b_amp*np.exp(1j*b_pha), s_amp*np.exp(1j*s_pha)
+
+    if mask is not None:
+        return f[mask], r_z[mask], b_z[mask], s_z[mask]
+    else:
+        full_range = (f > -5000 * GHz)
+        if f_slice is None:
+            full_range = (f <= 1600 * GHz)*(f >= -100 * GHz)
+        else:
+            full_range = (f >= f_slice[0] * GHz)*(f <= f_slice[1] * GHz)
+        return f[full_range], r_z[full_range], b_z[full_range], s_z[full_range]
+        #return f[234:-2702], r_z[234:-2702], b_z[234:-2702], s_z[234:-2702]
 
 
 
@@ -150,9 +174,41 @@ def get_freq_idx(freqs):
     f = f_axis()
     res = []
     for freq in freqs:
-        res.append(np.argmin(np.abs(f/GHz-freq)))
+        res.append(np.argmin(np.abs(f / GHz - freq)))
 
     return res
+
+
+def do_fft(t, y):
+    n = len(y)
+    dt = np.float(np.mean(np.diff(t)))
+    Y = np.fft.fft(y, n)
+    f = np.fft.fftfreq(len(t), dt)
+    idx_range = f > 0
+
+    return f[idx_range], Y[idx_range]
+
+def do_ifft(z):
+    pass
+
+
+def mult_2x2_matrix_chain(arr_in):
+    # setup einsum_str (input shape)
+    cnt = len(arr_in)
+    s0 = string.ascii_lowercase + string.ascii_uppercase
+    einsum_str = ''
+    for i in range(cnt):
+        einsum_str += s0[i] + s0[i + 1] + s0[cnt + 2] + ','
+
+    # remove last comma
+    einsum_str = einsum_str[:-1]
+    # set output part of einsum_str
+    einsum_str += '->' + s0[0] + s0[cnt] + s0[cnt + 2]
+
+    M_out = np.einsum(einsum_str, *arr_in)
+
+    return M_out
+
 
 if __name__ == '__main__':
     from consts import wide_mask
@@ -171,7 +227,18 @@ if __name__ == '__main__':
     # lam, R_avg = format_data_avg()
     # plot_R(lam, R_avg)
 
-    f, r, b, s = get_phase_measured(sample_file_idx=10)
+    #f, r, b, s = get_phase_measured(sample_file_idx=10)
 
     # print(get_freq_idx([421., 521., 651., 801., 851., 951.]))
-    print(get_freq_idx([300, 351, 500, 600, 800, 951]))
+    #print(get_freq_idx([300, 351, 500, 600, 800, 951]))
+    np.random.seed(123)
+
+    cnt, m = 3, 1
+    arr_in = np.random.random((cnt, 2, 2, m))
+    A = arr_in[0, :, :, 0]
+    B = arr_in[1, :, :, 0]
+    C = arr_in[2, :, :, 0]
+    out = np.dot(np.dot(A, B), C)
+    #print(arr_in[0, :, :, 0])
+    print(mult_2x2_matrix_chain(arr_in)[:, :, 0])
+    print(out[:, :])

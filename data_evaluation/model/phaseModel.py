@@ -14,6 +14,7 @@ class PhaseEval():
         self.new_model = ExplicitEval(data_mask=mask, sample_file_idx=sample_idx)
 
         f, r, b, s = get_phase_measured(sample_file_idx=sample_idx, mask=mask)
+        self.phase_sam_wrapped = s.copy()
 
         r, s = np.unwrap(r), np.unwrap(s)
 
@@ -22,6 +23,7 @@ class PhaseEval():
         pr, ps = np.polyfit(f[fit_slice] / GHz, r[fit_slice], 1), np.polyfit(f[fit_slice] / GHz, s[fit_slice], 1)
         r -= pr[1]
         s -= ps[1]
+
 
         self.phase_diff = s - r
 
@@ -46,16 +48,23 @@ class PhaseEval():
         r = self.new_model.explicit_reflectance(p, return_magn=False, return_r=True)
         phase = np.angle(r)
 
-        shift = np.abs(phase_diff_filtered[0] - np.unwrap(phase)[0])
+        shift = np.abs(self.phase_diff[0] - np.unwrap(phase)[0])
         phase = np.unwrap(phase) - shift
 
         return np.sum((self.phase_diff - phase) ** 2)
+
+    def wrappedphase_loss(self, p):
+        r = self.new_model.explicit_reflectance(p, return_magn=False, return_r=True)
+        phase = np.angle(r)
+
+        return np.sum((self.phase_sam_wrapped - phase) ** 2)
+
 
 if __name__ == '__main__':
     dotsize = 2
     sample_idx = 10
     mask = full_range_mask  # new_mask
-    mask = np.arange(250, 700, 10)
+    mask = np.arange(0, 880, 1)
     # mask = np.arange(475, 575, 1)
     # fit slice measured: 475 - 575 GHz
 
@@ -64,8 +73,13 @@ if __name__ == '__main__':
     # p = array([44, 630, 44]) * um_to_m
     # p = array([44, 74, 44]) * um_to_m
     p = array([106.42211055276383, 743.9748743718594, 86.34170854271358]) * um_to_m
-    p = array([96.3819095477387, 11.040201005025127, 96.3819095477387]) * um_to_m
+    p = array([40, 640, 75]) * um_to_m
     r = new_model.explicit_reflectance(p, return_magn=False, return_r=True)
+
+    plt.plot(new_model.freqs, np.angle(r))
+    plt.show()
+
+
     phase = np.angle(r)  # np.unwrap(np.angle(-1*r))
 
     offset = 0
@@ -136,8 +150,6 @@ if __name__ == '__main__':
     plt.ylabel('phase (rad)')
     plt.legend()
     """
-
-
 
     plt.figure()
     shift = np.abs(phase_diff_filtered[0]-np.unwrap(phase)[0])
