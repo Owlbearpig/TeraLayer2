@@ -162,7 +162,7 @@ def get_full_measurement(sample_file_idx=0, mask=None, f_slice=None):
     else:
         full_range = (f > -5000 * GHz)
         if f_slice is None:
-            full_range = (f <= 1600 * GHz)*(f >= -100 * GHz)
+            full_range = (f <= 1900 * GHz)*(f >= -100 * GHz)
         else:
             full_range = (f >= f_slice[0] * GHz)*(f <= f_slice[1] * GHz)
         return f[full_range], r_z[full_range], b_z[full_range], s_z[full_range]
