@@ -36,7 +36,7 @@ grd_z = np.linspace(lb[2], ub[2], rez_z)
 file_name = f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_' \
             f'{int(lb[0] * um)}-{int(ub[0] * um)}_' \
             f'{int(lb[1] * um)}-{int(ub[1] * um)}_' \
-            f'{int(lb[2] * um)}-{int(ub[2] * um)}'
+            f'{int(lb[2] * um)}-{int(ub[2] * um)}_newRI_'
 
 if model_calc:
     file_name += f'_model_calc'

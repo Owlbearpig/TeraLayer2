@@ -169,7 +169,7 @@ def butter_bandpass(lowcut, highcut, fs, order=5):
     b, a = signal.butter(order, [low, high], btype='band')
     return b, a
 
-def butter_bandpass_filter(data, lowcut, highcut, fs, order=5, plot = False):
+def butter_bandpass_filter(data, lowcut, highcut, fs, order=4, plot = False):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     f = signal.filtfilt(b, a, data)
     if plot:
@@ -178,11 +178,21 @@ def butter_bandpass_filter(data, lowcut, highcut, fs, order=5, plot = False):
     return f
 
 #x_ref = prepare_ref()
+f, r, b, s = get_full_measurement(sample_file_idx=0, f_slice=(-100, 2100))
 
-f, r, b, s = get_full_measurement(sample_file_idx=56, f_slice=(-100, 1700))
+r, b, s = np.zeros_like(r), np.zeros_like(b), np.zeros_like(s)
+for i in range(101):
+    _, ri, bi, si = get_full_measurement(sample_file_idx=i, f_slice=(-100, 2100))
+    r += ri
+    b += bi
+    s += si
+
+r /= 100
+b /= 100
+s /= 100
 
 print(np.mean(np.diff(f))/GHz)
-z_pad = len(r)*10
+z_pad = len(r)*15
 sl = z_pad / 2
 fs = 2 * (np.mean(np.diff(f))/GHz) * sl * THz / 1000
 
@@ -213,7 +223,7 @@ neg_freq_zero_pad = zeros(sum(pos_freqs) - sum(neg_freqs))
 #shift = 1000
 #x = np.roll(x, shift)
 
-window = windows.tukey(int(len(t_fun)*1), 0.95)
+window = windows.tukey(int(len(t_fun)*1), 0.4)
 #window = np.concatenate((zeros(shift), window))
 window = np.concatenate((window, zeros(len(x)-len(window))))
 
@@ -238,13 +248,13 @@ plt.show()
 x = ifft(x)
 x = np.roll(x, 1000)
 
-lc, hc = 0.3, 1.7
+lc, hc = 0.1, 2.0
 
 x = butter_bandpass_filter(x, lowcut=lc*THz, highcut=hc*THz, plot=True, fs=fs)
 #x = highpassfilt(x)
 #x = lowpassfilt(x)
 
-x /= max(abs(x))
+#x /= max(abs(x))
 
 t = np.linspace(0, len(x) / fs, len(x))
 t *= 10**12
@@ -281,33 +291,46 @@ print(res)
 """
 """
 x_mod = np.zeros_like(x)
-x_mod[1018] = 1
-x_mod[1034] = -1
-x_mod[1303] = -0.95
-x_mod[1319] = -0.85
+x_mod[1019] = 1
+x_mod[1032] = -1
+x_mod[1274] = -1
+x_mod[1289] = -1
 """
+"""
+# sample #10
 x_mod = np.zeros_like(x)
-x_mod[1017] = 1
-x_mod[1030] = -1
-x_mod[1272] = -1
-x_mod[1287] = -1
+x_mod[1028] = 1
+x_mod[1047] = -1
+x_mod[1398] = -1
+x_mod[1420] = -1
+"""
+# sample #80
+x_mod = np.zeros_like(x)
+#x_mod[1040] = -0.04
+x_mod[1028] = 0.080
+x_mod[1057] = -0.075
+x_mod[1488] = -0.057
+x_mod[1511] = -0.060
 
 x_mod = butter_bandpass_filter(x_mod, lowcut=lc*THz, highcut=hc*THz, plot=False, fs=fs)
 
 #diff = np.diff([t[1021], t[1030], t[1289], t[1304]])
-diff = np.diff([t[1017], t[1030], t[1272], t[1287]])
+diff = np.diff([t[1028], t[1057], t[1488], t[1511]])
 dt = np.mean(np.diff(t))
 print(f"delta t: {dt}")
 print(f"t diff (ps): {diff}")
-n = np.array([1.5, 3.0, 1.5])
-print(f"thicknesses (um): {0.5*(diff/10**12)*(c0/n) * um}")
+n = np.array([1.5, 2.8, 1.5])
+angle = 8*np.pi/180
+
+print(f"thicknesses (um): {0.5*(diff/10**12)*(c0/n) * um * np.cos(angle)}")
 
 plt.figure()
 plt.plot(x, label="t fun")
 
-x_mod /= max(abs(x_mod))
+#x_mod /= max(abs(x_mod))
 
 plt.plot(x_mod, label="x mod")
+plt.xlim((500, 2000))
 plt.legend()
 plt.show()
 

@@ -59,7 +59,7 @@ class PaperReflectanceModel:
         self.one = np.ones_like(freq_axis)
         pom_n, ptfe_n = refractive_index(freq_axis)
         #n = [ptfe_n, pom_n, 1.1*np.ones_like(freq_axis)]
-        n = [1.5 * self.one, 3.0 * self.one, 1.5 * self.one]
+        n = [1.5 * self.one, 2.8 * self.one, 1.5 * self.one]
 
         # self.n should have shape (self.N + 2, len(freq_axis))
         self.n = np.array([np.ones_like(freq_axis), *n, np.ones_like(freq_axis)])
@@ -86,7 +86,7 @@ class PaperReflectanceModel:
         p = np.array([0, *p.copy(), 0])  # first and last layer are semi-infinite
         for i in range(0, self.N + 2):
             #self.delta[i] = omega * n[i] * p[i] * cos(theta[i]) / c0
-            self.delta[i] = omega * n[i] * p[i]  / (c0 * cos(theta[i]))
+            self.delta[i] = omega * n[i] * p[i] / (c0 * cos(theta[i]))
 
     def calc_fresnel(self):
         t = self.theta
@@ -148,7 +148,7 @@ if __name__ == '__main__':
 
     new_r_model = PaperReflectanceModel(freq_axis=freqs)
 
-    p0 = array([40.0, 640.0, 75.0]) * um_to_m
+    p0 = array([45.0, 620.0, 45.0]) * um_to_m
     #p0 = array([2000.0, 8500.0, 0.0]) * um_to_m
 
     # p0 = array([2860.0, 0.0, 0.0]) * um_to_m
@@ -167,7 +167,9 @@ if __name__ == '__main__':
     #refl -= np.mean(np.abs(refl))
 
     refl_fd0 = np.fft.fft(refl, len(refl))
-    
+    plt.legend()
+    plt.show()
+
     plt.figure()
     df = np.mean(np.diff(freqs))
     dt = 1 / df
