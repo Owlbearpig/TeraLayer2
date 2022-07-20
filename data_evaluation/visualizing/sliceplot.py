@@ -50,6 +50,8 @@ else:
     file_name += f'_sample_idx{sample_idx}' * (not model_calc)
 file_name += '.npy'
 
+file_name = str(Path('plot_data') / file_name)
+
 # Cache ;)
 try:
     grid_vals = np.load(file_name)

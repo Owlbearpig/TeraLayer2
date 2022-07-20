@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
-from data_evaluation.functions import get_full_measurement
+from functions import get_full_measurement
 from numpy.fft import ifft, fftfreq, fft, rfft, irfft
 from numpy import zeros
 from scipy import signal
 import numpy as np
 from scipy.signal import windows
-from data_evaluation.consts import c0, um
+from consts import c0, um
 
 GHz = 10 ** 9
 THz = 10 ** 12
@@ -205,7 +205,7 @@ print(np.mean(np.diff(f))/GHz)
 z_pad = len(r)*15
 sl = z_pad / 2
 fs = 2 * (np.mean(np.diff(f))/GHz) * sl * THz / 1000
-
+print(f"!!!!!!!!fs {fs}")
 pos_freqs = f > 0
 neg_freqs = f < 0
 print("neg. freq. cnt", sum(neg_freqs))
