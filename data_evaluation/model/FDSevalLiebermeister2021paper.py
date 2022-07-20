@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
-from functions import get_full_measurement
+from data_evaluation.functions import get_full_measurement
 from numpy.fft import ifft, fftfreq, fft, rfft, irfft
 from numpy import zeros
 from scipy import signal
 import numpy as np
 from scipy.signal import windows
-from consts import c0, um
+from data_evaluation.consts import c0, um
 
 GHz = 10 ** 9
 THz = 10 ** 12
@@ -178,18 +178,28 @@ def butter_bandpass_filter(data, lowcut, highcut, fs, order=4, plot = False):
     return f
 
 #x_ref = prepare_ref()
-f, r, b, s = get_full_measurement(sample_file_idx=0, f_slice=(-100, 2100))
+f, r, b, s = get_full_measurement(sample_file_idx=0, f_slice=(0, 3500))
 
 r, b, s = np.zeros_like(r), np.zeros_like(b), np.zeros_like(s)
-for i in range(101):
-    _, ri, bi, si = get_full_measurement(sample_file_idx=i, f_slice=(-100, 2100))
+for i in range(1):
+    _, ri, bi, si = get_full_measurement(sample_file_idx=i, f_slice=(0, 3500))
     r += ri
     b += bi
     s += si
 
-r /= 100
-b /= 100
-s /= 100
+r /= 1
+b /= 1
+s /= 1
+
+r = r - b
+s = s - b
+
+from scipy.signal import savgol_filter
+
+plt.figure('fft phase')
+plt.plot(np.unwrap(np.arctan2(s.imag, s.real)))
+plt.show()
+
 
 print(np.mean(np.diff(f))/GHz)
 z_pad = len(r)*15
@@ -203,7 +213,9 @@ print("pos. freq. cnt:", sum(pos_freqs))
 
 t_fun = (s - b) / (r - b)
 
-x = t_fun
+x = np.concatenate((s, np.flip(np.conjugate(s[1:]))))
+
+#x = t_fun
 plt.figure()
 plt.plot(f, 20 * np.log10(np.abs(r)), label="ref")
 plt.plot(f, 20 * np.log10(np.abs(s)), label="sam")
@@ -212,9 +224,10 @@ plt.plot(f, 20 * np.log10(np.abs(t_fun)), label="t_func")
 plt.legend()
 plt.show()
 
-zero_pad = zeros(z_pad)
-x = np.concatenate((x, zero_pad))
-
+print(len(x))
+zero_pad = zeros(100*len(t_fun)).astype(np.complex)
+x = np.concatenate((x[:len(x)//2], zero_pad, x[len(x)//2:]))
+#x = np.concatenate((x, zero_pad))
 # f = fftfreq()
 
 neg_freq_zero_pad = zeros(sum(pos_freqs) - sum(neg_freqs))
@@ -223,18 +236,33 @@ neg_freq_zero_pad = zeros(sum(pos_freqs) - sum(neg_freqs))
 #shift = 1000
 #x = np.roll(x, shift)
 
-window = windows.tukey(int(len(t_fun)*1), 0.4)
+# window = windows.hann(len(x))
+# plt.figure('window')
+# plt.plot(window)
+# plt.show()
+#
+# window = fft(window)
+# #window = np.concatenate((window, np.flip(np.conjugate(window[1:]))))
+# plt.figure('window fft')
+# plt.plot(np.abs(window))
+# plt.yscale('log')
+# plt.show()
+
 #window = np.concatenate((zeros(shift), window))
-window = np.concatenate((window, zeros(len(x)-len(window))))
+#window = np.concatenate((window, zeros(len(x)-len(window))))
+#window = np.concatenate((window, zeros(len(zero_pad))))
 
 plt.figure()
-plt.plot(window, label="window")
-plt.plot(x*window, label="signal*window")
-plt.plot(x, label="signal")
+#plt.plot(window, label="window")
+#plt.plot(x*window, label="signal*window")
+plt.plot(np.abs(x), label="signal")
+plt.yscale('log')
 plt.legend()
 plt.show()
 
-x = x*window
+#x = x '* window
+
+# print(x)
 
 #x = np.concatenate((zero_pad, t_fun[436:]))
 
@@ -245,12 +273,15 @@ plt.legend()
 plt.show()
 """
 
+from numpy.fft import fftshift, ifftshift
+
 x = ifft(x)
-x = np.roll(x, 1000)
+#x = savgol_filter(x, 71, 3)
+#x = np.roll(x, 1000)
 
 lc, hc = 0.1, 2.0
 
-x = butter_bandpass_filter(x, lowcut=lc*THz, highcut=hc*THz, plot=True, fs=fs)
+#x = butter_bandpass_filter(x, lowcut=lc*THz, highcut=hc*THz, plot=True, fs=fs)
 #x = highpassfilt(x)
 #x = lowpassfilt(x)
 
@@ -308,11 +339,11 @@ x_mod[1420] = -1
 x_mod = np.zeros_like(x)
 #x_mod[1040] = -0.04
 x_mod[1028] = 0.080
-x_mod[1057] = -0.075
-x_mod[1488] = -0.057
+#x_mod[1057] = -0.075
+#x_mod[1488] = -0.057
 x_mod[1511] = -0.060
 
-x_mod = butter_bandpass_filter(x_mod, lowcut=lc*THz, highcut=hc*THz, plot=False, fs=fs)
+#x_mod = butter_bandpass_filter(x_mod, lowcut=lc*THz, highcut=hc*THz, plot=False, fs=fs)
 
 #diff = np.diff([t[1021], t[1030], t[1289], t[1304]])
 diff = np.diff([t[1028], t[1057], t[1488], t[1511]])
@@ -325,13 +356,17 @@ angle = 8*np.pi/180
 print(f"thicknesses (um): {0.5*(diff/10**12)*(c0/n) * um * np.cos(angle)}")
 
 plt.figure()
-plt.plot(x, label="t fun")
+print(' mean ', np.mean(x.imag))
+plt.plot(x.real, label='x real')
+plt.plot(x.imag, label='x imag')
+plt.legend()
+plt.show()
 
 #x_mod /= max(abs(x_mod))
 
-plt.plot(x_mod, label="x mod")
-plt.xlim((500, 2000))
-plt.legend()
-plt.show()
+# plt.plot(x_mod, label="x mod")
+# #plt.xlim((500, 2000))
+# plt.legend()
+# plt.show()
 
 

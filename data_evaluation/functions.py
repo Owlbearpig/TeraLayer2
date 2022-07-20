@@ -1,7 +1,7 @@
 from numpy import sum
-from model.multir_numba import multir_numba
+from data_evaluation.model.multir_numba import multir_numba
 import pandas as pd
-from consts import *
+from data_evaluation.consts import *
 import time
 import string
 
