@@ -25,7 +25,7 @@ def pulse(t):
 
 fig, (ax1, ax2) = plt.subplots(2, 1)
 
-t = np.linspace(0,30,2000)
+t = np.linspace(0, 30, 2000)
 y = pulse(t)
 
 f, Y = do_fft(t, y)

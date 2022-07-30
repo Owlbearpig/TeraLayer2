@@ -4,9 +4,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import signal
 from scipy.signal import windows
+import os
 
-ref_file = r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\ref_1000x.csv"
-bkg_file = r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\BG_1000.csv"
+if os.name == 'posix':
+    ref_file = r"/home/alex/PycharmProjects/TeraLayer2/data_evaluation/matlab_enrique/Data/ref_1000x.csv"
+    bkg_file = r"/home/alex/PycharmProjects/TeraLayer2/data_evaluation/matlab_enrique/Data/BG_1000.csv"
+else:
+    ref_file = r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\ref_1000x.csv"
+    bkg_file = r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\BG_1000.csv"
 
 
 def plot_freq_response(b, a, fs, worN=8000):
@@ -113,23 +118,23 @@ plt.show()
 
 R_ref = R_ref[freq_slice]
 
-f_max = freqs.max()
+f_max = freqs[freq_slice].max()
 fs = 2 * f_max
 
 
 zero_pad = len(R_ref) * 10
-y = np.concatenate((R_ref, zeros(zero_pad)))
+y = np.concatenate((R_ref[:len(R_ref)//2], zeros(zero_pad), R_ref[len(R_ref)//2:-1]))
 
 sl = len(y)
-
 fs = np.mean(np.diff(freqs)) * sl
 
 y = np.fft.ifft(y)
 
-lc = 0.25
-hc = 2.50
+lc = 0.20
+hc = 3.00
 
-y_filt = butter_highpass(y, order=2, lowcut=lc * 10 ** 12, plot=True, fs=fs)
+y_filt = butter_highpass(y, order=3, lowcut=lc * 10 ** 12, plot=True, fs=fs)
+y_filt = y
 # y_filt = butter_bandpass(y, order=3, lowcut=lc*10**12, highcut=hc*10**12, plot=True, fs=fs)
 
 dt = 1 / fs
