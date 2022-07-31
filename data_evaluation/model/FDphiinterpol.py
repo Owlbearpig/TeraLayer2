@@ -3,15 +3,20 @@ from numpy import zeros
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import signal
+from pathlib import Path
 from scipy.signal import windows
 import os
 
+THz = 10 ** 12
+
 if os.name == 'posix':
-    ref_file = r"/home/alex/PycharmProjects/TeraLayer2/data_evaluation/matlab_enrique/Data/ref_1000x.csv"
-    bkg_file = r"/home/alex/PycharmProjects/TeraLayer2/data_evaluation/matlab_enrique/Data/BG_1000.csv"
+    bkg_file = Path(r"/home/alex/PycharmProjects/TeraLayer2/data_evaluation/matlab_enrique/Data/BG_1000.csv")
+    ref_file = Path(r"/home/alex/PycharmProjects/TeraLayer2/data_evaluation/matlab_enrique/Data/ref_1000x.csv")
+    sam_file = Path(r"")
 else:
-    ref_file = r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\ref_1000x.csv"
-    bkg_file = r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\BG_1000.csv"
+    bkg_file = Path(r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\BG_1000.csv")
+    ref_file = Path(r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\ref_1000x.csv")
+    sam_file = Path(r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\Kopf_1x\Kopf_1x_0009")
 
 
 def plot_freq_response(b, a, fs, worN=8000):
@@ -39,6 +44,16 @@ def butter_highpass(data, lowcut, fs, order=7, plot=False):
 
     return f
 
+def butter_lowpass(data, highcut, fs, order=7, plot=False):
+    nyq = 0.5 * fs
+    high = highcut / nyq
+    b, a = signal.butter(order, high, btype='low')
+
+    f = signal.filtfilt(b, a, data)
+    if plot:
+        plot_freq_response(b, a, fs)
+
+    return f
 
 def butter_bandpass(data, lowcut, highcut, fs, order=7, plot=False):
     nyq = 0.5 * fs
@@ -63,20 +78,21 @@ def do_fft(t, y):
     return f[idx_range], Y[idx_range]
 
 
-def do_ifft(Y):
-    y = np.fft.ifft(Y)
-
-    return y
-
-
-def freq_axis():
+def freq_axis(freq_range=None):
     df = pd.read_csv(ref_file)
+    freqs = df.values[:, 0] * 10 ** 6
 
-    return df.values[:, 0] * 10 ** 6
+    if freq_range is not None:
+        freq_slice = (freq_range[0] * THz <= freqs) * (freqs <= freq_range[1] * THz)
+        return freqs[freq_slice]
+    else:
+        return freqs
 
 
-def e_field(file_path, sub_bkg=False, phi_interp=True):
-    df = pd.read_csv(file_path)
+def e_field(file, sub_bkg=False, phi_interp=True, freq_range=None):
+    df = pd.read_csv(file)
+
+    freqs = df.values[:, 0] * 10 ** 6
 
     if sub_bkg:
         df_bkg = pd.read_csv(bkg_file)
@@ -88,67 +104,119 @@ def e_field(file_path, sub_bkg=False, phi_interp=True):
         phi = df.values[:, 2]
 
         if phi_interp:
-            x = np.arange(700, 820)
-            (a, b) = np.polyfit(x, np.unwrap(phi)[700:820], 1)
+            fit_range = (0.460 * THz, 0.595 * THz)
+            fit_slice = (fit_range[0] <= freqs) * (freqs <= fit_range[1])
 
-            x = np.arange(0, len(phi))
-            """
-            plt.plot(np.unwrap(phi))
-            plt.plot(x*a+b)
-            plt.show()
-            """
-            phi = x * a + b
+            (a, b) = np.polyfit(freqs[fit_slice], np.unwrap(phi)[fit_slice], 1)
 
-    return r * np.exp(1j * phi)
+            phi_lin = freqs * a  # + b # add phase offset for "other" pulse.
+
+            plt.plot(freqs, np.unwrap(phi), label=f"unwrapped phase {file.stem}")
+            #plt.plot(freqs[fit_slice], np.unwrap(phi)[fit_slice], label=f"unwrapped phase (fitted part) {file.stem}")
+            if not "BG" in file.stem:
+                plt.plot(freqs, phi_lin, label=f"a*x {file.stem}")
+                plt.plot(freqs, phi_lin + b, "-.", label=f"a*x + b {file.stem}")
+            plt.vlines(fit_range, min(phi_lin), max(phi_lin), ls='--')
+            plt.xlabel("Frequency (Hz)")
+            plt.ylabel("UnwrappedPhase")
+
+            phi = phi_lin
+
+    if freq_range is not None:
+        freq_slice = (freq_range[0] * THz <= freqs) * (freqs <= freq_range[1] * THz)
+        field = (r * np.exp(1j * phi))[freq_slice]
+    else:
+        field = r * np.exp(1j * phi)
+
+    return field
 
 
-freqs = freq_axis()
+def preprocess(file, ret_freqdomain=True, phi_interp=True, freq_range=None):
 
-freq_slice = (0.00 * 10 ** 12 < freqs) * (freqs < 4.50 * 10 ** 12)
 
-R_ref = e_field(ref_file, sub_bkg=False)
-R_bkg = e_field(bkg_file, phi_interp=False)
-R_ref_nobkg = e_field(ref_file, sub_bkg=True)
+    freqs = freq_axis(freq_range=freq_range)
+    y = e_field(file, sub_bkg=False, freq_range=freq_range, phi_interp=phi_interp)
 
-plt.plot(freqs[freq_slice], 20 * np.log10(np.abs(R_ref))[freq_slice], label="ref")
-plt.plot(freqs, 20 * np.log10(np.abs(R_bkg)), label="R_bkg")
-# plt.plot(freqs, np.log10(np.abs(R_ref_nobkg)), label="ref - bkg")
+    freq_rez = np.mean(np.diff(freqs))
+
+    # zero pad at end k * len(y)
+    k = 3
+    pad_len = len(y)*k
+    y = np.concatenate((y, zeros(pad_len)))
+    freqs = np.concatenate((freqs, np.arange(freqs.max(), freqs.max()+freq_rez*pad_len, freq_rez)))
+
+    # add zeroes down to dc (if necessary)
+    #freqs = np.concatenate((np.arange(0, freqs.min(), freq_rez), freqs))
+    #y = np.concatenate((zeros(len(freqs)-len(y)), y))
+
+    # conjugate transform
+    en_conj_tform = False
+    if en_conj_tform:
+        y = np.concatenate((np.flip(np.conjugate(y)), y))
+        freqs = np.concatenate((-np.flip(freqs), freqs))
+
+    if ret_freqdomain:
+        return freqs, y
+    else:
+        lc, hc = 0.35, 2.50
+        fs = 2 * freqs.max()
+        sl = len(y)
+
+        y = np.fft.ifft(y)
+        y = butter_highpass(y, order=2, lowcut=lc * 10 ** 12, plot=True, fs=fs)
+
+        dt = 1 / fs
+        t = np.linspace(0, sl * dt, sl)
+
+        plt.plot(t * 10 ** 12, y, label="signal time domain")
+        # plt.plot(y, label="ref")
+        plt.xlabel("Time (ps)")
+        plt.ylabel("Amplitude (a. u.)")
+        plt.legend()
+        plt.show()
+
+        return t, y
+
+
+plt.figure("Phase plot")
+
+freq_range = (0.22, 2.15) # 0.22
+freqs, y_ref = preprocess(ref_file, phi_interp=True, freq_range=freq_range)
+_, y_sam = preprocess(sam_file, phi_interp=True, freq_range=freq_range)
+_, _ = preprocess(bkg_file, phi_interp=True, freq_range=freq_range) # just for plotting
+
 plt.legend()
 plt.show()
 
-R_ref = R_ref[freq_slice]
+y = y_sam / y_ref
+y = np.nan_to_num(y)
 
-f_max = freqs[freq_slice].max()
-fs = 2 * f_max
+plt.figure("Frequency domain")
+plt.plot(freqs, 20 * np.log10(np.abs(y_ref)), label="ref")
+plt.plot(freqs, 20 * np.log10(np.abs(y_sam)), label="sam")
+plt.plot(freqs, 20 * np.log10(np.abs(y)), label="t fun")
+plt.ylabel("Amplitude (dB)")
+plt.xlabel("Frequency (Hz)")
+plt.legend()
+plt.show()
 
-
-zero_pad = len(R_ref) * 10
-y = np.concatenate((R_ref[:len(R_ref)//2], zeros(zero_pad), R_ref[len(R_ref)//2:-1]))
-
+lc, hc = 0.22, 1.9
 sl = len(y)
-fs = np.mean(np.diff(freqs)) * sl
+fs = 2 * freq_range[1] * THz
 
 y = np.fft.ifft(y)
-
-lc = 0.20
-hc = 3.00
-
-y_filt = butter_highpass(y, order=3, lowcut=lc * 10 ** 12, plot=True, fs=fs)
-y_filt = y
-# y_filt = butter_bandpass(y, order=3, lowcut=lc*10**12, highcut=hc*10**12, plot=True, fs=fs)
+#y = butter_highpass(y, order=2, lowcut=lc * 10 ** 12, plot=True, fs=fs)
+#y = butter_lowpass(y, order=7, highcut=hc * 10 ** 12, plot=True, fs=fs)
+#y = butter_bandpass(y, lc * 10 ** 12, hc * 10 ** 12, fs, order=7, plot=True)
 
 dt = 1 / fs
 t = np.linspace(0, sl * dt, sl)
 
-plt.plot(y, label="ref")
-plt.plot(y_filt, label="ref filt")
-plt.legend()
-plt.show()
+y = np.roll(y, 1000)
 
-Y = np.fft.fft(y)
-Y_filt = np.fft.fft(y_filt)
-
-#plt.plot(f, 20 * np.log10(np.abs(Y)), label="ref freq domain")
-plt.plot(20 * np.log10(np.abs(Y_filt)), label="ref hp filt freq domain")
+plt.figure("Time domain")
+plt.plot(t * 10 ** 12, y, label="t fun time domain")
+plt.xlabel("Time (ps)")
+plt.ylabel("Amplitude (a. u.)")
 plt.legend()
 plt.show()

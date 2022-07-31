@@ -6,7 +6,7 @@ import os
 from scipy.constants import c as c0
 
 settings = {
-    'data_range_idx': (235, -2)
+    'data_range_idx': (234, -2)
 }
 
 Omega_, Delta_, sigma_, mu_, epsilon_, degree_ = '\u03BC', '\u0394', '\u03C3', '\u03BC', '\u03B5', '\u00B0'

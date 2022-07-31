@@ -36,7 +36,8 @@ def load_ref_file():
 
 def f_axis():
     r = load_ref_file()
-    return r[:, 0] * MHz
+    slice_0, slice_1 = settings['data_range_idx']
+    return r[slice_0:slice_1, 0] * MHz
 
 
 def lam_axis():
@@ -52,10 +53,10 @@ def load_files(sample_file_idx=0, data_type='amplitude'):
 
     if data_type == 'amplitude':
         #return r[:, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
-        return r[:, 1], b[:, 1], s[:, 1]
+        return r[slice_0:slice_1, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
     else:  # phase data columns, ref values are also present in each measurement file
         #return s[slice_0:slice_1, 4], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
-        return s[:, 4], b[:, 2], s[:, 2]
+        return s[slice_0:slice_1, 4], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
 
 
 def format_data(mask=None, sample_file_idx=0, verbose=True):

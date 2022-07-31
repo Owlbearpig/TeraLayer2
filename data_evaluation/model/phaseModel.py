@@ -64,7 +64,7 @@ if __name__ == '__main__':
     dotsize = 2
     sample_idx = 10
     mask = full_range_mask  # new_mask
-    mask = np.arange(0, 880, 1)
+    mask = np.arange(0, 1500, 1)
     # mask = np.arange(475, 575, 1)
     # fit slice measured: 475 - 575 GHz
 
@@ -75,8 +75,8 @@ if __name__ == '__main__':
     p = array([106.42211055276383, 743.9748743718594, 86.34170854271358]) * um_to_m
     p = array([40, 640, 75]) * um_to_m
     r = new_model.explicit_reflectance(p, return_magn=False, return_r=True)
-
-    plt.plot(new_model.freqs, np.angle(r))
+    print(new_model.freqs)
+    plt.plot(new_model.freqs, np.unwrap(np.angle(r)))
     plt.show()
 
 
