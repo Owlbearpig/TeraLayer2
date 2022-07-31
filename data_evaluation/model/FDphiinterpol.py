@@ -16,7 +16,7 @@ if os.name == 'posix':
 else:
     bkg_file = Path(r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\BG_1000.csv")
     ref_file = Path(r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\ref_1000x.csv")
-    sam_file = Path(r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\Kopf_1x\Kopf_1x_0009")
+    sam_file = Path(r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\Kopf_1x\Kopf_1x_0011")
 
 
 def plot_freq_response(b, a, fs, worN=8000):
@@ -93,15 +93,17 @@ def e_field(file, sub_bkg=False, phi_interp=True, freq_range=None):
     df = pd.read_csv(file)
 
     freqs = df.values[:, 0] * 10 ** 6
+    freq_slice = (freq_range[0] * THz <= freqs) * (freqs <= freq_range[1] * THz)
+    freqs = freqs[freq_slice]
 
     if sub_bkg:
         df_bkg = pd.read_csv(bkg_file)
 
-        r = df.values[:, 1] - df_bkg.values[:, 1]
-        phi = df.values[:, 2] - df_bkg.values[:, 2]
+        r = df.values[freq_slice, 1] - df_bkg.values[freq_slice, 1]
+        phi = df.values[freq_slice, 2] - df_bkg.values[freq_slice, 2]
     else:
-        r = df.values[:, 1]
-        phi = df.values[:, 2]
+        r = df.values[freq_slice, 1]
+        phi = df.values[freq_slice, 2]
 
         if phi_interp:
             fit_range = (0.460 * THz, 0.595 * THz)
@@ -110,12 +112,14 @@ def e_field(file, sub_bkg=False, phi_interp=True, freq_range=None):
             (a, b) = np.polyfit(freqs[fit_slice], np.unwrap(phi)[fit_slice], 1)
 
             phi_lin = freqs * a  # + b # add phase offset for "other" pulse.
-
-            plt.plot(freqs, np.unwrap(phi), label=f"unwrapped phase {file.stem}")
+            if "ref" in file.stem:
+                plt.plot(freqs, np.unwrap(phi), ".-", label=f"unwrapped phase {file.stem}")
+            else:
+                plt.plot(freqs, np.unwrap(phi), label=f"unwrapped phase {file.stem}")
             #plt.plot(freqs[fit_slice], np.unwrap(phi)[fit_slice], label=f"unwrapped phase (fitted part) {file.stem}")
-            if not "BG" in file.stem:
-                plt.plot(freqs, phi_lin, label=f"a*x {file.stem}")
-                plt.plot(freqs, phi_lin + b, "-.", label=f"a*x + b {file.stem}")
+
+            #plt.plot(freqs, phi_lin, label=f"a*x {file.stem}")
+            #plt.plot(freqs, phi_lin + b, "-.", label=f"a*x + b {file.stem}")
             plt.vlines(fit_range, min(phi_lin), max(phi_lin), ls='--')
             plt.xlabel("Frequency (Hz)")
             plt.ylabel("UnwrappedPhase")
@@ -132,7 +136,6 @@ def e_field(file, sub_bkg=False, phi_interp=True, freq_range=None):
 
 
 def preprocess(file, ret_freqdomain=True, phi_interp=True, freq_range=None):
-
 
     freqs = freq_axis(freq_range=freq_range)
     y = e_field(file, sub_bkg=False, freq_range=freq_range, phi_interp=phi_interp)
@@ -182,7 +185,12 @@ plt.figure("Phase plot")
 
 freq_range = (0.22, 2.15) # 0.22
 freqs, y_ref = preprocess(ref_file, phi_interp=True, freq_range=freq_range)
-_, y_sam = preprocess(sam_file, phi_interp=True, freq_range=freq_range)
+for i in range(100):
+    if (i % 10) != 0:
+        continue
+    sam_file_i = Path(str(sam_file).replace("0011", f"{i:04}"))
+    _, y_sam = preprocess(sam_file_i, phi_interp=True, freq_range=freq_range)
+
 _, _ = preprocess(bkg_file, phi_interp=True, freq_range=freq_range) # just for plotting
 
 plt.legend()
