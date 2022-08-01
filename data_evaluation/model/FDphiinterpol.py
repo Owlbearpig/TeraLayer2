@@ -110,17 +110,17 @@ def e_field(file, sub_bkg=False, phi_interp=True, freq_range=None):
             fit_slice = (fit_range[0] <= freqs) * (freqs <= fit_range[1])
 
             (a, b) = np.polyfit(freqs[fit_slice], np.unwrap(phi)[fit_slice], 1)
-
+            np.unwrap = lambda x: x
             phi_lin = freqs * a  # + b # add phase offset for "other" pulse.
             if "ref" in file.stem:
                 plt.plot(freqs, np.unwrap(phi), ".-", label=f"unwrapped phase {file.stem}")
             else:
-                plt.plot(freqs, np.unwrap(phi), label=f"unwrapped phase {file.stem}")
+                plt.scatter(freqs, np.unwrap(phi), label=f"unwrapped phase {file.stem}")
             #plt.plot(freqs[fit_slice], np.unwrap(phi)[fit_slice], label=f"unwrapped phase (fitted part) {file.stem}")
 
             #plt.plot(freqs, phi_lin, label=f"a*x {file.stem}")
             #plt.plot(freqs, phi_lin + b, "-.", label=f"a*x + b {file.stem}")
-            plt.vlines(fit_range, min(phi_lin), max(phi_lin), ls='--')
+            #plt.vlines(fit_range, min(phi_lin), max(phi_lin), ls='--')
             plt.xlabel("Frequency (Hz)")
             plt.ylabel("UnwrappedPhase")
 
@@ -186,12 +186,12 @@ plt.figure("Phase plot")
 freq_range = (0.22, 2.15) # 0.22
 freqs, y_ref = preprocess(ref_file, phi_interp=True, freq_range=freq_range)
 for i in range(100):
-    if (i % 10) != 0:
+    if ((i-4) % 50) != 0:
         continue
     sam_file_i = Path(str(sam_file).replace("0011", f"{i:04}"))
     _, y_sam = preprocess(sam_file_i, phi_interp=True, freq_range=freq_range)
 
-_, _ = preprocess(bkg_file, phi_interp=True, freq_range=freq_range) # just for plotting
+#_, _ = preprocess(bkg_file, phi_interp=True, freq_range=freq_range) # just for plotting
 
 plt.legend()
 plt.show()
