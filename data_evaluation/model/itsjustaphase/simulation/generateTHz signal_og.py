@@ -54,17 +54,17 @@ r3 = (n3-n4)/(n3+n4)
 t34 = 2*n3/(n3+n4)
 t43 = 2*n4/(n4+n3)
 r4 = -1
-
+print(t_0, t_1, t_2, t_3, t_4)
 y = r4*thz_pulse2(t - t_r, tau)  # Referenz
 y2 = r0*thz_pulse2(t - t_0 , tau) + ab1*t01*r1*t10*thz_pulse2(t - t_1 , tau) + ab1*ab2*t01*t12*r2*t10*t21*thz_pulse2(t - t_2, tau) + ab1*ab2*ab3*t01*t12*t23*r3*t32*t21*t10*thz_pulse2(t - t_3, tau)+ab1*ab2*ab3*ab4*t01*t12*t23*t34*r4*t43*t32*t21*t10*thz_pulse2(t - t_4, tau)
- 
+
 # Noise
 # y  += np.random.random(len(t)) * np.max(np.abs(y))
 y2 += np.random.random(len(t)) * np.max(np.abs(y2)) * 0.02
 y += np.random.random(len(t)) * np.max(np.abs(y)) * 0.02
 
 Y = np.abs(np.fft.fft(y))
-freq = np.fft.fftfreq(len(t),dt)
+freq = np.fft.fftfreq(len(t), dt)
 idx = freq>0
 plt.figure()
 plt.plot(freq[idx],20*np.log10(Y[idx]))
@@ -82,7 +82,7 @@ k = 0
 
 name="Reference1.txt"
 temp = np.vstack((t,y)).T
-np.savetxt(name, temp)
+#np.savetxt(name, temp)
 
 for i in range(1):
     for j in range(1):
@@ -94,8 +94,8 @@ for i in range(1):
         # lt = time.localtime()
         # tmstemp = str(lt[0]) + '-' + str(lt[1])+ '-' + str(lt[2])+ '-' + str(lt[3])+ 'T' + str(lt[4])+ '-' + str(lt[5])
         # name = tmstemp + '-NAME-[' + str(k) + ']-[' + str(i*dx) + ',' + str(j*dy) + ',' + '0]-[1.0,0.0,0.0,0.0]-delta[0.014mm-0.0deg]-avg20.txt'
-        name ="sample1.txt"
-        np.savetxt(name, temp)
+        #name ="sample1.txt"
+        #np.savetxt(name, temp)
 
 #lt = time.localtime()
 # tmstemp = str(lt[0]) + '-' + str(lt[1])+ '-' + str(lt[2])+ '-' + str(lt[3])+ 'T' + str(lt[4])+ '-' + str(lt[5])

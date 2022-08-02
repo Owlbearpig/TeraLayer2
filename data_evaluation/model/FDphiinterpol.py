@@ -12,7 +12,7 @@ THz = 10 ** 12
 if os.name == 'posix':
     bkg_file = Path(r"/home/alex/PycharmProjects/TeraLayer2/data_evaluation/matlab_enrique/Data/BG_1000.csv")
     ref_file = Path(r"/home/alex/PycharmProjects/TeraLayer2/data_evaluation/matlab_enrique/Data/ref_1000x.csv")
-    sam_file = Path(r"")
+    sam_file = Path(r"/home/alex/PycharmProjects/TeraLayer2/data_evaluation/matlab_enrique/Data/Kopf_1x/Kopf_1x_0011")
 else:
     bkg_file = Path(r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\BG_1000.csv")
     ref_file = Path(r"E:\Projects\TeraLayer2\data_evaluation\matlab_enrique\Data\ref_1000x.csv")
