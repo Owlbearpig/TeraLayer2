@@ -71,8 +71,8 @@ def thz_pulse2(t, tau=0.15):
 
 
 # most similar to measurement values (?)
-tau = 0.4  # mm/ps
-dt = 0.33  # Ps
+tau = 0.35  # mm/ps
+dt = 0.28  # Ps # 0.28 ps ~ 1.79 THz sampling rate
 
 #tau = 0.1  # mm/ps
 #dt = 0.01  # Ps
@@ -116,9 +116,9 @@ y2 = r0 * thz_pulse2(t - t_0, tau) + \
      ab1 * ab2 * ab3 * t01 * t12 * t23 * r3 * t32 * t21 * t10 * thz_pulse2(t - t_3, tau)
 
 # Noise
-# y  += np.random.random(len(t)) * np.max(np.abs(y))
+#y  += np.random.random(len(t)) * np.max(np.abs(y))
 #y2 += np.random.random(len(t)) * np.max(np.abs(y2)) * 0.02
-#y += np.random.random(len(t)) * np.max(np.abs(y)) * 0.02
+y += np.random.random(len(t)) * np.max(np.abs(y)) * 0.02
 
 Y = np.fft.fft(y)
 Y2 = np.fft.fft(y2)
@@ -129,14 +129,14 @@ idx = freq > 0
 plt.figure("Amplitude frequency domain (Sim)")
 plt.plot(freq[idx], 20 * np.log10(np.abs(Y[idx])), label="Reference")
 plt.plot(freq[idx], 20 * np.log10(np.abs(Y2[idx])), label="Sample")
-plt.xlabel("Frequency (Hz)")
+plt.xlabel("Frequency (THz)")
 plt.ylabel("Amplitude (dB)")
 
 #np.unwrap = lambda x: x
 plt.figure("Phase frequency domain (Sim)")
 plt.plot(freq[idx], np.unwrap(np.angle(Y[idx])), label="Reference")
 plt.plot(freq[idx], np.unwrap(np.angle(Y2[idx])), label="Sample")
-plt.xlabel("Frequency (Hz)")
+plt.xlabel("Frequency (THz)")
 plt.ylabel("Phase (rad)")
 
 
@@ -154,10 +154,10 @@ t_fun_filt = butter_lowpass(t_fun, hc, fs, order=1, plot=True)
 #t_fun_filt = butter_bandpass(t_fun, lc, hc, fs, order=1, plot=True)
 
 plt.figure("Amplitude time domain (Sim)")
-plt.plot(t, (y), label="Reference")
-plt.plot(t, (y2), label="Sample")
-plt.plot(t, (t_fun), label="transfer func")
-plt.plot(t, (t_fun_filt), label="transfer func filtered")
+plt.plot(t, y, label="Reference")
+plt.plot(t, y2, label="Sample")
+plt.plot(t, t_fun, label="transfer func")
+plt.plot(t, t_fun_filt, label="transfer func filtered")
 plt.legend()
 plt.show()
 
