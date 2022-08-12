@@ -31,7 +31,7 @@ def load_ref_file():
     slice_0, slice_1 = settings['data_range_idx']
 
     return r[:]
-    #return r[slice_0:slice_1]
+    # return r[slice_0:slice_1]
 
 
 def f_axis():
@@ -52,10 +52,10 @@ def load_files(sample_file_idx=0, data_type='amplitude'):
     s = read_csv(data_dir / 'Kopf_1x' / f'Kopf_1x_{sample_file_idx:04}')
 
     if data_type == 'amplitude':
-        #return r[:, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
+        # return r[:, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
         return r[slice_0:slice_1, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]
     else:  # phase data columns, ref values are also present in each measurement file
-        #return s[slice_0:slice_1, 4], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
+        # return s[slice_0:slice_1, 4], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
         return s[slice_0:slice_1, 4], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
 
 
@@ -156,19 +156,18 @@ def get_full_measurement(sample_file_idx=0, mask=None, f_slice=None):
     r_pha, b_pha, s_pha = load_files(sample_file_idx, data_type='phase')
     r_amp, b_amp, s_amp = load_files(sample_file_idx, data_type='amplitude')
 
-    r_z, b_z, s_z = r_amp*np.exp(1j*r_pha), b_amp*np.exp(1j*b_pha), s_amp*np.exp(1j*s_pha)
+    r_z, b_z, s_z = r_amp * np.exp(1j * r_pha), b_amp * np.exp(1j * b_pha), s_amp * np.exp(1j * s_pha)
 
     if mask is not None:
         return f[mask], r_z[mask], b_z[mask], s_z[mask]
     else:
         full_range = (f > -5000 * GHz)
         if f_slice is None:
-            full_range = (f <= 1900 * GHz)*(f >= -100 * GHz)
+            full_range = (f <= 1900 * GHz) * (f >= -100 * GHz)
         else:
-            full_range = (f >= f_slice[0] * GHz)*(f <= f_slice[1] * GHz)
+            full_range = (f >= f_slice[0] * GHz) * (f <= f_slice[1] * GHz)
         return f[full_range], r_z[full_range], b_z[full_range], s_z[full_range]
-        #return f[234:-2702], r_z[234:-2702], b_z[234:-2702], s_z[234:-2702]
-
+        # return f[234:-2702], r_z[234:-2702], b_z[234:-2702], s_z[234:-2702]
 
 
 def get_freq_idx(freqs):
@@ -188,6 +187,7 @@ def do_fft(t, y):
     idx_range = f > 0
 
     return f[idx_range], Y[idx_range]
+
 
 def do_ifft(z):
     pass
@@ -228,10 +228,10 @@ if __name__ == '__main__':
     # lam, R_avg = format_data_avg()
     # plot_R(lam, R_avg)
 
-    #f, r, b, s = get_phase_measured(sample_file_idx=10)
+    # f, r, b, s = get_phase_measured(sample_file_idx=10)
 
     # print(get_freq_idx([421., 521., 651., 801., 851., 951.]))
-    #print(get_freq_idx([300, 351, 500, 600, 800, 951]))
+    # print(get_freq_idx([300, 351, 500, 600, 800, 951]))
     np.random.seed(123)
 
     cnt, m = 3, 1
@@ -240,6 +240,6 @@ if __name__ == '__main__':
     B = arr_in[1, :, :, 0]
     C = arr_in[2, :, :, 0]
     out = np.dot(np.dot(A, B), C)
-    #print(arr_in[0, :, :, 0])
+    # print(arr_in[0, :, :, 0])
     print(mult_2x2_matrix_chain(arr_in)[:, :, 0])
     print(out[:, :])

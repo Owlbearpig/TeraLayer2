@@ -45,9 +45,9 @@ def multir_complex(lam, p):
 
 
 if __name__ == '__main__':
-    from visualizing.plotting import plot_result
-    from consts import custom_mask_420
-    from functions import format_data
+    from data_evaluation.visualizing.plotting import plot_result
+    from data_evaluation.consts import custom_mask_420
+    from data_evaluation.functions import format_data
 
     sample_file_idx = 65
     lam, R0 = format_data(sample_file_idx=sample_file_idx)

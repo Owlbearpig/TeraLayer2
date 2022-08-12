@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from model.explicitEvalOptimizedClean import ExplicitEval
-from functions import (format_data, load_files, multir_numba, find_files,
+from data_evaluation.model.explicitEvalOptimizedClean import ExplicitEval
+from data_evaluation.functions import (format_data, load_files, multir_numba, find_files,
                        map_maskname, format_data_avg, get_phase_measured, f_axis)
-from model.multir import multir
-from consts import *
+from data_evaluation.model.multir import multir
+from data_evaluation.consts import *
 
 
 def plot_only_y():
