@@ -37,12 +37,12 @@ def multir_complex(freqs, p, n):
                                     [-ra[0], 1]], dtype=np.complex128)
 
         fi = np.zeros(nc, dtype=np.complex128)
-        for s in reversed(range(nc)):
+        for s in range(nc):
             fi[s] = (2 * pi * n[s + 1] * es[s]) * (freqs[h] * 10 ** 12 / c0)
             Q = (1 / tb[s + 1]) * np.array([[(ta[s + 1] * tb[s + 1]) - (ra[s + 1] * rb[s + 1]), rb[s + 1]],
                                             [-ra[s + 1], 1]], dtype=np.complex128)
             P = np.array([[exp(-fi[s] * 1j), 0], [0, exp(fi[s] * 1j)]])
-            M = dot(dot(Q, P), M)
+            M = dot(M, dot(P, Q))
 
         r[h] = M[0, 1] / M[1, 1]
 
@@ -50,12 +50,13 @@ def multir_complex(freqs, p, n):
 
 
 if __name__ == '__main__':
-    freqs = np.arange(0.02, 2.00, 0.001)
-
-    #p = np.array([55, 640, 75]) * um_to_m
-    p = np.array([150, 100, 200])*um_to_m
-    n = np.array([1.00 + 0j, 1.50 + 0j, 1.80 + 0j, 1.20 + 0j, 1.00 + 0j], dtype=np.complex128)
-
+    freqs = np.arange(0.20, 1.75+0.001, 0.001)
+    print(freqs[10] - freqs[11])
+    print(freqs[0], freqs[1], freqs[-1])
+    print(len(freqs))
+    p = np.array([55, 640, 75]) * um_to_m
+    #p = np.array([150, 100, 200]) * um_to_m
+    n = np.array([1.00 + 0j, 1.50 + 0j, 2.80 + 0j, 1.50 + 0j, 1.00 + 0j], dtype=np.complex128)
     R_C = multir_complex(freqs, p, n)
 
     plt.figure("Amplitude frequency domain (Sim TMM)")
@@ -67,17 +68,19 @@ if __name__ == '__main__':
     plt.figure("Raw phase frequency domain (Sim TMM)")
     # p_uwrap_sam = np.arctan2(Y2[idx].imag, Y2[idx].real)
     # p_uwrap_ref = np.arctan2(Y[idx].imag, Y[idx].real)
-    p_unwrap_diff = np.arctan2(R_C.imag, R_C.real)
-    plt.plot(freqs, p_unwrap_diff, label="Sam - Ref")
+    p_diff = np.arctan2(R_C.imag, R_C.real)
+    print(p_diff[1000])
+    print(freqs[1000])
+    plt.plot(freqs, p_diff, label="Sam - Ref")
     plt.xlabel("Frequency (THz)")
     plt.ylabel("Phase (rad)")
     plt.legend()
 
     plt.figure("Unwrapped phase frequency domain (Sim TMM)")
-    p_uwrap = np.unwrap(p_unwrap_diff)
+    p_unwrap_diff = np.unwrap(p_diff)
     # plt.plot(freq[idx], p_uwrap_ref, label="Reference")
     # plt.plot(freq[idx], p_uwrap_sam, label="Sample")
-    plt.plot(freqs, p_uwrap, label="Sam - Ref")
+    plt.plot(freqs, p_unwrap_diff, label="Sam - Ref")
     plt.xlabel("Frequency (THz)")
     plt.ylabel("Phase (rad)")
     plt.legend()

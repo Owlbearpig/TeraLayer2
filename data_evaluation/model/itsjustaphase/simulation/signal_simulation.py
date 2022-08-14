@@ -5,6 +5,7 @@ Created on Wed Feb 10 16:00:13 2021
 @author: Talebf
 """
 from scipy import signal
+from scipy.constants import c
 import numpy as np
 from numpy import pi
 import matplotlib.pyplot as plt
@@ -20,8 +21,14 @@ mpl.rcParams['axes.grid'] = True
 THz = 10 ** 12
 
 
+def fix_discontinuities(p_raw):
+    for i in range(1, len(p_raw)-1):
+        if np.abs(p_raw[i-1] - p_raw[i]) > 5:
+            p_raw[i] = p_raw[i] + 2*pi * np.sign(p_raw[i-1] - p_raw[i])
+    return p_raw
+
 def plot_freq_response(b, a, fs, worN=8000):
-    # Plot the frequency response.
+    # Plot the freqsuency response.
     w, h = signal.freqz(b, a, worN=worN)
     plt.figure("Filter Frequency Response")
     # plt.plot(0.5 * fs * w / (10 ** 12 * np.pi), 20 * np.log10(np.abs(h)), 'b')
@@ -88,19 +95,21 @@ dt = 0.05  # Ps # 0.28 ps ~ 1.80 THz, sampling rate
 # tau = 0.1  # mm/ps
 # dt = 0.01  # Ps
 
+c0 = c * 10**3 / 10**12
+
 t = np.arange(0, 1000, dt)
 t_r = 46.45
 t_0 = t_r + 0
 
 n = [1.00, 1.50, 1.80, 1.20]
-#d = [0.055, 0.640, 0.075]
-d = np.array([0.150, 0.100, 0.200])
+d = [0.055, 0.640, 0.075]
+#d = np.array([0.150, 0.100, 0.200])
 
-t_1 = 2 * (d[0] * n[1]) / 0.2998 + t_0
+t_1 = 2 * (d[0] * n[1]) / c0 + t_0
 ab1 = 1  # np.exp(-0.5)
-t_2 = 2 * (d[1] * n[2]) / 0.2998 + t_1
+t_2 = 2 * (d[1] * n[2]) / c0 + t_1
 ab2 = 1  # np.exp(-0.5)
-t_3 = 2 * (d[2] * n[3]) / 0.2998 + t_2
+t_3 = 2 * (d[2] * n[3]) / c0 + t_2
 ab3 = 1  # np.exp(-0.5)
 
 print("1-layer:", t_1 - t_0, "2-layer:", t_2 - t_1, "3-layer:", t_3 - t_2)
@@ -134,29 +143,35 @@ y2 = r0 * thz_pulse2(t - t_0, tau) + \
 
 Y = np.fft.fft(y)
 Y2 = np.fft.fft(y2)
-freq = np.fft.fftfreq(len(t), dt)
-idx = (freq >= 0.02) * (freq <= 2.00)
+freqs = np.fft.fftfreq(len(t), dt)
+idx = (freqs >= 0.20) * (freqs <= 1.75)
 
-simple_p = -2 * pi * ((n[1] - 1) * d[0] + (n[2] - 1) * d[1] + (n[3] - 1) * d[2]) * freq[idx] / 0.2998
+print(freqs[idx][10]-freqs[idx][11])
+print(freqs[idx][0], freqs[idx][1], freqs[idx][-1])
+print(len(freqs[idx]))
+simple_p = -2 * pi * ((n[1] - 1) * d[0] + (n[2] - 1) * d[1] + (n[3] - 1) * d[2]) * freqs[idx] / c0
 
 # np.log10 = lambda x: x / 20
 plt.figure("Amplitude frequency domain (Sim)")
-plt.plot(freq[idx], 20 * np.log10(np.abs(Y[idx])), label="Reference")
-plt.plot(freq[idx], 20 * np.log10(np.abs(Y2[idx])), label="Sample")
-plt.plot(freq[idx], 20 * np.log10(np.abs(Y2[idx] / Y[idx])), label="Sam/Ref")
+plt.plot(freqs[idx], 20 * np.log10(np.abs(Y[idx])), label="Reference")
+plt.plot(freqs[idx], 20 * np.log10(np.abs(Y2[idx])), label="Sample")
+plt.plot(freqs[idx], 20 * np.log10(np.abs(Y2[idx] / Y[idx])), label="Sam/Ref")
 plt.xlabel("Frequency (THz)")
 plt.ylabel("Amplitude (dB)")
 plt.legend()
 
 plt.figure("Raw phase frequency domain (Sim)")
-p_uwrap_sam = np.arctan2(Y2[idx].imag, Y2[idx].real)
-p_uwrap_ref = np.arctan2(Y[idx].imag, Y[idx].real)
+p_sam = np.arctan2(Y2[idx].imag, Y2[idx].real)
+p_ref = np.arctan2(Y[idx].imag, Y[idx].real)
 #p_uwrap_sam = np.angle(Y2[idx])
 #p_uwrap_ref = np.angle(Y[idx])
-p_unwarp_diff = p_uwrap_sam - p_uwrap_ref
-plt.plot(freq[idx], p_uwrap_ref, label="Reference")
-plt.plot(freq[idx], p_uwrap_sam, label="Sample")
-plt.plot(freq[idx], p_unwarp_diff, label="Sam - Ref")
+p_diff = p_sam - p_ref
+#p_unwrap_diff = fix_discontinuities(p_unwrap_diff)
+print(p_diff[1000])
+print(freqs[idx][1000])
+plt.plot(freqs[idx], p_ref, label="Reference")
+plt.plot(freqs[idx], p_sam, label="Sample")
+plt.plot(freqs[idx], p_diff, label="Sam - Ref")
 plt.xlabel("Frequency (THz)")
 plt.ylabel("Phase (rad)")
 plt.legend()
@@ -173,13 +188,13 @@ def shift(p_uwrap):
 
 # np.unwrap = lambda x: x
 plt.figure("Unwrapped phase frequency domain (Sim)")
-p_uwrap_sam = shift(np.unwrap(np.angle(Y2[idx])))
-p_uwrap_ref = shift(np.unwrap(np.angle(Y[idx])))
-p_unwarp_diff = p_uwrap_sam - p_uwrap_ref
-plt.plot(freq[idx], p_uwrap_ref, label="Reference")
-plt.plot(freq[idx], p_uwrap_sam, label="Sample")
-plt.plot(freq[idx], p_unwarp_diff, label="Sam - Ref")
-plt.plot(freq[idx], simple_p, label="Simple phase model")
+p_unwrap_sam = shift(np.unwrap(np.angle(Y2[idx])))
+p_unwrap_ref = shift(np.unwrap(np.angle(Y[idx])))
+p_unwrap_diff = p_unwrap_sam - p_unwrap_ref
+plt.plot(freqs[idx], p_unwrap_ref, label="Reference")
+plt.plot(freqs[idx], p_unwrap_sam, label="Sample")
+plt.plot(freqs[idx], p_unwrap_diff, label="Sam - Ref")
+plt.plot(freqs[idx], simple_p, label="Simple phase model")
 plt.xlabel("Frequency (THz)")
 plt.ylabel("Phase (rad)")
 plt.legend()
@@ -189,8 +204,8 @@ Y = np.concatenate((Y, np.zeros(zero_pad)))
 Y2 = np.concatenate((Y2, np.zeros(zero_pad)))
 
 phase_y, phase_y2 = np.angle(Y), np.angle(Y2)
-# phase_y2[freq > 1.5] = 0
-# phase_y[freq > 1.5] = 0
+# phase_y2[freqs > 1.5] = 0
+# phase_y[freqs > 1.5] = 0
 Y = np.abs(Y) * np.exp(1j * phase_y)
 Y2 = np.abs(Y2) * np.exp(1j * phase_y2)
 
@@ -223,7 +238,7 @@ k = 0
 for i in range(1):
     for j in range(1):
         k += 1
-        t_2 = 2 * (d[1] * n[2]) / 0.2998 + t_1 + np.tan(tilt) * i * dx / 0.2998
+        t_2 = 2 * (d[1] * n[2]) / c0 + t_1 + np.tan(tilt) * i * dx / c0
         y2 = r0 * thz_pulse2(t - t_0, tau) + \
              ab1 * t01 * r1 * t10 * thz_pulse2(t - t_1, tau) + \
              ab1 * ab2 * t01 * t12 * r2 * t10 * t21 * thz_pulse2(t - t_2, tau) + \
