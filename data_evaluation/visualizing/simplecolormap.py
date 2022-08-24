@@ -9,7 +9,7 @@ from matplotlib.widgets import Slider
 from model.explicitEvalOptimizedClean import ExplicitEval
 
 
-def map_plot(error_func, img_data=None):
+def map_plot(error_func=None, img_data=None):
 
     # should be resolution of axes d1, d2, d3
     rez_x, rez_y, rez_z = 200, 200, 200
@@ -26,7 +26,7 @@ def map_plot(error_func, img_data=None):
     grd_z = np.linspace(lb[2], ub[2], rez_z)
 
     grid_vals = np.zeros([rez_x, rez_y, rez_z])
-    if img_data is not None:
+    if (img_data is not None) or (error_func is None):
         grid_vals = img_data.copy()
     else:
         for i in range(rez_x):
