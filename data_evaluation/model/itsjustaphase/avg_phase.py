@@ -32,13 +32,18 @@ data_array = np.array([read_file(file) for file in file_paths if "Kopf" in str(f
 # np.unwrap = lambda x: x
 # avg_phase = np.mean(np.unwrap(data_array[:, :, 2]), axis=0)
 
-sam_idx = 46
+sam_idx = 28
 freqs = data_array[0, :, 0] * MHz
 freqs_raw = freqs.copy()
 
 # f_slice = (0*THz < freqs) * (freqs < 1.69*THz)
-f_slice = (0.23 * THz <= freqs) * (freqs <= 1.85 * THz)
+f_slice = (0.00 * THz <= freqs) * (freqs <= 1.85 * THz)
 noise_1 = (0.870 * THz <= freqs) * (freqs <= 0.980 * THz)
+
+freqs = freqs[f_slice]
+
+selected_freqs = array([0.365, 0.503, 0.520, 1.087, 1.298, 1.380]) * THz
+selected_freqs_idx = array([np.argwhere(np.isclose(freq, freqs))[0][0] for freq in selected_freqs])
 
 """
 f_916 = np.argmin(np.abs(freqs-0.916*THz))
@@ -59,10 +64,15 @@ plt.legend()
 plt.show()
 """
 
-freqs = freqs[f_slice]
+raw_phase = data_array[sam_idx, f_slice, 2] - ref_data[f_slice, 2]
+print(freqs[selected_freqs_idx])
+print(raw_phase[selected_freqs_idx])
+print(np.mean(data_array[:, f_slice, 2], axis=0)[selected_freqs_idx])
+#np.save(f"freqs_measured_selected_idx_{sam_idx}", freqs[selected_freqs_idx])
+#np.save(f"phase_measured_selected_idx_{sam_idx}", raw_phase[selected_freqs_idx])
 
 
-def raw_phase_fix(freqs, phase):
+def raw_phase_fix(freqs, phase, label_ext=""):
     p = phase.copy()
 
     for i in range(1, len(p)):
@@ -70,7 +80,7 @@ def raw_phase_fix(freqs, phase):
         if np.abs(diff) > pi:
             p[i] = p[i] + np.sign(diff)*2*pi
 
-    plt.plot(freqs, p, label="raw_phase_fix")
+    plt.plot(freqs, p, label="raw_phase_fix" + label_ext)
 
     return p
 
@@ -202,30 +212,21 @@ plt.ylabel("Phase (rad)")
 plt.ylim((-pi * 1.05, pi * 1.05))
 plt.legend()
 
-raw_phase = data_array[sam_idx, f_slice, 2] - ref_data[f_slice, 2]
-print(np.max(raw_phase))
-print(np.min(raw_phase))
-
 plt.figure("Fixed raw phase frequency domain")
 raw_phase_fix(freqs, raw_phase)
-#plt.plot(freqs, ref_data[f_slice, 2], label=f"reference")
-#plt.plot(freqs, data_array[sam_idx, f_slice, 2], label=f"sample idx: {sam_idx}")
-#plt.plot(freqs, data_array[sam_idx, f_slice, 2], label=f"sample idx: {sam_idx}")
+plt.plot(freqs, ref_data[f_slice, 2], label=f"reference")
+plt.plot(freqs, data_array[sam_idx, f_slice, 2], label=f"sample idx: {sam_idx}")
 #plt.plot(freqs, data_array[sam_idx + 1, f_slice, 2], label=f"sample idx: {sam_idx + 1}")
 plt.plot(freqs, raw_phase, label=f"sam - ref, idx: {sam_idx}")
-#plt.plot(freqs, np.mean(data_array[:, f_slice, 2], axis=0), label=f"mean")
 plt.xlabel("Frequency (Hz)")
 plt.ylabel("Phase (rad)")
 plt.legend()
-plt.show()
-
 
 plt.figure("Raw phase frequency domain")
 plt.plot(freqs, ref_data[f_slice, 2], label=f"reference")
 plt.plot(freqs, data_array[sam_idx, f_slice, 2], label=f"sample idx: {sam_idx}")
 #plt.plot(freqs, data_array[sam_idx, f_slice, 2], label=f"sample idx: {sam_idx}")
 #plt.plot(freqs, data_array[sam_idx + 1, f_slice, 2], label=f"sample idx: {sam_idx + 1}")
-#plt.plot(freqs, np.mean(data_array[:, f_slice, 2], axis=0), label=f"mean")
 plt.xlabel("Frequency (Hz)")
 plt.ylabel("Phase (rad)")
 plt.legend()

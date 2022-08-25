@@ -1,5 +1,5 @@
 import numpy as np
-from numpy import cos, sin, arcsin, exp, dot, conj, pi
+from numpy import cos, sin, arcsin, exp, dot, conj, pi, array
 from consts import um_to_m, c0, THz
 from model.multir_numba import multir_numba
 import matplotlib.pyplot as plt
@@ -67,23 +67,33 @@ def get_phase(freqs, p):
 
     R_C = multir_complex(freqs, p, n)
     p_diff = np.angle(R_C)
-    p_unwrap_diff = np.unwrap(p_diff, discont=pi * 0.8)
+    # p_unwrap_diff = np.unwrap(p_diff, discont=pi * 0.8)
 
-    return custom_unwrap(p_unwrap_diff)
+    return p_diff # custom_unwrap(p_unwrap_diff)
+
+
+@jit(cache=True, nopython=False)
+def get_amplitude(freqs, p):
+    n = np.array([1.00 + 0j, 1.50 + 0j, 2.80 + 0j, 1.50 + 0j, 1.00 + 0j], dtype=np.complex128)
+
+    R_C = multir_complex(freqs, p, n)
+
+    return R_C * conj(R_C)
 
 if __name__ == '__main__':
-    freqs = np.arange(0.20, 1.95+0.001, 0.001) * THz
+    freqs = np.arange(0.00, 1.75 + 0.001, 0.001) * THz
+
     print(freqs[10] - freqs[11])
     print(freqs[0], freqs[1], freqs[-1])
     print(len(freqs))
-    p = np.array([45, 620, 75]) * um_to_m
+    p = np.array([40, 640, 75]) * um_to_m
     #p = np.array([150, 100, 200]) * um_to_m
     n = np.array([1.00 + 0j, 1.50 + 0j, 2.80 + 0j, 1.50 + 0j, 1.00 + 0j], dtype=np.complex128)
     R_C = multir_complex(freqs, p, n)
 
     plt.figure("Amplitude frequency domain (Sim TMM)")
     plt.plot(freqs, 20 * np.log10(np.abs(R_C)), label="Sam/Ref")
-    plt.xlabel("Frequency (THz)")
+    plt.xlabel("Frequency (Hz)")
     plt.ylabel("Reflectance (dB)")
     plt.legend()
 
@@ -94,7 +104,7 @@ if __name__ == '__main__':
     print(p_diff[1000])
     print(freqs[1000])
     plt.plot(freqs, p_diff, label="Sam - Ref")
-    plt.xlabel("Frequency (THz)")
+    plt.xlabel("Frequency (Hz)")
     plt.ylabel("Phase (rad)")
     plt.legend()
 
@@ -104,7 +114,7 @@ if __name__ == '__main__':
     # plt.plot(freq[idx], p_uwrap_sam, label="Sample")
     #plt.plot(freqs, p_unwrap_diff, label="Sam - Ref")
     plt.plot(freqs, custom_unwrap(p_unwrap_diff), label="2x unwrap Sam - Ref")
-    plt.xlabel("Frequency (THz)")
+    plt.xlabel("Frequency (Hz)")
     plt.ylabel("Phase (rad)")
     plt.legend()
 

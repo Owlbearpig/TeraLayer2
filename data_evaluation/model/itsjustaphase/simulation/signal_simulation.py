@@ -101,8 +101,8 @@ t = np.arange(0, 1000, dt)
 t_r = 46.45
 t_0 = t_r + 0
 
-n = [1.00, 1.50, 1.80, 1.20]
-d = [0.055, 0.640, 0.075]
+n = [1.00, 1.50, 2.80, 1.50]
+d = [0.040, 0.640, 0.075]
 #d = np.array([0.150, 0.100, 0.200])
 
 t_1 = 2 * (d[0] * n[1]) / c0 + t_0
@@ -144,7 +144,7 @@ y2 = r0 * thz_pulse2(t - t_0, tau) + \
 Y = np.fft.fft(y)
 Y2 = np.fft.fft(y2)
 freqs = np.fft.fftfreq(len(t), dt)
-idx = (freqs >= 0.20) * (freqs <= 1.75)
+idx = (freqs >= 0.00) * (freqs <= 1.75)
 
 print(freqs[idx][10]-freqs[idx][11])
 print(freqs[idx][0], freqs[idx][1], freqs[idx][-1])
