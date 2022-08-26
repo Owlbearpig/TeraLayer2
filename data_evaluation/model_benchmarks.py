@@ -1,10 +1,9 @@
-import matplotlib.pyplot as plt
 from numpy import array
-from model.multir_numba import multir_numba
-from model.explicitEvalOptimizedClean import ExplicitEval
-from model.explicitEvalOptimized import explicit_reflectance
-from model.multir import multir
-from consts import default_mask, custom_mask_420
+from model.initial_tests.multir_numba import multir_numba
+from model.initial_tests.explicitEvalOptimizedClean import ExplicitEval
+from model.initial_tests.explicitEvalOptimized import explicit_reflectance
+from model.initial_tests.multir import multir
+from consts import custom_mask_420
 from functions import format_data, avg_runtime
 
 lam, R = format_data(mask=custom_mask_420)

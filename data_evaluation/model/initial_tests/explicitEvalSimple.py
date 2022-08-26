@@ -1,11 +1,6 @@
-import time
-import numpy as np
-from numba import jit
 from consts import *
-from results import d_best
 from optimization.nelderMeadSource import _minimize_neldermead
-from functions import format_data, calc_loss
-from model.multir_numba import multir_numba
+from functions import format_data
 
 a, b = 0.19737935744311108, 0.300922921527581
 
@@ -111,7 +106,6 @@ def explicit_reflectance(p):
 
 
 if __name__ == '__main__':
-    from functions import avg_runtime
 
     mask = custom_mask_420
     sample_idx = 0

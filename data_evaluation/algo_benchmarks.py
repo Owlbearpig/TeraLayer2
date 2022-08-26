@@ -1,6 +1,5 @@
 from optimization.nelderMeadSource import _minimize_neldermead
-from model.explicitEvalOptimizedClean import ExplicitEval
-from model.explicitEvalOptimized import explicit_reflectance
+from model.initial_tests.explicitEvalOptimizedClean import ExplicitEval
 from consts import *
 from functions import format_data, avg_runtime
 

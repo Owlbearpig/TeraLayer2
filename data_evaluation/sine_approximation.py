@@ -1,5 +1,4 @@
-import numpy as np
-from model.explicitEvalSimple import sine
+from model.initial_tests.explicitEvalSimple import sine
 from consts import *
 import matplotlib.pyplot as plt
 import matplotlib

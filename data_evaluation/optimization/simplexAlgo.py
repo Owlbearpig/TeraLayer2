@@ -1,9 +1,9 @@
 import random
 import numpy as np
 from consts import um_to_m, um
-from model.explicitEvalOptimized import explicit_reflectance
+from model.initial_tests.explicitEvalOptimized import explicit_reflectance
 from numpy import array
-from model.explicitEvalOptimized import R0 as R
+from model.initial_tests.explicitEvalOptimized import R0 as R
 
 
 def error(p):

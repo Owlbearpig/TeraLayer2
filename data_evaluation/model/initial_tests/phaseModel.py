@@ -1,7 +1,6 @@
 from functions import get_phase_measured
-from consts import new_mask, all_freqs_lowend, array, um_to_m, np, GHz, full_range_mask, pi
-from model.explicitEvalOptimizedClean import ExplicitEval
-from visualizing.simplecolormap import map_plot
+from consts import array, um_to_m, np, GHz, full_range_mask, pi
+from model.initial_tests.explicitEvalOptimizedClean import ExplicitEval
 import matplotlib.pyplot as plt
 
 

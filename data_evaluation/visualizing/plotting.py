@@ -1,9 +1,8 @@
 import matplotlib.pyplot as plt
-import numpy as np
-from model.explicitEvalOptimizedClean import ExplicitEval
+from model.initial_tests.explicitEvalOptimizedClean import ExplicitEval
 from functions import (format_data, load_files, multir_numba, find_files,
                        map_maskname, format_data_avg, get_phase_measured, f_axis)
-from model.multir import multir
+from model.initial_tests.multir import multir
 from consts import *
 
 

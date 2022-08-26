@@ -1,8 +1,8 @@
 import numpy as np
 from consts import n, thea, default_mask
 from results import d_best
-from model.multir_numba import multir_numba
-from numpy import cos, sin, exp, array, arcsin, pi, conj, sum
+from model.initial_tests.multir_numba import multir_numba
+from numpy import cos, sin, exp, array, arcsin, pi, conj
 from functions import format_data
 
 

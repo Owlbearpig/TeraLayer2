@@ -1,4 +1,4 @@
-from model.phaseModel import PhaseEval
+from model.initial_tests.phaseModel import PhaseEval
 from visualizing.simplecolormap import map_plot
 import numpy as np
 

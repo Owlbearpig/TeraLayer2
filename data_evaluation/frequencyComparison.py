@@ -1,11 +1,8 @@
-import time
-
 from numpy import array, sum
 import numpy as np
-from model.multir_numba import multir_numba
-from consts import um, um_to_m, custom_mask, default_mask, full_range_mask
+from model.initial_tests.multir_numba import multir_numba
+from consts import um, um_to_m, full_range_mask
 from functions import format_data
-from visualizing.plotting import plot_result, plot_R
 from optimization.nelderMeadSource import _minimize_neldermead
 import matplotlib.pyplot as plt
 

@@ -201,7 +201,7 @@ def convert_measurement_to_bin(pd=3, p=23, short=False):
 
 
 def convert_constants_fg(pd=0, p=23):
-    from model.explicitEvalSimple import f, g
+    from model.initial_tests.explicitEvalSimple import f, g
 
     for i, g_ in enumerate(g):
         g_ *= um_to_m
@@ -255,7 +255,7 @@ def convert_sin_constants(pd=4, p=23):
 
 
 def convert_constants_ab(pd=3, p=23):
-    from model.explicitEvalSimple import a, b  # careful, consts.py also has a=1 defined ...
+    from model.initial_tests.explicitEvalSimple import a, b  # careful, consts.py also has a=1 defined ...
 
     c0 = (1 - a * a) * b
     c1 = (1 - a * a)

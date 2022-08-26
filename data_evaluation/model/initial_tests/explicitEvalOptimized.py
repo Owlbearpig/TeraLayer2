@@ -1,11 +1,8 @@
-import time
-import numpy as np
-from numba import jit
 from consts import *
 from results import d_best
-from numpy import cos, sin, exp, array, arcsin, pi, conj, sum, outer
+from numpy import cos, sin, exp, array, arcsin, pi, conj
 from functions import format_data
-from model.multir_numba import multir_numba
+from model.initial_tests.multir_numba import multir_numba
 
 
 the = array([thea, 0, 0, 0, 0])

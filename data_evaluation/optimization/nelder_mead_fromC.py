@@ -1,4 +1,4 @@
-from model.explicitEvalSimple import explicit_reflectance
+from model.initial_tests.explicitEvalSimple import explicit_reflectance
 from consts import custom_mask_420, um_to_m
 from functions import format_data
 import numpy as np

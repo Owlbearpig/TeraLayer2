@@ -1,12 +1,6 @@
-import numpy as np
-from numpy import array, sum
 import matplotlib.pyplot as plt
-from functions import format_data, residuals
 from consts import *
-from model.multir_numba import multir_numba
-from model.explicitEvalOptimized import explicit_reflectance
 from matplotlib.widgets import Slider
-from model.explicitEvalOptimizedClean import ExplicitEval
 
 
 def map_plot(error_func=None, img_data=None):

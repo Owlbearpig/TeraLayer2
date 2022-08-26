@@ -1,14 +1,12 @@
 import numpy as np
-from numpy import zeros, pi, array
+from numpy import pi, array
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from scipy import signal
 from pathlib import Path
-from scipy.signal import windows
 from helpers import is_iterable
 import os
-from simulation.tmm import get_phase, um_to_m
+from model.tmm import get_phase, um_to_m
 
 np.set_printoptions(suppress=True)
 
@@ -47,7 +45,8 @@ def get_measured_amplitude(freqs, sam_idx=slice(None)):
         freqs = [freqs]
 
     selected_freqs_idx = array([np.argwhere(np.isclose(freq, data_array[0, :, 0] * MHz))[0][0] for freq in freqs])
-    return (data_array[sam_idx, selected_freqs_idx, 1]/ref_data[selected_freqs_idx, 1])**2
+    return np.real((data_array[sam_idx, selected_freqs_idx, 1] / ref_data[selected_freqs_idx, 1]) ** 2)
+
 
 if __name__ == '__main__':
     sam_idx = 28
@@ -104,7 +103,7 @@ if __name__ == '__main__':
 
     phase_meas = get_measured_phase(freqs)
 
-    plt.plot(freqs, 20*np.log10(bg_data[f_slice, 1]), label=f"Background")
+    plt.plot(freqs, 20 * np.log10(bg_data[f_slice, 1]), label=f"Background")
 
     plt.xlabel("Frequency")
     plt.ylabel("Amplitude (dB)")

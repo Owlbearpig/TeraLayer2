@@ -1,7 +1,6 @@
-from model.explicitEvalOptimizedClean import ExplicitEval
+from model.initial_tests.explicitEvalOptimizedClean import ExplicitEval
 from consts import *
 import matplotlib.pyplot as plt
-from visualizing.plotting import plot_result
 from scipy.optimize import curve_fit
 
 mask = custom_mask_420

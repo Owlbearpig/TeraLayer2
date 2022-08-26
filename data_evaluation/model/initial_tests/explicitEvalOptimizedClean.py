@@ -1,9 +1,7 @@
-import numpy as np
-from numba import jit
 from consts import *
 from numpy import cos, sin, exp, array, arcsin, pi, conj, sum
-from functions import format_data, format_data_avg, lam_axis, get_phase_measured
-from model.multir_numba import multir_numba
+from functions import format_data, format_data_avg, get_phase_measured
+from model.initial_tests.multir_numba import multir_numba
 
 
 class ExplicitEval:

@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import cos, sin, arcsin, exp, dot, conj, pi
 from consts import um_to_m
-from model.multir_numba import multir_numba
+from model.initial_tests.multir_numba import multir_numba
 
 
 def multir_complex(lam, p):

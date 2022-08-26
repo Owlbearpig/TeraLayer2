@@ -1,11 +1,8 @@
-from model.explicitEvalOptimizedClean import ExplicitEval
+from model.initial_tests.explicitEvalOptimizedClean import ExplicitEval
 from consts import *
 from results import d_best
 from pathlib import Path
-import matplotlib.pyplot as plt
 from functions import calc_loss, calc_full_loss
-from visualizing.plotting import plot_result
-from optimization.nelderMeadSource import _minimize_neldermead
 from optimization.bruteforceOptimization import _minimize_bruteforce
 
 d0 = array([50, 600, 50]) * um_to_m

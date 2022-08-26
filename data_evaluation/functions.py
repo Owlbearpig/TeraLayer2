@@ -1,5 +1,4 @@
-from numpy import sum
-from model.multir_numba import multir_numba
+from model.initial_tests.multir_numba import multir_numba
 import pandas as pd
 from consts import *
 import time
@@ -213,7 +212,6 @@ def mult_2x2_matrix_chain(arr_in):
 
 if __name__ == '__main__':
     from consts import wide_mask
-    from visualizing.plotting import plot_R
 
     # sample_idx = 10
     # lam_w, R_w = format_data(wide_mask, sample_file_idx=sample_idx)

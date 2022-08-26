@@ -3,7 +3,7 @@ import time
 from numpy import arange, array
 from functions import residuals
 import matplotlib.pyplot as plt
-from model.multir_numba import multir_numba
+from model.initial_tests.multir_numba import multir_numba
 from functions import format_data
 from consts import default_mask, um, um_to_m
 from results import d_best

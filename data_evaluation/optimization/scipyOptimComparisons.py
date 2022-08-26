@@ -1,15 +1,11 @@
-from numpy import array, sum, ascontiguousarray
-from model.multir_numba import multir_numba
-from model.explicit_eval import jacobian, reflectance
-from model.explicitEvalOptimized import explicit_reflectance
+from model.initial_tests.multir_numba import multir_numba
+from model.initial_tests.explicit_eval import jacobian
 from consts import *
 from results import d_best
-from functions import format_data, calc_loss, calc_full_loss, residuals, avg_runtime
+from functions import format_data, calc_loss, calc_full_loss, avg_runtime
 from visualizing.plotting import plot_result
-from scipy.optimize import least_squares, minimize
-from model.explicitEvalOptimizedClean import ExplicitEval
+from model.initial_tests.explicitEvalOptimizedClean import ExplicitEval
 from optimization.nelderMeadSource import _minimize_neldermead
-import scipy
 
 mask = custom_mask_420
 sample_idx = 10
