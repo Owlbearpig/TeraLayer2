@@ -1,20 +1,33 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from model.tmm import get_phase, get_amplitude
-from model.itsjustaphase.raw_phase import get_measured_phase, get_measured_amplitude
+from measurement_data import get_measured_phase, get_measured_amplitude
 from consts import um_to_m, THz, array, GHz, pi, ones
 from visualizing.simplecolormap import map_plot
-from helpers import is_iterable
+from refractive_index import get_n
+from random import randint
 
 # sam_idx = 28
-sam_idx = 78
+sam_idx = 30
+
 # freqs = array([0.365, 0.503, 0.520, 1.087, 1.298, 1.380]) * THz
-#freqs = array([0.600, 0.642, 0.692, 0.772, 0.830, 0.856]) * THz
-#freqs = array([0.610, 0.636, 0.694, 0.770, 0.830, 0.870]) * THz
-#freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
-#freqs = array([0.374, 0.416, 0.470, 0.596, 0.644, 0.718]) * THz # Doesnt work
-freqs = array([0.348, 0.407, 0.485, 0.514, 0.567, 0.600]) * THz
-#freqs = np.arange(0.050, 1.200 + 0.001, 0.001) * THz
+# freqs = array([0.600, 0.642, 0.692, 0.772, 0.830, 0.856]) * THz
+# freqs = array([0.610, 0.636, 0.694, 0.770, 0.830, 0.870]) * THz
+# freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
+# freqs = array([0.374, 0.416, 0.470, 0.596, 0.644, 0.718]) * THz # Doesnt work
+#freqs = array([0.348, 0.407, 0.485, 0.514, 0.567, 0.600]) * THz # Does work if only considering phase loss...
+#freqs = array([0.348, 0.507, 0.645, 0.764, 0.867, 0.970]) * THz # Does work for total loss
+#freqs = array([0.191, 0.267, 0.345, 0.425, 0.500, 0.666]) * THz # does not work at all
+#freqs = array([0.309, 0.386, 0.461, 0.551, 0.700, 0.882]) * THz
+#freqs = array([0.346, 0.471, 0.562, 0.760, 0.964, 1.045]) * THz
+#freqs = array([0.250, 0.420, 0.521, 0.610, 0.721, 0.780]) * THz
+freqs = array([0.560, 0.711, 1.120, 1.160, 1.240, 1.320]) * THz
+#freqs = array(np.random.randint(250, 1300, 6), dtype=np.float64)
+#freqs *= GHz
+#freqs.sort()
+#print(freqs)
+#freqs = np.arange(0.400, 1.400 + 0.001, 0.001) * THz
+
 phase_measured = get_measured_phase(freqs, sam_idx)
 amplitude_measured = get_measured_amplitude(freqs, sam_idx)
 # freq_slice = (0.23 * THz <= freqs) * (freqs <= 1.80 * THz)
@@ -22,23 +35,16 @@ amplitude_measured = get_measured_amplitude(freqs, sam_idx)
 limited_slice = np.abs(phase_measured) <= pi
 phase_measured = phase_measured[limited_slice]
 amplitude_measured = amplitude_measured[limited_slice]
+
 freqs = freqs[limited_slice]
 
+print(freqs/THz)
+print(len(phase_measured))
+if len(freqs) <= 6:
+    assert len(phase_measured) == 6, f"Correct freqs: {freqs/THz}"
 
-def get_n(freqs):
-    m = len(freqs)
-    n_min, n_max = 2.67, 2.80
-    a = (n_max - n_min) / m
-
-    n1 = np.arange(0, m)*a + n_min
-
-    n = np.array([ones(m), 1.50*ones(m), n1, 1.50*ones(m), ones(m)], dtype=np.complex128).transpose()
-
-    return n
-
-
-n = get_n(freqs)
-
+n = get_n(freqs, 2.71, 2.86)
+#n = get_n(freqs, 2.80, 2.80)
 
 def phase_loss(p):
     phase_sim = get_phase(freqs, p, n)
@@ -57,6 +63,7 @@ def total_loss(p):
     amp_loss = amplitude_loss(p)
 
     return p_loss * amp_loss
+
 
 fig, (ax1, ax2) = plt.subplots(1, 2)
 ax1.plot(freqs / GHz, phase_measured, label="Phase measured", color="black")
@@ -82,14 +89,19 @@ p9 = np.array([31, 639, 71]) * um_to_m
 p10 = np.array([734, 1000, 458]) * um_to_m
 p11 = np.array([513, 739, 684]) * um_to_m
 p12 = np.array([31, 563, 71]) * um_to_m
-p13 = np.array([21, 895, 573]) * um_to_m
+p13 = np.array([21, 895, 764]) * um_to_m
+p14 = np.array([252, 16, 849]) * um_to_m
+p15 = np.array([41, 634, 66]) * um_to_m
+p16 = np.array([342, 11, 764]) * um_to_m
+p17 = np.array([21, 548, 593]) * um_to_m
 
-solutions = array([p3, p5])
+
+solutions = array([p3, p5, p14, p9, p15, p17])
 for p in solutions:
     phase_model = get_phase(freqs, p, n)
     amplitude_model = get_amplitude(freqs, p, n)
-
-    print(p * 10 ** 6, total_loss(p))
+    t_loss = total_loss(p)
+    print(p * 10 ** 6, t_loss)
 
     plt_label_phase = f"Phase model {p * 10 ** 6}, p_loss {round(float(phase_loss(p)), 6)}"
     ax1.plot(freqs / GHz, phase_model, label=plt_label_phase)
@@ -113,7 +125,7 @@ ax2.set_ylabel("Reflectance")
 
 for p in solutions:
     phase_model, amplitude_model = get_phase(freqs, p, n), get_amplitude(freqs, p, n)
-    diff_phase, diff_amplitude = (phase_measured - phase_model)**2, (amplitude_measured - amplitude_model)**2
+    diff_phase, diff_amplitude = (phase_measured - phase_model) ** 2, (amplitude_measured - amplitude_model) ** 2
 
     plt_label_phase = f"Phase difference {p * 10 ** 6}, p_loss {round(float(phase_loss(p)), 6)}"
     ax1.plot(freqs / GHz, diff_phase, label=plt_label_phase)
@@ -126,12 +138,10 @@ ax2.legend()
 plt.show()
 
 print(f"Best solution: {best_sol * 10 ** 6}")
-print(f"Total_loss = loss_p*loss_a: {best_min_p}*{best_min_p}={best_min_a * best_min_p}")
-
-
+print(f"Total_loss = loss_p*loss_a: {best_min_p}*{best_min_a}={best_min_p * best_min_a}")
 
 if __name__ == '__main__':
-    file_name = "total_loss_6freq_grid_vals_v1_0_1_0"
+    file_name = "total_loss_6freq_grid_vals_v1_0_3_1"
 
     try:
         grid_vals = np.load(file_name + ".npy")
@@ -153,8 +163,8 @@ if __name__ == '__main__':
                     print(f'j: {j}/{rez_x}')
                 for k in range(rez_z):
                     p = array([grd_x[i], grd_y[j], grd_z[k]])
-                    grid_vals[i, j, k] = phase_loss(p)
+                    grid_vals[i, j, k] = total_loss(p)
 
         np.save(file_name, grid_vals)
 
-    map_plot(img_data=grid_vals)
+    map_plot(img_data=grid_vals, representation="recip")

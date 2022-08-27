@@ -3,7 +3,7 @@ from consts import *
 from matplotlib.widgets import Slider
 
 
-def map_plot(error_func=None, img_data=None):
+def map_plot(error_func=None, img_data=None, representation=""):
 
     # should be resolution of axes d1, d2, d3
     rez_x, rez_y, rez_z = 200, 200, 200
@@ -33,7 +33,14 @@ def map_plot(error_func=None, img_data=None):
                 print(i, j)
 
     grid_vals_og = grid_vals.copy()
-    grid_vals = np.log10(grid_vals)
+    if representation == "log":
+        grid_vals = np.log10(grid_vals)
+        cbar_label = "log10(loss)"
+    elif representation == "recip":
+        grid_vals = 1/(grid_vals)
+        cbar_label = "1/(loss)"
+    else:
+        cbar_label = "loss value"
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -47,13 +54,14 @@ def map_plot(error_func=None, img_data=None):
     ax.set_xlabel('$d_1$ $(\mu m)$')
     ax.set_ylabel('$d_2$ $(\mu m)$')
 
-    g_min_idx = np.argmin(grid_vals)
-    min_x, min_y, min_z = np.unravel_index(g_min_idx, grid_vals.shape)
+    g_min_idx = np.argmin(grid_vals_og)
+    min_x, min_y, min_z = np.unravel_index(g_min_idx, grid_vals_og.shape)
     print(grd_x[min_x] * um, grd_y[min_y] * um, grd_z[min_z] * um)
-    print(np.min(grid_vals))
+    print(np.min(grid_vals_og))
 
     cbar = fig.colorbar(img)
-    cbar.set_label('log10(loss)', rotation=270, labelpad=10)
+
+    cbar.set_label(cbar_label, rotation=270, labelpad=10)
     axmax = fig.add_axes([0.05, 0.1, 0.02, 0.8])
     amp_slider = Slider(
         ax=axmax,

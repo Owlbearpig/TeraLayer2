@@ -7,6 +7,8 @@ from pathlib import Path
 from helpers import is_iterable
 import os
 from model.tmm import get_phase, um_to_m
+from model.refractive_index import get_n
+
 
 np.set_printoptions(suppress=True)
 
@@ -49,9 +51,9 @@ def get_measured_amplitude(freqs, sam_idx=slice(None)):
 
 
 if __name__ == '__main__':
-    sam_idx = 28
+    sam_idx = 29
     freqs = data_array[0, :, 0] * MHz
-    f_slice = (0.00 * THz <= freqs) * (freqs <= 1.85 * THz)
+    f_slice = (0.00 * THz <= freqs) * (freqs <= 1.55 * THz)
 
     freqs = freqs[f_slice]
 
@@ -65,6 +67,12 @@ if __name__ == '__main__':
     print(get_measured_phase(selected_freqs, sam_idx))
     print(np.mean(get_measured_phase(0)))
 
+    plt.figure("Std amplitude")
+    plt.plot(freqs, np.std(get_measured_amplitude(freqs), axis=0), label=f"std(amplitude)")
+    plt.xlabel("Frequency (Hz)")
+    plt.ylabel("Amplitude (a.u.)")
+    plt.legend()
+
     plt.figure("Raw phase frequency domain")
     # plt.plot(freqs, ref_data[f_slice, 2], label=f"reference")
     # plt.plot(freqs, data_array[sam_idx, f_slice, 2], label=f"sample idx: {sam_idx}")
@@ -75,18 +83,6 @@ if __name__ == '__main__':
     plt.legend()
 
     phase_meas = get_measured_phase(selected_freqs)
-
-    p = np.array([40, 640, 75]) * um_to_m
-    model_phases = get_phase(selected_freqs, p)
-
-    best_idx, minima = None, np.inf
-    for sam_idx in np.arange(0, 101):
-        diff = np.sum(np.abs(phase_meas[sam_idx] - model_phases) ** 2)
-        if diff < minima:
-            best_idx = sam_idx
-            minima = diff
-
-    print(best_idx)
 
     plt.figure(f"Single frequencies raw phase")
     for freq in selected_freqs:
