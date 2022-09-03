@@ -4,6 +4,7 @@ from consts import um_to_m, c0, THz
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from numba import jit
+from measurement_data import get_measured_phase, get_measured_amplitude
 
 mpl.rcParams['lines.marker'] = 'o'
 mpl.rcParams['lines.markersize'] = 2
@@ -52,22 +53,13 @@ def multir_complex(freqs, p, n):
     return r
 
 
-# @jit(cache=True, nopython=True)
-def custom_unwrap(phase):
-    p = phase.copy()
-    for i in range(1, len(phase) - 1):
-        diff = phase[i - 1] - phase[i]
-        if np.abs(diff) > pi * 0.9:
-            p[i:] += diff
-
-    return p
-
-
 @jit(cache=True, nopython=False)
-def get_phase(freqs, p, n):
-    R_C = multir_complex(freqs, p, n)
+def total_loss_fast(freqs, p, n):
+    r_c = multir_complex(freqs, p, n)
+    np.angle(r_c)
 
-    return np.angle(R_C)
+    np.sum((np.real(r_c * conj(r_c)) - amplitude_measured) ** 2)
+    return
 
 
 @jit(cache=True, nopython=False)
@@ -78,15 +70,16 @@ def get_amplitude(freqs, p, n):
 
 
 if __name__ == '__main__':
-    from consts import array
-    from sim_vs_measurement import total_loss
-    from timeit import default_timer
-    freqs = array([0.400, 0.480, 0.560, 0.640, 0.720, 0.800]) * THz
+    sam_idx = 29
+    freqs = np.arange(0.400, 1.400 + 0.001, 0.001) * THz
 
-    t0 = default_timer()
-    iterations = 1000
-    for i in range(iterations):
-        p = np.random.random(3) * um_to_m
-        total_loss(p)
-    print(10**6*(default_timer() - t0)/iterations)
+    phase_measured = get_measured_phase(freqs, sam_idx)
+    amplitude_measured = get_measured_amplitude(freqs, sam_idx)
+    # freq_slice = (0.23 * THz <= freqs) * (freqs <= 1.80 * THz)
+
+    limited_slice = np.abs(phase_measured) <= pi
+    phase_measured = phase_measured[limited_slice]
+    amplitude_measured = amplitude_measured[limited_slice]
+
+    freqs = freqs[limited_slice]
 

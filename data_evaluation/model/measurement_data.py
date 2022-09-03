@@ -69,6 +69,9 @@ if __name__ == '__main__':
 
     plt.figure("Std amplitude")
     plt.plot(freqs, np.std(get_measured_amplitude(freqs), axis=0), label=f"std(amplitude)")
+    plt.plot(freqs, np.mean(get_measured_amplitude(freqs), axis=0), label=f"mean(amplitude)")
+    plt.plot(freqs, get_measured_amplitude(freqs, sam_idx), label=f"sample: {sam_idx}")
+
     plt.xlabel("Frequency (Hz)")
     plt.ylabel("Amplitude (a.u.)")
     plt.legend()
@@ -99,7 +102,7 @@ if __name__ == '__main__':
 
     phase_meas = get_measured_phase(freqs)
 
-    plt.plot(freqs, 20 * np.log10(bg_data[f_slice, 1]), label=f"Background")
+    plt.plot(freqs, 20*np.log10(bg_data[f_slice, 1]), label=f"Background")
 
     plt.xlabel("Frequency")
     plt.ylabel("Amplitude (dB)")

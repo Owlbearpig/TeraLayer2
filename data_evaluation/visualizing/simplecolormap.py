@@ -3,16 +3,20 @@ from consts import *
 from matplotlib.widgets import Slider
 
 
-def map_plot(error_func=None, img_data=None, representation=""):
+def map_plot(error_func=None, img_data=None, settings=None, representation=""):
 
-    # should be resolution of axes d1, d2, d3
-    rez_x, rez_y, rez_z = 200, 200, 200
-    # rez_x, rez_y, rez_z = 1000, 1000, 1000
+    if settings is None:
+        # should be resolution of axes d1, d2, d3
+        rez_x, rez_y, rez_z = 200, 200, 200
+        # rez_x, rez_y, rez_z = 1000, 1000, 1000
 
-    # lb = array([0.000001, 0.000400, 0.000001]) # realistic bounds
-    # ub = array([0.000100, 0.000700, 0.000100])
-    lb = array([0.000001, 0.000001, 0.000001])
-    ub = array([0.001, 0.001, 0.001])
+        # lb = array([0.000001, 0.000400, 0.000001]) # realistic bounds
+        # ub = array([0.000100, 0.000700, 0.000100])
+        lb = array([0.000001, 0.000001, 0.000001])
+        ub = array([0.001, 0.001, 0.001])
+    else:
+        rez_x, rez_y, rez_z = settings["rez"]
+        lb, ub = settings["lb"], settings["ub"]
 
     # initial 'full' grid matching bounds
     grd_x = np.linspace(lb[0], ub[0], rez_x)
