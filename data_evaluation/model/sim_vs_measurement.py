@@ -7,8 +7,9 @@ from visualizing.simplecolormap import map_plot
 from refractive_index import get_n
 from random import randint
 
-# sam_idx = 28
-sam_idx = 28
+#sam_idx = 59
+sam_idx = 78
+#sam_idx = randint(50, 100)
 
 # freqs = array([0.365, 0.503, 0.520, 1.087, 1.298, 1.380]) * THz
 # freqs = array([0.600, 0.642, 0.692, 0.772, 0.830, 0.856]) * THz
@@ -23,32 +24,35 @@ sam_idx = 28
 # freqs = array([0.250, 0.420, 0.521, 0.610, 0.721, 0.780]) * THz
 #freqs = array([0.560, 0.711, 1.120, 1.160, 1.240, 1.320]) * THz
 freqs = array([0.440, 0.520, 0.600, 0.680, 0.780, 0.860]) * THz
-freqs = array([0.460, 0.490, 0.600, 0.640, 0.780, 0.840]) * THz
+#freqs = array([0.460, 0.490, 0.600, 0.640, 0.780, 0.840]) * THz
 # freqs = array(np.random.randint(250, 1300, 6), dtype=np.float64)
 # freqs *= GHz
 # freqs.sort()
 # print(freqs)
 freqs = np.arange(0.400, 1.400 + 0.001, 0.001) * THz
+#freqs = np.arange(0.400, 0.600 + 0.001, 0.001) * THz
 
 phase_measured = get_measured_phase(freqs, sam_idx)
 amplitude_measured = get_measured_amplitude(freqs, sam_idx)
 # freq_slice = (0.23 * THz <= freqs) * (freqs <= 1.80 * THz)
 
+
 limited_slice = np.abs(phase_measured) <= pi
 phase_measured = phase_measured[limited_slice]
 amplitude_measured = amplitude_measured[limited_slice]
-
 freqs = freqs[limited_slice]
+
 
 print(freqs / THz)
 print(len(phase_measured))
 if len(freqs) <= 6:
     assert len(phase_measured) == 6, f"Correct freqs: {freqs / THz}"
 
-n = get_n(freqs, 2.71, 2.86)
+n = get_n(freqs, 2.70, 2.85)
 
 
 #n = get_n(freqs, 2.80, 2.80)
+
 
 def phase_loss(p):
     phase_sim = get_phase(freqs, p, n)
@@ -68,7 +72,25 @@ def total_loss(p):
 
     return p_loss * amp_loss #* (p_loss + amp_loss)
 
+"""
+n_min, n_max = 2.50, 3.15
+n_mins, n_maxs = np.arange(n_min, n_max + 0.01, 0.01), np.arange(n_min, n_max + 0.01, 0.01)
+p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
+best_combo, min_val = (None, None), np.inf
+for n1 in n_mins:
+    for n2 in n_maxs:
+        n = get_n(freqs, n1, n2)
+        #t_loss = amplitude_loss(p_opt, n)*phase_loss(p_opt, n)
+        #t_loss = phase_loss(p_opt, n)
+        t_loss = amplitude_loss(p_opt, n)
+        if t_loss < min_val:
+            min_val = t_loss
+            best_combo = (n1, n2)
+            print(t_loss, best_combo)
 
+print(freqs.min()/THz, freqs.max()/THz, np.mean(np.diff(freqs)/THz))
+print(sam_idx, best_combo)
+"""
 if __name__ == '__main__':
     fig, (ax1, ax2) = plt.subplots(1, 2)
     ax1.plot(freqs / GHz, phase_measured, label="Phase measured", color="black")
@@ -81,12 +103,12 @@ if __name__ == '__main__':
     fig.suptitle("Model vs measurement")
 
     # p = np.array([60, 620, 75]) * um_to_m
+    p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
     p0 = np.array([45, 420, 75]) * um_to_m
     p1 = np.array([51, 608, 56]) * um_to_m
     p2 = np.array([26, 573, 91]) * um_to_m
-    p3 = np.array([40, 640, 75]) * um_to_m
     p4 = np.array([46, 147, 915]) * um_to_m
-    p5 = np.array([41, 644, 157]) * um_to_m
+    p5 = np.array([42, 641, 157]) * um_to_m
     p6 = np.array([583, 980, 111]) * um_to_m
     p7 = np.array([41, 633, 924]) * um_to_m
     p8 = np.array([31, 307, 518]) * um_to_m
@@ -99,8 +121,9 @@ if __name__ == '__main__':
     p15 = np.array([41, 634, 66]) * um_to_m
     p16 = np.array([201.8, 774.1, 909.6]) * um_to_m
     p17 = np.array([36.1, 623.5, 66.3]) * um_to_m
+    p18 = np.array([36.1, 633.5, 66.3]) * um_to_m
 
-    solutions = array([p3, p5, p14, p9, p16, p17])
+    solutions = array([p_opt, p5])
     for p in solutions:
         phase_model = get_phase(freqs, p, n)
         amplitude_model = get_amplitude(freqs, p, n)
@@ -144,18 +167,19 @@ if __name__ == '__main__':
     print(f"Best solution: {best_sol * 10 ** 6}")
     print(f"Total_loss = loss_p*loss_a: {best_min_p}*{best_min_a}={best_min_p * best_min_a}")
 
-    file_name = "total_loss_6freq_grid_vals_v1_0_3_7"
+    file_name = "total_loss_6freq_grid_vals_v1_0_4_1"
+
+    rez_x, rez_y, rez_z = 200, 200, 200
+    # lb = array([0.000001, 0.000001, 0.000001])
+    # ub = array([0.001000, 0.001000, 0.001000])
+    lb = array([0.000001, 0.000540, 0.000001])
+    ub = array([0.000200, 0.000740, 0.000200])
+
+    new_settings = {"rez": (rez_x, rez_y, rez_z), "lb": lb, "ub": ub}
 
     try:
         grid_vals = np.load(file_name + ".npy")
-        new_settings = None
     except FileNotFoundError:
-        rez_x, rez_y, rez_z = 200, 200, 200
-        lb = array([0.000001, 0.000001, 0.000001])
-        ub = array([0.001000, 0.001000, 0.001000])
-
-        new_settings = {"rez": (rez_x, rez_y, rez_z), "lb": lb, "ub": ub}
-
         # initial 'full' grid matching bounds
         grd_x = np.linspace(lb[0], ub[0], rez_x)
         grd_y = np.linspace(lb[1], ub[1], rez_y)
@@ -173,4 +197,4 @@ if __name__ == '__main__':
 
         np.save(file_name, grid_vals)
 
-    map_plot(img_data=grid_vals, representation="recip", settings=new_settings)
+    map_plot(img_data=grid_vals, representation="log", settings=new_settings)

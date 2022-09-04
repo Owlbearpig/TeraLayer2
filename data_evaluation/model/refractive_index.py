@@ -3,7 +3,7 @@ from consts import THz, ones, array
 
 
 def get_n(freqs, n_min=2.71, n_max=2.86):
-    freqs_full = np.arange(0.250, 1.500 + 0.001, 0.001) * THz
+    freqs_full = np.arange(0.300, 1.500 + 0.001, 0.001) * THz
     m = len(freqs_full)
     a = (n_max - n_min) / m
 
