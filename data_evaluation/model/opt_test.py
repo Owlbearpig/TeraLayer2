@@ -27,9 +27,13 @@ def bad_ones(sam_idx):
 
 def calc_loss(p, sam_idx, freqs=None):
     if freqs is None:
-        freqs = array([0.440, 0.520, 0.600, 0.640, 0.780, 0.860]) * THz
-        freqs = array([420, 440, 480, 520, 560, 600], dtype=float) * GHz
-        freqs = array([430, 460, 490, 520, 550, 590], dtype=float) * GHz
+        #freqs = array([0.440, 0.520, 0.600, 0.640, 0.780, 0.860]) * THz
+        freqs = array([0.250, 0.350, 0.440, 0.520, 0.640, 0.860]) * THz
+        #freqs = array([420, 440, 780, 860, 908, 938], dtype=float) * GHz
+        #freqs = array([430, 460, 490, 520, 550, 590], dtype=float) * GHz
+        #freqs = array([8.480e+11, 8.780e+11, 9.080e+11, 9.380e+11, 9.680e+11, 1.008e+12])
+        #freqs = array([5.81e+11, 8.780e+11, 9.080e+11, 9.380e+11, 9.680e+11, 1.008e+12])
+        #freqs = array([7.66e+11, 7.96e+11, 8.26e+11, 8.56e+11, 8.86e+11, 9.26e+11]) + 10*GHz # this shows point of t_loss vs amp_loss only
 
     phase_measured = get_measured_phase(freqs, sam_idx)
     amplitude_measured = get_measured_amplitude(freqs, sam_idx)
@@ -48,7 +52,7 @@ def calc_loss(p, sam_idx, freqs=None):
     """
 
     # n = get_n(freqs, 2.70, 2.85)
-    n = get_n(freqs, 2.70, 2.70)
+    n = get_n(freqs, 3.10, 3.20)
 
     phase_sim = get_phase(freqs, p, n)
     amplitude_sim = get_amplitude(freqs, p, n)
@@ -56,16 +60,18 @@ def calc_loss(p, sam_idx, freqs=None):
     p_loss = np.sum((phase_sim - phase_measured) ** 2)
     amp_loss = np.sum((amplitude_sim - amplitude_measured) ** 2)
 
-    return amp_loss * p_loss
+    return amp_loss#*p_loss
 
 
 if __name__ == '__main__':
     from scipy.optimize import minimize
+    np.random.seed(420)
 
-    p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
-
+    p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m * (0.8 + np.random.random(3)/10)
+    #p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
+    """
     freqs = array([430, 460, 490, 520, 550, 590], dtype=np.float64) * GHz
-
+    
     best_freq_set, min_val = None, np.inf
     for freq_offset in np.arange(0, 1000, 10):
         print(freq_offset)
@@ -85,7 +91,7 @@ if __name__ == '__main__':
 
     print(min_val)
     print(best_freq_set)
-    exit()
+    """
 
     sam_idx = 78
     p0 = p_opt.copy()
@@ -95,7 +101,7 @@ if __name__ == '__main__':
 
     p_minima = []
     for sam_idx in np.arange(0, 101):
-        res = minimize(calc_loss, p_opt, args=[sam_idx], method='Nelder-Mead')
+        res = minimize(calc_loss, p0, args=[sam_idx], method='Nelder-Mead')
         p_minima.append(res.x)
         # print(res.x / um_to_m)
         # print(res)
