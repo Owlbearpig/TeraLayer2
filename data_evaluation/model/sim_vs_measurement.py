@@ -6,6 +6,7 @@ from consts import um_to_m, THz, array, GHz, pi, ones
 from visualizing.simplecolormap import map_plot
 from refractive_index import get_n
 from random import randint
+from pathlib import Path
 
 #sam_idx = 59
 sam_idx = 78
@@ -167,7 +168,7 @@ if __name__ == '__main__':
     print(f"Best solution: {best_sol * 10 ** 6}")
     print(f"Total_loss = loss_p*loss_a: {best_min_p}*{best_min_a}={best_min_p * best_min_a}")
 
-    file_name = "total_loss_6freq_grid_vals_v1_0_4_1"
+    file_name = Path("image_files") / "total_loss_6freq_grid_vals_v1_0_4_1"
 
     rez_x, rez_y, rez_z = 200, 200, 200
     # lb = array([0.000001, 0.000001, 0.000001])
@@ -178,7 +179,7 @@ if __name__ == '__main__':
     new_settings = {"rez": (rez_x, rez_y, rez_z), "lb": lb, "ub": ub}
 
     try:
-        grid_vals = np.load(file_name + ".npy")
+        grid_vals = np.load(str(file_name) + ".npy")
     except FileNotFoundError:
         # initial 'full' grid matching bounds
         grd_x = np.linspace(lb[0], ub[0], rez_x)
@@ -195,6 +196,6 @@ if __name__ == '__main__':
                     p = array([grd_x[i], grd_y[j], grd_z[k]])
                     grid_vals[i, j, k] = total_loss(p)
 
-        np.save(file_name, grid_vals)
+        np.save(str(file_name), grid_vals)
 
     map_plot(img_data=grid_vals, representation="log", settings=new_settings)
