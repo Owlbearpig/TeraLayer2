@@ -8,9 +8,9 @@ from refractive_index import get_n
 from random import randint
 from pathlib import Path
 
-#sam_idx = 59
-sam_idx = 78
-#sam_idx = randint(50, 100)
+# sam_idx = 59
+sam_idx = 28
+# sam_idx = randint(50, 100)
 
 # freqs = array([0.365, 0.503, 0.520, 1.087, 1.298, 1.380]) * THz
 # freqs = array([0.600, 0.642, 0.692, 0.772, 0.830, 0.856]) * THz
@@ -23,15 +23,16 @@ sam_idx = 78
 # freqs = array([0.309, 0.386, 0.461, 0.551, 0.700, 0.882]) * THz
 # freqs = array([0.346, 0.471, 0.562, 0.760, 0.964, 1.045]) * THz
 # freqs = array([0.250, 0.420, 0.521, 0.610, 0.721, 0.780]) * THz
-#freqs = array([0.560, 0.711, 1.120, 1.160, 1.240, 1.320]) * THz
+# freqs = array([0.560, 0.711, 1.120, 1.160, 1.240, 1.320]) * THz
 freqs = array([0.440, 0.520, 0.600, 0.680, 0.780, 0.860]) * THz
-#freqs = array([0.460, 0.490, 0.600, 0.640, 0.780, 0.840]) * THz
+freqs = array([7.66e+11, 7.96e+11, 8.26e+11, 8.56e+11, 8.86e+11, 9.26e+11]) + 10 * GHz
+# freqs = array([0.460, 0.490, 0.600, 0.640, 0.780, 0.840]) * THz
 # freqs = array(np.random.randint(250, 1300, 6), dtype=np.float64)
 # freqs *= GHz
 # freqs.sort()
 # print(freqs)
-freqs = np.arange(0.400, 1.400 + 0.001, 0.001) * THz
-#freqs = np.arange(0.400, 0.600 + 0.001, 0.001) * THz
+#freqs = np.arange(0.400, 1.400 + 0.001, 0.001) * THz
+# freqs = np.arange(0.400, 0.600 + 0.001, 0.001) * THz
 
 phase_measured = get_measured_phase(freqs, sam_idx)
 amplitude_measured = get_measured_amplitude(freqs, sam_idx)
@@ -43,16 +44,16 @@ phase_measured = phase_measured[limited_slice]
 amplitude_measured = amplitude_measured[limited_slice]
 freqs = freqs[limited_slice]
 
-
 print(freqs / THz)
 print(len(phase_measured))
 if len(freqs) <= 6:
-    assert len(phase_measured) == 6, f"Correct freqs: {freqs / THz}"
+    #assert len(phase_measured) == 6, f"Correct freqs: {freqs / THz}"
+    print(f"Correct freqs: {freqs / THz}")
 
 n = get_n(freqs, 2.70, 2.85)
 
 
-#n = get_n(freqs, 2.80, 2.80)
+n = get_n(freqs, 2.70, 2.75)
 
 
 def phase_loss(p):
@@ -71,7 +72,8 @@ def total_loss(p):
     p_loss = phase_loss(p)
     amp_loss = amplitude_loss(p)
 
-    return p_loss * amp_loss #* (p_loss + amp_loss)
+    return (np.sum(p) - np.sum(p_opt))**2 * p_loss * amp_loss  # * (p_loss + amp_loss)
+
 
 """
 n_min, n_max = 2.50, 3.15
@@ -168,7 +170,7 @@ if __name__ == '__main__':
     print(f"Best solution: {best_sol * 10 ** 6}")
     print(f"Total_loss = loss_p*loss_a: {best_min_p}*{best_min_a}={best_min_p * best_min_a}")
 
-    file_name = Path("image_files") / "total_loss_6freq_grid_vals_v1_0_4_1"
+    file_name = Path("image_files") / "total_loss_6freq_grid_vals_v1_0_4_2"
 
     rez_x, rez_y, rez_z = 200, 200, 200
     # lb = array([0.000001, 0.000001, 0.000001])

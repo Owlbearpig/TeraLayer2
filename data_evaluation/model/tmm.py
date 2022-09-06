@@ -1,9 +1,11 @@
 import numpy as np
 from numpy import cos, sin, arcsin, exp, dot, conj, pi
-from consts import um_to_m, c0, THz
+from consts import um_to_m, c0, THz, GHz
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from numba import jit
+from model.refractive_index import get_n
+from measurement_data import get_measured_phase, get_measured_amplitude
 
 mpl.rcParams['lines.marker'] = 'o'
 mpl.rcParams['lines.markersize'] = 2
@@ -79,14 +81,25 @@ def get_amplitude(freqs, p, n):
 
 if __name__ == '__main__':
     from consts import array
-    from sim_vs_measurement import total_loss
-    from timeit import default_timer
-    freqs = array([0.400, 0.480, 0.560, 0.640, 0.720, 0.800]) * THz
 
-    t0 = default_timer()
-    iterations = 1000
-    for i in range(iterations):
-        p = np.random.random(3) * um_to_m
-        total_loss(p)
-    print(10**6*(default_timer() - t0)/iterations)
+    #freqs = array([0.400, 0.480, 0.560, 0.640, 0.720, 0.800]) * THz
+    freqs = np.arange(0.250, 1.400 + 0.001, 0.001) * THz
+    n = get_n(freqs, 3.00, 3.00)
+    #p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
+    p_opt = np.array([42.5/2, 641.3, 74.4/2]) * um_to_m
 
+    sam_idx = 78
+    phase_measured = get_measured_phase(freqs, sam_idx)
+
+    limited_slice = np.abs(phase_measured) <= pi
+    phase_measured = phase_measured[limited_slice]
+    #freqs = freqs[limited_slice]
+
+    phase_mod = get_phase(freqs, p_opt, n)
+
+    plt.plot(freqs / GHz, phase_mod, label="phase model")
+    #plt.plot(freqs / GHz, phase_measured, label="phase measured")
+    plt.xlabel("frequency (GHz)")
+    plt.ylabel("phase (rad)")
+    plt.legend()
+    plt.show()

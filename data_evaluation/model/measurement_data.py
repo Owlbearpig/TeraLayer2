@@ -6,8 +6,6 @@ import matplotlib as mpl
 from pathlib import Path
 from helpers import is_iterable
 import os
-from model.tmm import get_phase, um_to_m
-from model.refractive_index import get_n
 
 
 np.set_printoptions(suppress=True)
