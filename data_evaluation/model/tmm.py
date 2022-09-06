@@ -16,7 +16,7 @@ mpl.rcParams['axes.grid'] = True
 
 @jit(cache=True, nopython=True)
 def multir_complex(freqs, p, n):
-    thea = 8.0 * pi / 180.0
+    thea = 0*8.0 * pi / 180.0
     es = p.copy()
 
     the = np.zeros(len(freqs), dtype=np.complex128)
@@ -79,25 +79,33 @@ def get_amplitude(freqs, p, n):
     return np.real(r_c * conj(r_c))
 
 
+def unwrap(phase):
+    for i in range(1, len(phase)-1):
+        diff = phase[i-1] - phase[i]
+        if np.abs(diff) > 1:
+            phase[i:] += diff
+
+    return phase
+
 if __name__ == '__main__':
     from consts import array
 
     #freqs = array([0.400, 0.480, 0.560, 0.640, 0.720, 0.800]) * THz
-    freqs = np.arange(0.250, 1.400 + 0.001, 0.001) * THz
-    n = get_n(freqs, 3.00, 3.00)
-    #p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
-    p_opt = np.array([42.5/2, 641.3, 74.4/2]) * um_to_m
+    freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
+    n = get_n(freqs, 2.70, 2.70)
+    p_opt = np.array([42.5, 341.3, 74.4]) * um_to_m
 
     sam_idx = 78
-    phase_measured = get_measured_phase(freqs, sam_idx)
+    #phase_measured = get_measured_phase(freqs, sam_idx)
 
-    limited_slice = np.abs(phase_measured) <= pi
-    phase_measured = phase_measured[limited_slice]
+    #limited_slice = np.abs(phase_measured) <= pi
+    #phase_measured = phase_measured[limited_slice]
     #freqs = freqs[limited_slice]
 
     phase_mod = get_phase(freqs, p_opt, n)
-
-    plt.plot(freqs / GHz, phase_mod, label="phase model")
+    slope_slice = (freqs < 1130 * GHz) * (freqs > 1120 * GHz)
+    print(np.mean(np.diff(phase_mod[slope_slice])))
+    plt.plot(freqs / GHz, (phase_mod), label="phase model")
     #plt.plot(freqs / GHz, phase_measured, label="phase measured")
     plt.xlabel("frequency (GHz)")
     plt.ylabel("phase (rad)")
