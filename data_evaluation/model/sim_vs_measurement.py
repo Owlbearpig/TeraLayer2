@@ -55,6 +55,8 @@ n = get_n(freqs, 2.70, 2.85)
 
 n = get_n(freqs, 2.70, 2.75)
 
+phase_measured = get_phase(freqs, np.array([42.5, 641.3, 74.4]) * um_to_m, n)
+amplitude_measured = get_amplitude(freqs, np.array([42.5, 641.3, 74.4]) * um_to_m, n)
 
 def phase_loss(p):
     phase_sim = get_phase(freqs, p, n)
@@ -72,7 +74,11 @@ def total_loss(p):
     p_loss = phase_loss(p)
     amp_loss = amplitude_loss(p)
 
-    return ((np.sum(p) - np.sum(p_opt))*(1/3e-3))**2 + amp_loss*p_loss  # * (p_loss + amp_loss)
+    # return ((np.sum(p) - np.sum(p_opt))*(1/3e-3))**2 + amp_loss*p_loss
+    #return ((np.sum(p) - np.sum(p_opt))*(1/3e-3))**2 + amp_loss
+    #return amp_loss
+    return p_loss
+    #return amp_loss*p_loss
 
 
 """
@@ -170,7 +176,7 @@ if __name__ == '__main__':
     print(f"Best solution: {best_sol * 10 ** 6}")
     print(f"Total_loss = loss_p*loss_a: {best_min_p}*{best_min_a}={best_min_p * best_min_a}")
 
-    file_name = Path("image_files") / "total_loss_6freq_grid_vals_v1_0_4_7"
+    file_name = Path("image_files") / "total_loss_6freq_grid_vals_v1_0_4_8"
 
     rez_x, rez_y, rez_z = 200, 200, 200
     lb = array([0.000001, 0.000001, 0.000001])

@@ -56,6 +56,9 @@ def calc_loss(p, sam_idx, freqs=None):
     # n = get_n(freqs, 2.70, 2.85)
     n = get_n(freqs, 2.70, 2.75)
 
+    phase_measured = get_phase(freqs, np.array([42.5, 641.3, 74.4]) * um_to_m, n)
+    amplitude_measured = get_amplitude(freqs, np.array([42.5, 641.3, 74.4]) * um_to_m, n)
+
     phase_sim = get_phase(freqs, p, n)
     amplitude_sim = get_amplitude(freqs, p, n)
 
@@ -69,8 +72,10 @@ def calc_loss(p, sam_idx, freqs=None):
     p_loss = np.sum((1 / len(freqs)) * ((phase_sim - phase_measured) / (2 * pi)) ** 2)
     amp_loss = np.sum((1 / len(freqs)) * (amplitude_sim - amplitude_measured) ** 2)
 
-    loss = ((np.sum(p) - np.sum(p_opt)) * (1 / 3e-3)) ** 2 + amp_loss * p_loss
-    return -1 / loss
+    # loss = amp_loss * p_loss + ((np.sum(p) - np.sum(p_opt)) * (1 / 3e-3)) ** 2# + amp_loss * p_loss
+    loss = amp_loss * p_loss + ((np.sum(p) - np.sum(p_opt)) * (1 / 3e-3)) ** 2  # + amp_loss * p_loss
+
+    return -np.log10(1 / loss)
 
 
 if __name__ == '__main__':
@@ -105,14 +110,15 @@ if __name__ == '__main__':
     """
 
     sam_idx = 78
-    p0 = p_opt.copy() * (0.7 + np.random.random(3) / 10)
+    p0 = p_opt * (0.9 + np.random.random(3) / 10)
 
     t_loss = calc_loss(p_opt, sam_idx)
     print("p0:", p0 * 10 ** 6, calc_loss(p0, sam_idx))
     print("p_opt:", p_opt * 10 ** 6, t_loss)
 
+    sam_range = np.arange(0, 5)
     p_minima = []
-    for sam_idx in np.arange(0, 101):
+    for sam_idx in sam_range:
         res = minimize(calc_loss, p0, args=[sam_idx], method='Nelder-Mead')
         p_minima.append(res.x)
         # print(res.x / um_to_m)
@@ -123,9 +129,9 @@ if __name__ == '__main__':
     print(np.mean(p_minima[:, 0] / um_to_m), np.mean(p_minima[:, 1] / um_to_m), np.mean(p_minima[:, 2] / um_to_m))
     print(np.std(p_minima[:, 0] / um_to_m), np.std(p_minima[:, 1] / um_to_m), np.std(p_minima[:, 2] / um_to_m))
 
-    plt.plot(np.arange(0, 101), p_minima[:, 0] / um_to_m, label="d1")
-    plt.plot(np.arange(0, 101), p_minima[:, 1] / um_to_m, label="d2")
-    plt.plot(np.arange(0, 101), p_minima[:, 2] / um_to_m, label="d3")
+    plt.plot(sam_range, p_minima[:, 0] / um_to_m, label="d1")
+    plt.plot(sam_range, p_minima[:, 1] / um_to_m, label="d2")
+    plt.plot(sam_range, p_minima[:, 2] / um_to_m, label="d3")
     plt.legend()
     plt.xlabel("sample idx")
     plt.ylabel("thickness (um)")

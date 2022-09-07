@@ -41,7 +41,7 @@ def map_plot(error_func=None, img_data=None, settings=None, representation=""):
         grid_vals = np.log10(grid_vals)
         cbar_label = "log10(loss)"
     elif representation == "recip":
-        grid_vals = 1/(grid_vals)
+        grid_vals = -np.log10(1/(grid_vals))
         cbar_label = "1/(loss)"
     else:
         cbar_label = "loss value"
