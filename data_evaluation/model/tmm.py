@@ -80,12 +80,14 @@ def get_amplitude(freqs, p, n):
 
 
 def unwrap(phase):
+    p_uwrapped = phase.copy()
     for i in range(1, len(phase)-1):
         diff = phase[i-1] - phase[i]
         if np.abs(diff) > 1:
-            phase[i:] += diff
+            p_uwrapped[i:] += np.sign(diff)*pi
 
-    return phase
+    return p_uwrapped
+
 
 if __name__ == '__main__':
     from consts import array
@@ -93,7 +95,9 @@ if __name__ == '__main__':
     #freqs = array([0.400, 0.480, 0.560, 0.640, 0.720, 0.800]) * THz
     freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
     n = get_n(freqs, 2.70, 2.70)
-    p_opt = np.array([42.5, 341.3, 74.4]) * um_to_m
+    print(n[0, :])
+    p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
+    #p_opt = np.array([200, 600, 300]) * um_to_m
 
     sam_idx = 78
     #phase_measured = get_measured_phase(freqs, sam_idx)
@@ -103,11 +107,27 @@ if __name__ == '__main__':
     #freqs = freqs[limited_slice]
 
     phase_mod = get_phase(freqs, p_opt, n)
-    slope_slice = (freqs < 1130 * GHz) * (freqs > 1120 * GHz)
-    print(np.mean(np.diff(phase_mod[slope_slice])))
-    plt.plot(freqs / GHz, (phase_mod), label="phase model")
-    #plt.plot(freqs / GHz, phase_measured, label="phase measured")
+    amp_mod = get_amplitude(freqs, p_opt, n)
+    slope_slice = (freqs < 1400 * GHz) * (freqs >= 1 * GHz)
+    print(sum(slope_slice))
+    print(np.mean(np.diff(unwrap(phase_mod))))
+
+    plt.figure()
+    plt.plot(freqs[:-1] / GHz, np.diff(unwrap(phase_mod)), label=f"{p_opt*10**6}")
     plt.xlabel("frequency (GHz)")
-    plt.ylabel("phase (rad)")
+    plt.ylabel("phase diff (rad)")
     plt.legend()
+
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+    ax1.plot(freqs / GHz, np.unwrap(phase_mod), label=f"phase model, {p_opt*10**6}")
+    #ax1.plot(freqs / GHz, phase_measured, label="phase measured")
+    ax1.set_xlabel("frequency (GHz)")
+    ax1.set_ylabel("phase (rad)")
+    ax1.legend()
+
+    ax2.plot(freqs / GHz, amp_mod, label=f"amplitude model, {p_opt * 10 ** 6}")
+    ax2.set_xlabel("frequency (GHz)")
+    ax2.set_ylabel("amp (a.u.)")
+    ax2.legend()
+
     plt.show()

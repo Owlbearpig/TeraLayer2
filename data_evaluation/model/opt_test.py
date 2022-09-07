@@ -27,13 +27,15 @@ def bad_ones(sam_idx):
 
 def calc_loss(p, sam_idx, freqs=None):
     if freqs is None:
-        #freqs = array([0.440, 0.520, 0.600, 0.640, 0.780, 0.860]) * THz
-        freqs = array([0.250, 0.350, 0.440, 0.520, 0.640, 0.860]) * THz
-        #freqs = array([420, 440, 780, 860, 908, 938], dtype=float) * GHz
-        #freqs = array([430, 460, 490, 520, 550, 590], dtype=float) * GHz
-        #freqs = array([8.480e+11, 8.780e+11, 9.080e+11, 9.380e+11, 9.680e+11, 1.008e+12])
-        #freqs = array([5.81e+11, 8.780e+11, 9.080e+11, 9.380e+11, 9.680e+11, 1.008e+12])
-        #freqs = array([7.66e+11, 7.96e+11, 8.26e+11, 8.56e+11, 8.86e+11, 9.26e+11]) + 10*GHz # this shows point of t_loss vs amp_loss only
+        # freqs = array([0.440, 0.520, 0.600, 0.640, 0.780, 0.860]) * THz
+        # freqs = array([0.250, 0.350, 0.440, 0.520, 0.640, 0.860]) * THz
+        # freqs = array([0.460, 0.490, 0.600, 0.640, 0.780, 0.840]) * THz
+        # freqs = array([420, 440, 780, 860, 908, 938], dtype=float) * GHz
+        # freqs = array([430, 460, 490, 520, 550, 590], dtype=float) * GHz
+        # freqs = array([8.480e+11, 8.780e+11, 9.080e+11, 9.380e+11, 9.680e+11, 1.008e+12])
+        # freqs = array([5.81e+11, 8.780e+11, 9.080e+11, 9.380e+11, 9.680e+11, 1.008e+12])
+        # freqs = array([7.66e+11, 7.96e+11, 8.26e+11, 8.56e+11, 8.86e+11, 9.26e+11]) + 10*GHz # this shows point of t_loss vs amp_loss only
+        freqs = array([0.460, 0.490, 0.600, 0.640, 0.780, 0.840]) * THz
 
     phase_measured = get_measured_phase(freqs, sam_idx)
     amplitude_measured = get_measured_amplitude(freqs, sam_idx)
@@ -52,19 +54,28 @@ def calc_loss(p, sam_idx, freqs=None):
     """
 
     # n = get_n(freqs, 2.70, 2.85)
-    n = get_n(freqs, 2.75, 2.75)
+    n = get_n(freqs, 2.70, 2.75)
 
     phase_sim = get_phase(freqs, p, n)
     amplitude_sim = get_amplitude(freqs, p, n)
 
+    # "original"
+    """
     p_loss = np.sum((phase_sim - phase_measured) ** 2)
     amp_loss = np.sum((amplitude_sim - amplitude_measured) ** 2)
+    return amp_loss*p_loss * (np.sum(p) - np.sum(p_opt))**2
+    """
+    # testing
+    p_loss = np.sum((1 / len(freqs)) * ((phase_sim - phase_measured) / (2 * pi)) ** 2)
+    amp_loss = np.sum((1 / len(freqs)) * (amplitude_sim - amplitude_measured) ** 2)
 
-    return np.sum(array([0.1, 1, 0.1])*(p - p_opt)**2)#amp_loss*p_loss * (np.sum(p) - np.sum(p_opt))**2
+    loss = ((np.sum(p) - np.sum(p_opt)) * (1 / 3e-3)) ** 2 + amp_loss * p_loss
+    return -1 / loss
 
 
 if __name__ == '__main__':
     from scipy.optimize import minimize
+
     np.random.seed(420)
 
     p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
@@ -94,7 +105,7 @@ if __name__ == '__main__':
     """
 
     sam_idx = 78
-    p0 = p_opt.copy() * (0.8 + np.random.random(3)/10)
+    p0 = p_opt.copy() * (0.7 + np.random.random(3) / 10)
 
     t_loss = calc_loss(p_opt, sam_idx)
     print("p0:", p0 * 10 ** 6, calc_loss(p0, sam_idx))
