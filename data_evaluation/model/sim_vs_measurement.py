@@ -2,11 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from model.tmm import get_phase, get_amplitude
 from measurement_data import get_measured_phase, get_measured_amplitude
-from consts import um_to_m, THz, array, GHz, pi, ones
+from consts import um_to_m, THz, array, GHz, pi, ones, c0
 from visualizing.simplecolormap import map_plot
 from refractive_index import get_n
 from random import randint
 from pathlib import Path
+from scipy.optimize import curve_fit
 
 # sam_idx = 59
 sam_idx = 28
@@ -27,13 +28,15 @@ sam_idx = 28
 #freqs = array([0.440, 0.520, 0.600, 0.680, 0.780, 0.860]) * THz
 #freqs = array([7.66e+11, 7.96e+11, 8.26e+11, 8.56e+11, 8.86e+11, 9.26e+11]) + 10 * GHz
 freqs = array([0.460, 0.490, 0.600, 0.640, 0.780, 0.840]) * THz
+freqs = array([0.040, 0.070, 0.600, 0.640, 0.940, 0.960]) * THz
+freqs = array([0.050, 0.060, 0.130, 0.540, 0.680, 0.720]) * THz
 # freqs = array(np.random.randint(250, 1300, 6), dtype=np.float64)
 # freqs *= GHz
 # freqs.sort()
 # print(freqs)
 #freqs = np.arange(0.400, 1.400 + 0.001, 0.001) * THz
 # freqs = np.arange(0.400, 0.600 + 0.001, 0.001) * THz
-
+all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
 phase_measured = get_measured_phase(freqs, sam_idx)
 amplitude_measured = get_measured_amplitude(freqs, sam_idx)
 # freq_slice = (0.23 * THz <= freqs) * (freqs <= 1.80 * THz)
@@ -53,7 +56,7 @@ if len(freqs) <= 6:
 n = get_n(freqs, 2.70, 2.85)
 
 
-n = get_n(freqs, 2.70, 2.75)
+n = get_n(freqs, 2.70, 2.70)
 
 phase_measured = get_phase(freqs, np.array([42.5, 641.3, 74.4]) * um_to_m, n)
 amplitude_measured = get_amplitude(freqs, np.array([42.5, 641.3, 74.4]) * um_to_m, n)
@@ -69,6 +72,8 @@ def amplitude_loss(p):
 
     return np.sum((1/len(freqs))*(amplitude_sim - amplitude_measured) ** 2)
 
+def sine(x, a, omega):
+    return np.abs(a * np.sin(x * omega))
 
 def total_loss(p):
     p_loss = phase_loss(p)
@@ -77,9 +82,28 @@ def total_loss(p):
     # return ((np.sum(p) - np.sum(p_opt))*(1/3e-3))**2 + amp_loss*p_loss
     #return ((np.sum(p) - np.sum(p_opt))*(1/3e-3))**2 + amp_loss
     #return amp_loss
-    return p_loss
-    #return amp_loss*p_loss
+    #return p_loss
 
+    selected_freqs = array([50, 60], dtype=float) * GHz
+    selected_mod_points = get_amplitude(selected_freqs, p_opt, n)
+
+    p0 = array([0.554, 0.038])  # sine
+    popt, pcov = curve_fit(sine, selected_freqs / GHz, selected_mod_points, p0=p0)
+
+    max_thickness = 0.5 * c0 / (2.7 * (pi / popt[1]) * GHz)
+    if max(p) > max_thickness:
+        return amp_loss*(max_thickness - max(p))**2#*p_loss
+    else:
+        return amp_loss
+
+
+def rp(p):
+    amplitude_sim = get_amplitude(freqs, p, n)
+    enum = np.sum((amplitude_measured - np.mean(amplitude_measured))*(amplitude_sim-np.mean(amplitude_sim)))
+    denum1 = 1/np.sqrt(np.sum((amplitude_measured - np.mean(amplitude_measured))**2))
+    denum2 = 1 / np.sqrt(np.sum((amplitude_sim - np.mean(amplitude_sim)) ** 2))
+
+    return enum * denum1 * denum2
 
 """
 n_min, n_max = 2.50, 3.15
@@ -176,7 +200,7 @@ if __name__ == '__main__':
     print(f"Best solution: {best_sol * 10 ** 6}")
     print(f"Total_loss = loss_p*loss_a: {best_min_p}*{best_min_a}={best_min_p * best_min_a}")
 
-    file_name = Path("image_files") / "total_loss_6freq_grid_vals_v1_0_4_8"
+    file_name = Path("image_files") / "total_loss_6freq_grid_vals_v1_0_5_7"
 
     rez_x, rez_y, rez_z = 200, 200, 200
     lb = array([0.000001, 0.000001, 0.000001])
@@ -206,4 +230,4 @@ if __name__ == '__main__':
 
         np.save(str(file_name), grid_vals)
 
-    map_plot(img_data=grid_vals, representation="recip", settings=new_settings)
+    map_plot(img_data=grid_vals, representation="", settings=new_settings)

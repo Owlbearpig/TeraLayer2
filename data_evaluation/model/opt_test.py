@@ -36,6 +36,7 @@ def calc_loss(p, sam_idx, freqs=None):
         # freqs = array([5.81e+11, 8.780e+11, 9.080e+11, 9.380e+11, 9.680e+11, 1.008e+12])
         # freqs = array([7.66e+11, 7.96e+11, 8.26e+11, 8.56e+11, 8.86e+11, 9.26e+11]) + 10*GHz # this shows point of t_loss vs amp_loss only
         freqs = array([0.460, 0.490, 0.600, 0.640, 0.780, 0.840]) * THz
+        freqs = array([0.040, 0.070, 0.600, 0.640, 0.940, 0.960]) * THz
 
     phase_measured = get_measured_phase(freqs, sam_idx)
     amplitude_measured = get_measured_amplitude(freqs, sam_idx)
@@ -73,9 +74,9 @@ def calc_loss(p, sam_idx, freqs=None):
     amp_loss = np.sum((1 / len(freqs)) * (amplitude_sim - amplitude_measured) ** 2)
 
     # loss = amp_loss * p_loss + ((np.sum(p) - np.sum(p_opt)) * (1 / 3e-3)) ** 2# + amp_loss * p_loss
-    loss = amp_loss * p_loss + ((np.sum(p) - np.sum(p_opt)) * (1 / 3e-3)) ** 2  # + amp_loss * p_loss
+    loss = amp_loss * p_loss #+ ((np.sum(p) - np.sum(p_opt)) * (1 / 3e-3)) ** 2  # + amp_loss * p_loss
 
-    return -np.log10(1 / loss)
+    return -np.log10(1/loss)#-np.log10(1 / loss)
 
 
 if __name__ == '__main__':
@@ -110,7 +111,7 @@ if __name__ == '__main__':
     """
 
     sam_idx = 78
-    p0 = p_opt * (0.9 + np.random.random(3) / 10)
+    p0 = p_opt * (0.8 + np.random.random(3) / 10)
 
     t_loss = calc_loss(p_opt, sam_idx)
     print("p0:", p0 * 10 ** 6, calc_loss(p0, sam_idx))

@@ -11,12 +11,13 @@ mpl.rcParams['lines.marker'] = 'o'
 mpl.rcParams['lines.markersize'] = 2
 mpl.rcParams['axes.grid'] = True
 
+
 # print(mpl.rcParams.keys())
 
 
 @jit(cache=True, nopython=True)
 def multir_complex(freqs, p, n):
-    thea = 0*8.0 * pi / 180.0
+    thea = 0 * 8.0 * pi / 180.0
     es = p.copy()
 
     the = np.zeros(len(freqs), dtype=np.complex128)
@@ -81,10 +82,10 @@ def get_amplitude(freqs, p, n):
 
 def unwrap(phase):
     p_uwrapped = phase.copy()
-    for i in range(1, len(phase)-1):
-        diff = phase[i-1] - phase[i]
+    for i in range(1, len(phase) - 1):
+        diff = phase[i - 1] - phase[i]
         if np.abs(diff) > 1:
-            p_uwrapped[i:] += np.sign(diff)*pi
+            p_uwrapped[i:] += np.sign(diff) * pi
 
     return p_uwrapped
 
@@ -92,19 +93,22 @@ def unwrap(phase):
 if __name__ == '__main__':
     from consts import array
 
-    #freqs = array([0.400, 0.480, 0.560, 0.640, 0.720, 0.800]) * THz
-    freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
+    # freqs = array([0.400, 0.480, 0.560, 0.640, 0.720, 0.800]) * THz
+    all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
+
+    freqs = all_freqs.copy()
     n = get_n(freqs, 2.70, 2.70)
     print(n[0, :])
-    p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
-    #p_opt = np.array([200, 600, 300]) * um_to_m
+    # p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
+    p_opt = np.array([42.5, 641.3, 174.4]) * um_to_m
+    # p_opt = np.array([20, 350, 120]) * um_to_m
 
     sam_idx = 78
-    #phase_measured = get_measured_phase(freqs, sam_idx)
+    # phase_measured = get_measured_phase(freqs, sam_idx)
 
-    #limited_slice = np.abs(phase_measured) <= pi
-    #phase_measured = phase_measured[limited_slice]
-    #freqs = freqs[limited_slice]
+    # limited_slice = np.abs(phase_measured) <= pi
+    # phase_measured = phase_measured[limited_slice]
+    # freqs = freqs[limited_slice]
 
     phase_mod = get_phase(freqs, p_opt, n)
     amp_mod = get_amplitude(freqs, p_opt, n)
@@ -113,14 +117,14 @@ if __name__ == '__main__':
     print(np.mean(np.diff(unwrap(phase_mod))))
 
     plt.figure()
-    plt.plot(freqs[:-1] / GHz, np.diff(unwrap(phase_mod)), label=f"{p_opt*10**6}")
+    plt.plot(freqs[:-1] / GHz, np.diff(unwrap(phase_mod)), label=f"{p_opt * 10 ** 6}")
     plt.xlabel("frequency (GHz)")
     plt.ylabel("phase diff (rad)")
     plt.legend()
 
     fig, (ax1, ax2) = plt.subplots(1, 2)
-    ax1.plot(freqs / GHz, np.unwrap(phase_mod), label=f"phase model, {p_opt*10**6}")
-    #ax1.plot(freqs / GHz, phase_measured, label="phase measured")
+    ax1.plot(freqs / GHz, np.unwrap(phase_mod), label=f"phase model, {p_opt * 10 ** 6}")
+    # ax1.plot(freqs / GHz, phase_measured, label="phase measured")
     ax1.set_xlabel("frequency (GHz)")
     ax1.set_ylabel("phase (rad)")
     ax1.legend()
@@ -130,4 +134,29 @@ if __name__ == '__main__':
     ax2.set_ylabel("amp (a.u.)")
     ax2.legend()
 
+    print(amp_mod[10])
+
+    plt.figure()
+    from scipy.optimize import curve_fit
+
+
+    def sine(x, a, omega):
+        return np.abs(a * np.sin(x * omega))
+
+    fit_slice = (0 * GHz < all_freqs) * (all_freqs < 89 * GHz)
+    selected_freqs = array([50, 60], dtype=float) * GHz
+    selected_mod_points = get_amplitude(selected_freqs, p_opt, n)
+
+    p0 = array([0.554,  0.038])  # sine
+    popt, pcov = curve_fit(sine,selected_freqs / GHz, selected_mod_points, p0=p0)
+    print(popt)
+    print(pi/popt[1])
+    print(10**6 * 0.5 * c0 / (2.7 * (pi/popt[1]) * GHz))
+    plt.plot(all_freqs[fit_slice], amp_mod[fit_slice], label="model data")
+    plt.scatter(selected_freqs, selected_mod_points, color="red", label="model at selected frequencies", s=20)
+    plt.plot(all_freqs[fit_slice], sine(all_freqs[fit_slice] / GHz, *popt), label="sine fit")
+    plt.plot(all_freqs[fit_slice], sine(all_freqs[fit_slice] / GHz, *p0), label="sine fit at p0")
+    plt.xlabel("frequency (GHz)")
+    plt.ylabel("amp (a.u.)")
+    plt.legend()
     plt.show()
