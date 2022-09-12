@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from numba import jit
 from model.refractive_index import get_n
-from measurement_data import get_measured_phase, get_measured_amplitude
+from scipy.optimize import curve_fit
+from model.measurement_data import get_measured_phase, get_measured_amplitude
 
 mpl.rcParams['lines.marker'] = 'o'
 mpl.rcParams['lines.markersize'] = 2
@@ -90,6 +91,21 @@ def unwrap(phase):
     return p_uwrapped
 
 
+def thickest_layer_approximation(freqs, model_data):
+    # assuming first two points are (approximately) below 100 GHz
+    def sine(x, a, omega):
+        return np.abs(a * np.sin(x * omega))
+
+    p0 = np.array([0.554, 0.038])  # sine
+    #p0 = np.array([0.04])  # sine
+    popt, pcov = curve_fit(sine, freqs[:2] / GHz, model_data[:2], p0=p0)
+    thickest_layer = 0.99 * 0.5 * c0 / (2.7 * (pi / popt[1]) * GHz)
+    print(popt)
+    print(10 ** 6 * thickest_layer)
+
+    return thickest_layer
+
+
 if __name__ == '__main__':
     from consts import array
 
@@ -100,7 +116,7 @@ if __name__ == '__main__':
     n = get_n(freqs, 2.70, 2.70)
     print(n[0, :])
     # p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
-    p_opt = np.array([42.5, 641.3, 174.4]) * um_to_m
+    p_opt = np.array([142.5, 541.3, 174.4]) * um_to_m
     # p_opt = np.array([20, 350, 120]) * um_to_m
 
     sam_idx = 78
@@ -137,21 +153,21 @@ if __name__ == '__main__':
     print(amp_mod[10])
 
     plt.figure()
-    from scipy.optimize import curve_fit
 
 
     def sine(x, a, omega):
         return np.abs(a * np.sin(x * omega))
 
+
     fit_slice = (0 * GHz < all_freqs) * (all_freqs < 89 * GHz)
-    selected_freqs = array([50, 60], dtype=float) * GHz
+    selected_freqs = array([50, 65], dtype=float) * GHz
     selected_mod_points = get_amplitude(selected_freqs, p_opt, n)
 
-    p0 = array([0.554,  0.038])  # sine
-    popt, pcov = curve_fit(sine,selected_freqs / GHz, selected_mod_points, p0=p0)
+    p0 = array([0.554, 0.038])  # sine
+    popt, pcov = curve_fit(sine, selected_freqs / GHz, selected_mod_points, p0=p0)
     print(popt)
-    print(pi/popt[1])
-    print(10**6 * 0.5 * c0 / (2.7 * (pi/popt[1]) * GHz))
+    print(pi / popt[1])
+    print(10 ** 6 * 0.95 * 0.5 * c0 / (2.7 * (pi / popt[1]) * GHz))
     plt.plot(all_freqs[fit_slice], amp_mod[fit_slice], label="model data")
     plt.scatter(selected_freqs, selected_mod_points, color="red", label="model at selected frequencies", s=20)
     plt.plot(all_freqs[fit_slice], sine(all_freqs[fit_slice] / GHz, *popt), label="sine fit")

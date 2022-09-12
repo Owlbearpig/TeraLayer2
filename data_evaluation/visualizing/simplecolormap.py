@@ -3,7 +3,7 @@ from consts import *
 from matplotlib.widgets import Slider
 
 
-def map_plot(error_func=None, img_data=None, settings=None, representation=""):
+def map_plot(error_func=None, img_data=None, settings=None, representation="", title=""):
 
     if settings is None:
         # should be resolution of axes d1, d2, d3
@@ -51,7 +51,10 @@ def map_plot(error_func=None, img_data=None, settings=None, representation=""):
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.set_title('Residual sum plot')
+    if title is None:
+        ax.set_title('Residual sum plot')
+    else:
+        ax.set_title(title)
     fig.subplots_adjust(left=0.2)
     extent = [grd_x[0] * um, grd_x[-1] * um, grd_y[0] * um, grd_y[-1] * um]
     img = ax.imshow(grid_vals[:, :, 0].transpose((1, 0)), vmin=np.min(grid_vals), vmax=np.max(grid_vals), origin='lower',
