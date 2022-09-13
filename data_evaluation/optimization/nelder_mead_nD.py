@@ -1,27 +1,27 @@
-from model.initial_tests.explicitEvalSimple import explicit_reflectance
-from consts import custom_mask_420, um_to_m, THz, GHz
-from functions import format_data
+from consts import custom_mask_420, um_to_m, THz, GHz, um
 import numpy as np
 from numpy import array, sum
-from model.tmm import get_amplitude, get_phase
+from model.tmm import get_amplitude, get_phase, thickest_layer_approximation
 from model.refractive_index import get_n
+
+n = 3
 
 
 class Simplex:
-    def __init__(self, p0=None, p1=None, p2=None, p3=None):
-        self.p = [p0, p1, p2, p3]
+    def __init__(self, *args):
+        self.p = [*args]
 
     def __repr__(self):
         s = ""
         for i, p in enumerate(self.p):
-            s += str(p) + "\n" * (i != 3)
+            s += str(p) + "\n" * (i != n)
         return s
 
 
 class Point:
     def __init__(self, x=None, fx=None, name=""):
         if x is None:
-            self.x = np.zeros(3)
+            self.x = np.zeros(n)
         else:
             self.x = x
 
@@ -43,31 +43,15 @@ def copy_point(p_src, p_dst):
 
 
 def get_centroid(simplex, p_ce):
-    for j in range(3):
+    for j in range(n):
         s = 0
-        for i in range(3):
-            s += sum(simplex.p[i].x[j]) / 3
+        for i in range(n):
+            s += sum(simplex.p[i].x[j]) / n
         p_ce.x[j] = s
 
 
 def update_point(simplex, p_ce, lambda_, p):
-    p.x = (1 + lambda_) * p_ce.x - lambda_ * simplex.p[3].x
-
-
-def cost_og(p, sample_idx=10):
-    mask = custom_mask_420
-
-    _, R0 = format_data(mask=mask, sample_file_idx=sample_idx, verbose=False)
-
-    p.fx = sum((explicit_reflectance(p.x * um_to_m) - R0) ** 2)
-
-
-def cost_model(p, *args):
-    p_sol = Point(array([50, 500, 50]))
-
-    R0 = explicit_reflectance(p_sol.x * um_to_m)
-
-    p.fx = sum((explicit_reflectance(p.x * um_to_m) - R0) ** 2)
+    p.x = (1 + lambda_) * p_ce.x - lambda_ * simplex.p[n].x
 
 
 def simplex_sort(simplex):
@@ -76,54 +60,69 @@ def simplex_sort(simplex):
         p.name = f"p{i}"
 
 
-def initial_simplex(p_start, only_coords=False, cost_func=cost_og):
-    n = 3
-
-    simplex = Simplex(Point(name="p0"), Point(name="p1"), Point(name="p2"), Point(name="p3"))
+def initial_simplex(p_start, cost_func, sample_idx=None):
+    simplex = Simplex(*[Point(name=f"p{i}") for i in range(n + 1)])
     for i in range(n + 1):
-        for j in range(3):
+        for j in range(n):
             if i - 1 == j:
                 if not np.isclose(p_start.x[j], 0):
-                    simplex.p[i].x[j] = 0.20 * p_start.x[j]
+                    simplex.p[i].x[j] = 0.90 * p_start.x[j]
                 else:
                     simplex.p[i].x[j] = 0.00025
             else:
                 simplex.p[i].x[j] = p_start.x[j]
-        if not only_coords:
-            cost_func(simplex.p[i], sample_idx)
-    if not only_coords:
-        simplex_sort(simplex)
+        cost_func(simplex.p[i], sample_idx)
+    simplex_sort(simplex)
 
     return simplex
 
 
-def cost_tmm(p, *args):
-    freqs = array([0.050, 0.070, 0.150, 0.600, 0.680, 0.720]) * THz
-    #freqs = array([0.050, 0.060, 0.130, 0.540, 0.680, 0.720]) * THz
-    #freqs = array([0.040, 0.080, 0.160, 0.560, 0.680, 0.720]) * THz
-    freqs = array([0.050, 0.090, 0.170, 0.570, 0.690, 0.730]) * THz
-    freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz
-    #freqs = array([0.050, 0.090, 0.170, 0.210, 0.610, 0.690]) * THz
+class CostModel:
+    def __init__(self, freqs, p_solution):
+        self.freqs = freqs
+        self.n = get_n(freqs, n_min=2.7, n_max=2.7)
+        self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n)
+        self.R0_phase = get_phase(freqs, p_solution * um_to_m, self.n)
+        self.thickest_layer = 420#thickest_layer_approximation(freqs, self.R0_amplitude) * um
 
-    all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
-    n = get_n(freqs, 2.70, 2.70)
+    def cost(self, point, *args):
+        if isinstance(point, Point):
+            p = array([point.x[0], self.thickest_layer, point.x[1]], dtype=float) * um_to_m
 
-    p_sol = Point(array([50, 420, 70]))
-    R0_amplitude = get_amplitude(freqs, p_sol.x * um_to_m, n)
-    R0_phase = get_phase(freqs, p_sol.x * um_to_m, n)
+            amp_loss = sum((get_amplitude(self.freqs, p, self.n) - self.R0_amplitude) ** 2)
+            phase_loss = sum((get_phase(self.freqs, p, self.n) - self.R0_phase) ** 2)
 
-    amp_loss = sum((get_amplitude(freqs, p.x * um_to_m, n) - R0_amplitude) ** 2)
-    phase_loss = sum((get_phase(freqs, p.x * um_to_m, n) - R0_phase) ** 2)
+            point.fx = amp_loss * phase_loss
 
-    p.fx = amp_loss * phase_loss
+        else:
+            p = point.copy() * um_to_m
+
+            amp_loss = sum((get_amplitude(self.freqs, p, self.n) - self.R0_amplitude) ** 2)
+            phase_loss = sum((get_phase(self.freqs, p, self.n) - self.R0_phase) ** 2)
+
+            return amp_loss * phase_loss
 
 
 if __name__ == '__main__':
-    from model.tmm import thickest_layer_approximation
+    all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
 
-    # cost_func = cost_model
+    p_sol = array([60, 420, 120], dtype=float)
+    freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz
 
-    cost_func = cost_tmm
+    new_cost = CostModel(freqs, p_sol)
+
+    cost_func = new_cost.cost
+
+    # initial guess of free parameters
+    #p0 = array([150, 481, 170])
+    p0 = array([320, 620, 320])
+
+    from scipy.optimize import basinhopping
+    res = basinhopping(cost_func, p0, niter=1000, T=10, stepsize=100, minimizer_kwargs={"bounds": ((0, 1000), (0, 1000), (0, 1000))})
+    print(cost_func(p_sol))
+    print(res)
+    exit()
+    p_start = Point(p0)
 
     with open("solutions.txt", "a") as file:
         for sample_idx in range(100):
@@ -131,10 +130,9 @@ if __name__ == '__main__':
             if sample_idx != 0:
                 continue
             print(sample_idx)
-            # n = 3
 
             # RHO, CHI, GAMMA, SIGMA = 1.0, 2.0, 0.5, 0.5 # original values
-            RHO, CHI, GAMMA, SIGMA = 1.0, 2.0, 0.5, 0.5
+            RHO, CHI, GAMMA, SIGMA = 1.0, 2.0, 0.4, 0.5
             verbose = True
             save_output = False
 
@@ -143,20 +141,9 @@ if __name__ == '__main__':
             p_c = Point(name="p_c")
             p_ce = Point(name="p_ce")
 
-            freqs = array([0.040, 0.080]) * THz
-            n = get_n(freqs, 2.70, 2.70)
-
-            p_sol = Point(array([50, 460, 70]))
-            R0_amplitude = get_amplitude(freqs, p_sol.x * um_to_m, n)
-
-            p0 = array([150, 100, 170])
-            p0[1] = thickest_layer_approximation(freqs, R0_amplitude) * 10 ** 6
-
-            p_start = Point(p0)  # start 30 620 30
-
             cost_func(p_start, sample_idx)
 
-            simplex = initial_simplex(p_start, cost_func=cost_func)
+            simplex = initial_simplex(p_start, cost_func)
             get_centroid(simplex, p_ce)
             if verbose:
                 print("initial simplex and centroid:")
@@ -179,57 +166,53 @@ if __name__ == '__main__':
                         if verbose:
                             print("difference p_e.fx < p_r.fx", f'{abs(p_e.fx - p_r.fx):.20f}')
                             print("expand")
-                        copy_point(p_e, simplex.p[3])
+                        copy_point(p_e, simplex.p[n])
                     else:
                         if verbose:
                             print("reflect 1")
-                        copy_point(p_r, simplex.p[3])
+                        copy_point(p_r, simplex.p[n])
                 else:
-                    if p_r.fx < simplex.p[2].fx:
+                    if p_r.fx < simplex.p[n-1].fx:
                         if verbose:
-                            print("difference p_r.fx < simplex.p[2].fx", f'{abs(p_r.fx - simplex.p[2].fx):.20f}')
+                            print("difference p_r.fx < simplex.p[2].fx", f'{abs(p_r.fx - simplex.p[n-1].fx):.20f}')
                             print("reflect 2")
-                        copy_point(p_r, simplex.p[3])
+                        copy_point(p_r, simplex.p[n])
                     else:
-                        if p_r.fx < simplex.p[3].fx:
+                        if p_r.fx < simplex.p[n].fx:
                             if verbose:
-                                print("difference p_r.fx < simplex.p[3].fx", f'{abs(p_r.fx - simplex.p[3].fx):.20f}')
+                                print("difference p_r.fx < simplex.p[3].fx", f'{abs(p_r.fx - simplex.p[n].fx):.20f}')
                             update_point(simplex, p_ce, RHO * GAMMA, p_c)
                             cost_func(p_c, sample_idx)
                             if p_c.fx <= p_r.fx:
                                 if verbose:
                                     print("difference p_c.fx <= p_r.fx", f'{abs(p_c.fx - p_r.fx):.20f}')
                                     print("contract out")
-                                copy_point(p_c, simplex.p[3])
+                                copy_point(p_c, simplex.p[n])
                             else:
                                 print("shrink check p_c.fx <= p_r.fx\n")
                                 shrink = True
-                                # print("terminated check p_c.fx <= p_r.fx\n")
-                                # break  # out completely...
                         else:
                             update_point(simplex, p_ce, -GAMMA, p_c)
                             cost_func(p_c, sample_idx)
-                            if p_c.fx <= simplex.p[3].fx:
+                            if p_c.fx <= simplex.p[n].fx:
                                 if verbose:
                                     print("difference p_c.fx <= simplex.p[3].fx",
-                                          f'{abs(p_c.fx - simplex.p[3].fx):.20f}')
+                                          f'{abs(p_c.fx - simplex.p[n].fx):.20f}')
                                     print("contract in")
-                                copy_point(p_c, simplex.p[3])
+                                copy_point(p_c, simplex.p[n])
                             else:
                                 print("shrink check p_c.fx <= simplex.p3.fx\n")
                                 shrink = True
-                                # print("terminated check p_c.fx <= simplex.p3.fx\n")
-                                # break
                 if shrink:
                     times_shrinkd += 1
-                    for i in [1, 2, 3]:
-                        for j in [0, 1, 2]:
+                    for i in range(1, n + 1):
+                        for j in range(n):
                             simplex.p[i].x[j] = simplex.p[0].x[j] + SIGMA * (simplex.p[i].x[j] - simplex.p[0].x[j])
                         cost_func(simplex.p[i])
                     simplex_sort(simplex)
                 else:
                     # insertion sort
-                    for k in [2, 1, 0]:
+                    for k in reversed(range(n)):
                         if simplex.p[k + 1].fx < simplex.p[k].fx:
                             swap_points(simplex.p[k + 1], simplex.p[k])
 
@@ -254,4 +237,4 @@ if __name__ == '__main__':
             # solution in p0 of simplex
             print("solution (simplex.p0):", simplex.p[0])
             if save_output:
-                file.write(f"[{simplex.p[0].x[0], simplex.p[0].x[1], simplex.p[0].x[2]} ]\n")
+                file.write(f"{[str(simplex.p[0].x[i]) + chr(44) + chr(32) for i in range(n)]}\n")

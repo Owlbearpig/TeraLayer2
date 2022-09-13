@@ -36,7 +36,7 @@ def calc_loss(p, sam_idx, freqs=None):
         # freqs = array([5.81e+11, 8.780e+11, 9.080e+11, 9.380e+11, 9.680e+11, 1.008e+12])
         # freqs = array([7.66e+11, 7.96e+11, 8.26e+11, 8.56e+11, 8.86e+11, 9.26e+11]) + 10*GHz # this shows point of t_loss vs amp_loss only
         freqs = array([0.460, 0.490, 0.600, 0.640, 0.780, 0.840]) * THz
-        freqs = array([0.040, 0.070, 0.600, 0.640, 0.940, 0.960]) * THz
+        freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz
 
     phase_measured = get_measured_phase(freqs, sam_idx)
     amplitude_measured = get_measured_amplitude(freqs, sam_idx)
@@ -57,8 +57,8 @@ def calc_loss(p, sam_idx, freqs=None):
     # n = get_n(freqs, 2.70, 2.85)
     n = get_n(freqs, 2.70, 2.70)
 
-    phase_measured = get_phase(freqs, np.array([42.5, 541.3, 74.4]) * um_to_m, n)
-    amplitude_measured = get_amplitude(freqs, np.array([42.5, 541.3, 74.4]) * um_to_m, n)
+    phase_measured = get_phase(freqs, np.array([50, 420, 70]) * um_to_m, n)
+    amplitude_measured = get_amplitude(freqs, np.array([50, 420, 70]) * um_to_m, n)
 
     phase_sim = get_phase(freqs, p, n)
     amplitude_sim = get_amplitude(freqs, p, n)
@@ -77,7 +77,7 @@ def calc_loss(p, sam_idx, freqs=None):
     loss = amp_loss * p_loss  # + ((np.sum(p) - np.sum(p_opt)) * (1 / 3e-3)) ** 2  # + amp_loss * p_loss
     # return -np.log10(1/loss)#-np.log10(1 / loss)
 
-    return amp_loss
+    return loss
 
 
 if __name__ == '__main__':
@@ -85,7 +85,7 @@ if __name__ == '__main__':
 
     np.random.seed(420)
 
-    p_opt = np.array([42.5, 541.3, 74.4]) * um_to_m
+    p_opt = np.array([50, 420, 70]) * um_to_m
 
     """
     freqs = array([430, 460, 490, 520, 550, 590], dtype=np.float64) * GHz
@@ -110,10 +110,10 @@ if __name__ == '__main__':
     print(min_val)
     print(best_freq_set)
     """
-    freqs = array([0.050, 0.070, 0.150, 0.600, 0.680, 0.720]) * THz
+    freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz
 
     sam_idx = 78
-    p0 = p_opt * (0.70 + np.random.random(3) / 10)
+    p0 = p_opt #* (0.70 + np.random.random(3) / 10)
 
     n = get_n(freqs, 2.70, 2.70)
 
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     print("p_opt:", p_opt * 10 ** 6, calc_loss(p_opt, sam_idx, freqs))
 
     from tmm import thickest_layer_approximation
-    amplitude_measured = get_amplitude(freqs, np.array([42.5, 541.3, 74.4]) * um_to_m, n)
+    amplitude_measured = get_amplitude(freqs, p_opt, n)
 
     sam_range = np.arange(0, 5)
     p_minima = []

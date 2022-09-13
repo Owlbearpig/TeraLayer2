@@ -31,6 +31,7 @@ freqs = array([0.460, 0.490, 0.600, 0.640, 0.780, 0.840]) * THz
 freqs = array([0.040, 0.070, 0.600, 0.640, 0.940, 0.960]) * THz
 freqs = array([0.050, 0.060, 0.130, 0.540, 0.680, 0.720]) * THz
 freqs = array([0.050, 0.070, 0.150, 0.600, 0.680, 0.720]) * THz
+freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz
 # freqs = array(np.random.randint(250, 1300, 6), dtype=np.float64)
 # freqs *= GHz
 # freqs.sort()
@@ -38,10 +39,11 @@ freqs = array([0.050, 0.070, 0.150, 0.600, 0.680, 0.720]) * THz
 # freqs = np.arange(0.400, 1.400 + 0.001, 0.001) * THz
 # freqs = np.arange(0.400, 0.600 + 0.001, 0.001) * THz
 all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
+freqs = all_freqs.copy()
+
 phase_measured = get_measured_phase(freqs, sam_idx)
 amplitude_measured = get_measured_amplitude(freqs, sam_idx)
 # freq_slice = (0.23 * THz <= freqs) * (freqs <= 1.80 * THz)
-
 
 limited_slice = np.abs(phase_measured) <= pi
 phase_measured = phase_measured[limited_slice]
@@ -60,8 +62,8 @@ n = get_n(freqs, 2.70, 2.70)
 
 phase_measured = get_phase(freqs, np.array([42.5, 641.3, 74.4]) * um_to_m, n)
 amplitude_measured = get_amplitude(freqs, np.array([42.5, 641.3, 74.4]) * um_to_m, n)
-phase_measured = get_phase(freqs, np.array([142.5, 541.3, 174.4]) * um_to_m, n)
-amplitude_measured = get_amplitude(freqs, np.array([142.5, 541.3, 174.4]) * um_to_m, n)
+phase_measured = get_phase(freqs, np.array([50, 420, 70]) * um_to_m, n)
+amplitude_measured = get_amplitude(freqs, np.array([50, 420, 70]) * um_to_m, n)
 
 
 def phase_loss(p):
@@ -211,7 +213,7 @@ if __name__ == '__main__':
     print(f"Best solution: {best_sol * 10 ** 6}")
     print(f"Total_loss = loss_p*loss_a: {best_min_p}*{best_min_a}={best_min_p * best_min_a}")
 
-    file_name = Path("image_files") / "interference_tests_6freq_grid_vals_v1_0_0_1"
+    file_name = Path("image_files") / "interference_tests_6freq_grid_vals_v1_0_0_4"
 
     rez_x, rez_y, rez_z = 200, 200, 200
     lb = array([0.000001, 0.000001, 0.000001])
