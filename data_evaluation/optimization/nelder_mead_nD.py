@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 from consts import custom_mask_420, um_to_m, THz, GHz, um
 import numpy as np
 from numpy import array, sum
@@ -29,7 +30,10 @@ class Point:
         self.name = name
 
     def __repr__(self):
-        return f"{self.name}, x: {self.x}, fx: {self.fx}"
+        if self.name:
+            return f"{self.name}, x: {self.x}, fx: {self.fx}"
+        else:
+            return f"x: {self.x}, fx: {self.fx}"
 
 
 def swap_points(p1, p2):
@@ -66,7 +70,7 @@ def initial_simplex(p_start, cost_func, sample_idx=None):
         for j in range(n):
             if i - 1 == j:
                 if not np.isclose(p_start.x[j], 0):
-                    simplex.p[i].x[j] = 0.90 * p_start.x[j]
+                    simplex.p[i].x[j] = 0.40 * p_start.x[j]
                 else:
                     simplex.p[i].x[j] = 0.00025
             else:
@@ -83,57 +87,67 @@ class CostModel:
         self.n = get_n(freqs, n_min=2.7, n_max=2.7)
         self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n)
         self.R0_phase = get_phase(freqs, p_solution * um_to_m, self.n)
-        self.thickest_layer = 420#thickest_layer_approximation(freqs, self.R0_amplitude) * um
+        self.thickest_layer = thickest_layer_approximation(freqs, self.R0_amplitude) * um
 
     def cost(self, point, *args):
+        def cost_function(p):
+            amp_loss = ((1 / 6) * sum((get_amplitude(self.freqs, p, self.n) - self.R0_amplitude) ** 2))
+            phase_loss = ((1 / 6) * sum((get_phase(self.freqs, p, self.n) - self.R0_phase) ** 2))
+
+            loss = np.log10(amp_loss * phase_loss)# * phase_loss
+
+            return loss
+
         if isinstance(point, Point):
-            p = array([point.x[0], self.thickest_layer, point.x[1]], dtype=float) * um_to_m
+            p = array([point.x[0], point.x[1], point.x[2]], dtype=float) * um_to_m
 
-            amp_loss = sum((get_amplitude(self.freqs, p, self.n) - self.R0_amplitude) ** 2)
-            phase_loss = sum((get_phase(self.freqs, p, self.n) - self.R0_phase) ** 2)
-
-            point.fx = amp_loss * phase_loss
-
+            point.fx = cost_function(p)
         else:
             p = point.copy() * um_to_m
 
-            amp_loss = sum((get_amplitude(self.freqs, p, self.n) - self.R0_amplitude) ** 2)
-            phase_loss = sum((get_phase(self.freqs, p, self.n) - self.R0_phase) ** 2)
-
-            return amp_loss * phase_loss
+            return cost_function(p)
 
 
 if __name__ == '__main__':
+    np.random.seed(420)
+    rand = np.random.random
     all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
 
-    p_sol = array([60, 420, 120], dtype=float)
+    #p_sol = array([40, 630, 74], dtype=float)
+    p_sol = array([365, 650, 400], dtype=float)
+    print(p_sol)
     freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz
-
+    #freqs = all_freqs
     new_cost = CostModel(freqs, p_sol)
 
     cost_func = new_cost.cost
 
+    x = np.arange(0, 1000, 1)
+    y1 = [cost_func(array([d1, 650, 400])) for d1 in x]
+    y2 = [cost_func(array([365, d2, 400])) for d2 in x]
+    y3 = [cost_func(array([365, 650, d3])) for d3 in x]
+    print(np.argmin(y1), np.argmin(y2), np.argmin(y3))
+    plt.scatter(x, y1, label=f"d1, {p_sol}")
+    plt.scatter(x, y2, label="d2")
+    plt.scatter(x, y3, label="d3")
+    plt.legend()
+    plt.show()
+
     # initial guess of free parameters
     #p0 = array([150, 481, 170])
-    p0 = array([320, 620, 320])
+    p0 = array([155, new_cost.thickest_layer, 350])
 
-    from scipy.optimize import basinhopping
-    res = basinhopping(cost_func, p0, niter=1000, T=10, stepsize=100, minimizer_kwargs={"bounds": ((0, 1000), (0, 1000), (0, 1000))})
-    print(cost_func(p_sol))
-    print(res)
-    exit()
-    p_start = Point(p0)
-
+    p_start = Point(p0, name="Start point")
+    print(p_start)
     with open("solutions.txt", "a") as file:
         for sample_idx in range(100):
             times_shrinkd = 0
             if sample_idx != 0:
                 continue
-            print(sample_idx)
 
             # RHO, CHI, GAMMA, SIGMA = 1.0, 2.0, 0.5, 0.5 # original values
-            RHO, CHI, GAMMA, SIGMA = 1.0, 2.0, 0.4, 0.5
-            verbose = True
+            RHO, CHI, GAMMA, SIGMA = 1.0, 2.0, 0.5, 0.5
+            verbose = False
             save_output = False
 
             p_r = Point(name="p_r")
@@ -189,7 +203,8 @@ if __name__ == '__main__':
                                     print("contract out")
                                 copy_point(p_c, simplex.p[n])
                             else:
-                                print("shrink check p_c.fx <= p_r.fx\n")
+                                if verbose:
+                                    print("shrink check p_c.fx <= p_r.fx\n")
                                 shrink = True
                         else:
                             update_point(simplex, p_ce, -GAMMA, p_c)
@@ -201,7 +216,8 @@ if __name__ == '__main__':
                                     print("contract in")
                                 copy_point(p_c, simplex.p[n])
                             else:
-                                print("shrink check p_c.fx <= simplex.p3.fx\n")
+                                if verbose:
+                                    print("shrink check p_c.fx <= simplex.p3.fx\n")
                                 shrink = True
                 if shrink:
                     times_shrinkd += 1

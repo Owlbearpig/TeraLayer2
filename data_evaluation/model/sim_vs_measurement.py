@@ -39,7 +39,7 @@ freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz
 # freqs = np.arange(0.400, 1.400 + 0.001, 0.001) * THz
 # freqs = np.arange(0.400, 0.600 + 0.001, 0.001) * THz
 all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
-freqs = all_freqs.copy()
+#freqs = all_freqs.copy()
 
 phase_measured = get_measured_phase(freqs, sam_idx)
 amplitude_measured = get_measured_amplitude(freqs, sam_idx)
@@ -62,20 +62,20 @@ n = get_n(freqs, 2.70, 2.70)
 
 phase_measured = get_phase(freqs, np.array([42.5, 641.3, 74.4]) * um_to_m, n)
 amplitude_measured = get_amplitude(freqs, np.array([42.5, 641.3, 74.4]) * um_to_m, n)
-phase_measured = get_phase(freqs, np.array([50, 420, 70]) * um_to_m, n)
-amplitude_measured = get_amplitude(freqs, np.array([50, 420, 70]) * um_to_m, n)
+phase_measured = get_phase(freqs, np.array([150.0, 650.0, 400.0]) * um_to_m, n)
+amplitude_measured = get_amplitude(freqs, np.array([150.0, 650.0, 400.0]) * um_to_m, n)
 
 
 def phase_loss(p):
     phase_sim = get_phase(freqs, p, n)
 
-    return np.sum((1 / len(freqs)) * ((phase_sim - phase_measured) / (2 * pi)) ** 2)
+    return np.sqrt(np.sum((1 / len(freqs)) * ((phase_sim - phase_measured) / (2 * pi)) ** 2))
 
 
 def amplitude_loss(p):
     amplitude_sim = get_amplitude(freqs, p, n)
 
-    return np.sum((1 / len(freqs)) * (amplitude_sim - amplitude_measured) ** 2)
+    return np.sqrt(np.sum((1 / len(freqs)) * (amplitude_sim - amplitude_measured) ** 2))
 
 
 def sine(x, a, omega):
@@ -105,7 +105,7 @@ def total_loss(p):
         return amp_loss
         """
 
-    return amp_loss * p_loss
+    return amp_loss * p_loss + amp_loss + p_loss
 
 
 def rp(p):
@@ -212,8 +212,16 @@ if __name__ == '__main__':
 
     print(f"Best solution: {best_sol * 10 ** 6}")
     print(f"Total_loss = loss_p*loss_a: {best_min_p}*{best_min_a}={best_min_p * best_min_a}")
+    """
+    interference_tests_6freq_grid_vals_v1_0_0_4
+    amp_loss * p_loss
 
-    file_name = Path("image_files") / "interference_tests_6freq_grid_vals_v1_0_0_4"
+    interference_tests_6freq_grid_vals_v1_0_0_5
+    amp_loss * p_loss + amp_loss + p_loss
+    """
+
+
+    file_name = Path("image_files") / "interference_tests_6freq_grid_vals_v1_0_0_5"
 
     rez_x, rez_y, rez_z = 200, 200, 200
     lb = array([0.000001, 0.000001, 0.000001])
@@ -242,5 +250,5 @@ if __name__ == '__main__':
                     grid_vals[i, j, k] = total_loss(p)
 
         np.save(str(file_name), grid_vals)
-    title = "Amp. loss"
+    title = "Amp. * phase loss"
     map_plot(img_data=grid_vals, representation="log", settings=new_settings, title=title)

@@ -116,7 +116,7 @@ if __name__ == '__main__':
     print(n[0, :])
     # p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
     p_opt = np.array([142.5, 541.3, 174.4]) * um_to_m
-    p_opt = array([50, 420, 70]) * um_to_m
+    p_opt = array([65, 630, 400]) * um_to_m
     # p_opt = np.array([20, 350, 120]) * um_to_m
 
     sam_idx = 78
