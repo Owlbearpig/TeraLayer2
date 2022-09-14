@@ -85,8 +85,10 @@ class CostModel:
     def __init__(self, freqs, p_solution):
         self.freqs = freqs
         self.n = get_n(freqs, n_min=2.7, n_max=2.7)
-        self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n)
-        self.R0_phase = get_phase(freqs, p_solution * um_to_m, self.n)
+        noise = (0.9 + np.random.random(len(freqs))*0.2)
+
+        self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) * noise
+        self.R0_phase = get_phase(freqs, p_solution * um_to_m, self.n) * noise
         self.thickest_layer = thickest_layer_approximation(freqs, self.R0_amplitude) * um
 
     def cost(self, point, *args):
@@ -94,7 +96,8 @@ class CostModel:
             amp_loss = ((1 / 6) * sum((get_amplitude(self.freqs, p, self.n) - self.R0_amplitude) ** 2))
             phase_loss = ((1 / 6) * sum((get_phase(self.freqs, p, self.n) - self.R0_phase) ** 2))
 
-            loss = np.log10(amp_loss * phase_loss)# * phase_loss
+            loss = np.log10(amp_loss * phase_loss)
+            loss = amp_loss * phase_loss
 
             return loss
 
@@ -115,22 +118,58 @@ if __name__ == '__main__':
 
     #p_sol = array([40, 630, 74], dtype=float)
     p_sol = array([365, 650, 400], dtype=float)
-    print(p_sol)
+    print("solution: ", p_sol)
     freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz
     #freqs = all_freqs
     new_cost = CostModel(freqs, p_sol)
 
     cost_func = new_cost.cost
+    import scipy
+    from scipy.optimize import basinhopping
+    from scipy.optimize import minimize
+    p0 = array([275, 600, 300])
+    #scipy.optimize.show_options(solver="minimize", method=None, disp=True)
+    #exit()
+    res = basinhopping(new_cost.cost, p0, niter=10, T=1.0, stepsize=30, minimizer_kwargs={"method": "Nelder-Mead", "options": {"maxfun": 100}})
+    print(res)
 
-    x = np.arange(0, 1000, 1)
-    y1 = [cost_func(array([d1, 650, 400])) for d1 in x]
-    y2 = [cost_func(array([365, d2, 400])) for d2 in x]
-    y3 = [cost_func(array([365, 650, d3])) for d3 in x]
-    print(np.argmin(y1), np.argmin(y2), np.argmin(y3))
-    plt.scatter(x, y1, label=f"d1, {p_sol}")
-    plt.scatter(x, y2, label="d2")
-    plt.scatter(x, y3, label="d3")
+    rez = 0.1
+    x = np.arange(0, 1000, rez)
+    y1 = array([cost_func(array([d1, p_sol[1], p_sol[2]])) for d1 in x])
+    y2 = array([cost_func(array([p_sol[0], d2, p_sol[2]])) for d2 in x])
+    y3 = array([cost_func(array([p_sol[0], p_sol[1], d3])) for d3 in x])
+    print(np.argmin(y1)*rez, np.argmin(y2)*rez, np.argmin(y3)*rez)
+    plt.title(f"Loss function with solution at {p_sol}")
+    plt.plot(x, y1, label=f"d1")
+    plt.plot(x, y2, label=f"d2")
+    plt.plot(x, y3, label=f"d3")
+    plt.xlabel("d1 (um)")
+    plt.ylabel("loss value")
+    #plt.scatter(x, y2, label="d2")
+    #plt.scatter(x, y3, label="d3")
     plt.legend()
+
+    mean_val = np.mean(y1)
+    y1_minimas = y1[y1 < mean_val]
+
+    # min distance to last saddle point
+    zero_passes = 0
+    last_minima = np.inf
+    threshold_distance = 0  # min distance between minima
+    was_close0 = False
+    for idx, isclose0 in enumerate(np.isclose(np.diff(y1_minimas), 0, atol=2e-7)):
+        dist_last_minima = abs(idx - last_minima)
+        if isclose0 * (dist_last_minima > threshold_distance) * (not was_close0):
+            zero_passes += 1
+            print(dist_last_minima)
+            last_minima = idx
+        if isclose0:
+            was_close0 = True
+        else:
+            was_close0 = False
+
+    print("minima count :", zero_passes)
+
     plt.show()
 
     # initial guess of free parameters
@@ -164,7 +203,7 @@ if __name__ == '__main__':
                 print(simplex)
                 print(p_ce, "\n")
 
-            for i in range(1, 200):
+            for i in range(1, 100):
                 shrink = False
                 if verbose:
                     print(f"start of iteration {i}")

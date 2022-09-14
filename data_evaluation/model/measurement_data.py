@@ -100,8 +100,8 @@ if __name__ == '__main__':
 
     phase_meas = get_measured_phase(freqs)
 
-    plt.plot(freqs, 20*np.log10(bg_data[f_slice, 1]), label=f"Background")
-
+    plt.plot(freqs/THz, 20*np.log10(bg_data[f_slice, 1]), label=f"Background")
+    plt.plot(freqs/THz, 20 * np.log10(data_array[sam_idx, f_slice, 1]), label=f"Sample, idx: {sam_idx}")
     plt.xlabel("Frequency")
     plt.ylabel("Amplitude (dB)")
     plt.legend()
