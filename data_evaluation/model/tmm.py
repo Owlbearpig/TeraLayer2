@@ -8,10 +8,16 @@ from model.refractive_index import get_n
 from scipy.optimize import curve_fit
 from model.measurement_data import get_measured_phase, get_measured_amplitude
 
+mpl.rcParams['axes.grid'] = True
 mpl.rcParams['lines.marker'] = 'o'
 mpl.rcParams['lines.markersize'] = 2
-mpl.rcParams['axes.grid'] = True
-
+mpl.rcParams['ytick.major.width'] = 2.5
+mpl.rcParams['xtick.major.width'] = 2.5
+mpl.rcParams['xtick.direction'] = 'in'
+mpl.rcParams['ytick.direction'] = 'in'
+#plt.style.use(['dark_background'])
+#plt.xkcd()
+mpl.rcParams.update({'font.size': 22})
 
 # print(mpl.rcParams.keys())
 
@@ -94,11 +100,12 @@ def unwrap(phase):
 def thickest_layer_approximation(freqs, model_data):
     # assuming first two points are below the first interference minima
     def sine(x, a, omega):
-        return np.abs(a * np.sin(x * omega))
+        return a**2 * np.sin(x * omega)**2
 
-    p0 = np.array([0.554, 0.038])  # sine
+    p0 = np.array([np.sqrt(0.537), 0.038])  # sine
     popt, pcov = curve_fit(sine, freqs[:2] / GHz, model_data[:2], p0=p0)
-    thickest_layer = 0.99 * 0.5 * c0 / (2.7 * (pi / popt[1]) * GHz)
+    n = 2.7
+    thickest_layer = 0.95 * c0 / (2 * n * (pi / popt[1]) * GHz) # works pretty well with 0.95
     print(popt)
     print("estimated max(p): ", 10 ** 6 * thickest_layer)
 
@@ -115,8 +122,8 @@ if __name__ == '__main__':
     n = get_n(freqs, 2.70, 2.70)
     print(n[0, :])
     # p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
-    p_opt = np.array([142.5, 541.3, 174.4]) * um_to_m
-    p_opt = array([65, 630, 400]) * um_to_m
+    #p_opt = np.array([142.5, 541.3, 174.4]) * um_to_m
+    p_opt = array([400, 680, 125.]) * um_to_m
     # p_opt = np.array([20, 350, 120]) * um_to_m
 
     sam_idx = 78
@@ -146,9 +153,8 @@ if __name__ == '__main__':
     ax1.legend()
 
     ax2.plot(freqs / GHz, amp_mod, label=f"amplitude model, {p_opt * 10 ** 6}")
-    selected_freqs = array([0.040, 0.080, 0.160, 0.560, 0.680, 0.720]) * 1000
     selected_freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * 1000
-    #selected_freqs = array([0.050, 0.090, 0.170, 0.210, 0.610, 0.690]) * 1000  # these give wrong result
+    selected_freqs = array([0.020, 0.060, 0.150, 0.550, 0.640, 0.760]) * 1000
     for xc in selected_freqs:
         ax2.axvline(x=xc, color="red")
     ax2.set_xlabel("frequency (GHz)")
@@ -161,23 +167,29 @@ if __name__ == '__main__':
 
 
     def sine(x, a, omega):
-        return np.abs(a * np.sin(x * omega))
+        return a * np.sin(x * omega)**2
 
 
-    fit_slice = (0 * GHz < all_freqs) * (all_freqs < 100 * GHz)
-    selected_freqs = array([40, 80], dtype=float) * GHz
+    fit_slice = (0 * GHz < all_freqs) * (all_freqs < 150 * GHz)
+    selected_freqs = selected_freqs[:2] * GHz
     selected_mod_points = get_amplitude(selected_freqs, p_opt, n)
 
-    p0 = array([0.554, 0.038])  # sine
+    p0 = array([0.554, 0.035])  # sine
     popt, pcov = curve_fit(sine, selected_freqs / GHz, selected_mod_points, p0=p0)
     print(popt)
     print(pi / popt[1])
-    print(10 ** 6 * 0.99 * 0.5 * c0 / (2.7 * (pi / popt[1]) * GHz))
-    plt.plot(all_freqs[fit_slice], amp_mod[fit_slice], label="model data")
-    plt.scatter(selected_freqs, selected_mod_points, color="red", label="model at selected frequencies", s=20)
-    plt.plot(all_freqs[fit_slice], sine(all_freqs[fit_slice] / GHz, *popt), label="sine fit")
-    plt.plot(all_freqs[fit_slice], sine(all_freqs[fit_slice] / GHz, *p0), label="sine fit at p0")
-    plt.xlabel("frequency (GHz)")
-    plt.ylabel("amp (a.u.)")
-    plt.legend()
+    print(10 ** 6 * c0 / (2 * 2.7 * (pi / popt[1]) * GHz))
+    thickness = 10 ** 6 * c0 / (2 * 2.7 * (pi / popt[1]) * GHz)
+    plt.title(r"Fit of A$\sin(\nu\omega)^2$")
+    plt.text(110, 0.15, fr"$\pi/\omega={round(pi/popt[1],2)}$ GHz")
+    plt.text(110, 0.05, r"$\frac{mc}{2n\omega}=$")
+    plt.text(120, 0.05, rf"{round(thickness, 1)} ($\mu$m)")
+    plt.plot(all_freqs[fit_slice] / GHz, amp_mod[fit_slice], label=f"Model {p_opt*10**6} ($\mu$m)")
+    plt.scatter(selected_freqs / GHz, selected_mod_points, color="red", label="Model at selected frequencies", s=40)
+    plt.plot(all_freqs[fit_slice] / GHz, sine(all_freqs[fit_slice] / GHz, *popt), label="Sine fit")
+    #plt.plot(all_freqs[fit_slice] / GHz, sine(all_freqs[fit_slice] / GHz, *p0), label="sine fit at p0")
+
+    plt.xlabel("Frequency (GHz)")
+    plt.ylabel("Intensity (a.u.)")
+    plt.legend(loc='upper right')
     plt.show()
