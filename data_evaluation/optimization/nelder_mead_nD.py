@@ -5,6 +5,8 @@ from numpy import array, sum
 from model.tmm import get_amplitude, get_phase, thickest_layer_approximation
 from model.refractive_index import get_n
 import matplotlib as mpl
+import pyopencl
+
 
 # mpl.rcParams['lines.linestyle'] = '--'
 mpl.rcParams['lines.marker'] = 'o'
@@ -83,7 +85,7 @@ def initial_simplex(p_start, cost_func, sample_idx=None):
         for j in range(n):
             if i - 1 == j:
                 if not np.isclose(p_start.x[j], 0):
-                    simplex.p[i].x[j] = 0.75 * p_start.x[j]
+                    simplex.p[i].x[j] = 0.80 * p_start.x[j]
                 else:
                     simplex.p[i].x[j] = 0.00025
             else:
@@ -110,6 +112,7 @@ class CostModel:
             phase_loss = sum((get_phase(self.freqs, p, self.n) - self.R0_phase) ** 2)
 
             loss = np.log10(amp_loss * phase_loss)
+            #loss = np.log10(amp_loss)
             #loss = amp_loss * phase_loss
 
             return loss
@@ -129,8 +132,9 @@ def grid(p_center, spacing):
     grid_points = []
     for i in range(-size, size+1):
         for j in range(-size, size+1):
-            point = [p_center[0] + i*spacing, p_center[1], p_center[2] + j*spacing]
-            grid_points.append(point)
+            for k in range(-size, size + 1):
+                point = [p_center[0] + i*spacing, p_center[1] + k*spacing*0.5, p_center[2] + j*spacing]
+                grid_points.append(point)
 
     return grid_points
 
@@ -141,9 +145,10 @@ if __name__ == '__main__':
     all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
 
     test_values = [
-        [325, 650, 125.], [225, 650, 125.], [125, 650, 125.], [125, 650, 375.], [295, 650, 375.],
-        [275, 600, 175.], [325, 620, 50.], [275, 675, 200.], [400, 680, 125.], [250, 600, 250.],
-        [300, 620, 200.], [200, 620, 300.], [47, 640, 74.]
+        #[325, 650, 125.], [225, 650, 125.], [125, 650, 125.], [125, 650, 375.],
+        #[275, 600, 175.], [325, 620, 50.], [275, 675, 200.], [400, 680, 125.], [250, 600, 250.],
+        #[300, 620, 200.], [200, 620, 300.], [47, 640, 74.], [90, 850, 110],
+        [650, 700, 550], [int(i) for i in np.random.uniform(40, 700, 3)]
     ]
     with open("solutions_new.txt", "a") as file2:
         for test_value in test_values:
@@ -161,13 +166,12 @@ if __name__ == '__main__':
 
             from scipy.optimize import basinhopping
 
-            p0 = array([325, new_cost.thickest_layer, 225])
+            p0 = array([300, 600, 300])
             #scipy.optimize.show_options(solver="minimize", method=None, disp=True)
 
             step = 90
-            res = basinhopping(new_cost.cost, p0, niter=10, T=1, stepsize=step, minimizer_kwargs={"method": "Nelder-Mead"}, disp=True)
-
-            print(res)
+            #res = basinhopping(new_cost.cost, p0, niter=10, T=1, stepsize=step, minimizer_kwargs={"method": "Nelder-Mead"}, disp=True)
+            #print(res)
 
             rez = 1
             x = np.arange(0, 1000, rez)
@@ -216,7 +220,7 @@ if __name__ == '__main__':
 
                     times_shrinkd = 0
                     # RHO, CHI, GAMMA, SIGMA = 1.0, 2.0, 0.5, 0.5 # original values
-                    RHO, CHI, GAMMA, SIGMA = 1.0, 2.0, 0.5, 0.5
+                    RHO, CHI, GAMMA, SIGMA = 1.0, 2.0, 0.4, 0.5
                     verbose = False
                     save_output = True
 

@@ -21,3 +21,8 @@ def get_n(freqs, n_min=2.71, n_max=2.86):
                         dtype=np.complex128).transpose()
 
     return n[selected_freqs_idx,:]
+
+def get_n_no_dispersion(freqs, n1=2.70):
+    m = len(freqs)
+
+    return np.array([ones(m), 1.5*ones(m), n1*ones(m), 1.5*ones(m), ones(m)], dtype=np.complex128).transpose()
