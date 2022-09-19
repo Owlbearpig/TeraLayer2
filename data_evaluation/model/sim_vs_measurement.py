@@ -62,8 +62,8 @@ n = get_n(freqs, 2.70, 2.70)
 
 phase_measured = get_phase(freqs, np.array([42.5, 641.3, 74.4]) * um_to_m, n)
 amplitude_measured = get_amplitude(freqs, np.array([42.5, 641.3, 74.4]) * um_to_m, n)
-phase_measured = get_phase(freqs, np.array([150.0, 650.0, 400.0]) * um_to_m, n)
-amplitude_measured = get_amplitude(freqs, np.array([150.0, 650.0, 400.0]) * um_to_m, n)
+phase_measured = get_phase(freqs, np.array([50.0, 650.0, 150.0]) * um_to_m, n)
+amplitude_measured = get_amplitude(freqs, np.array([50.0, 650.0, 150.0]) * um_to_m, n)
 
 
 def phase_loss(p):
@@ -105,7 +105,7 @@ def total_loss(p):
         return amp_loss
         """
 
-    return amp_loss * p_loss + amp_loss + p_loss
+    return amp_loss * p_loss
 
 
 def rp(p):
@@ -219,7 +219,6 @@ if __name__ == '__main__':
     interference_tests_6freq_grid_vals_v1_0_0_5
     amp_loss * p_loss + amp_loss + p_loss
     """
-
 
     file_name = Path("image_files") / "interference_tests_6freq_grid_vals_v1_0_0_5"
 

@@ -5,8 +5,6 @@ from numpy import array, sum
 from model.tmm import get_amplitude, get_phase, thickest_layer_approximation
 from model.refractive_index import get_n
 import matplotlib as mpl
-import pyopencl
-
 
 # mpl.rcParams['lines.linestyle'] = '--'
 mpl.rcParams['lines.marker'] = 'o'
@@ -15,10 +13,9 @@ mpl.rcParams['ytick.major.width'] = 2.5
 mpl.rcParams['xtick.major.width'] = 2.5
 mpl.rcParams['xtick.direction'] = 'in'
 mpl.rcParams['ytick.direction'] = 'in'
-#plt.style.use(['dark_background'])
-#plt.xkcd()
+# plt.style.use(['dark_background'])
+# plt.xkcd()
 mpl.rcParams.update({'font.size': 22})
-
 
 n = 3
 
@@ -100,7 +97,11 @@ class CostModel:
     def __init__(self, freqs, p_solution):
         self.freqs = freqs
         self.n = get_n(freqs, n_min=2.7, n_max=2.7)
-        noise = 1#(0.9 + np.random.random(len(freqs))*0.2)
+        en_noise = False
+        if en_noise:
+            noise = (0.9 + np.random.random(len(freqs))*0.2)
+        else:
+            noise = 1
 
         self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) * noise
         self.R0_phase = get_phase(freqs, p_solution * um_to_m, self.n) * noise
@@ -112,8 +113,8 @@ class CostModel:
             phase_loss = sum((get_phase(self.freqs, p, self.n) - self.R0_phase) ** 2)
 
             loss = np.log10(amp_loss * phase_loss)
-            #loss = np.log10(amp_loss)
-            #loss = amp_loss * phase_loss
+            # loss = np.log10(amp_loss)
+            # loss = amp_loss * phase_loss
 
             return loss
 
@@ -128,57 +129,71 @@ class CostModel:
 
 
 def grid(p_center, spacing):
-    size = 3
+    size = 4
     grid_points = []
-    for i in range(-size, size+1):
-        for j in range(-size, size+1):
+    for i in range(-size, size + 1):
+        for j in range(-size, size + 1):
             for k in range(-size, size + 1):
-                point = [p_center[0] + i*spacing, p_center[1] + k*spacing*0.5, p_center[2] + j*spacing]
+                point = [p_center[0] + i * spacing, p_center[1] + j * spacing, p_center[2] + k * spacing]
                 grid_points.append(point)
 
     return grid_points
 
 
+def rand_sol():
+    return [int(i) for i in [uniform(50, 450), uniform(400, 800), uniform(50, 450)]]
+
+
+def is_success(sol, p):
+    limit = 5
+    return all([abs(sol[i]-p[i]) < limit for i in range(len(sol))])
+
+
 if __name__ == '__main__':
-    #np.random.seed(420)
+    np.random.seed(420)
     rand = np.random.random
+    from numpy.random import uniform
+
     all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
 
     test_values = [
-        #[325, 650, 125.], [225, 650, 125.], [125, 650, 125.], [125, 650, 375.],
-        #[275, 600, 175.], [325, 620, 50.], [275, 675, 200.], [400, 680, 125.], [250, 600, 250.],
-        #[300, 620, 200.], [200, 620, 300.], [47, 640, 74.], [90, 850, 110],
-        [650, 700, 550], [int(i) for i in np.random.uniform(40, 700, 3)]
+        [325, 650, 125.], [225, 650, 125.], [125, 650, 125.], [125, 650, 375.],
+        [275, 600, 175.], [325, 620, 50.], [275, 675, 200.], [400, 680, 125.], [250, 600, 250.],
+        [300, 620, 200.], [200, 620, 300.], [47, 640, 74.], [90, 750, 110],
+        [450, 700, 400], rand_sol(), rand_sol(), rand_sol(), rand_sol(), rand_sol()
+
     ]
+    for _ in range(50):
+        test_values.append(rand_sol())
+
+    deviations, failures = [], 0
     with open("solutions_new.txt", "a") as file2:
         for test_value in test_values:
-            #p_sol = array([40, 630, 74], dtype=float)
-            #p_sol = array([325, 650, 225], dtype=float) - array([30, 0, -150], dtype=float)
             p_sol = array(test_value, dtype=float)
 
             print("Solution: ", p_sol)
-            freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz # pretty good
-            #freqs = array([0.020, 0.060, 0.150, 0.550, 0.640, 0.760]) * THz
-            #freqs = all_freqs
+            freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz  # pretty good
+            # freqs = array([0.020, 0.060, 0.150, 0.550, 0.640, 0.760]) * THz
+            # freqs = all_freqs
             new_cost = CostModel(freqs, p_sol)
 
             cost_func = new_cost.cost
 
             from scipy.optimize import basinhopping
 
-            p0 = array([300, 600, 300])
-            #scipy.optimize.show_options(solver="minimize", method=None, disp=True)
+            p0 = array([250, 600, 250])
+            # scipy.optimize.show_options(solver="minimize", method=None, disp=True)
 
-            step = 90
-            #res = basinhopping(new_cost.cost, p0, niter=10, T=1, stepsize=step, minimizer_kwargs={"method": "Nelder-Mead"}, disp=True)
-            #print(res)
+            step = 50
+            # res = basinhopping(new_cost.cost, p0, niter=10, T=1, stepsize=step, minimizer_kwargs={"method": "Nelder-Mead"}, disp=True)
+            # print(res)
 
             rez = 1
             x = np.arange(0, 1000, rez)
             y1 = array([cost_func(array([d1, p_sol[1], p_sol[2]])) for d1 in x])
             y2 = array([cost_func(array([p_sol[0], d2, p_sol[2]])) for d2 in x])
             y3 = array([cost_func(array([p_sol[0], p_sol[1], d3])) for d3 in x])
-            print(np.argmin(y1)*rez, np.argmin(y2)*rez, np.argmin(y3)*rez)
+            print(np.argmin(y1) * rez, np.argmin(y2) * rez, np.argmin(y3) * rez)
             plt.title(f"Loss function with solution at {p_sol}")
             plt.plot(x, y1, label=f"d1, [d, {p_sol[1]}, {p_sol[2]}]")
             plt.plot(x, y2, label=f"d2, [{p_sol[0]}, d, {p_sol[2]}]")
@@ -211,7 +226,7 @@ if __name__ == '__main__':
             p0_grid = grid(p0, step)
             print("Number of grid points: ", len(p0_grid))
 
-            global_min = [None, np.inf]
+            global_min = [None, np.inf, None]  # x, fx, p0
             with open("solutions.txt", "w") as file:
                 for start_val in p0_grid:
                     p0 = array(start_val)
@@ -220,7 +235,8 @@ if __name__ == '__main__':
 
                     times_shrinkd = 0
                     # RHO, CHI, GAMMA, SIGMA = 1.0, 2.0, 0.5, 0.5 # original values
-                    RHO, CHI, GAMMA, SIGMA = 1.0, 2.0, 0.4, 0.5
+                    RHO, CHI, GAMMA, SIGMA = 1.0, 2.0, 0.5, 0.5
+                    # chi*rho expand,
                     verbose = False
                     save_output = True
 
@@ -259,15 +275,17 @@ if __name__ == '__main__':
                                     print("reflect 1")
                                 copy_point(p_r, simplex.p[n])
                         else:
-                            if p_r.fx < simplex.p[n-1].fx:
+                            if p_r.fx < simplex.p[n - 1].fx:
                                 if verbose:
-                                    print("difference p_r.fx < simplex.p[2].fx", f'{abs(p_r.fx - simplex.p[n-1].fx):.20f}')
+                                    print("difference p_r.fx < simplex.p[2].fx",
+                                          f'{abs(p_r.fx - simplex.p[n - 1].fx):.20f}')
                                     print("reflect 2")
                                 copy_point(p_r, simplex.p[n])
                             else:
                                 if p_r.fx < simplex.p[n].fx:
                                     if verbose:
-                                        print("difference p_r.fx < simplex.p[3].fx", f'{abs(p_r.fx - simplex.p[n].fx):.20f}')
+                                        print("difference p_r.fx < simplex.p[3].fx",
+                                              f'{abs(p_r.fx - simplex.p[n].fx):.20f}')
                                     update_point(simplex, p_ce, RHO * GAMMA, p_c)
                                     cost_func(p_c)
                                     if p_c.fx <= p_r.fx:
@@ -296,7 +314,8 @@ if __name__ == '__main__':
                             times_shrinkd += 1
                             for i in range(1, n + 1):
                                 for j in range(n):
-                                    simplex.p[i].x[j] = simplex.p[0].x[j] + SIGMA * (simplex.p[i].x[j] - simplex.p[0].x[j])
+                                    simplex.p[i].x[j] = simplex.p[0].x[j] + SIGMA * (
+                                                simplex.p[i].x[j] - simplex.p[0].x[j])
                                 cost_func(simplex.p[i])
                             simplex_sort(simplex)
                         else:
@@ -330,9 +349,16 @@ if __name__ == '__main__':
                                    f"shrinks: {times_shrinkd}\n")
 
                     if simplex.p[0].fx < global_min[1]:
-                        global_min = [simplex.p[0].x, simplex.p[0].fx]
+                        global_min = [simplex.p[0].x, simplex.p[0].fx, start_val]
             print("Solution: ", p_sol)
             print("Best minimum: ", np.round(global_min[0], 2), global_min[1])
-            file2.write(f"solution: {p_sol}, best minimum: {np.round(global_min[0], 2)}, log(fx)={global_min[1]}, "
-                        f"p[1] estimate: {round(new_cost.thickest_layer, 2)}\n")
-        #plt.show()
+            success = is_success(global_min[0], p_sol)
+            failures += not success
+            file2.write(f"truth: {p_sol}, found: {np.round(global_min[0], 2)}, "
+                        f"log(fx)={round(global_min[1], 3)}, p0: {global_min[2]}, "
+                        f"success?: {success}\n")
+            deviations.append(sum([abs(global_min[0][i] - p_sol[i]) for i in range(n)]))
+        file2.write("\n")
+        print(f"average deviation: {np.mean(array(deviations))}")
+        print(f"fail count: {failures}")
+        # plt.show()
