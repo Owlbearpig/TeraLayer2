@@ -76,7 +76,7 @@ def simplex_sort(simplex):
         p.name = f"p{i}"
 
 
-def initial_simplex(p_start, cost_func, sample_idx=None):
+def initial_simplex(p_start, cost_func, sample_idx=None, fevals=0):
     simplex = Simplex(*[Point(name=f"p{i}") for i in range(n + 1)])
     for i in range(n + 1):
         for j in range(n):
@@ -88,6 +88,7 @@ def initial_simplex(p_start, cost_func, sample_idx=None):
             else:
                 simplex.p[i].x[j] = p_start.x[j]
         cost_func(simplex.p[i], sample_idx)
+        fevals += 1
     simplex_sort(simplex)
 
     return simplex
@@ -129,19 +130,20 @@ class CostModel:
 
 
 def grid(p_center, spacing):
-    size = 4
+    size = 3
     grid_points = []
     for i in range(-size, size + 1):
         for j in range(-size, size + 1):
             for k in range(-size, size + 1):
                 point = [p_center[0] + i * spacing, p_center[1] + j * spacing, p_center[2] + k * spacing]
-                grid_points.append(point)
+                if all(point):
+                    grid_points.append(point)
 
     return grid_points
 
 
 def rand_sol():
-    return [int(i) for i in [uniform(50, 450), uniform(400, 800), uniform(50, 450)]]
+    return [int(i) for i in [uniform(20, 300), uniform(500, 700), uniform(50, 300)]]
 
 
 def is_success(sol, p):
@@ -161,12 +163,11 @@ if __name__ == '__main__':
         [275, 600, 175.], [325, 620, 50.], [275, 675, 200.], [400, 680, 125.], [250, 600, 250.],
         [300, 620, 200.], [200, 620, 300.], [47, 640, 74.], [90, 750, 110],
         [450, 700, 400], rand_sol(), rand_sol(), rand_sol(), rand_sol(), rand_sol()
-
     ]
     for _ in range(50):
         test_values.append(rand_sol())
 
-    deviations, failures = [], 0
+    deviations, failures, fevals_all = [], 0, []
     with open("solutions_new.txt", "a") as file2:
         for test_value in test_values:
             p_sol = array(test_value, dtype=float)
@@ -181,13 +182,14 @@ if __name__ == '__main__':
 
             from scipy.optimize import basinhopping
 
-            p0 = array([250, 600, 250])
+            p0 = array([150, 600, 150])
             # scipy.optimize.show_options(solver="minimize", method=None, disp=True)
 
-            step = 50
-            # res = basinhopping(new_cost.cost, p0, niter=10, T=1, stepsize=step, minimizer_kwargs={"method": "Nelder-Mead"}, disp=True)
+            grid_spacing = 50
+            # res = basinhopping(new_cost.cost, p0, niter=10, T=1, stepsize=grid_spacing,
+            # minimizer_kwargs={"method": "Nelder-Mead"}, disp=True)
             # print(res)
-
+            """
             rez = 1
             x = np.arange(0, 1000, rez)
             y1 = array([cost_func(array([d1, p_sol[1], p_sol[2]])) for d1 in x])
@@ -222,10 +224,11 @@ if __name__ == '__main__':
                 else:
                     was_close0 = False
             print("minima count :", zero_passes)
+            """
 
-            p0_grid = grid(p0, step)
-            print("Number of grid points: ", len(p0_grid))
+            p0_grid = grid(p0, grid_spacing)
 
+            fevals = 0
             global_min = [None, np.inf, None]  # x, fx, p0
             with open("solutions.txt", "w") as file:
                 for start_val in p0_grid:
@@ -245,26 +248,28 @@ if __name__ == '__main__':
                     p_c = Point(name="p_c")
                     p_ce = Point(name="p_ce")
 
-                    cost_func(p_start)
-                    simplex = initial_simplex(p_start, cost_func)
+                    cost_func(p_start); fevals += 1
+                    simplex = initial_simplex(p_start, cost_func, fevals=fevals)
                     get_centroid(simplex, p_ce)
                     if verbose:
                         print("initial simplex and centroid:")
                         print(simplex)
                         print(p_ce, "\n")
 
-                    for i in range(1, 25):
+                    iterations = 30
+                    fx_vals = []
+                    for h in range(0, iterations):
                         shrink = False
                         if verbose:
-                            print(f"start of iteration {i}")
+                            print(f"start of iteration {h}")
                         update_point(simplex, p_ce, RHO, p_r)
-                        cost_func(p_r)
+                        cost_func(p_r); fevals += 1
 
-                        if (p_r.fx < simplex.p[0].fx):
+                        if p_r.fx < simplex.p[0].fx:
                             if verbose:
                                 print("difference p_r.fx < simplex.p[0].fx", f'{abs(p_r.fx - simplex.p[0].fx):.20f}')
                             update_point(simplex, p_ce, RHO * CHI, p_e)
-                            cost_func(p_e)
+                            cost_func(p_e); fevals += 1
                             if p_e.fx < p_r.fx:
                                 if verbose:
                                     print("difference p_e.fx < p_r.fx", f'{abs(p_e.fx - p_r.fx):.20f}')
@@ -287,7 +292,7 @@ if __name__ == '__main__':
                                         print("difference p_r.fx < simplex.p[3].fx",
                                               f'{abs(p_r.fx - simplex.p[n].fx):.20f}')
                                     update_point(simplex, p_ce, RHO * GAMMA, p_c)
-                                    cost_func(p_c)
+                                    cost_func(p_c); fevals += 1
                                     if p_c.fx <= p_r.fx:
                                         if verbose:
                                             print("difference p_c.fx <= p_r.fx", f'{abs(p_c.fx - p_r.fx):.20f}')
@@ -299,7 +304,7 @@ if __name__ == '__main__':
                                         shrink = True
                                 else:
                                     update_point(simplex, p_ce, -GAMMA, p_c)
-                                    cost_func(p_c)
+                                    cost_func(p_c); fevals += 1
                                     if p_c.fx <= simplex.p[n].fx:
                                         if verbose:
                                             print("difference p_c.fx <= simplex.p[3].fx",
@@ -316,7 +321,7 @@ if __name__ == '__main__':
                                 for j in range(n):
                                     simplex.p[i].x[j] = simplex.p[0].x[j] + SIGMA * (
                                                 simplex.p[i].x[j] - simplex.p[0].x[j])
-                                cost_func(simplex.p[i])
+                                cost_func(simplex.p[i]); fevals += 1
                             simplex_sort(simplex)
                         else:
                             # insertion sort
@@ -331,7 +336,9 @@ if __name__ == '__main__':
                             print(p_c)
                             print(p_ce)
                             print(simplex)
-                            print(f"iteration {i} done\n")
+                            print(f"iteration {h} done\n")
+
+                        fx_vals.append(simplex.p[0].fx)
 
                     if verbose:
                         print(f"times shrinked: {times_shrinkd}")
@@ -350,15 +357,29 @@ if __name__ == '__main__':
 
                     if simplex.p[0].fx < global_min[1]:
                         global_min = [simplex.p[0].x, simplex.p[0].fx, start_val]
+
+                    #plt.plot(np.arange(0, iterations), array(fx_vals))
+            #plt.show()
             print("Solution: ", p_sol)
             print("Best minimum: ", np.round(global_min[0], 2), global_min[1])
             success = is_success(global_min[0], p_sol)
             failures += not success
             file2.write(f"truth: {p_sol}, found: {np.round(global_min[0], 2)}, "
                         f"log(fx)={round(global_min[1], 3)}, p0: {global_min[2]}, "
-                        f"success?: {success}\n")
+                        f"success?: {success}, fevals: {fevals}\n")
             deviations.append(sum([abs(global_min[0][i] - p_sol[i]) for i in range(n)]))
+            fevals_all.append(fevals)
+
+        avg_dev_s = f"average deviation: {np.mean(array(deviations))}"
+        fail_cnt_s = f"fail count: {failures}"
+        func_evals_s = f"all function evals: {fevals_all}"
+        print(avg_dev_s)
+        print(fail_cnt_s)
+        print(func_evals_s)
+        print("Number of grid points: ", len(p0_grid))
+
+        file2.write(avg_dev_s + "\n")
+        file2.write(fail_cnt_s + "\n")
+        file2.write(func_evals_s + "\n")
         file2.write("\n")
-        print(f"average deviation: {np.mean(array(deviations))}")
-        print(f"fail count: {failures}")
         # plt.show()

@@ -23,7 +23,7 @@ mpl.rcParams.update({'font.size': 22})
 # print(mpl.rcParams.keys())
 
 
-@jit(cache=True, nopython=True)
+#@jit(cache=True, nopython=True)
 def multir_complex(freqs, p, n):
     thea = 0 * 8.0 * pi / 180.0
     es = p.copy()
@@ -36,7 +36,6 @@ def multir_complex(freqs, p, n):
     r = np.zeros(len(freqs), dtype=np.complex128)
     nc = 3
     for h in range(len(freqs)):
-
         for k in range(nc + 1):
             the[k + 1] = arcsin(n[h, k] * sin(the[k]) / n[h, k + 1])
             ra[k] = ((n[h, k] * cos(the[k + 1])) - ((n[h, k + 1]) * cos(the[k]))) / \
@@ -61,10 +60,10 @@ def multir_complex(freqs, p, n):
         """
         if np.isclose(freqs[h], 64*GHz):
             print(freqs[h])
-            print(fi)
-            print("ra", ra)
+            #print(fi)
+            print("ra", -ra)
             print("rb", rb)
-            print(M)
+            #print(M)
             exit()
         """
         r[h] = M[0, 1] / M[1, 1]
@@ -83,14 +82,14 @@ def custom_unwrap(phase):
     return p
 
 
-@jit(cache=True, nopython=False)
+#@jit(cache=True, nopython=False)
 def get_phase(freqs, p, n):
     R_C = multir_complex(freqs, p, n)
 
     return np.angle(R_C)
 
 
-@jit(cache=True, nopython=False)
+#@jit(cache=True, nopython=False)
 def get_amplitude(freqs, p, n):
     r_c = multir_complex(freqs, p, n)
 
@@ -127,11 +126,12 @@ if __name__ == '__main__':
 
     # freqs = array([0.400, 0.480, 0.560, 0.640, 0.720, 0.800]) * THz
     all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
-    #all_freqs = np.arange(0.0650, 0.0660 + 0.0001, 0.0001) * THz
+    freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz
 
-    freqs = all_freqs.copy()
     n = get_n(freqs, 2.70, 2.70)
+
     #n = get_n_no_dispersion(freqs, 2.70)
+
     print(n[0, :])
     # p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
     # p_opt = np.array([142.5, 541.3, 174.4]) * um_to_m

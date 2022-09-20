@@ -1,6 +1,6 @@
 import numpy as np
 from numpy import cos, sin, arcsin, exp, dot, conj, pi
-from consts import um_to_m, c0, THz
+from consts import um_to_m, c0, THz, array
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from numba import jit
@@ -11,86 +11,127 @@ mpl.rcParams['lines.marker'] = 'o'
 mpl.rcParams['lines.markersize'] = 2
 mpl.rcParams['axes.grid'] = True
 
-# print(mpl.rcParams.keys())
+nc = 3  # Note: This is only for 3 layers.
 
 
 class TmmFast:
-    def __init__(self, freqs, sam_idx):
-        phase_measured = get_measured_phase(freqs, sam_idx)
-        amplitude_measured = get_measured_amplitude(freqs, sam_idx)
+    def __init__(self, freqs):
+        self.freqs = freqs
 
-        limited_slice = np.abs(phase_measured) <= pi
-        self.phase_measured = phase_measured[limited_slice]
-        self.amplitude_measured = amplitude_measured[limited_slice]
+        self.n = get_n(self.freqs, 2.70, 2.70)
 
-        self.freqs = freqs[limited_slice]
+        self.the = np.zeros(len(self.freqs), float)
+        self.the[0] = 8.0 * pi / 180.0
 
-        self.n = get_n(self.freqs, 2.70, 2.85)
+    def interface_coefficients(self):
+        ra, rb = np.zeros((len(freqs), nc+1), float), np.zeros((len(freqs), nc+1), float)
+        ta, tb = np.zeros((len(freqs), nc+1), float), np.zeros((len(freqs), nc+1), float)
+        for h in range(len(freqs)):
+            for k in range(nc + 1):
+                self.the[k + 1] = arcsin(self.n[h, k] * sin(self.the[k]) / self.n[h, k + 1])
+                ra[h, k] = ((self.n[h, k] * cos(self.the[k + 1])) - ((self.n[h, k + 1]) * cos(self.the[k]))) / \
+                           ((self.n[h, k + 1] * cos(self.the[k])) + (self.n[h, k] * cos(self.the[k + 1])))
+                rb[h, k] = ((self.n[h, k + 1] * cos(self.the[k])) - (self.n[h, k] * cos(self.the[k + 1]))) / \
+                           ((self.n[h, k] * cos(self.the[k + 1])) + (self.n[h, k + 1] * cos(self.the[k])))
+                ta[h, k] = (2 * self.n[h, k] * cos(self.the[k + 1])) / \
+                           ((self.n[h, k + 1] * cos(self.the[k])) + (self.n[h, k] * cos(self.the[k + 1])))
+                tb[h, k] = (2 * self.n[h, k + 1] * cos(self.the[k])) / \
+                           ((self.n[h, k] * cos(self.the[k + 1])) + (self.n[h, k + 1] * cos(self.the[k])))
+        return ra, rb, ta, tb
 
-    def calc_total_loss(self, p):
-        @jit(cache=True, nopython=True)
-        def multir_complex(freqs, p, n):
-            thea = 8.0 * pi / 180.0
-            es = p.copy()
+    def phase_prefactors(self):
+        f1, f2 = np.zeros(len(self.freqs), float), np.zeros(len(self.freqs), float)
+        for i in range(len(self.freqs)):
+            f1[i] = 2 * pi * self.n[i, 0] * self.freqs[i] / c0
+            f2[i] = 2 * pi * self.n[i, 1] * self.freqs[i] / c0
 
-            the = np.zeros(len(freqs), dtype=np.complex128)
-            ra, rb = np.zeros(len(freqs), dtype=np.complex128), np.zeros(len(freqs), dtype=np.complex128)
-            ta, tb = np.zeros(len(freqs), dtype=np.complex128), np.zeros(len(freqs), dtype=np.complex128)
-            the[0] = thea
+        return f1, f2
 
-            r = np.zeros(len(freqs), dtype=np.complex128)
-            nc = 3
-            for h in range(len(freqs)):
-                for k in range(nc + 1):
-                    the[k + 1] = arcsin(n[h, k] * sin(the[k]) / n[h, k + 1])
-                    ra[k] = ((n[h, k] * cos(the[k + 1])) - ((n[h, k + 1]) * cos(the[k]))) / \
-                            ((n[h, k + 1] * cos(the[k])) + (n[h, k] * cos(the[k + 1])))
-                    rb[k] = ((n[h, k + 1] * cos(the[k])) - (n[h, k] * cos(the[k + 1]))) / \
-                            ((n[h, k] * cos(the[k + 1])) + (n[h, k + 1] * cos(the[k])))
-                    ta[k] = (2 * n[h, k] * cos(the[k + 1])) / \
-                            ((n[h, k + 1] * cos(the[k])) + (n[h, k] * cos(the[k + 1])))
-                    tb[k] = (2 * n[h, k + 1] * cos(the[k])) / \
-                            ((n[h, k] * cos(the[k + 1])) + (n[h, k + 1] * cos(the[k])))
+    def reflectivity(self, p):
+        a, b, _, _ = self.interface_coefficients()
+        # we have only two different interfaces.
+        a, b = np.abs(a[:, 0]), np.abs(b[:, 1])
 
-                M = (1 / tb[0]) * np.array([[(ta[0] * tb[0]) - (ra[0] * rb[0]), rb[0]],
-                                            [-ra[0], 1]], dtype=np.complex128)
+        def c_mod(s):
+            res = s - 2 * pi * (int(s / (2 * pi)) - (s < 0)) - pi
+            return res
 
-                fi = np.zeros(nc, dtype=np.complex128)
-                for s in range(nc):
-                    fi[s] = (2 * pi * n[h, s + 1] * es[s]) * (freqs[h] / c0)
-                    Q = (1 / tb[s + 1]) * np.array([[(ta[s + 1] * tb[s + 1]) - (ra[s + 1] * rb[s + 1]), rb[s + 1]],
-                                                    [-ra[s + 1], 1]], dtype=np.complex128)
-                    P = np.array([[exp(-fi[s] * 1j), 0], [0, exp(fi[s] * 1j)]])
-                    M = dot(M, dot(P, Q))
+        def sine(x):
+            B = 4 / pi
+            C = -4 / (pi * pi)
 
-                r[h] = M[0, 1] / M[1, 1]
+            y = x * (B + C * abs(x))
 
-            return r
+            P = 0.225
+            res = P * y * (abs(y) - 1) + y
 
-        r_c = multir_complex(self.freqs, p, self.n)
-        mod_p, mod_a = np.angle(r_c), np.real(r_c * conj(r_c))
+            return res
 
-        loss = np.sum((mod_a - self.amplitude_measured) ** 2) * np.sum((mod_p - self.phase_measured) ** 2)
+        def cose(x):
+            x += pi / 2
+            x -= (x > pi) * (2 * pi)
 
-        return loss
+            return sine(x)
 
+        f, g = self.phase_prefactors()
+        r = np.zeros(len(self.freqs), dtype=np.complex128)
+
+        for i in range(len(self.freqs)):
+            f0 = f[i] * p[0]
+            f1 = g[i] * p[1]
+            f2 = f[i] * p[2]
+
+            s0, s1, s2, s3 = f2 + f1 + f0, f2 - f1 - f0, f2 + f1 - f0, - f2 + f1 - f0
+            # print("s0, s1, s2, s3", s0, s1, s2, s3)
+            s0 = c_mod(s0)
+            s1 = c_mod(s1)
+            s2 = c_mod(s2)
+            s3 = c_mod(s3)
+            # print("s0, s1, s2, s3", s0, s1, s2, s3)
+            ss0, ss1, ss2, ss3 = sine(s0), sine(s1), sine(s2), sine(s3)
+            cs0, cs1, cs2, cs3 = cose(s0), cose(s1), cose(s2), cose(s3)
+
+            # print("ss0, ss1, ss2, ss3", ss0, ss1, ss2, ss3)
+            # print("cs0, cs1, cs2, cs3", cs0, cs1, cs2, cs3)
+
+            # """ #correct
+            m_12_r = (1 - a[i] * a[i]) * b[i] * (cs2 - cs1)
+            m_22_r = (1 - a[i] * a[i]) * (cs0 - b[i] * b[i] * cs3)
+
+            m_12_i = - 2 * a[i] * (ss0 + b[i] * b[i] * ss3) + (a[i] * a[i] + 1) * b[i] * (ss1 - ss2)
+            m_22_i = (a[i] * a[i] + 1) * (ss0 + b[i] * b[i] * ss3) + 2 * a[i] * b[i] * (ss2 - ss1)
+
+            # e = (m_12_r * m_12_r + m_12_i * m_12_i)
+            # d = (m_22_r * m_22_r + m_22_i * m_22_i)
+            # print("m_12_r, m_12_i, m_22_r, m_22_i", m_12_r, m_12_i, m_22_r, m_22_i)
+            # print(f"d freq. idx: {i}: {d}")
+            # print(f"1/d freq. idx: {i}: {1/d}")
+
+            r[i] = (m_12_r + 1j * m_12_i) / (m_22_r + 1j * m_22_i)
+
+        return r
 
 
 if __name__ == '__main__':
+    from tmm import multir_complex
     from timeit import default_timer
-    sam_idx = 78
-    freqs = np.arange(0.400, 1.400 + 0.001, 0.001) * THz
 
-    new_calc = TmmFast(freqs, sam_idx)
+    freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz
 
-    p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
-    p0 = np.array([45, 420, 75]) * um_to_m
-    new_calc.calc_total_loss(p_opt * um_to_m)
+    new_calc = TmmFast(freqs)
 
+    p_opt = array([90, 850, 110]) * um_to_m
+
+    r = new_calc.reflectivity(p_opt)
+    print(r)
+    r_correct = multir_complex(freqs, p_opt, new_calc.n)
+    print(r_correct)
+
+    """
+    #new_calc.calc_total_loss(p_opt * um_to_m)
     t0 = default_timer()
     for p in np.random.random((1000, 6)):
-        new_calc.calc_total_loss(p*um_to_m)
+        new_calc.calc_total_loss(p * um_to_m)
 
     print(default_timer() - t0)
-
-
+    """
