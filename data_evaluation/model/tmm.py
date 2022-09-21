@@ -35,6 +35,7 @@ def multir_complex(freqs, p, n):
 
     r = np.zeros(len(freqs), dtype=np.complex128)
     nc = 3
+
     for h in range(len(freqs)):
         for k in range(nc + 1):
             the[k + 1] = arcsin(n[h, k] * sin(the[k]) / n[h, k + 1])
@@ -49,10 +50,11 @@ def multir_complex(freqs, p, n):
 
         M = (1 / tb[0]) * np.array([[(ta[0] * tb[0]) - (ra[0] * rb[0]), rb[0]],
                                     [-ra[0], 1]], dtype=np.complex128)
-
         fi = np.zeros(nc, dtype=np.complex128)
+
         for s in range(nc):
             fi[s] = (2 * pi * n[h, s + 1] * es[s]) * (freqs[h] / c0)
+
             Q = (1 / tb[s + 1]) * np.array([[(ta[s + 1] * tb[s + 1]) - (ra[s + 1] * rb[s + 1]), rb[s + 1]],
                                             [-ra[s + 1], 1]], dtype=np.complex128)
             P = np.array([[exp(-fi[s] * 1j), 0], [0, exp(fi[s] * 1j)]])
