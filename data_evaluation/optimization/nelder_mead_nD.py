@@ -97,10 +97,10 @@ def initial_simplex(p_start, cost_func, sample_idx=None, fevals=0):
 class CostModel:
     def __init__(self, freqs, p_solution):
         self.freqs = freqs
-        self.n = get_n(freqs, n_min=2.7, n_max=2.7)
+        self.n = get_n(freqs, n_min=2.8, n_max=2.8)
         en_noise = False
         if en_noise:
-            noise = (0.9 + np.random.random(len(freqs))*0.2)
+            noise = (0.9 + np.random.random(len(freqs)) * 0.2)
         else:
             noise = 1
 
@@ -117,7 +117,7 @@ class CostModel:
             # loss = np.log10(amp_loss)
             # loss = amp_loss * phase_loss
 
-            return loss
+            return phase_loss
 
         if isinstance(point, Point):
             p = array([point.x[0], point.x[1], point.x[2]], dtype=float) * um_to_m
@@ -148,7 +148,7 @@ def rand_sol():
 
 def is_success(sol, p):
     limit = 5
-    return all([abs(sol[i]-p[i]) < limit for i in range(len(sol))])
+    return all([abs(sol[i] - p[i]) < limit for i in range(len(sol))])
 
 
 if __name__ == '__main__':
@@ -159,36 +159,46 @@ if __name__ == '__main__':
     all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
 
     test_values = [
-        [325, 650, 125.], [225, 650, 125.], [125, 650, 125.], [125, 650, 375.],
-        [275, 600, 175.], [325, 620, 50.], [275, 675, 200.], [400, 680, 125.], [250, 600, 250.],
-        [300, 620, 200.], [200, 620, 300.], [47, 640, 74.], [90, 750, 110],
-        [450, 700, 400], rand_sol(), rand_sol(), rand_sol(), rand_sol(), rand_sol()
+        #[325, 650, 125.], [225, 650, 125.], [125, 650, 125.], [125, 650, 375.],
+        #[275, 600, 175.], [325, 620, 50.], [275, 675, 200.], [400, 680, 125.], [250, 600, 250.],
+        #[300, 620, 200.], [200, 620, 300.], [47, 640, 74.], [90, 750, 110],
+        #[450, 700, 400], rand_sol(), rand_sol(), rand_sol(), rand_sol(), rand_sol()
     ]
-    for _ in range(50):
+    for _ in range(100):
         test_values.append(rand_sol())
-
     deviations, failures, fevals_all = [], 0, []
     with open("solutions_new.txt", "a") as file2:
+        header = "truth __ found __ log(fx) __ p0 __ success? __ fevals"
+        file2.write(header + "\n")
         for test_value in test_values:
             p_sol = array(test_value, dtype=float)
 
             print("Solution: ", p_sol)
             freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz  # pretty good
             # freqs = array([0.020, 0.060, 0.150, 0.550, 0.640, 0.760]) * THz
-            # freqs = all_freqs
+            #freqs = array([0.040, 0.080, 0.150, 0.550, 0.720, 0.780]) * THz  # pretty good
+            #freqs = all_freqs
             new_cost = CostModel(freqs, p_sol)
 
             cost_func = new_cost.cost
-
-            from scipy.optimize import basinhopping
-
+            p_opt = array([118.0, 513.0, 206.0]) * um_to_m
+            print(cost_func(p_opt))
+            p_opt = array([206.0, 513.0, 118.0]) * um_to_m
+            print(cost_func(p_opt))
+            exit()
             p0 = array([150, 600, 150])
-            # scipy.optimize.show_options(solver="minimize", method=None, disp=True)
 
             grid_spacing = 50
-            # res = basinhopping(new_cost.cost, p0, niter=10, T=1, stepsize=grid_spacing,
-            # minimizer_kwargs={"method": "Nelder-Mead"}, disp=True)
-            # print(res)
+
+            from scipy.optimize import basinhopping, shgo
+            bounds = [(20, 300), (500, 700), (50, 300)]
+            #res = basinhopping(new_cost.cost, p0, niter=50, T=1, stepsize=grid_spacing, disp=True,
+            #                   minimizer_kwargs={"bounds": bounds})
+            res = shgo(new_cost.cost, bounds=bounds, n=200, iters=5)
+            nfev, fx = res["nfev"], res["fun"]
+            file2.write(f"{[*p_sol]} __ {[*res.x]} __ "
+                        f"{round(fx, 3)} __ {[*p0]} __ "
+                        f"{is_success(res.x, p_sol)} __ {nfev}\n")
             """
             rez = 1
             x = np.arange(0, 1000, rez)
@@ -230,6 +240,7 @@ if __name__ == '__main__':
 
             fevals = 0
             global_min = [None, np.inf, None]  # x, fx, p0
+            continue
             with open("solutions.txt", "w") as file:
                 for start_val in p0_grid:
                     p0 = array(start_val)
@@ -248,7 +259,8 @@ if __name__ == '__main__':
                     p_c = Point(name="p_c")
                     p_ce = Point(name="p_ce")
 
-                    cost_func(p_start); fevals += 1
+                    cost_func(p_start)
+                    fevals += 1
                     simplex = initial_simplex(p_start, cost_func, fevals=fevals)
                     get_centroid(simplex, p_ce)
                     if verbose:
@@ -263,13 +275,15 @@ if __name__ == '__main__':
                         if verbose:
                             print(f"start of iteration {h}")
                         update_point(simplex, p_ce, RHO, p_r)
-                        cost_func(p_r); fevals += 1
+                        cost_func(p_r)
+                        fevals += 1
 
                         if p_r.fx < simplex.p[0].fx:
                             if verbose:
                                 print("difference p_r.fx < simplex.p[0].fx", f'{abs(p_r.fx - simplex.p[0].fx):.20f}')
                             update_point(simplex, p_ce, RHO * CHI, p_e)
-                            cost_func(p_e); fevals += 1
+                            cost_func(p_e)
+                            fevals += 1
                             if p_e.fx < p_r.fx:
                                 if verbose:
                                     print("difference p_e.fx < p_r.fx", f'{abs(p_e.fx - p_r.fx):.20f}')
@@ -292,7 +306,8 @@ if __name__ == '__main__':
                                         print("difference p_r.fx < simplex.p[3].fx",
                                               f'{abs(p_r.fx - simplex.p[n].fx):.20f}')
                                     update_point(simplex, p_ce, RHO * GAMMA, p_c)
-                                    cost_func(p_c); fevals += 1
+                                    cost_func(p_c)
+                                    fevals += 1
                                     if p_c.fx <= p_r.fx:
                                         if verbose:
                                             print("difference p_c.fx <= p_r.fx", f'{abs(p_c.fx - p_r.fx):.20f}')
@@ -304,7 +319,8 @@ if __name__ == '__main__':
                                         shrink = True
                                 else:
                                     update_point(simplex, p_ce, -GAMMA, p_c)
-                                    cost_func(p_c); fevals += 1
+                                    cost_func(p_c)
+                                    fevals += 1
                                     if p_c.fx <= simplex.p[n].fx:
                                         if verbose:
                                             print("difference p_c.fx <= simplex.p[3].fx",
@@ -320,8 +336,9 @@ if __name__ == '__main__':
                             for i in range(1, n + 1):
                                 for j in range(n):
                                     simplex.p[i].x[j] = simplex.p[0].x[j] + SIGMA * (
-                                                simplex.p[i].x[j] - simplex.p[0].x[j])
-                                cost_func(simplex.p[i]); fevals += 1
+                                            simplex.p[i].x[j] - simplex.p[0].x[j])
+                                cost_func(simplex.p[i])
+                                fevals += 1
                             simplex_sort(simplex)
                         else:
                             # insertion sort
@@ -358,15 +375,15 @@ if __name__ == '__main__':
                     if simplex.p[0].fx < global_min[1]:
                         global_min = [simplex.p[0].x, simplex.p[0].fx, start_val]
 
-                    #plt.plot(np.arange(0, iterations), array(fx_vals))
-            #plt.show()
+                    # plt.plot(np.arange(0, iterations), array(fx_vals))
+            # plt.show()
             print("Solution: ", p_sol)
             print("Best minimum: ", np.round(global_min[0], 2), global_min[1])
             success = is_success(global_min[0], p_sol)
             failures += not success
-            file2.write(f"truth: {p_sol}, found: {np.round(global_min[0], 2)}, "
-                        f"log(fx)={round(global_min[1], 3)}, p0: {global_min[2]}, "
-                        f"success?: {success}, fevals: {fevals}\n")
+            file2.write(f"{[*p_sol]} __ {[*np.round(global_min[0], 2)]} __ "
+                        f"{round(global_min[1], 3)} __ {[*global_min[2]]} __ "
+                        f"{success} __ {fevals}\n")
             deviations.append(sum([abs(global_min[0][i] - p_sol[i]) for i in range(n)]))
             fevals_all.append(fevals)
 
@@ -376,10 +393,10 @@ if __name__ == '__main__':
         print(avg_dev_s)
         print(fail_cnt_s)
         print(func_evals_s)
+        footer = "Avg. dev. __ fails __ grd size"
         print("Number of grid points: ", len(p0_grid))
-
-        file2.write(avg_dev_s + "\n")
-        file2.write(fail_cnt_s + "\n")
-        file2.write(func_evals_s + "\n")
+        file2.write(footer + "\n")
+        file2.write(f"{np.mean(array(deviations))} __ {failures} __ {len(p0_grid)}\n")
+        file2.write("fevals at each grid pnt: " + func_evals_s + "\n")
         file2.write("\n")
         # plt.show()

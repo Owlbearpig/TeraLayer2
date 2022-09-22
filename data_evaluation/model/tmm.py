@@ -23,9 +23,9 @@ mpl.rcParams.update({'font.size': 22})
 # print(mpl.rcParams.keys())
 
 
-#@jit(cache=True, nopython=True)
+@jit(cache=True, nopython=True)
 def multir_complex(freqs, p, n):
-    thea = 0 * 8.0 * pi / 180.0
+    thea = 1 * 8.0 * pi / 180.0
     es = p.copy()
 
     the = np.zeros(len(freqs), dtype=np.complex128)
@@ -84,14 +84,14 @@ def custom_unwrap(phase):
     return p
 
 
-#@jit(cache=True, nopython=False)
+@jit(cache=True, nopython=False)
 def get_phase(freqs, p, n):
     R_C = multir_complex(freqs, p, n)
 
     return np.angle(R_C)
 
 
-#@jit(cache=True, nopython=False)
+@jit(cache=True, nopython=False)
 def get_amplitude(freqs, p, n):
     r_c = multir_complex(freqs, p, n)
 
@@ -129,8 +129,8 @@ if __name__ == '__main__':
     # freqs = array([0.400, 0.480, 0.560, 0.640, 0.720, 0.800]) * THz
     all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
     freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz
-
-    n = get_n(freqs, 2.70, 2.70)
+    freqs = all_freqs.copy()
+    n = get_n(freqs, 2.80, 2.80)
 
     #n = get_n_no_dispersion(freqs, 2.70)
 
@@ -138,7 +138,8 @@ if __name__ == '__main__':
     # p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
     # p_opt = np.array([142.5, 541.3, 174.4]) * um_to_m
     #p_opt = array([29, 850, 37]) * um_to_m
-    p_opt = array([90, 850, 110]) * um_to_m
+    p_opt = array([118.0, 513.0, 206.0]) * um_to_m
+    #   p_opt = array([206.0, 513.0, 118.0]) * um_to_m
     # p_opt = np.array([20, 350, 120]) * um_to_m
 
     sam_idx = 78
@@ -161,7 +162,7 @@ if __name__ == '__main__':
     plt.legend()
 
     fig, (ax1, ax2) = plt.subplots(1, 2)
-    ax1.plot(freqs / GHz, np.unwrap(phase_mod), label=f"phase model, {p_opt * 10 ** 6}")
+    ax1.plot(freqs / GHz, phase_mod, label=f"phase model, {p_opt * 10 ** 6}")
     # ax1.plot(freqs / GHz, phase_measured, label="phase measured")
     ax1.set_xlabel("frequency (GHz)")
     ax1.set_ylabel("phase (rad)")

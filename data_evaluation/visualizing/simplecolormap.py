@@ -71,7 +71,7 @@ def map_plot(error_func=None, img_data=None, settings=None, representation="", t
 
     cbar = fig.colorbar(img)
 
-    cbar.set_label(cbar_label, rotation=270, labelpad=10)
+    cbar.set_label(cbar_label, rotation=270, labelpad=15)
     axmax = fig.add_axes([0.05, 0.1, 0.02, 0.8])
     amp_slider = Slider(
         ax=axmax,
