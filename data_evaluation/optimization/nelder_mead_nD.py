@@ -3,6 +3,7 @@ from consts import custom_mask_420, um_to_m, THz, GHz, um
 import numpy as np
 from numpy import array, sum
 from model.tmm import get_amplitude, get_phase, thickest_layer_approximation
+from model.measurement_data import get_measured_phase, get_measured_amplitude
 from model.refractive_index import get_n
 import matplotlib as mpl
 
@@ -95,29 +96,38 @@ def initial_simplex(p_start, cost_func, sample_idx=None, fevals=0):
 
 
 class CostModel:
-    def __init__(self, freqs, p_solution):
+    def __init__(self, freqs, p_solution, sam_idx=None):
+        self.sam_idx = sam_idx
         self.freqs = freqs
         self.n = get_n(freqs, n_min=2.8, n_max=2.8)
-        en_noise = False
+
+        en_noise = True
         if en_noise:
-            noise = (0.9 + np.random.random(len(freqs)) * 0.2)
+            #noise = (0.9 + np.random.random(len(freqs)) * 0.2)
+            noise = np.random.normal(0,1,6)
+            noise /= np.max(noise)
+            noise *= 0.1
         else:
             noise = 1
 
         self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) * noise
-        self.R0_phase = get_phase(freqs, p_solution * um_to_m, self.n) * noise
-        self.thickest_layer = thickest_layer_approximation(freqs, self.R0_amplitude) * um
+        self.R0_phase = get_phase(self.freqs, p_solution * um_to_m, self.n) * noise
+
+        self.R0_amplitude = get_measured_amplitude(self.freqs, sam_idx=self.sam_idx)
+        self.R0_phase = get_measured_phase(self.freqs, sam_idx=self.sam_idx)
+
+        #self.thickest_layer = thickest_layer_approximation(freqs, self.R0_amplitude) * um
 
     def cost(self, point, *args):
         def cost_function(p):
             amp_loss = sum((get_amplitude(self.freqs, p, self.n) - self.R0_amplitude) ** 2)
             phase_loss = sum((get_phase(self.freqs, p, self.n) - self.R0_phase) ** 2)
 
+            loss = np.log10(amp_loss)
+            #loss = np.log10(phase_loss)
             loss = np.log10(amp_loss * phase_loss)
-            # loss = np.log10(amp_loss)
-            # loss = amp_loss * phase_loss
 
-            return phase_loss
+            return loss
 
         if isinstance(point, Point):
             p = array([point.x[0], point.x[1], point.x[2]], dtype=float) * um_to_m
@@ -164,41 +174,44 @@ if __name__ == '__main__':
         #[300, 620, 200.], [200, 620, 300.], [47, 640, 74.], [90, 750, 110],
         #[450, 700, 400], rand_sol(), rand_sol(), rand_sol(), rand_sol(), rand_sol()
     ]
-    for _ in range(100):
+    for sam_idx in range(100):
         test_values.append(rand_sol())
+
     deviations, failures, fevals_all = [], 0, []
     with open("solutions_new.txt", "a") as file2:
         header = "truth __ found __ log(fx) __ p0 __ success? __ fevals"
         file2.write(header + "\n")
-        for test_value in test_values:
+        for sam_idx, test_value in enumerate(test_values):
             p_sol = array(test_value, dtype=float)
 
             print("Solution: ", p_sol)
-            freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz  # pretty good
+            #freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz  # pretty good, not suited for real sam...
             # freqs = array([0.020, 0.060, 0.150, 0.550, 0.640, 0.760]) * THz
             #freqs = array([0.040, 0.080, 0.150, 0.550, 0.720, 0.780]) * THz  # pretty good
+            freqs = array([0.460, 0.490, 0.600, 0.640, 0.780, 0.840]) * THz
             #freqs = all_freqs
-            new_cost = CostModel(freqs, p_sol)
+            new_cost = CostModel(freqs, p_sol, sam_idx)
 
             cost_func = new_cost.cost
-            p_opt = array([118.0, 513.0, 206.0]) * um_to_m
-            print(cost_func(p_opt))
-            p_opt = array([206.0, 513.0, 118.0]) * um_to_m
-            print(cost_func(p_opt))
-            exit()
+            #p_opt = array([118.0, 513.0, 206.0]) * um_to_m
+            #print(cost_func(p_opt))
+            #p_opt = array([206.0, 513.0, 118.0]) * um_to_m
+            #print(cost_func(p_opt))
+
             p0 = array([150, 600, 150])
 
             grid_spacing = 50
-
+            """
             from scipy.optimize import basinhopping, shgo
             bounds = [(20, 300), (500, 700), (50, 300)]
             #res = basinhopping(new_cost.cost, p0, niter=50, T=1, stepsize=grid_spacing, disp=True,
             #                   minimizer_kwargs={"bounds": bounds})
-            res = shgo(new_cost.cost, bounds=bounds, n=200, iters=5)
+            res = shgo(new_cost.cost, bounds=bounds, n=200, iters=5, minimizer_kwargs={"method": "Nelder-Mead"})
             nfev, fx = res["nfev"], res["fun"]
             file2.write(f"{[*p_sol]} __ {[*res.x]} __ "
                         f"{round(fx, 3)} __ {[*p0]} __ "
                         f"{is_success(res.x, p_sol)} __ {nfev}\n")
+            """
             """
             rez = 1
             x = np.arange(0, 1000, rez)
@@ -207,13 +220,14 @@ if __name__ == '__main__':
             y3 = array([cost_func(array([p_sol[0], p_sol[1], d3])) for d3 in x])
             print(np.argmin(y1) * rez, np.argmin(y2) * rez, np.argmin(y3) * rez)
             plt.title(f"Loss function with solution at {p_sol}")
-            plt.plot(x, y1, label=f"d1, [d, {p_sol[1]}, {p_sol[2]}]")
-            plt.plot(x, y2, label=f"d2, [{p_sol[0]}, d, {p_sol[2]}]")
-            plt.plot(x, y3, label=f"d3, [{p_sol[0]}, {p_sol[1]}, d]")
+            plt.scatter(x, y1, label=f"d1, [d, {p_sol[1]}, {p_sol[2]}]")
+            plt.scatter(x, y2, label=f"d2, [{p_sol[0]}, d, {p_sol[2]}]")
+            plt.scatter(x, y3, label=f"d3, [{p_sol[0]}, {p_sol[1]}, d]")
             plt.xticks(np.arange(0, 1000 + 100, 100))
             plt.xlabel("d ($\mu$m)")
-            plt.ylabel("$log_{10}$(AmpLoss * PhaseLoss)")
+            plt.ylabel("$log_{10}$(IntLoss*PhaseLoss)")
             plt.legend()
+            plt.show()
 
             mean_val = np.mean(y1)
             y1_minimas = y1[y1 < mean_val]
@@ -240,7 +254,7 @@ if __name__ == '__main__':
 
             fevals = 0
             global_min = [None, np.inf, None]  # x, fx, p0
-            continue
+            #continue
             with open("solutions.txt", "w") as file:
                 for start_val in p0_grid:
                     p0 = array(start_val)

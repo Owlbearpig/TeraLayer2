@@ -114,6 +114,9 @@ class TmmFast:
             r[i] = m01 / m11
             """
             s0, s1, s2, s3 = f2 + f1 + f0, f2 - f1 - f0, f2 + f1 - f0, - f2 + f1 - f0
+
+
+
             # print("s0, s1, s2, s3", s0, s1, s2, s3)
             s0 = c_mod(s0)
             s1 = c_mod(s1)

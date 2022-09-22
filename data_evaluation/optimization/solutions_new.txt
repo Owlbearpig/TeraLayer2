@@ -1,0 +1,1469 @@
+solution: [325. 650. 125.], best minimum: [324.27 650.38 126.32], log(fx)=0.0027778943052318913, p[1] estimate: 598.03
+solution: [225. 650. 125.], best minimum: [225.61 648.18 133.7 ], log(fx)=0.004085378222427197, p[1] estimate: 623.69
+solution: [125. 650. 125.], best minimum: [124.45 650.51 123.83], log(fx)=0.00024665429736657636, p[1] estimate: 651.34
+solution: [125. 650. 375.], best minimum: [103.89 582.9  516.85], log(fx)=0.5722756021443999, p[1] estimate: 586.48
+solution: [295. 650. 375.], best minimum: [283.68 580.53 513.09], log(fx)=1.1928265849717985, p[1] estimate: 577.8
+solution: [275. 600. 175.], best minimum: [273.17 606.62 144.38], log(fx)=0.04146273929760873, p[1] estimate: 640.92
+solution: [325. 620.  50.], best minimum: [325.06 619.79  51.56], log(fx)=0.001518246170822081, p[1] estimate: 619.78
+solution: [275. 675. 200.], best minimum: [271.02 679.6  186.69], log(fx)=0.03424017461415936, p[1] estimate: 573.25
+solution: [400. 680. 125.], best minimum: [401.98 679.72 120.77], log(fx)=0.0019633811898761896, p[1] estimate: 559.42
+solution: [250. 600. 250.], best minimum: [227.6  690.87 446.39], log(fx)=1.2103807047335275, p[1] estimate: 653.45
+solution: [300. 620. 200.], best minimum: [303.45 617.72 203.91], log(fx)=0.01595540975623336, p[1] estimate: 624.99
+solution: [200. 620. 300.], best minimum: [199.99 620.04 300.9 ], log(fx)=0.0007514460045302445, p[1] estimate: 624.99
+solution: [ 47. 640.  74.], best minimum: [ 49.21 634.25  62.57], log(fx)=0.021755169620308587, p[1] estimate: 616.7
+
+
+
+truth: [325. 650. 125.], found: [324.93 647.96 134.13], log(fx)=-5.246, p0: [350, 650, 150], success?: False
+truth: [225. 650. 125.], found: [225.75 650.31 124.16], log(fx)=-4.698, p0: [250, 650, 100], success?: True
+truth: [125. 650. 125.], found: [122.22 651.31 123.17], log(fx)=-3.838, p0: [150, 650, 100], success?: True
+truth: [125. 650. 375.], found: [124.29 650.62 375.27], log(fx)=-5.253, p0: [150, 800, 300], success?: True
+truth: [275. 600. 175.], found: [274.61 600.15 178.81], log(fx)=-5.434, p0: [300, 600, 200], success?: True
+truth: [325. 620.  50.], found: [323.73 620.05  48.7 ], log(fx)=-4.66, p0: [450, 600, 50], success?: True
+truth: [275. 675. 200.], found: [273.12 674.45 195.87], log(fx)=-4.91, p0: [250, 700, 200], success?: True
+truth: [400. 680. 125.], found: [401.43 677.69 127.32], log(fx)=-4.346, p0: [350, 700, 150], success?: True
+truth: [250. 600. 250.], found: [249.98 599.83 250.36], log(fx)=-4.081, p0: [250, 750, 250], success?: True
+truth: [300. 620. 200.], found: [299.64 620.59 199.46], log(fx)=-4.845, p0: [400, 700, 200], success?: True
+truth: [200. 620. 300.], found: [200.91 619.59 301.34], log(fx)=-6.099, p0: [200, 650, 250], success?: True
+truth: [ 47. 640.  74.], found: [ 46.58 639.91  68.82], log(fx)=-4.276, p0: [50, 450, 100], success?: False
+truth: [ 90. 750. 110.], found: [ 88.43 751.47 107.76], log(fx)=-4.431, p0: [100, 750, 100], success?: True
+truth: [450. 700. 400.], found: [449.44 699.65 401.81], log(fx)=-4.829, p0: [450, 700, 400], success?: True
+truth: [176. 581. 156.], found: [175.77 581.68 154.08], log(fx)=-4.109, p0: [150, 500, 200], success?: True
+truth: [ 93. 747. 301.], found: [ 94.79 742.16 309.75], log(fx)=-4.537, p0: [100, 600, 400], success?: False
+truth: [191. 427. 300.], found: [188.87 426.65 302.01], log(fx)=-4.498, p0: [150, 550, 250], success?: True
+truth: [289. 436.  72.], found: [288.81 432.05  69.96], log(fx)=-5.006, p0: [350, 400, 50], success?: True
+truth: [144. 494. 359.], found: [145.48 492.88 361.96], log(fx)=-6.351, p0: [150, 500, 350], success?: True
+truth: [ 67. 541. 237.], found: [ 67.28 540.85 233.71], log(fx)=-4.968, p0: [100, 450, 250], success?: True
+truth: [357. 745. 361.], found: [362.01 743.08 365.77], log(fx)=-4.245, p0: [400, 750, 400], success?: False
+truth: [140. 704. 226.], found: [140.53 702.68 225.91], log(fx)=-5.299, p0: [150, 700, 250], success?: True
+truth: [136. 648. 106.], found: [135.95 648.09 106.25], log(fx)=-4.552, p0: [150, 650, 100], success?: True
+truth: [ 85. 575. 165.], found: [ 83.76 575.   164.71], log(fx)=-4.37, p0: [100, 550, 200], success?: True
+truth: [159. 619. 436.], found: [160.76 618.03 434.59], log(fx)=-4.719, p0: [200, 600, 400], success?: True
+truth: [326. 657. 340.], found: [325.97 655.56 341.29], log(fx)=-4.193, p0: [400, 700, 350], success?: True
+truth: [425. 418.  50.], found: [424.34 418.46  49.36], log(fx)=-4.161, p0: [450, 400, 50], success?: True
+truth: [188. 671. 175.], found: [188.41 670.07 177.74], log(fx)=-4.451, p0: [200, 700, 200], success?: True
+truth: [363. 642.  94.], found: [363.89 640.23  96.06], log(fx)=-4.419, p0: [350, 800, 100], success?: True
+
+
+truth: [325. 650. 125.], found: [325.25 650.12 124.47], log(fx)=-8.671, p0: [350, 550, 150], success?: True
+truth: [225. 650. 125.], found: [225.27 649.93 124.67], log(fx)=-8.625, p0: [150, 800, 150], success?: True
+truth: [125. 650. 125.], found: [125.64 650.13 123.89], log(fx)=-7.854, p0: [150, 650, 100], success?: True
+truth: [125. 650. 375.], found: [125.42 649.9  374.53], log(fx)=-8.178, p0: [100, 750, 400], success?: True
+truth: [275. 600. 175.], found: [274.31 600.2  174.36], log(fx)=-7.626, p0: [300, 600, 200], success?: True
+truth: [325. 620.  50.], found: [325.07 619.78  50.08], log(fx)=-8.822, p0: [450, 600, 50], success?: True
+truth: [275. 675. 200.], found: [274.68 674.95 200.  ], log(fx)=-9.001, p0: [300, 650, 250], success?: True
+truth: [400. 680. 125.], found: [399.94 680.14 124.02], log(fx)=-8.395, p0: [400, 650, 150], success?: True
+truth: [250. 600. 250.], found: [250. 600. 250.], log(fx)=-inf, p0: [250, 600, 250], success?: True
+truth: [300. 620. 200.], found: [299.56 620.48 199.  ], log(fx)=-7.809, p0: [250, 650, 250], success?: True
+truth: [200. 620. 300.], found: [200.38 619.68 300.39], log(fx)=-8.358, p0: [200, 650, 250], success?: True
+truth: [ 47. 640.  74.], found: [ 47.11 640.08  73.52], log(fx)=-8.649, p0: [50, 500, 150], success?: True
+truth: [ 90. 750. 110.], found: [ 89.54 750.23 109.36], log(fx)=-7.543, p0: [100, 750, 100], success?: True
+truth: [450. 700. 400.], found: [450. 700. 400.], log(fx)=-inf, p0: [450, 700, 400], success?: True
+truth: [176. 581. 156.], found: [177.02 580.89 156.05], log(fx)=-7.537, p0: [150, 600, 250], success?: True
+truth: [ 93. 747. 301.], found: [ 93.19 746.86 300.62], log(fx)=-9.893, p0: [100, 750, 300], success?: True
+truth: [191. 427. 300.], found: [192.32 425.63 302.95], log(fx)=-5.515, p0: [150, 550, 250], success?: True
+truth: [289. 436.  72.], found: [289.39 435.83  72.02], log(fx)=-8.733, p0: [250, 450, 100], success?: True
+truth: [144. 494. 359.], found: [143.96 493.77 359.24], log(fx)=-8.286, p0: [150, 500, 350], success?: True
+truth: [ 67. 541. 237.], found: [ 66.14 541.92 236.36], log(fx)=-7.9, p0: [50, 800, 350], success?: True
+truth: [357. 745. 361.], found: [353.66 746.32 359.82], log(fx)=-5.787, p0: [350, 750, 450], success?: True
+truth: [140. 704. 226.], found: [139.95 703.86 225.9 ], log(fx)=-9.239, p0: [150, 700, 200], success?: True
+truth: [136. 648. 106.], found: [135.8  647.94 106.41], log(fx)=-8.77, p0: [150, 650, 100], success?: True
+truth: [ 85. 575. 165.], found: [ 85.04 575.19 165.36], log(fx)=-7.822, p0: [100, 650, 150], success?: True
+truth: [159. 619. 436.], found: [158.78 618.78 436.15], log(fx)=-8.129, p0: [150, 650, 450], success?: True
+truth: [326. 657. 340.], found: [325.57 656.85 340.73], log(fx)=-8.941, p0: [450, 550, 300], success?: True
+truth: [425. 418.  50.], found: [425.43 417.71  50.84], log(fx)=-7.86, p0: [450, 550, 50], success?: True
+truth: [188. 671. 175.], found: [188.18 671.02 174.69], log(fx)=-9.893, p0: [200, 700, 200], success?: True
+truth: [363. 642.  94.], found: [362.75 642.33  93.67], log(fx)=-9.037, p0: [400, 550, 100], success?: True
+
+
+truth: [325. 650. 125.], found: [325.25 650.12 124.47], log(fx)=-8.671, p0: [350, 550, 150], success?: True
+truth: [225. 650. 125.], found: [225.27 649.93 124.67], log(fx)=-8.625, p0: [150, 800, 150], success?: True
+truth: [125. 650. 125.], found: [125.64 650.13 123.89], log(fx)=-7.854, p0: [150, 650, 100], success?: True
+truth: [125. 650. 375.], found: [125.42 649.9  374.53], log(fx)=-8.178, p0: [100, 750, 400], success?: True
+truth: [275. 600. 175.], found: [274.31 600.2  174.36], log(fx)=-7.626, p0: [300, 600, 200], success?: True
+truth: [325. 620.  50.], found: [325.07 619.78  50.08], log(fx)=-8.822, p0: [450, 600, 50], success?: True
+truth: [275. 675. 200.], found: [274.68 674.95 200.  ], log(fx)=-9.001, p0: [300, 650, 250], success?: True
+truth: [400. 680. 125.], found: [399.94 680.14 124.02], log(fx)=-8.395, p0: [400, 650, 150], success?: True
+truth: [250. 600. 250.], found: [250. 600. 250.], log(fx)=-inf, p0: [250, 600, 250], success?: True
+truth: [300. 620. 200.], found: [299.56 620.48 199.  ], log(fx)=-7.809, p0: [250, 650, 250], success?: True
+truth: [200. 620. 300.], found: [200.38 619.68 300.39], log(fx)=-8.358, p0: [200, 650, 250], success?: True
+truth: [ 47. 640.  74.], found: [ 47.11 640.08  73.52], log(fx)=-8.649, p0: [50, 500, 150], success?: True
+truth: [ 90. 750. 110.], found: [ 89.54 750.23 109.36], log(fx)=-7.543, p0: [100, 750, 100], success?: True
+truth: [450. 700. 400.], found: [450. 700. 400.], log(fx)=-inf, p0: [450, 700, 400], success?: True
+truth: [176. 581. 156.], found: [177.02 580.89 156.05], log(fx)=-7.537, p0: [150, 600, 250], success?: True
+truth: [ 93. 747. 301.], found: [ 93.19 746.86 300.62], log(fx)=-9.893, p0: [100, 750, 300], success?: True
+truth: [191. 427. 300.], found: [192.32 425.63 302.95], log(fx)=-5.515, p0: [150, 550, 250], success?: True
+truth: [289. 436.  72.], found: [289.39 435.83  72.02], log(fx)=-8.733, p0: [250, 450, 100], success?: True
+truth: [144. 494. 359.], found: [143.96 493.77 359.24], log(fx)=-8.286, p0: [150, 500, 350], success?: True
+truth: [ 67. 541. 237.], found: [ 66.14 541.92 236.36], log(fx)=-7.9, p0: [50, 800, 350], success?: True
+truth: [357. 745. 361.], found: [353.66 746.32 359.82], log(fx)=-5.787, p0: [350, 750, 450], success?: True
+truth: [140. 704. 226.], found: [139.95 703.86 225.9 ], log(fx)=-9.239, p0: [150, 700, 200], success?: True
+truth: [136. 648. 106.], found: [135.8  647.94 106.41], log(fx)=-8.77, p0: [150, 650, 100], success?: True
+truth: [ 85. 575. 165.], found: [ 85.04 575.19 165.36], log(fx)=-7.822, p0: [100, 650, 150], success?: True
+truth: [159. 619. 436.], found: [158.78 618.78 436.15], log(fx)=-8.129, p0: [150, 650, 450], success?: True
+truth: [326. 657. 340.], found: [325.57 656.85 340.73], log(fx)=-8.941, p0: [450, 550, 300], success?: True
+truth: [425. 418.  50.], found: [425.43 417.71  50.84], log(fx)=-7.86, p0: [450, 550, 50], success?: True
+truth: [188. 671. 175.], found: [188.18 671.02 174.69], log(fx)=-9.893, p0: [200, 700, 200], success?: True
+truth: [363. 642.  94.], found: [362.75 642.33  93.67], log(fx)=-9.037, p0: [400, 550, 100], success?: True
+truth: [404. 536. 270.], found: [404.17 536.19 269.71], log(fx)=-8.559, p0: [400, 550, 300], success?: True
+truth: [376. 741. 300.], found: [376.83 740.63 298.84], log(fx)=-6.94, p0: [350, 700, 400], success?: True
+truth: [109. 684. 178.], found: [109.05 684.27 177.23], log(fx)=-7.852, p0: [100, 700, 200], success?: True
+truth: [267. 635. 142.], found: [266.04 636.2  138.52], log(fx)=-7.871, p0: [250, 700, 150], success?: True
+truth: [ 54. 691.  70.], found: [ 53.69 690.89  69.47], log(fx)=-8.512, p0: [50, 650, 100], success?: True
+truth: [377. 498.  80.], found: [377.74 498.12  79.89], log(fx)=-7.784, p0: [350, 500, 100], success?: True
+truth: [288. 472. 136.], found: [288.21 471.58 136.95], log(fx)=-10.296, p0: [350, 400, 150], success?: True
+truth: [254. 420. 152.], found: [254.06 420.85 148.86], log(fx)=-6.998, p0: [200, 500, 150], success?: True
+truth: [151. 543. 251.], found: [150.75 543.34 250.7 ], log(fx)=-9.909, p0: [150, 550, 250], success?: True
+truth: [110. 632. 125.], found: [109.72 632.16 125.43], log(fx)=-8.942, p0: [100, 800, 150], success?: True
+truth: [182. 556. 218.], found: [181.38 556.76 217.34], log(fx)=-8.436, p0: [250, 500, 250], success?: True
+truth: [212. 633. 446.], found: [211.07 633.72 444.82], log(fx)=-7.314, p0: [200, 650, 450], success?: True
+truth: [103. 602. 373.], found: [102.88 602.06 373.06], log(fx)=-10.226, p0: [100, 600, 450], success?: True
+truth: [435. 717. 121.], found: [435.78 717.27 119.86], log(fx)=-6.699, p0: [400, 750, 150], success?: True
+truth: [ 84. 729. 154.], found: [ 84.27 729.05 154.14], log(fx)=-8.55, p0: [100, 500, 250], success?: True
+truth: [421. 786. 125.], found: [422.11 786.08 122.31], log(fx)=-6.428, p0: [400, 800, 150], success?: True
+truth: [435. 659. 145.], found: [434.68 658.91 146.08], log(fx)=-8.337, p0: [450, 650, 150], success?: True
+truth: [370. 706. 134.], found: [369.51 706.3  133.43], log(fx)=-8.268, p0: [350, 650, 150], success?: True
+truth: [ 88. 678. 225.], found: [ 88.36 678.18 225.08], log(fx)=-7.79, p0: [100, 800, 300], success?: True
+truth: [281. 686. 190.], found: [279.49 686.03 190.18], log(fx)=-6.461, p0: [350, 700, 200], success?: True
+truth: [173. 427. 217.], found: [175.27 425.97 213.26], log(fx)=-7.029, p0: [250, 400, 250], success?: True
+truth: [142. 522. 211.], found: [141.45 522.51 210.71], log(fx)=-7.138, p0: [200, 500, 250], success?: True
+truth: [425. 472. 127.], found: [425.06 472.18 126.12], log(fx)=-8.897, p0: [400, 500, 150], success?: True
+truth: [232. 766.  93.], found: [231.84 766.43  92.62], log(fx)=-8.728, p0: [250, 800, 100], success?: True
+truth: [205. 431. 209.], found: [206.03 430.92 208.23], log(fx)=-8.148, p0: [250, 550, 200], success?: True
+truth: [400. 532. 312.], found: [399.53 532.09 312.7 ], log(fx)=-7.796, p0: [350, 750, 300], success?: True
+truth: [425. 469. 294.], found: [425.28 468.77 293.27], log(fx)=-9.689, p0: [450, 450, 300], success?: True
+truth: [ 75. 449. 216.], found: [ 74.42 448.78 216.54], log(fx)=-7.786, p0: [100, 550, 200], success?: True
+truth: [109. 754. 286.], found: [109.4  753.57 285.59], log(fx)=-8.147, p0: [150, 650, 300], success?: True
+truth: [323. 440. 407.], found: [323.16 440.13 406.71], log(fx)=-8.817, p0: [300, 500, 450], success?: True
+truth: [196. 739. 332.], found: [195.34 739.77 332.21], log(fx)=-7.831, p0: [250, 650, 400], success?: True
+truth: [ 50. 642.  58.], found: [ 50.   642.22  58.43], log(fx)=-8.897, p0: [50, 650, 100], success?: True
+truth: [215. 419. 446.], found: [213.77 420.14 447.27], log(fx)=-5.72, p0: [350, 550, 400], success?: True
+truth: [ 68. 456. 150.], found: [ 68.45 455.61 149.49], log(fx)=-7.883, p0: [100, 400, 150], success?: True
+truth: [181. 697. 126.], found: [181.37 696.87 126.31], log(fx)=-8.3, p0: [200, 700, 150], success?: True
+truth: [390. 591. 446.], found: [389.05 591.5  447.32], log(fx)=-7.589, p0: [450, 600, 450], success?: True
+truth: [188. 614. 138.], found: [188.47 614.06 136.98], log(fx)=-7.828, p0: [250, 600, 150], success?: True
+truth: [308. 656. 368.], found: [307.32 656.43 367.97], log(fx)=-7.187, p0: [450, 600, 300], success?: True
+truth: [277. 536. 444.], found: [275.71 536.59 441.24], log(fx)=-5.356, p0: [300, 650, 450], success?: True
+truth: [285. 740. 176.], found: [284.76 740.64 174.03], log(fx)=-7.377, p0: [250, 750, 250], success?: True
+
+# 25 -> 20 iterations
+truth: [325. 650. 125.], found: [324.66 650.53 124.94], log(fx)=-7.246, p0: [400, 600, 150], success?: True
+truth: [225. 650. 125.], found: [225.27 649.93 124.67], log(fx)=-8.625, p0: [150, 800, 150], success?: True
+truth: [125. 650. 125.], found: [123.72 650.15 125.49], log(fx)=-7.081, p0: [150, 600, 150], success?: True
+truth: [125. 650. 375.], found: [124.71 650.71 374.96], log(fx)=-6.727, p0: [200, 650, 350], success?: True
+truth: [275. 600. 175.], found: [277.04 599.62 172.54], log(fx)=-6.101, p0: [300, 600, 200], success?: True
+truth: [325. 620.  50.], found: [327.35 619.43  49.74], log(fx)=-5.562, p0: [450, 600, 50], success?: True
+truth: [275. 675. 200.], found: [275.52 674.49 200.6 ], log(fx)=-7.663, p0: [250, 700, 200], success?: True
+truth: [400. 680. 125.], found: [399.85 679.89 124.24], log(fx)=-7.541, p0: [400, 650, 150], success?: True
+truth: [250. 600. 250.], found: [250. 600. 250.], log(fx)=-inf, p0: [250, 600, 250], success?: True
+truth: [300. 620. 200.], found: [300.96 619.9  201.46], log(fx)=-7.1, p0: [350, 600, 200], success?: True
+truth: [200. 620. 300.], found: [200.51 619.1  300.54], log(fx)=-6.413, p0: [200, 650, 250], success?: True
+truth: [ 47. 640.  74.], found: [ 47.07 639.78  73.03], log(fx)=-7.574, p0: [50, 600, 100], success?: True
+truth: [ 90. 750. 110.], found: [ 88.88 751.52 108.5 ], log(fx)=-6.078, p0: [100, 750, 100], success?: True
+truth: [450. 700. 400.], found: [450. 700. 400.], log(fx)=-inf, p0: [450, 700, 400], success?: True
+truth: [176. 581. 156.], found: [177.75 580.27 156.69], log(fx)=-6.636, p0: [200, 700, 150], success?: True
+truth: [ 93. 747. 301.], found: [ 92.5  747.7  301.16], log(fx)=-7.914, p0: [100, 750, 300], success?: True
+truth: [191. 427. 300.], found: [190.8  425.64 305.1 ], log(fx)=-5.097, p0: [150, 550, 250], success?: False
+truth: [289. 436.  72.], found: [288.9  436.43  70.98], log(fx)=-7.09, p0: [300, 450, 100], success?: True
+truth: [144. 494. 359.], found: [144.83 493.87 360.8 ], log(fx)=-6.541, p0: [150, 600, 400], success?: True
+truth: [ 67. 541. 237.], found: [ 67.05 540.   237.3 ], log(fx)=-6.804, p0: [100, 550, 250], success?: True
+truth: [357. 745. 361.], found: [348.72 749.54 357.67], log(fx)=-4.643, p0: [350, 750, 450], success?: False
+truth: [140. 704. 226.], found: [140.   704.27 226.05], log(fx)=-8.395, p0: [150, 700, 250], success?: True
+truth: [136. 648. 106.], found: [136.   648.27 105.74], log(fx)=-7.064, p0: [200, 650, 100], success?: True
+truth: [ 85. 575. 165.], found: [ 85.04 575.19 165.36], log(fx)=-7.822, p0: [100, 650, 150], success?: True
+truth: [159. 619. 436.], found: [158.76 619.86 435.75], log(fx)=-7.188, p0: [150, 650, 450], success?: True
+truth: [326. 657. 340.], found: [328.4  656.62 338.72], log(fx)=-6.601, p0: [400, 650, 350], success?: True
+truth: [425. 418.  50.], found: [425.8  417.9   49.58], log(fx)=-7.042, p0: [450, 450, 50], success?: True
+truth: [188. 671. 175.], found: [186.86 670.87 176.16], log(fx)=-7.071, p0: [200, 700, 200], success?: True
+truth: [363. 642.  94.], found: [363.3  641.81  93.43], log(fx)=-8.224, p0: [350, 650, 100], success?: True
+truth: [404. 536. 270.], found: [405.18 535.26 273.06], log(fx)=-6.402, p0: [400, 650, 300], success?: True
+truth: [376. 741. 300.], found: [373.55 741.54 303.42], log(fx)=-5.289, p0: [350, 700, 400], success?: True
+truth: [109. 684. 178.], found: [110.63 683.76 178.94], log(fx)=-6.358, p0: [100, 750, 250], success?: True
+truth: [267. 635. 142.], found: [265.26 636.67 138.56], log(fx)=-7.161, p0: [250, 700, 150], success?: True
+truth: [ 54. 691.  70.], found: [ 53.69 690.89  69.47], log(fx)=-8.512, p0: [50, 650, 100], success?: True
+truth: [377. 498.  80.], found: [376.42 500.14  82.1 ], log(fx)=-6.322, p0: [350, 500, 100], success?: True
+truth: [288. 472. 136.], found: [288.77 471.25 135.42], log(fx)=-9.797, p0: [250, 600, 150], success?: True
+truth: [254. 420. 152.], found: [255.24 418.48 155.52], log(fx)=-6.52, p0: [350, 400, 150], success?: True
+truth: [151. 543. 251.], found: [150.76 542.43 251.  ], log(fx)=-7.447, p0: [150, 550, 250], success?: True
+truth: [110. 632. 125.], found: [110.72 631.85 123.74], log(fx)=-6.884, p0: [100, 800, 150], success?: True
+truth: [182. 556. 218.], found: [181.99 556.12 219.02], log(fx)=-7.587, p0: [200, 650, 200], success?: True
+truth: [212. 633. 446.], found: [210.46 633.55 444.2 ], log(fx)=-6.275, p0: [200, 700, 450], success?: True
+truth: [103. 602. 373.], found: [103.53 601.64 373.29], log(fx)=-8.215, p0: [100, 600, 450], success?: True
+truth: [435. 717. 121.], found: [435.52 715.72 120.65], log(fx)=-4.813, p0: [400, 800, 150], success?: True
+truth: [ 84. 729. 154.], found: [ 83.69 728.38 157.99], log(fx)=-6.655, p0: [100, 500, 250], success?: True
+truth: [421. 786. 125.], found: [420.26 785.19 129.25], log(fx)=-5.96, p0: [450, 650, 150], success?: True
+truth: [435. 659. 145.], found: [435.37 658.   148.49], log(fx)=-7.632, p0: [450, 650, 150], success?: True
+truth: [370. 706. 134.], found: [368.92 706.34 134.6 ], log(fx)=-7.139, p0: [400, 700, 150], success?: True
+truth: [ 88. 678. 225.], found: [ 89.38 676.6  226.5 ], log(fx)=-5.945, p0: [100, 750, 200], success?: True
+truth: [281. 686. 190.], found: [283.07 685.05 188.73], log(fx)=-5.612, p0: [350, 600, 200], success?: True
+truth: [173. 427. 217.], found: [169.61 429.32 221.17], log(fx)=-6.181, p0: [150, 550, 200], success?: True
+truth: [142. 522. 211.], found: [141.24 522.72 211.63], log(fx)=-6.488, p0: [250, 450, 300], success?: True
+truth: [425. 472. 127.], found: [424.6  471.98 126.56], log(fx)=-7.339, p0: [350, 500, 300], success?: True
+truth: [232. 766.  93.], found: [231.4  766.04  93.44], log(fx)=-7.321, p0: [250, 800, 100], success?: True
+truth: [205. 431. 209.], found: [205.   430.34 210.24], log(fx)=-7.008, p0: [150, 450, 300], success?: True
+truth: [400. 532. 312.], found: [401.94 530.67 313.31], log(fx)=-5.772, p0: [400, 600, 350], success?: True
+truth: [425. 469. 294.], found: [425.4  469.03 294.  ], log(fx)=-7.658, p0: [450, 450, 300], success?: True
+truth: [ 75. 449. 216.], found: [ 74.7  449.55 215.22], log(fx)=-6.914, p0: [100, 550, 200], success?: True
+truth: [109. 754. 286.], found: [107.97 753.74 284.44], log(fx)=-5.771, p0: [150, 650, 300], success?: True
+truth: [323. 440. 407.], found: [322.91 440.33 406.82], log(fx)=-7.94, p0: [350, 450, 450], success?: True
+truth: [196. 739. 332.], found: [194.68 739.22 331.57], log(fx)=-6.661, p0: [250, 650, 400], success?: True
+truth: [ 50. 642.  58.], found: [ 49.88 641.61  58.43], log(fx)=-7.631, p0: [50, 650, 50], success?: True
+truth: [215. 419. 446.], found: [214.27 420.63 448.85], log(fx)=-4.569, p0: [350, 550, 400], success?: True
+truth: [ 68. 456. 150.], found: [ 68.5  455.41 154.25], log(fx)=-5.653, p0: [100, 550, 250], success?: True
+truth: [181. 697. 126.], found: [179.99 697.37 127.43], log(fx)=-6.668, p0: [200, 700, 150], success?: True
+truth: [390. 591. 446.], found: [388.19 592.22 448.05], log(fx)=-6.172, p0: [400, 600, 400], success?: True
+truth: [188. 614. 138.], found: [185.45 612.83 142.81], log(fx)=-5.06, p0: [250, 600, 150], success?: True
+truth: [308. 656. 368.], found: [309.02 655.18 370.61], log(fx)=-6.322, p0: [350, 700, 400], success?: True
+truth: [277. 536. 444.], found: [273.87 537.32 443.13], log(fx)=-4.884, p0: [300, 650, 450], success?: True
+truth: [285. 740. 176.], found: [284.62 741.01 171.34], log(fx)=-5.776, p0: [250, 750, 250], success?: True
+
+truth: [325. 650. 125.], found: [324.66 650.53 124.94], log(fx)=-7.246, p0: [400, 600, 150], success?: True, fevals: 28409
+truth: [225. 650. 125.], found: [225.27 649.93 124.67], log(fx)=-8.625, p0: [150, 800, 150], success?: True, fevals: 28785
+truth: [125. 650. 125.], found: [123.72 650.15 125.49], log(fx)=-7.081, p0: [150, 600, 150], success?: True, fevals: 29001
+truth: [125. 650. 375.], found: [124.71 650.71 374.96], log(fx)=-6.727, p0: [200, 650, 350], success?: True, fevals: 28630
+truth: [275. 600. 175.], found: [277.04 599.62 172.54], log(fx)=-6.101, p0: [300, 600, 200], success?: True, fevals: 28777
+truth: [325. 620.  50.], found: [327.35 619.43  49.74], log(fx)=-5.562, p0: [450, 600, 50], success?: True, fevals: 28962
+truth: [275. 675. 200.], found: [275.52 674.49 200.6 ], log(fx)=-7.663, p0: [250, 700, 200], success?: True, fevals: 28835
+truth: [400. 680. 125.], found: [399.85 679.89 124.24], log(fx)=-7.541, p0: [400, 650, 150], success?: True, fevals: 28738
+truth: [250. 600. 250.], found: [250. 600. 250.], log(fx)=-inf, p0: [250, 600, 250], success?: True, fevals: 28873
+truth: [300. 620. 200.], found: [300.96 619.9  201.46], log(fx)=-7.1, p0: [350, 600, 200], success?: True, fevals: 28962
+truth: [200. 620. 300.], found: [200.51 619.1  300.54], log(fx)=-6.413, p0: [200, 650, 250], success?: True, fevals: 29026
+truth: [ 47. 640.  74.], found: [ 47.07 639.78  73.03], log(fx)=-7.574, p0: [50, 600, 100], success?: True, fevals: 28947
+truth: [ 90. 750. 110.], found: [ 88.88 751.52 108.5 ], log(fx)=-6.078, p0: [100, 750, 100], success?: True, fevals: 29418
+truth: [450. 700. 400.], found: [450. 700. 400.], log(fx)=-inf, p0: [450, 700, 400], success?: True, fevals: 29264
+truth: [176. 581. 156.], found: [177.75 580.27 156.69], log(fx)=-6.636, p0: [200, 700, 150], success?: True, fevals: 28527
+truth: [ 93. 747. 301.], found: [ 92.5  747.7  301.16], log(fx)=-7.914, p0: [100, 750, 300], success?: True, fevals: 29132
+truth: [191. 427. 300.], found: [190.8  425.64 305.1 ], log(fx)=-5.097, p0: [150, 550, 250], success?: False, fevals: 28948
+truth: [289. 436.  72.], found: [288.9  436.43  70.98], log(fx)=-7.09, p0: [300, 450, 100], success?: True, fevals: 28679
+truth: [144. 494. 359.], found: [144.83 493.87 360.8 ], log(fx)=-6.541, p0: [150, 600, 400], success?: True, fevals: 28753
+truth: [ 67. 541. 237.], found: [ 67.05 540.   237.3 ], log(fx)=-6.804, p0: [100, 550, 250], success?: True, fevals: 29238
+truth: [357. 745. 361.], found: [348.72 749.54 357.67], log(fx)=-4.643, p0: [350, 750, 450], success?: False, fevals: 28865
+truth: [140. 704. 226.], found: [140.   704.27 226.05], log(fx)=-8.395, p0: [150, 700, 250], success?: True, fevals: 28543
+truth: [136. 648. 106.], found: [136.   648.27 105.74], log(fx)=-7.064, p0: [200, 650, 100], success?: True, fevals: 28983
+truth: [ 85. 575. 165.], found: [ 85.04 575.19 165.36], log(fx)=-7.822, p0: [100, 650, 150], success?: True, fevals: 28747
+truth: [159. 619. 436.], found: [158.76 619.86 435.75], log(fx)=-7.188, p0: [150, 650, 450], success?: True, fevals: 28753
+truth: [326. 657. 340.], found: [328.4  656.62 338.72], log(fx)=-6.601, p0: [400, 650, 350], success?: True, fevals: 28235
+truth: [425. 418.  50.], found: [425.8  417.9   49.58], log(fx)=-7.042, p0: [450, 450, 50], success?: True, fevals: 28685
+truth: [188. 671. 175.], found: [186.86 670.87 176.16], log(fx)=-7.071, p0: [200, 700, 200], success?: True, fevals: 28276
+truth: [363. 642.  94.], found: [363.3  641.81  93.43], log(fx)=-8.224, p0: [350, 650, 100], success?: True, fevals: 28572
+truth: [404. 536. 270.], found: [405.18 535.26 273.06], log(fx)=-6.402, p0: [400, 650, 300], success?: True, fevals: 28381
+truth: [376. 741. 300.], found: [373.55 741.54 303.42], log(fx)=-5.289, p0: [350, 700, 400], success?: True, fevals: 28868
+truth: [109. 684. 178.], found: [110.63 683.76 178.94], log(fx)=-6.358, p0: [100, 750, 250], success?: True, fevals: 28537
+truth: [267. 635. 142.], found: [265.26 636.67 138.56], log(fx)=-7.161, p0: [250, 700, 150], success?: True, fevals: 28957
+truth: [ 54. 691.  70.], found: [ 53.69 690.89  69.47], log(fx)=-8.512, p0: [50, 650, 100], success?: True, fevals: 28803
+truth: [377. 498.  80.], found: [376.42 500.14  82.1 ], log(fx)=-6.322, p0: [350, 500, 100], success?: True, fevals: 28948
+truth: [288. 472. 136.], found: [288.77 471.25 135.42], log(fx)=-9.797, p0: [250, 600, 150], success?: True, fevals: 28380
+truth: [254. 420. 152.], found: [255.24 418.48 155.52], log(fx)=-6.52, p0: [350, 400, 150], success?: True, fevals: 28506
+truth: [151. 543. 251.], found: [150.76 542.43 251.  ], log(fx)=-7.447, p0: [150, 550, 250], success?: True, fevals: 28528
+truth: [110. 632. 125.], found: [110.72 631.85 123.74], log(fx)=-6.884, p0: [100, 800, 150], success?: True, fevals: 28973
+truth: [182. 556. 218.], found: [181.99 556.12 219.02], log(fx)=-7.587, p0: [200, 650, 200], success?: True, fevals: 28459
+truth: [212. 633. 446.], found: [210.46 633.55 444.2 ], log(fx)=-6.275, p0: [200, 700, 450], success?: True, fevals: 28839
+truth: [103. 602. 373.], found: [103.53 601.64 373.29], log(fx)=-8.215, p0: [100, 600, 450], success?: True, fevals: 28930
+truth: [435. 717. 121.], found: [435.52 715.72 120.65], log(fx)=-4.813, p0: [400, 800, 150], success?: True, fevals: 29181
+truth: [ 84. 729. 154.], found: [ 83.69 728.38 157.99], log(fx)=-6.655, p0: [100, 500, 250], success?: True, fevals: 29047
+truth: [421. 786. 125.], found: [420.26 785.19 129.25], log(fx)=-5.96, p0: [450, 650, 150], success?: True, fevals: 29016
+truth: [435. 659. 145.], found: [435.37 658.   148.49], log(fx)=-7.632, p0: [450, 650, 150], success?: True, fevals: 28705
+truth: [370. 706. 134.], found: [368.92 706.34 134.6 ], log(fx)=-7.139, p0: [400, 700, 150], success?: True, fevals: 28648
+truth: [ 88. 678. 225.], found: [ 89.38 676.6  226.5 ], log(fx)=-5.945, p0: [100, 750, 200], success?: True, fevals: 28983
+truth: [281. 686. 190.], found: [283.07 685.05 188.73], log(fx)=-5.612, p0: [350, 600, 200], success?: True, fevals: 28744
+truth: [173. 427. 217.], found: [169.61 429.32 221.17], log(fx)=-6.181, p0: [150, 550, 200], success?: True, fevals: 28715
+truth: [142. 522. 211.], found: [141.24 522.72 211.63], log(fx)=-6.488, p0: [250, 450, 300], success?: True, fevals: 28619
+truth: [425. 472. 127.], found: [424.6  471.98 126.56], log(fx)=-7.339, p0: [350, 500, 300], success?: True, fevals: 28839
+truth: [232. 766.  93.], found: [231.4  766.04  93.44], log(fx)=-7.321, p0: [250, 800, 100], success?: True, fevals: 29027
+truth: [205. 431. 209.], found: [205.   430.34 210.24], log(fx)=-7.008, p0: [150, 450, 300], success?: True, fevals: 28560
+truth: [400. 532. 312.], found: [401.94 530.67 313.31], log(fx)=-5.772, p0: [400, 600, 350], success?: True, fevals: 28550
+truth: [425. 469. 294.], found: [425.4  469.03 294.  ], log(fx)=-7.658, p0: [450, 450, 300], success?: True, fevals: 29060
+truth: [ 75. 449. 216.], found: [ 74.7  449.55 215.22], log(fx)=-6.914, p0: [100, 550, 200], success?: True, fevals: 28643
+truth: [109. 754. 286.], found: [107.97 753.74 284.44], log(fx)=-5.771, p0: [150, 650, 300], success?: True, fevals: 28613
+truth: [323. 440. 407.], found: [322.91 440.33 406.82], log(fx)=-7.94, p0: [350, 450, 450], success?: True, fevals: 28379
+truth: [196. 739. 332.], found: [194.68 739.22 331.57], log(fx)=-6.661, p0: [250, 650, 400], success?: True, fevals: 28463
+truth: [ 50. 642.  58.], found: [ 49.88 641.61  58.43], log(fx)=-7.631, p0: [50, 650, 50], success?: True, fevals: 28939
+truth: [215. 419. 446.], found: [214.27 420.63 448.85], log(fx)=-4.569, p0: [350, 550, 400], success?: True, fevals: 28954
+truth: [ 68. 456. 150.], found: [ 68.5  455.41 154.25], log(fx)=-5.653, p0: [100, 550, 250], success?: True, fevals: 28807
+truth: [181. 697. 126.], found: [179.99 697.37 127.43], log(fx)=-6.668, p0: [200, 700, 150], success?: True, fevals: 28701
+truth: [390. 591. 446.], found: [388.19 592.22 448.05], log(fx)=-6.172, p0: [400, 600, 400], success?: True, fevals: 28996
+truth: [188. 614. 138.], found: [185.45 612.83 142.81], log(fx)=-5.06, p0: [250, 600, 150], success?: True, fevals: 28772
+truth: [308. 656. 368.], found: [309.02 655.18 370.61], log(fx)=-6.322, p0: [350, 700, 400], success?: True, fevals: 28299
+truth: [277. 536. 444.], found: [273.87 537.32 443.13], log(fx)=-4.884, p0: [300, 650, 450], success?: True, fevals: 29103
+truth: [285. 740. 176.], found: [284.62 741.01 171.34], log(fx)=-5.776, p0: [250, 750, 250], success?: True, fevals: 28914
+
+20 iterations, amploss only
+truth: [325. 650. 125.], found: [124.49 650.03 325.85], log(fx)=-4.443, p0: [150, 650, 400], success?: False, fevals: 29748
+truth: [225. 650. 125.], found: [231.83 648.81 131.82], log(fx)=-4.197, p0: [250, 650, 150], success?: False, fevals: 29933
+truth: [125. 650. 125.], found: [127.89 650.09 121.12], log(fx)=-4.381, p0: [150, 650, 100], success?: True, fevals: 30228
+truth: [125. 650. 375.], found: [119.93 651.97 369.99], log(fx)=-3.185, p0: [100, 800, 450], success?: False, fevals: 29883
+truth: [275. 600. 175.], found: [174.89 600.03 275.56], log(fx)=-5.495, p0: [200, 600, 300], success?: False, fevals: 30135
+truth: [325. 620.  50.], found: [ 51.11 620.17 324.21], log(fx)=-4.371, p0: [50, 650, 350], success?: False, fevals: 30247
+truth: [275. 675. 200.], found: [189.07 672.51 243.21], log(fx)=-3.328, p0: [250, 600, 300], success?: False, fevals: 30318
+truth: [400. 680. 125.], found: [128.63 680.06 401.1 ], log(fx)=-3.277, p0: [150, 800, 300], success?: False, fevals: 30067
+truth: [250. 600. 250.], found: [250. 600. 250.], log(fx)=-inf, p0: [250, 600, 250], success?: True, fevals: 29817
+truth: [300. 620. 200.], found: [198.25 620.65 298.98], log(fx)=-4.121, p0: [200, 600, 300], success?: False, fevals: 30138
+truth: [200. 620. 300.], found: [198.25 620.65 298.98], log(fx)=-4.121, p0: [200, 600, 300], success?: True, fevals: 30138
+truth: [ 47. 640.  74.], found: [ 73.8  640.11  46.62], log(fx)=-4.924, p0: [100, 600, 50], success?: False, fevals: 29920
+truth: [ 90. 750. 110.], found: [109.95 749.8   89.91], log(fx)=-4.92, p0: [100, 750, 100], success?: False, fevals: 29941
+truth: [450. 700. 400.], found: [450. 700. 400.], log(fx)=-inf, p0: [450, 700, 400], success?: True, fevals: 30497
+truth: [176. 581. 156.], found: [147.31 578.5  186.46], log(fx)=-4.256, p0: [150, 600, 200], success?: False, fevals: 29548
+truth: [ 93. 747. 301.], found: [ 93.28 747.04 300.41], log(fx)=-4.679, p0: [100, 750, 300], success?: True, fevals: 30189
+truth: [191. 427. 300.], found: [300.48 427.03 192.08], log(fx)=-5.057, p0: [250, 550, 200], success?: False, fevals: 29631
+truth: [289. 436.  72.], found: [ 72.16 435.89 288.67], log(fx)=-5.245, p0: [100, 450, 250], success?: False, fevals: 29864
+truth: [144. 494. 359.], found: [141.43 494.27 357.38], log(fx)=-3.975, p0: [150, 450, 400], success?: True, fevals: 30215
+truth: [ 67. 541. 237.], found: [ 67.09 540.55 237.08], log(fx)=-5.154, p0: [100, 550, 250], success?: True, fevals: 29856
+truth: [357. 745. 361.], found: [357.15 744.28 362.27], log(fx)=-4.889, p0: [400, 800, 400], success?: True, fevals: 29123
+truth: [140. 704. 226.], found: [136.39 705.19 225.56], log(fx)=-4.634, p0: [150, 800, 200], success?: True, fevals: 29731
+truth: [136. 648. 106.], found: [136.04 648.14 105.41], log(fx)=-4.943, p0: [150, 650, 100], success?: True, fevals: 30381
+truth: [ 85. 575. 165.], found: [164.16 575.05  86.09], log(fx)=-4.093, p0: [250, 400, 100], success?: False, fevals: 29900
+truth: [159. 619. 436.], found: [158.04 619.04 437.17], log(fx)=-4.373, p0: [200, 600, 450], success?: True, fevals: 29932
+truth: [326. 657. 340.], found: [327.72 657.2  338.59], log(fx)=-4.756, p0: [300, 650, 350], success?: True, fevals: 29327
+truth: [425. 418.  50.], found: [423.54 417.04  50.36], log(fx)=-3.594, p0: [450, 450, 50], success?: True, fevals: 29518
+truth: [188. 671. 175.], found: [186.57 671.33 175.72], log(fx)=-4.363, p0: [200, 650, 200], success?: True, fevals: 29315
+truth: [363. 642.  94.], found: [ 94.08 641.63 363.05], log(fx)=-4.894, p0: [100, 650, 350], success?: False, fevals: 30294
+truth: [404. 536. 270.], found: [272.16 536.81 403.97], log(fx)=-4.055, p0: [300, 650, 400], success?: False, fevals: 29612
+truth: [376. 741. 300.], found: [376.02 740.71 299.23], log(fx)=-4.198, p0: [400, 650, 350], success?: True, fevals: 29944
+truth: [109. 684. 178.], found: [108.05 683.85 177.94], log(fx)=-4.283, p0: [100, 550, 250], success?: True, fevals: 30098
+truth: [267. 635. 142.], found: [296.71 553.54 251.  ], log(fx)=-3.562, p0: [300, 550, 300], success?: False, fevals: 30138
+truth: [ 54. 691.  70.], found: [ 54.8  692.03  70.18], log(fx)=-4.353, p0: [50, 700, 100], success?: True, fevals: 29282
+truth: [377. 498.  80.], found: [382.69 498.97  81.36], log(fx)=-4.063, p0: [400, 450, 100], success?: False, fevals: 29957
+truth: [288. 472. 136.], found: [135.9  471.86 288.29], log(fx)=-5.715, p0: [150, 500, 300], success?: False, fevals: 29921
+truth: [254. 420. 152.], found: [158.54 417.94 252.13], log(fx)=-3.739, p0: [150, 400, 300], success?: False, fevals: 30070
+truth: [151. 543. 251.], found: [250.48 543.57 150.58], log(fx)=-4.456, p0: [250, 700, 150], success?: False, fevals: 29744
+truth: [110. 632. 125.], found: [108.4  631.14 127.23], log(fx)=-4.264, p0: [100, 700, 150], success?: True, fevals: 29631
+truth: [182. 556. 218.], found: [181.53 556.95 218.15], log(fx)=-4.535, p0: [200, 550, 300], success?: True, fevals: 29359
+truth: [212. 633. 446.], found: [210.91 632.07 446.33], log(fx)=-4.587, p0: [250, 650, 450], success?: True, fevals: 30141
+truth: [103. 602. 373.], found: [ 86.73 606.6  368.53], log(fx)=-4.524, p0: [100, 700, 350], success?: False, fevals: 29654
+truth: [435. 717. 121.], found: [116.49 716.92 438.71], log(fx)=-3.96, p0: [150, 600, 450], success?: False, fevals: 29739
+truth: [ 84. 729. 154.], found: [ 84.89 727.84 156.  ], log(fx)=-4.449, p0: [100, 600, 150], success?: True, fevals: 30277
+truth: [421. 786. 125.], found: [388.82 787.16 201.79], log(fx)=-3.405, p0: [400, 800, 200], success?: False, fevals: 30093
+truth: [435. 659. 145.], found: [149.15 659.01 435.6 ], log(fx)=-3.728, p0: [150, 650, 450], success?: False, fevals: 29672
+truth: [370. 706. 134.], found: [371.72 704.63 137.38], log(fx)=-4.149, p0: [400, 650, 100], success?: True, fevals: 29955
+truth: [ 88. 678. 225.], found: [ 87.57 676.62 226.96], log(fx)=-4.321, p0: [100, 750, 250], success?: True, fevals: 29154
+truth: [281. 686. 190.], found: [280.66 686.39 189.78], log(fx)=-4.528, p0: [250, 800, 200], success?: True, fevals: 30157
+truth: [173. 427. 217.], found: [171.79 427.05 214.7 ], log(fx)=-4.183, p0: [200, 600, 200], success?: True, fevals: 29657
+truth: [142. 522. 211.], found: [213.97 524.67 132.72], log(fx)=-4.578, p0: [200, 750, 150], success?: False, fevals: 29852
+truth: [425. 472. 127.], found: [405.73 484.19 135.29], log(fx)=-3.11, p0: [400, 500, 200], success?: False, fevals: 29952
+truth: [232. 766.  93.], found: [ 92.98 766.42 231.85], log(fx)=-4.725, p0: [100, 800, 250], success?: False, fevals: 30220
+truth: [205. 431. 209.], found: [208.99 430.84 205.07], log(fx)=-5.354, p0: [200, 550, 200], success?: True, fevals: 29452
+truth: [400. 532. 312.], found: [399.42 531.89 311.42], log(fx)=-4.468, p0: [400, 600, 300], success?: True, fevals: 30087
+truth: [425. 469. 294.], found: [424.33 469.29 294.98], log(fx)=-4.125, p0: [400, 600, 300], success?: True, fevals: 30126
+truth: [ 75. 449. 216.], found: [216.32 449.2   74.18], log(fx)=-5.212, p0: [300, 400, 400], success?: False, fevals: 29451
+truth: [109. 754. 286.], found: [285.12 753.4  109.2 ], log(fx)=-4.406, p0: [300, 750, 150], success?: False, fevals: 30006
+truth: [323. 440. 407.], found: [323.52 440.08 406.2 ], log(fx)=-4.464, p0: [300, 550, 400], success?: True, fevals: 29799
+truth: [196. 739. 332.], found: [195.31 738.21 334.73], log(fx)=-4.753, p0: [200, 750, 300], success?: True, fevals: 29526
+truth: [ 50. 642.  58.], found: [ 57.14 642.58  50.13], log(fx)=-4.906, p0: [50, 650, 50], success?: False, fevals: 29897
+truth: [215. 419. 446.], found: [211.38 419.11 446.85], log(fx)=-3.411, p0: [200, 550, 450], success?: True, fevals: 29961
+truth: [ 68. 456. 150.], found: [150.99 455.31  67.65], log(fx)=-4.22, p0: [150, 400, 150], success?: False, fevals: 29599
+truth: [181. 697. 126.], found: [181.31 696.59 120.89], log(fx)=-4.818, p0: [300, 500, 150], success?: False, fevals: 30058
+truth: [390. 591. 446.], found: [447.9  591.03 389.75], log(fx)=-4.153, p0: [450, 600, 400], success?: False, fevals: 30509
+truth: [188. 614. 138.], found: [185.61 612.68 145.59], log(fx)=-4.074, p0: [200, 600, 150], success?: False, fevals: 30149
+truth: [308. 656. 368.], found: [368.67 656.02 308.13], log(fx)=-4.643, p0: [450, 650, 300], success?: False, fevals: 29523
+truth: [277. 536. 444.], found: [272.48 530.41 443.03], log(fx)=-4.466, p0: [250, 600, 450], success?: False, fevals: 29797
+truth: [285. 740. 176.], found: [284.75 740.32 176.97], log(fx)=-4.501, p0: [300, 750, 200], success?: True, fevals: 29809
+
+grid_spacing(step) = 40,p0 = array([150, 600, 150]),size = 3, amp_only
+truth: [325. 650. 125.], found: [327.59 652.81 121.66], log(fx)=-3.129, p0: [270, 680, 110], success?: True, fevals: 13973
+truth: [225. 650. 125.], found: [141.37 645.81 241.73], log(fx)=-4.37, p0: [150, 640, 270], success?: False, fevals: 14080
+truth: [125. 650. 125.], found: [129.9  649.94 120.04], log(fx)=-4.904, p0: [230, 640, 110], success?: True, fevals: 14064
+truth: [125. 650. 375.], found: [235.22 564.56 168.33], log(fx)=-3.144, p0: [230, 560, 190], success?: False, fevals: 14106
+truth: [275. 600. 175.], found: [220.95 633.98 103.43], log(fx)=-3.737, p0: [230, 560, 110], success?: False, fevals: 14044
+truth: [325. 620.  50.], found: [ 97.6  591.33 312.36], log(fx)=-3.272, p0: [110, 640, 270], success?: False, fevals: 14043
+truth: [275. 675. 200.], found: [200.21 674.66 275.79], log(fx)=-4.249, p0: [230, 600, 270], success?: False, fevals: 14031
+truth: [400. 680. 125.], found: [266.74 542.75 165.92], log(fx)=-2.401, p0: [230, 680, 150], success?: False, fevals: 14075
+truth: [250. 600. 250.], found: [242.57 600.05 257.95], log(fx)=-5.4, p0: [270, 600, 270], success?: False, fevals: 13740
+truth: [300. 620. 200.], found: [197.97 620.66 297.83], log(fx)=-4.061, p0: [230, 720, 270], success?: False, fevals: 13899
+truth: [200. 620. 300.], found: [197.97 620.66 297.83], log(fx)=-4.061, p0: [230, 720, 270], success?: True, fevals: 13899
+truth: [ 47. 640.  74.], found: [ 47.18 639.3   73.66], log(fx)=-4.716, p0: [70, 640, 70], success?: True, fevals: 13899
+truth: [ 90. 750. 110.], found: [ 90.61 749.55 110.36], log(fx)=-4.475, p0: [110, 680, 110], success?: True, fevals: 13970
+truth: [450. 700. 400.], found: [253.58 503.64 246.4 ], log(fx)=-2.097, p0: [230, 640, 230], success?: False, fevals: 14326
+truth: [108. 590. 116.], found: [105.98 589.87 118.36], log(fx)=-5.194, p0: [110, 600, 110], success?: True, fevals: 13774
+truth: [ 50. 673. 207.], found: [ 49.58 673.32 206.99], log(fx)=-4.798, p0: [70, 680, 190], success?: True, fevals: 13690
+truth: [118. 513. 206.], found: [118.26 512.82 204.78], log(fx)=-4.992, p0: [110, 520, 230], success?: True, fevals: 13720
+truth: [187. 518.  64.], found: [ 64.31 517.9  185.93], log(fx)=-4.734, p0: [70, 520, 230], success?: False, fevals: 13721
+truth: [ 86. 547. 243.], found: [ 85.17 546.65 244.01], log(fx)=-4.629, p0: [70, 640, 270], success?: True, fevals: 13906
+truth: [ 31. 570. 167.], found: [167.71 569.41  31.67], log(fx)=-5.198, p0: [150, 720, 30], success?: False, fevals: 13634
+truth: [234. 672. 244.], found: [241.94 671.14 239.43], log(fx)=-4.078, p0: [270, 600, 270], success?: False, fevals: 13604
+truth: [ 83. 652. 160.], found: [ 84.11 651.21 161.48], log(fx)=-5.292, p0: [110, 600, 150], success?: True, fevals: 13774
+truth: [ 80. 624.  85.], found: [ 85.33 623.89  79.21], log(fx)=-5.064, p0: [110, 600, 110], success?: False, fevals: 13739
+truth: [ 44. 587. 122.], found: [126.24 582.43  56.33], log(fx)=-4.055, p0: [110, 560, 70], success?: False, fevals: 13734
+truth: [ 96. 609. 291.], found: [288.14 608.11  96.74], log(fx)=-4.24, p0: [270, 680, 110], success?: False, fevals: 14117
+truth: [213. 628. 231.], found: [213.83 627.67 229.92], log(fx)=-4.998, p0: [190, 720, 230], success?: True, fevals: 13780
+truth: [282. 509.  50.], found: [ 46.13 509.33 282.38], log(fx)=-4.166, p0: [70, 480, 230], success?: False, fevals: 13820
+truth: [116. 635. 128.], found: [117.04 634.96 126.95], log(fx)=-4.884, p0: [110, 640, 150], success?: True, fevals: 14013
+truth: [239. 621.  78.], found: [238.64 621.13  78.7 ], log(fx)=-5.128, p0: [270, 720, 70], success?: True, fevals: 13935
+truth: [268. 568. 187.], found: [268.1  567.82 187.4 ], log(fx)=-4.953, p0: [270, 640, 230], success?: True, fevals: 14034
+truth: [248. 670. 206.], found: [207.87 669.07 248.49], log(fx)=-3.942, p0: [270, 600, 230], success?: False, fevals: 13906
+truth: [ 61. 642. 130.], found: [ 60.08 641.55 128.89], log(fx)=-4.329, p0: [70, 720, 110], success?: True, fevals: 14175
+truth: [172. 617. 107.], found: [ 47.04 614.35 271.42], log(fx)=-3.993, p0: [70, 520, 270], success?: False, fevals: 14076
+truth: [ 23. 645.  62.], found: [ 22.95 644.47  62.42], log(fx)=-4.744, p0: [30, 640, 70], success?: True, fevals: 13986
+truth: [249. 549.  69.], found: [249.35 548.67  69.38], log(fx)=-5.319, p0: [230, 680, 70], success?: True, fevals: 14002
+truth: [186. 536. 104.], found: [186.83 536.27 104.6 ], log(fx)=-4.529, p0: [190, 600, 110], success?: True, fevals: 13965
+truth: [163. 510. 114.], found: [112.62 510.25 162.25], log(fx)=-4.892, p0: [110, 520, 110], success?: False, fevals: 13575
+truth: [ 91. 571. 176.], found: [176.97 571.15  91.89], log(fx)=-4.413, p0: [230, 480, 110], success?: False, fevals: 13852
+truth: [ 62. 616.  97.], found: [ 96.56 616.41  61.56], log(fx)=-4.865, p0: [110, 520, 70], success?: False, fevals: 13776
+truth: [112. 578. 155.], found: [152.11 578.38 113.57], log(fx)=-4.301, p0: [190, 480, 110], success?: False, fevals: 13866
+truth: [133. 616. 297.], found: [133.95 615.35 296.89], log(fx)=-4.539, p0: [150, 680, 270], success?: True, fevals: 13835
+truth: [ 57. 601. 252.], found: [ 58.35 601.36 252.87], log(fx)=-4.571, p0: [70, 680, 230], success?: True, fevals: 13953
+truth: [290. 658.  94.], found: [290.25 659.28  93.5 ], log(fx)=-4.777, p0: [190, 680, 150], success?: True, fevals: 13852
+truth: [ 44. 664. 115.], found: [ 52.88 660.15 122.94], log(fx)=-4.188, p0: [70, 640, 110], success?: False, fevals: 13960
+truth: [280. 693.  97.], found: [276.04 691.9   98.34], log(fx)=-3.661, p0: [230, 720, 190], success?: True, fevals: 14145
+truth: [289. 629. 109.], found: [295.34 625.89 117.74], log(fx)=-4.758, p0: [230, 520, 190], success?: False, fevals: 14004
+truth: [244. 653. 102.], found: [101.29 653.04 244.06], log(fx)=-4.729, p0: [150, 640, 230], success?: False, fevals: 14030
+truth: [ 46. 639. 159.], found: [156.01 639.99  45.88], log(fx)=-4.467, p0: [230, 520, 70], success?: False, fevals: 13833
+truth: [182. 643. 138.], found: [137.43 643.29 181.85], log(fx)=-5.743, p0: [230, 560, 230], success?: False, fevals: 13843
+truth: [106. 513. 154.], found: [105.7  513.08 153.95], log(fx)=-5.817, p0: [110, 640, 150], success?: True, fevals: 13578
+truth: [ 84. 561. 151.], found: [ 83.29 561.44 149.7 ], log(fx)=-4.892, p0: [110, 680, 150], success?: True, fevals: 13879
+truth: [282. 536.  98.], found: [ 98.33 535.52 281.16], log(fx)=-4.634, p0: [110, 520, 270], success?: False, fevals: 13932
+truth: [147. 683.  77.], found: [ 77.12 682.76 145.99], log(fx)=-5.53, p0: [70, 560, 190], success?: False, fevals: 13922
+truth: [128. 515. 149.], found: [130.84 514.06 151.04], log(fx)=-4.313, p0: [150, 520, 110], success?: True, fevals: 13597
+truth: [265. 566. 213.], found: [213.74 565.62 264.7 ], log(fx)=-3.993, p0: [230, 640, 230], success?: False, fevals: 14137
+truth: [282. 534. 202.], found: [202.44 534.42 281.91], log(fx)=-4.436, p0: [270, 480, 270], success?: False, fevals: 14408
+truth: [ 37. 524. 153.], found: [ 33.58 523.62 155.4 ], log(fx)=-4.076, p0: [30, 640, 190], success?: True, fevals: 13733
+truth: [ 61. 677. 197.], found: [196.35 677.18  61.27], log(fx)=-5.281, p0: [190, 680, 70], success?: False, fevals: 13602
+truth: [211. 520. 273.], found: [210.87 520.16 272.57], log(fx)=-4.945, p0: [270, 520, 270], success?: True, fevals: 13946
+truth: [122. 669. 226.], found: [223.98 668.41 119.32], log(fx)=-4.336, p0: [190, 680, 150], success?: False, fevals: 13672
+truth: [ 20. 621.  55.], found: [ 56.44 620.88  19.9 ], log(fx)=-4.04, p0: [70, 640, 30], success?: False, fevals: 13862
+truth: [135. 509. 298.], found: [299.62 509.3  133.44], log(fx)=-3.991, p0: [230, 520, 190], success?: False, fevals: 13987
+truth: [ 33. 528. 112.], found: [112.76 527.91  33.67], log(fx)=-5.161, p0: [190, 520, 30], success?: False, fevals: 13576
+truth: [112. 648.  98.], found: [ 98.65 648.21 111.48], log(fx)=-4.994, p0: [110, 720, 110], success?: False, fevals: 14068
+truth: [258. 595. 297.], found: [266.57 595.   274.52], log(fx)=-3.341, p0: [270, 600, 270], success?: False, fevals: 14009
+truth: [117. 607. 105.], found: [ 66.11 611.23 143.22], log(fx)=-4.394, p0: [70, 600, 150], success?: False, fevals: 14037
+truth: [200. 628. 249.], found: [249.03 627.82 200.14], log(fx)=-5.358, p0: [270, 680, 190], success?: False, fevals: 13859
+truth: [179. 568. 296.], found: [295.73 567.62 177.78], log(fx)=-4.463, p0: [270, 720, 230], success?: False, fevals: 13770
+truth: [185. 670. 129.], found: [129.11 670.09 184.62], log(fx)=-4.945, p0: [150, 680, 190], success?: False, fevals: 14000
+
+amp*phase_loss
+truth: [325. 650. 125.], found: [324.77 650.81 124.41], log(fx)=-6.793, p0: [270, 680, 150], success?: True, fevals: 14025
+truth: [225. 650. 125.], found: [224.41 651.66 120.44], log(fx)=-5.776, p0: [270, 680, 110], success?: True, fevals: 14083
+truth: [125. 650. 125.], found: [123.72 650.15 125.49], log(fx)=-7.081, p0: [150, 600, 150], success?: True, fevals: 14205
+truth: [125. 650. 375.], found: [144.76 634.92 319.62], log(fx)=-2.945, p0: [190, 720, 270], success?: False, fevals: 14222
+truth: [275. 600. 175.], found: [275.87 599.48 173.38], log(fx)=-5.951, p0: [270, 680, 190], success?: True, fevals: 13924
+truth: [325. 620.  50.], found: [323.5  625.13  26.01], log(fx)=-2.665, p0: [270, 720, 30], success?: False, fevals: 14372
+truth: [275. 675. 200.], found: [274.98 674.66 199.51], log(fx)=-7.228, p0: [270, 720, 190], success?: True, fevals: 13861
+truth: [400. 680. 125.], found: [243.16 756.23  29.69], log(fx)=-1.832, p0: [270, 680, 70], success?: False, fevals: 14219
+truth: [250. 600. 250.], found: [251.2  599.68 249.93], log(fx)=-6.717, p0: [230, 720, 230], success?: True, fevals: 14075
+truth: [300. 620. 200.], found: [299.84 618.94 197.98], log(fx)=-4.829, p0: [230, 560, 190], success?: True, fevals: 14093
+truth: [200. 620. 300.], found: [200.62 619.46 302.53], log(fx)=-6.254, p0: [190, 640, 270], success?: True, fevals: 14251
+truth: [ 47. 640.  74.], found: [ 47.05 639.44  74.35], log(fx)=-8.193, p0: [70, 560, 70], success?: True, fevals: 14089
+truth: [ 90. 750. 110.], found: [ 88.86 751.63 109.19], log(fx)=-5.744, p0: [150, 680, 150], success?: True, fevals: 14448
+truth: [450. 700. 400.], found: [319.34 707.49 107.54], log(fx)=-1.603, p0: [270, 720, 110], success?: False, fevals: 14300
+truth: [108. 590. 116.], found: [110.58 590.08 113.31], log(fx)=-6.938, p0: [230, 480, 70], success?: True, fevals: 13744
+truth: [ 50. 673. 207.], found: [ 49.31 671.79 209.11], log(fx)=-4.773, p0: [70, 680, 190], success?: True, fevals: 14216
+truth: [118. 513. 206.], found: [117.93 513.17 205.77], log(fx)=-9.077, p0: [110, 520, 190], success?: True, fevals: 14048
+truth: [187. 518.  64.], found: [187.03 517.67  63.25], log(fx)=-8.415, p0: [190, 520, 70], success?: True, fevals: 13943
+truth: [ 86. 547. 243.], found: [ 85.85 546.3  244.09], log(fx)=-6.265, p0: [150, 560, 230], success?: True, fevals: 14199
+truth: [ 31. 570. 167.], found: [ 31.61 569.38 167.97], log(fx)=-7.627, p0: [30, 560, 190], success?: True, fevals: 13929
+truth: [234. 672. 244.], found: [233.29 673.65 240.77], log(fx)=-5.175, p0: [270, 600, 270], success?: True, fevals: 14309
+truth: [ 83. 652. 160.], found: [ 82.03 652.41 159.31], log(fx)=-7.38, p0: [110, 560, 150], success?: True, fevals: 14295
+truth: [ 80. 624.  85.], found: [ 78.17 623.37  86.77], log(fx)=-5.664, p0: [70, 640, 150], success?: True, fevals: 13945
+truth: [ 44. 587. 122.], found: [ 44.24 587.78 118.47], log(fx)=-6.149, p0: [110, 560, 110], success?: True, fevals: 14070
+truth: [ 96. 609. 291.], found: [ 95.31 608.95 290.73], log(fx)=-7.164, p0: [110, 600, 270], success?: True, fevals: 14220
+truth: [213. 628. 231.], found: [212.53 628.59 231.36], log(fx)=-8.229, p0: [190, 720, 270], success?: True, fevals: 14025
+truth: [282. 509.  50.], found: [282.81 509.53  52.46], log(fx)=-5.402, p0: [230, 520, 70], success?: True, fevals: 14028
+truth: [116. 635. 128.], found: [116.37 634.5  128.99], log(fx)=-7.861, p0: [150, 640, 150], success?: True, fevals: 14423
+truth: [239. 621.  78.], found: [239.41 621.61  77.77], log(fx)=-6.437, p0: [230, 560, 110], success?: True, fevals: 14098
+truth: [268. 568. 187.], found: [268.36 567.88 186.98], log(fx)=-8.635, p0: [270, 560, 190], success?: True, fevals: 14142
+truth: [248. 670. 206.], found: [246.68 670.71 206.52], log(fx)=-5.936, p0: [270, 640, 230], success?: True, fevals: 14110
+truth: [ 61. 642. 130.], found: [ 61.23 641.71 130.53], log(fx)=-9.772, p0: [70, 640, 110], success?: True, fevals: 14277
+truth: [172. 617. 107.], found: [172.38 617.2  107.8 ], log(fx)=-7.321, p0: [150, 680, 150], success?: True, fevals: 13802
+truth: [ 23. 645.  62.], found: [ 22.74 645.8   61.97], log(fx)=-7.811, p0: [30, 520, 70], success?: True, fevals: 13869
+truth: [249. 549.  69.], found: [249.34 548.4   69.56], log(fx)=-8.867, p0: [230, 560, 70], success?: True, fevals: 14375
+truth: [186. 536. 104.], found: [186.18 536.   104.31], log(fx)=-9.83, p0: [190, 600, 110], success?: True, fevals: 13845
+truth: [163. 510. 114.], found: [161.69 510.42 113.65], log(fx)=-7.045, p0: [190, 520, 110], success?: True, fevals: 14063
+truth: [ 91. 571. 176.], found: [ 91.81 570.57 175.72], log(fx)=-7.24, p0: [190, 600, 190], success?: True, fevals: 14069
+truth: [ 62. 616.  97.], found: [ 61.49 615.7   97.12], log(fx)=-7.448, p0: [70, 680, 110], success?: True, fevals: 14006
+truth: [112. 578. 155.], found: [111.59 578.08 155.52], log(fx)=-8.499, p0: [110, 720, 150], success?: True, fevals: 13860
+truth: [133. 616. 297.], found: [129.96 617.04 297.17], log(fx)=-5.919, p0: [190, 720, 230], success?: True, fevals: 14164
+truth: [ 57. 601. 252.], found: [ 56.85 600.87 252.45], log(fx)=-8.67, p0: [70, 520, 230], success?: True, fevals: 14137
+truth: [290. 658.  94.], found: [290.07 658.88  92.29], log(fx)=-5.463, p0: [270, 680, 110], success?: True, fevals: 14073
+truth: [ 44. 664. 115.], found: [ 44.08 663.98 115.84], log(fx)=-7.262, p0: [70, 680, 110], success?: True, fevals: 14095
+truth: [280. 693.  97.], found: [279.45 692.75  97.32], log(fx)=-7.669, p0: [230, 640, 150], success?: True, fevals: 14092
+truth: [289. 629. 109.], found: [289.56 629.8  110.96], log(fx)=-4.796, p0: [230, 640, 190], success?: True, fevals: 14027
+truth: [244. 653. 102.], found: [244.2  653.11 101.33], log(fx)=-7.78, p0: [270, 640, 110], success?: True, fevals: 14044
+truth: [ 46. 639. 159.], found: [ 40.12 645.44 140.48], log(fx)=-4.643, p0: [70, 640, 110], success?: False, fevals: 14179
+truth: [182. 643. 138.], found: [181.35 643.45 137.56], log(fx)=-8.297, p0: [190, 680, 150], success?: True, fevals: 14057
+truth: [106. 513. 154.], found: [106.39 513.09 154.03], log(fx)=-7.358, p0: [110, 520, 190], success?: True, fevals: 14172
+truth: [ 84. 561. 151.], found: [ 83.84 561.47 150.16], log(fx)=-8.827, p0: [110, 480, 150], success?: True, fevals: 14423
+truth: [282. 536.  98.], found: [283.27 536.05  99.97], log(fx)=-6.205, p0: [230, 680, 110], success?: True, fevals: 14231
+truth: [147. 683.  77.], found: [146.73 683.17  77.24], log(fx)=-8.914, p0: [190, 680, 70], success?: True, fevals: 13960
+truth: [128. 515. 149.], found: [128.21 515.87 146.31], log(fx)=-6.986, p0: [110, 520, 150], success?: True, fevals: 14016
+truth: [265. 566. 213.], found: [265.47 565.67 212.31], log(fx)=-8.151, p0: [270, 560, 270], success?: True, fevals: 14153
+truth: [282. 534. 202.], found: [281.56 533.76 200.82], log(fx)=-6.633, p0: [270, 520, 230], success?: True, fevals: 14298
+truth: [ 37. 524. 153.], found: [ 35.5  523.78 154.18], log(fx)=-7.132, p0: [30, 680, 150], success?: True, fevals: 13791
+truth: [ 61. 677. 197.], found: [ 60.38 676.89 197.02], log(fx)=-7.164, p0: [70, 680, 190], success?: True, fevals: 14159
+truth: [211. 520. 273.], found: [210.67 520.15 272.3 ], log(fx)=-7.879, p0: [270, 520, 270], success?: True, fevals: 14062
+truth: [122. 669. 226.], found: [122.74 668.89 226.77], log(fx)=-8.025, p0: [110, 680, 190], success?: True, fevals: 13940
+truth: [ 20. 621.  55.], found: [ 21.51 620.68  53.77], log(fx)=-7.887, p0: [30, 600, 70], success?: True, fevals: 13864
+truth: [135. 509. 298.], found: [136.73 508.9  298.69], log(fx)=-6.531, p0: [150, 600, 230], success?: True, fevals: 14044
+truth: [ 33. 528. 112.], found: [ 32.44 528.47 111.12], log(fx)=-7.504, p0: [30, 600, 150], success?: True, fevals: 13844
+truth: [112. 648.  98.], found: [112.89 647.57  97.33], log(fx)=-6.678, p0: [150, 560, 110], success?: True, fevals: 14070
+truth: [258. 595. 297.], found: [273.82 568.95 262.68], log(fx)=-2.262, p0: [270, 560, 270], success?: False, fevals: 14178
+truth: [117. 607. 105.], found: [117.11 606.79 105.07], log(fx)=-9.38, p0: [150, 600, 110], success?: True, fevals: 13878
+truth: [200. 628. 249.], found: [200.06 628.19 249.49], log(fx)=-8.325, p0: [190, 680, 270], success?: True, fevals: 14159
+truth: [179. 568. 296.], found: [174.89 568.68 295.75], log(fx)=-4.809, p0: [190, 640, 270], success?: True, fevals: 14068
+truth: [185. 670. 129.], found: [185.66 669.65 128.9 ], log(fx)=-7.912, p0: [190, 680, 150], success?: True, fevals: 13879
+
+grid_spacing = 50
+truth: [325. 650. 125.], found: [325.78 648.71 129.93], log(fx)=-6.474, p0: [300, 650, 200], success?: True, fevals: 14102
+truth: [225. 650. 125.], found: [224.99 649.25 128.69], log(fx)=-6.774, p0: [250, 650, 150], success?: True, fevals: 14132
+truth: [125. 650. 125.], found: [124.28 650.41 124.76], log(fx)=-7.513, p0: [150, 650, 100], success?: True, fevals: 14374
+truth: [125. 650. 375.], found: [175.59 529.36 365.44], log(fx)=-2.781, p0: [250, 650, 300], success?: False, fevals: 14186
+truth: [275. 600. 175.], found: [276.93 600.02 173.75], log(fx)=-6.544, p0: [300, 600, 200], success?: True, fevals: 14170
+truth: [325. 620.  50.], found: [326.9  618.25  45.13], log(fx)=-4.597, p0: [300, 650, 50], success?: True, fevals: 14301
+truth: [275. 675. 200.], found: [275.52 674.49 200.6 ], log(fx)=-7.663, p0: [250, 700, 200], success?: True, fevals: 14127
+truth: [400. 680. 125.], found: [245.25 754.6   29.91], log(fx)=-1.845, p0: [250, 750, 50], success?: False, fevals: 14222
+truth: [250. 600. 250.], found: [250. 600. 250.], log(fx)=-inf, p0: [250, 600, 250], success?: True, fevals: 14173
+truth: [300. 620. 200.], found: [299.5  620.26 197.75], log(fx)=-6.644, p0: [250, 650, 250], success?: True, fevals: 14164
+truth: [200. 620. 300.], found: [200.51 619.1  300.54], log(fx)=-6.413, p0: [200, 650, 250], success?: True, fevals: 14310
+truth: [ 47. 640.  74.], found: [ 47.07 639.78  73.03], log(fx)=-7.574, p0: [50, 600, 100], success?: True, fevals: 14106
+truth: [ 90. 750. 110.], found: [ 88.7  751.08 110.13], log(fx)=-6.433, p0: [100, 750, 100], success?: True, fevals: 14557
+truth: [450. 700. 400.], found: [317.05 708.64 118.92], log(fx)=-1.611, p0: [300, 700, 150], success?: False, fevals: 14371
+truth: [108. 590. 116.], found: [106.71 589.94 117.86], log(fx)=-7.036, p0: [100, 500, 200], success?: True, fevals: 13792
+truth: [ 50. 673. 207.], found: [ 49.95 673.71 206.83], log(fx)=-6.741, p0: [50, 650, 200], success?: True, fevals: 14218
+truth: [118. 513. 206.], found: [117.58 513.46 204.05], log(fx)=-6.383, p0: [150, 500, 200], success?: True, fevals: 14169
+truth: [187. 518.  64.], found: [186.74 518.22  62.83], log(fx)=-7.194, p0: [200, 700, 50], success?: True, fevals: 13907
+truth: [ 86. 547. 243.], found: [ 81.92 552.23 239.97], log(fx)=-6.559, p0: [100, 550, 250], success?: False, fevals: 14279
+truth: [ 31. 570. 167.], found: [ 35.62 564.04 177.34], log(fx)=-5.446, p0: [50, 700, 150], success?: False, fevals: 13993
+truth: [234. 672. 244.], found: [233.64 672.32 240.52], log(fx)=-5.519, p0: [300, 600, 300], success?: True, fevals: 14263
+truth: [ 83. 652. 160.], found: [ 82.79 652.45 157.36], log(fx)=-6.925, p0: [100, 650, 150], success?: True, fevals: 14353
+truth: [ 80. 624.  85.], found: [ 78.59 626.74  85.41], log(fx)=-5.857, p0: [100, 650, 100], success?: True, fevals: 14130
+truth: [ 44. 587. 122.], found: [ 50.36 584.43 126.04], log(fx)=-5.307, p0: [50, 650, 150], success?: False, fevals: 14146
+truth: [ 96. 609. 291.], found: [ 95.21 609.7  290.2 ], log(fx)=-6.79, p0: [100, 550, 300], success?: True, fevals: 14279
+truth: [213. 628. 231.], found: [213.66 627.04 231.26], log(fx)=-7.956, p0: [200, 550, 300], success?: True, fevals: 14115
+truth: [282. 509.  50.], found: [282.25 509.01  50.58], log(fx)=-8.217, p0: [300, 500, 50], success?: True, fevals: 14074
+truth: [116. 635. 128.], found: [114.25 636.07 127.59], log(fx)=-6.108, p0: [100, 700, 150], success?: True, fevals: 14467
+truth: [239. 621.  78.], found: [238.76 621.1   77.92], log(fx)=-8.286, p0: [250, 550, 50], success?: True, fevals: 14137
+truth: [268. 568. 187.], found: [268.91 566.33 188.5 ], log(fx)=-6.21, p0: [250, 500, 250], success?: True, fevals: 14065
+truth: [248. 670. 206.], found: [248.25 670.23 206.24], log(fx)=-7.658, p0: [300, 650, 200], success?: True, fevals: 14161
+truth: [ 61. 642. 130.], found: [ 60.56 641.56 130.25], log(fx)=-7.021, p0: [50, 650, 150], success?: True, fevals: 14279
+truth: [172. 617. 107.], found: [172.84 617.19 106.54], log(fx)=-6.866, p0: [150, 600, 150], success?: True, fevals: 13938
+truth: [ 23. 645.  62.], found: [ 22.04 647.28  60.61], log(fx)=-5.825, p0: [50, 600, 50], success?: True, fevals: 14007
+truth: [249. 549.  69.], found: [248.8  550.26  66.78], log(fx)=-6.189, p0: [250, 550, 50], success?: True, fevals: 14375
+truth: [186. 536. 104.], found: [186.69 535.12 104.43], log(fx)=-7.19, p0: [150, 700, 100], success?: True, fevals: 14006
+truth: [163. 510. 114.], found: [163.95 510.22 111.63], log(fx)=-7.078, p0: [200, 500, 150], success?: True, fevals: 14105
+truth: [ 91. 571. 176.], found: [ 90.78 570.39 177.95], log(fx)=-6.552, p0: [100, 650, 150], success?: True, fevals: 14052
+truth: [ 62. 616.  97.], found: [ 62.97 615.91  96.29], log(fx)=-6.419, p0: [100, 450, 100], success?: True, fevals: 14215
+truth: [112. 578. 155.], found: [111.48 578.38 153.84], log(fx)=-7.32, p0: [100, 600, 150], success?: True, fevals: 13818
+truth: [133. 616. 297.], found: [132.77 615.76 296.3 ], log(fx)=-5.818, p0: [150, 600, 300], success?: True, fevals: 14171
+truth: [ 57. 601. 252.], found: [ 55.99 600.67 253.63], log(fx)=-6.56, p0: [50, 600, 300], success?: True, fevals: 14233
+truth: [290. 658.  94.], found: [291.38 658.03  91.94], log(fx)=-5.795, p0: [300, 650, 100], success?: True, fevals: 14126
+truth: [ 44. 664. 115.], found: [ 50.05 661.98 120.8 ], log(fx)=-5.189, p0: [50, 650, 150], success?: False, fevals: 14214
+truth: [280. 693.  97.], found: [280.28 692.96  96.4 ], log(fx)=-8.072, p0: [300, 700, 100], success?: True, fevals: 14214
+truth: [289. 629. 109.], found: [280.47 632.1  101.56], log(fx)=-4.267, p0: [300, 550, 150], success?: False, fevals: 14011
+truth: [244. 653. 102.], found: [244.45 652.44 103.98], log(fx)=-6.882, p0: [250, 650, 100], success?: True, fevals: 14168
+truth: [ 46. 639. 159.], found: [ 45.59 639.39 159.39], log(fx)=-7.211, p0: [50, 550, 200], success?: True, fevals: 14019
+truth: [182. 643. 138.], found: [182.24 643.26 138.05], log(fx)=-7.255, p0: [200, 550, 150], success?: True, fevals: 14048
+truth: [106. 513. 154.], found: [110.27 515.85 138.88], log(fx)=-4.941, p0: [150, 500, 200], success?: False, fevals: 14149
+truth: [ 84. 561. 151.], found: [ 83.42 562.54 148.48], log(fx)=-6.774, p0: [100, 700, 150], success?: True, fevals: 14432
+truth: [282. 536.  98.], found: [280.86 536.96  98.31], log(fx)=-5.242, p0: [300, 650, 100], success?: True, fevals: 14342
+truth: [147. 683.  77.], found: [146.21 683.22  76.96], log(fx)=-7.888, p0: [150, 600, 100], success?: True, fevals: 13998
+truth: [128. 515. 149.], found: [122.56 516.87 144.95], log(fx)=-4.91, p0: [100, 500, 250], success?: False, fevals: 14036
+truth: [265. 566. 213.], found: [265.61 565.04 212.56], log(fx)=-7.093, p0: [300, 500, 250], success?: True, fevals: 14312
+truth: [282. 534. 202.], found: [282.68 533.19 201.81], log(fx)=-7.282, p0: [250, 650, 200], success?: True, fevals: 14315
+truth: [ 37. 524. 153.], found: [ 40.17 524.57 148.79], log(fx)=-5.602, p0: [50, 450, 150], success?: True, fevals: 13850
+truth: [ 61. 677. 197.], found: [ 60.1  677.87 193.63], log(fx)=-5.741, p0: [50, 700, 250], success?: True, fevals: 14160
+truth: [211. 520. 273.], found: [212.64 519.28 270.84], log(fx)=-5.431, p0: [250, 500, 250], success?: True, fevals: 14137
+truth: [122. 669. 226.], found: [123.3  668.04 228.73], log(fx)=-6.636, p0: [150, 700, 200], success?: True, fevals: 14029
+truth: [ 20. 621.  55.], found: [ 19.06 621.1   55.44], log(fx)=-8.029, p0: [50, 500, 50], success?: True, fevals: 13821
+truth: [135. 509. 298.], found: [134.68 508.57 299.16], log(fx)=-6.907, p0: [150, 700, 300], success?: True, fevals: 14188
+truth: [ 33. 528. 112.], found: [ 37.3  528.68 110.52], log(fx)=-5.398, p0: [50, 450, 200], success?: True, fevals: 13873
+truth: [112. 648.  98.], found: [113.56 647.84  99.71], log(fx)=-5.726, p0: [150, 650, 100], success?: True, fevals: 14147
+truth: [258. 595. 297.], found: [257.45 595.08 296.49], log(fx)=-7.351, p0: [250, 450, 300], success?: True, fevals: 14181
+truth: [117. 607. 105.], found: [117.97 607.15 103.99], log(fx)=-7.748, p0: [150, 600, 100], success?: True, fevals: 14056
+truth: [200. 628. 249.], found: [199.13 628.36 249.66], log(fx)=-7.101, p0: [200, 550, 300], success?: True, fevals: 14396
+truth: [179. 568. 296.], found: [175.49 569.08 295.66], log(fx)=-5.789, p0: [200, 550, 300], success?: True, fevals: 14016
+truth: [185. 670. 129.], found: [186.34 668.51 130.16], log(fx)=-5.577, p0: [200, 650, 150], success?: True, fevals: 13841
+
+iterations = 30
+truth: [325. 650. 125.], found: [325.14 650.09 124.56], log(fx)=-9.344, p0: [300, 650, 200], success?: True, fevals: 20128
+truth: [225. 650. 125.], found: [224.24 650.6  123.52], log(fx)=-7.19, p0: [200, 650, 150], success?: True, fevals: 20217
+truth: [125. 650. 125.], found: [125.01 650.02 124.98], log(fx)=-11.666, p0: [150, 600, 150], success?: True, fevals: 20479
+truth: [125. 650. 375.], found: [172.24 530.33 363.33], log(fx)=-4.054, p0: [250, 650, 300], success?: False, fevals: 20292
+truth: [275. 600. 175.], found: [275.13 600.05 174.22], log(fx)=-8.906, p0: [300, 600, 200], success?: True, fevals: 20252
+truth: [325. 620.  50.], found: [324.09 619.98  49.63], log(fx)=-6.657, p0: [300, 700, 50], success?: True, fevals: 20468
+truth: [275. 675. 200.], found: [274.96 675.08 200.  ], log(fx)=-10.351, p0: [300, 650, 250], success?: True, fevals: 20193
+truth: [400. 680. 125.], found: [247.59 712.49  90.14], log(fx)=-1.921, p0: [250, 700, 100], success?: False, fevals: 20325
+truth: [250. 600. 250.], found: [250. 600. 250.], log(fx)=-inf, p0: [250, 600, 250], success?: True, fevals: 20274
+truth: [300. 620. 200.], found: [299.88 620.2  199.74], log(fx)=-9.024, p0: [300, 700, 200], success?: True, fevals: 20264
+truth: [200. 620. 300.], found: [200.38 619.68 300.39], log(fx)=-8.358, p0: [200, 650, 250], success?: True, fevals: 20413
+truth: [ 47. 640.  74.], found: [ 47.06 639.81  74.09], log(fx)=-10.382, p0: [50, 650, 100], success?: True, fevals: 20181
+truth: [ 90. 750. 110.], found: [ 89.73 750.24 109.48], log(fx)=-9.071, p0: [100, 750, 100], success?: True, fevals: 20689
+truth: [450. 700. 400.], found: [318.26 708.03 115.37], log(fx)=-1.618, p0: [300, 700, 150], success?: False, fevals: 20467
+truth: [108. 590. 116.], found: [108.34 590.06 115.71], log(fx)=-9.746, p0: [100, 500, 150], success?: True, fevals: 19885
+truth: [ 50. 673. 207.], found: [ 50.29 672.92 207.31], log(fx)=-9.105, p0: [50, 750, 200], success?: True, fevals: 20300
+truth: [118. 513. 206.], found: [117.74 513.17 205.7 ], log(fx)=-8.786, p0: [100, 550, 200], success?: True, fevals: 20300
+truth: [187. 518.  64.], found: [186.91 518.03  63.87], log(fx)=-10.535, p0: [200, 700, 50], success?: True, fevals: 20036
+truth: [ 86. 547. 243.], found: [ 85.56 547.32 242.45], log(fx)=-8.184, p0: [100, 500, 200], success?: True, fevals: 20434
+truth: [ 31. 570. 167.], found: [ 32.43 567.06 172.11], log(fx)=-6.784, p0: [50, 550, 250], success?: False, fevals: 20095
+truth: [234. 672. 244.], found: [234.66 671.18 245.35], log(fx)=-6.798, p0: [250, 700, 250], success?: True, fevals: 20448
+truth: [ 83. 652. 160.], found: [ 82.8  652.25 159.47], log(fx)=-9.64, p0: [100, 650, 150], success?: True, fevals: 20486
+truth: [ 80. 624.  85.], found: [ 79.28 624.72  85.16], log(fx)=-7.966, p0: [100, 650, 100], success?: True, fevals: 20217
+truth: [ 44. 587. 122.], found: [ 44.85 586.91 121.58], log(fx)=-7.32, p0: [100, 450, 100], success?: True, fevals: 20259
+truth: [ 96. 609. 291.], found: [ 95.93 609.09 290.78], log(fx)=-10.579, p0: [100, 550, 300], success?: True, fevals: 20349
+truth: [213. 628. 231.], found: [213.1  627.98 231.02], log(fx)=-10.356, p0: [200, 550, 300], success?: True, fevals: 20244
+truth: [282. 509.  50.], found: [282.1  508.93  50.01], log(fx)=-10.53, p0: [250, 700, 100], success?: True, fevals: 20182
+truth: [116. 635. 128.], found: [115.73 634.89 128.48], log(fx)=-8.806, p0: [100, 700, 150], success?: True, fevals: 20575
+truth: [239. 621.  78.], found: [239.07 621.14  77.98], log(fx)=-9.244, p0: [300, 550, 100], success?: True, fevals: 20285
+truth: [268. 568. 187.], found: [267.77 567.92 186.92], log(fx)=-9.22, p0: [250, 500, 250], success?: True, fevals: 20187
+truth: [248. 670. 206.], found: [247.98 669.93 206.01], log(fx)=-10.542, p0: [300, 650, 200], success?: True, fevals: 20289
+truth: [ 61. 642. 130.], found: [ 60.54 642.45 128.95], log(fx)=-8.671, p0: [50, 650, 150], success?: True, fevals: 20359
+truth: [172. 617. 107.], found: [171.94 617.04 106.8 ], log(fx)=-10.522, p0: [150, 600, 150], success?: True, fevals: 20095
+truth: [ 23. 645.  62.], found: [ 22.98 644.88  62.14], log(fx)=-10.307, p0: [50, 600, 50], success?: True, fevals: 20134
+truth: [249. 549.  69.], found: [249.23 548.46  68.97], log(fx)=-9.759, p0: [250, 600, 50], success?: True, fevals: 20473
+truth: [186. 536. 104.], found: [186.05 536.02 103.9 ], log(fx)=-10.806, p0: [200, 650, 100], success?: True, fevals: 20097
+truth: [163. 510. 114.], found: [162.5  510.08 114.01], log(fx)=-9.461, p0: [200, 500, 150], success?: True, fevals: 20173
+truth: [ 91. 571. 176.], found: [ 91.22 570.7  176.4 ], log(fx)=-8.721, p0: [100, 600, 200], success?: True, fevals: 20135
+truth: [ 62. 616.  97.], found: [ 61.82 616.27  97.18], log(fx)=-8.6, p0: [100, 450, 100], success?: True, fevals: 20326
+truth: [112. 578. 155.], found: [111.9  578.12 154.87], log(fx)=-9.919, p0: [100, 500, 200], success?: True, fevals: 19923
+truth: [133. 616. 297.], found: [132.53 616.05 297.11], log(fx)=-8.393, p0: [150, 600, 300], success?: True, fevals: 20274
+truth: [ 57. 601. 252.], found: [ 57.04 601.04 252.27], log(fx)=-9.056, p0: [50, 600, 300], success?: True, fevals: 20366
+truth: [290. 658.  94.], found: [290.29 658.04  93.8 ], log(fx)=-9.064, p0: [300, 650, 100], success?: True, fevals: 20231
+truth: [ 44. 664. 115.], found: [ 42.3  664.82 113.6 ], log(fx)=-6.765, p0: [50, 650, 200], success?: True, fevals: 20330
+truth: [280. 693.  97.], found: [280.03 693.02  97.03], log(fx)=-12.148, p0: [300, 700, 100], success?: True, fevals: 20324
+truth: [289. 629. 109.], found: [288.31 629.29 110.51], log(fx)=-6.497, p0: [250, 700, 100], success?: True, fevals: 20109
+truth: [244. 653. 102.], found: [244.16 653.02 101.83], log(fx)=-9.258, p0: [250, 650, 100], success?: True, fevals: 20271
+truth: [ 46. 639. 159.], found: [ 45.67 639.21 158.69], log(fx)=-9.308, p0: [50, 550, 200], success?: True, fevals: 20128
+truth: [182. 643. 138.], found: [181.8  643.08 137.81], log(fx)=-9.807, p0: [200, 650, 200], success?: True, fevals: 20140
+truth: [106. 513. 154.], found: [106.67 513.2  152.69], log(fx)=-8.705, p0: [100, 650, 150], success?: True, fevals: 20300
+truth: [ 84. 561. 151.], found: [ 83.92 561.09 151.25], log(fx)=-9.718, p0: [150, 650, 150], success?: True, fevals: 20523
+truth: [282. 536.  98.], found: [281.94 535.62  98.56], log(fx)=-7.761, p0: [300, 650, 100], success?: True, fevals: 20500
+truth: [147. 683.  77.], found: [146.89 682.98  76.96], log(fx)=-11.676, p0: [150, 600, 100], success?: True, fevals: 20137
+truth: [128. 515. 149.], found: [127.85 514.79 150.57], log(fx)=-8.086, p0: [250, 500, 150], success?: True, fevals: 20100
+truth: [265. 566. 213.], found: [265.39 565.65 213.35], log(fx)=-8.813, p0: [300, 500, 250], success?: True, fevals: 20414
+truth: [282. 534. 202.], found: [282.12 533.85 201.75], log(fx)=-9.604, p0: [300, 500, 250], success?: True, fevals: 20410
+truth: [ 37. 524. 153.], found: [ 35.92 524.17 153.43], log(fx)=-7.424, p0: [50, 700, 150], success?: True, fevals: 19896
+truth: [ 61. 677. 197.], found: [ 60.93 677.12 196.89], log(fx)=-9.635, p0: [50, 700, 250], success?: True, fevals: 20297
+truth: [211. 520. 273.], found: [211.3  519.87 273.28], log(fx)=-8.557, p0: [250, 500, 250], success?: True, fevals: 20232
+truth: [122. 669. 226.], found: [122.07 669.04 226.11], log(fx)=-10.538, p0: [150, 700, 200], success?: True, fevals: 20102
+truth: [ 20. 621.  55.], found: [ 19.75 621.07  55.28], log(fx)=-10.32, p0: [50, 600, 50], success?: True, fevals: 19928
+truth: [135. 509. 298.], found: [135.7  508.89 297.79], log(fx)=-8.909, p0: [150, 700, 300], success?: True, fevals: 20289
+truth: [ 33. 528. 112.], found: [ 33.39 527.98 111.87], log(fx)=-9.163, p0: [50, 450, 100], success?: True, fevals: 19968
+truth: [112. 648.  98.], found: [112.18 647.74  98.59], log(fx)=-8.093, p0: [200, 750, 100], success?: True, fevals: 20271
+truth: [258. 595. 297.], found: [257.97 594.93 297.18], log(fx)=-9.941, p0: [300, 600, 300], success?: True, fevals: 20261
+truth: [117. 607. 105.], found: [116.7  607.   105.28], log(fx)=-11.657, p0: [150, 600, 100], success?: True, fevals: 20195
+truth: [200. 628. 249.], found: [199.84 628.24 248.9 ], log(fx)=-9.752, p0: [200, 750, 300], success?: True, fevals: 20478
+truth: [179. 568. 296.], found: [179.72 567.61 297.03], log(fx)=-7.86, p0: [150, 600, 250], success?: True, fevals: 20104
+truth: [185. 670. 129.], found: [184.98 669.95 129.74], log(fx)=-9.079, p0: [200, 650, 150], success?: True, fevals: 19919
+
+start points without 0
+truth: [325. 650. 125.], found: [325.14 650.09 124.56], log(fx)=-9.344, p0: [300, 650, 200], success?: True, fevals: 14656
+truth: [225. 650. 125.], found: [224.24 650.6  123.52], log(fx)=-7.19, p0: [200, 650, 150], success?: True, fevals: 14765
+truth: [125. 650. 125.], found: [125.01 650.02 124.98], log(fx)=-11.666, p0: [150, 600, 150], success?: True, fevals: 14969
+truth: [125. 650. 375.], found: [172.24 530.33 363.33], log(fx)=-4.054, p0: [250, 650, 300], success?: False, fevals: 14783
+truth: [275. 600. 175.], found: [275.13 600.05 174.22], log(fx)=-8.906, p0: [300, 600, 200], success?: True, fevals: 14816
+truth: [325. 620.  50.], found: [324.09 619.98  49.63], log(fx)=-6.657, p0: [300, 700, 50], success?: True, fevals: 14974
+truth: [275. 675. 200.], found: [274.96 675.08 200.  ], log(fx)=-10.351, p0: [300, 650, 250], success?: True, fevals: 14721
+truth: [400. 680. 125.], found: [247.59 712.49  90.14], log(fx)=-1.921, p0: [250, 700, 100], success?: False, fevals: 14806
+truth: [250. 600. 250.], found: [250. 600. 250.], log(fx)=-inf, p0: [250, 600, 250], success?: True, fevals: 14864
+truth: [300. 620. 200.], found: [299.88 620.2  199.74], log(fx)=-9.024, p0: [300, 700, 200], success?: True, fevals: 14837
+truth: [200. 620. 300.], found: [200.38 619.68 300.39], log(fx)=-8.358, p0: [200, 650, 250], success?: True, fevals: 14920
+truth: [ 47. 640.  74.], found: [ 47.06 639.81  74.09], log(fx)=-10.382, p0: [50, 650, 100], success?: True, fevals: 14687
+truth: [ 90. 750. 110.], found: [ 89.73 750.24 109.48], log(fx)=-9.071, p0: [100, 750, 100], success?: True, fevals: 15174
+truth: [450. 700. 400.], found: [318.26 708.03 115.37], log(fx)=-1.618, p0: [300, 700, 150], success?: False, fevals: 14965
+truth: [108. 590. 116.], found: [108.34 590.06 115.71], log(fx)=-9.746, p0: [100, 500, 150], success?: True, fevals: 14541
+truth: [ 50. 673. 207.], found: [ 50.29 672.92 207.31], log(fx)=-9.105, p0: [50, 750, 200], success?: True, fevals: 14828
+truth: [118. 513. 206.], found: [117.74 513.17 205.7 ], log(fx)=-8.786, p0: [100, 550, 200], success?: True, fevals: 14852
+truth: [187. 518.  64.], found: [186.91 518.03  63.87], log(fx)=-10.535, p0: [200, 700, 50], success?: True, fevals: 14583
+truth: [ 86. 547. 243.], found: [ 85.56 547.32 242.45], log(fx)=-8.184, p0: [100, 500, 200], success?: True, fevals: 14986
+truth: [ 31. 570. 167.], found: [ 32.43 567.06 172.11], log(fx)=-6.784, p0: [50, 550, 250], success?: False, fevals: 14721
+truth: [234. 672. 244.], found: [234.66 671.18 245.35], log(fx)=-6.798, p0: [250, 700, 250], success?: True, fevals: 14983
+truth: [ 83. 652. 160.], found: [ 82.8  652.25 159.47], log(fx)=-9.64, p0: [100, 650, 150], success?: True, fevals: 14943
+truth: [ 80. 624.  85.], found: [ 79.28 624.72  85.16], log(fx)=-7.966, p0: [100, 650, 100], success?: True, fevals: 14807
+truth: [ 44. 587. 122.], found: [ 44.85 586.91 121.58], log(fx)=-7.32, p0: [100, 450, 100], success?: True, fevals: 14820
+truth: [ 96. 609. 291.], found: [ 95.93 609.09 290.78], log(fx)=-10.579, p0: [100, 550, 300], success?: True, fevals: 14829
+truth: [213. 628. 231.], found: [213.1  627.98 231.02], log(fx)=-10.356, p0: [200, 550, 300], success?: True, fevals: 14699
+truth: [282. 509.  50.], found: [282.1  508.93  50.01], log(fx)=-10.53, p0: [250, 700, 100], success?: True, fevals: 14768
+truth: [116. 635. 128.], found: [115.73 634.89 128.48], log(fx)=-8.806, p0: [100, 700, 150], success?: True, fevals: 15063
+truth: [239. 621.  78.], found: [239.07 621.14  77.98], log(fx)=-9.244, p0: [300, 550, 100], success?: True, fevals: 14818
+truth: [268. 568. 187.], found: [267.77 567.92 186.92], log(fx)=-9.22, p0: [250, 500, 250], success?: True, fevals: 14746
+truth: [248. 670. 206.], found: [247.98 669.93 206.01], log(fx)=-10.542, p0: [300, 650, 200], success?: True, fevals: 14852
+truth: [ 61. 642. 130.], found: [ 60.54 642.45 128.95], log(fx)=-8.671, p0: [50, 650, 150], success?: True, fevals: 14878
+truth: [172. 617. 107.], found: [171.94 617.04 106.8 ], log(fx)=-10.522, p0: [150, 600, 150], success?: True, fevals: 14689
+truth: [ 23. 645.  62.], found: [ 22.98 644.88  62.14], log(fx)=-10.307, p0: [50, 600, 50], success?: True, fevals: 14684
+truth: [249. 549.  69.], found: [249.23 548.46  68.97], log(fx)=-9.759, p0: [250, 600, 50], success?: True, fevals: 14971
+truth: [186. 536. 104.], found: [186.05 536.02 103.9 ], log(fx)=-10.806, p0: [200, 650, 100], success?: True, fevals: 14668
+truth: [163. 510. 114.], found: [162.5  510.08 114.01], log(fx)=-9.461, p0: [200, 500, 150], success?: True, fevals: 14818
+truth: [ 91. 571. 176.], found: [ 91.22 570.7  176.4 ], log(fx)=-8.721, p0: [100, 600, 200], success?: True, fevals: 14663
+truth: [ 62. 616.  97.], found: [ 61.82 616.27  97.18], log(fx)=-8.6, p0: [100, 450, 100], success?: True, fevals: 14840
+truth: [112. 578. 155.], found: [111.9  578.12 154.87], log(fx)=-9.919, p0: [100, 500, 200], success?: True, fevals: 14547
+truth: [133. 616. 297.], found: [132.53 616.05 297.11], log(fx)=-8.393, p0: [150, 600, 300], success?: True, fevals: 14854
+truth: [ 57. 601. 252.], found: [ 57.04 601.04 252.27], log(fx)=-9.056, p0: [50, 600, 300], success?: True, fevals: 14900
+truth: [290. 658.  94.], found: [290.29 658.04  93.8 ], log(fx)=-9.064, p0: [300, 650, 100], success?: True, fevals: 14801
+truth: [ 44. 664. 115.], found: [ 42.3  664.82 113.6 ], log(fx)=-6.765, p0: [50, 650, 200], success?: True, fevals: 14884
+truth: [280. 693.  97.], found: [280.03 693.02  97.03], log(fx)=-12.148, p0: [300, 700, 100], success?: True, fevals: 14815
+truth: [289. 629. 109.], found: [288.31 629.29 110.51], log(fx)=-6.497, p0: [250, 700, 100], success?: True, fevals: 14691
+truth: [244. 653. 102.], found: [244.16 653.02 101.83], log(fx)=-9.258, p0: [250, 650, 100], success?: True, fevals: 14800
+truth: [ 46. 639. 159.], found: [ 45.67 639.21 158.69], log(fx)=-9.308, p0: [50, 550, 200], success?: True, fevals: 14762
+truth: [182. 643. 138.], found: [181.8  643.08 137.81], log(fx)=-9.807, p0: [200, 650, 200], success?: True, fevals: 14736
+truth: [106. 513. 154.], found: [106.67 513.2  152.69], log(fx)=-8.705, p0: [100, 650, 150], success?: True, fevals: 14878
+truth: [ 84. 561. 151.], found: [ 83.92 561.09 151.25], log(fx)=-9.718, p0: [150, 650, 150], success?: True, fevals: 15010
+truth: [282. 536.  98.], found: [281.94 535.62  98.56], log(fx)=-7.761, p0: [300, 650, 100], success?: True, fevals: 15002
+truth: [147. 683.  77.], found: [146.89 682.98  76.96], log(fx)=-11.676, p0: [150, 600, 100], success?: True, fevals: 14756
+truth: [128. 515. 149.], found: [127.85 514.79 150.57], log(fx)=-8.086, p0: [250, 500, 150], success?: True, fevals: 14676
+truth: [265. 566. 213.], found: [265.39 565.65 213.35], log(fx)=-8.813, p0: [300, 500, 250], success?: True, fevals: 14970
+truth: [282. 534. 202.], found: [282.12 533.85 201.75], log(fx)=-9.604, p0: [300, 500, 250], success?: True, fevals: 14921
+truth: [ 37. 524. 153.], found: [ 35.92 524.17 153.43], log(fx)=-7.424, p0: [50, 700, 150], success?: True, fevals: 14517
+truth: [ 61. 677. 197.], found: [ 60.93 677.12 196.89], log(fx)=-9.635, p0: [50, 700, 250], success?: True, fevals: 14839
+truth: [211. 520. 273.], found: [211.3  519.87 273.28], log(fx)=-8.557, p0: [250, 500, 250], success?: True, fevals: 14834
+truth: [122. 669. 226.], found: [122.07 669.04 226.11], log(fx)=-10.538, p0: [150, 700, 200], success?: True, fevals: 14668
+truth: [ 20. 621.  55.], found: [ 19.75 621.07  55.28], log(fx)=-10.32, p0: [50, 600, 50], success?: True, fevals: 14565
+truth: [135. 509. 298.], found: [135.7  508.89 297.79], log(fx)=-8.909, p0: [150, 700, 300], success?: True, fevals: 14842
+truth: [ 33. 528. 112.], found: [ 33.39 527.98 111.87], log(fx)=-9.163, p0: [50, 450, 100], success?: True, fevals: 14555
+truth: [112. 648.  98.], found: [112.18 647.74  98.59], log(fx)=-8.093, p0: [200, 750, 100], success?: True, fevals: 14840
+truth: [258. 595. 297.], found: [257.97 594.93 297.18], log(fx)=-9.941, p0: [300, 600, 300], success?: True, fevals: 14830
+truth: [117. 607. 105.], found: [116.7  607.   105.28], log(fx)=-11.657, p0: [150, 600, 100], success?: True, fevals: 14763
+truth: [200. 628. 249.], found: [199.84 628.24 248.9 ], log(fx)=-9.752, p0: [200, 750, 300], success?: True, fevals: 14956
+truth: [179. 568. 296.], found: [179.72 567.61 297.03], log(fx)=-7.86, p0: [150, 600, 250], success?: True, fevals: 14730
+truth: [185. 670. 129.], found: [184.98 669.95 129.74], log(fx)=-9.079, p0: [200, 650, 150], success?: True, fevals: 14549
+average deviation: 12.858896974076272
+fail count: 4
+all function evals: [14656, 14765, 14969, 14783, 14816, 14974, 14721, 14806, 14864, 14837, 14920, 14687, 15174, 14965, 14541, 14828, 14852, 14583, 14986, 14721, 14983, 14943, 14807, 14820, 14829, 14699, 14768, 15063, 14818, 14746, 14852, 14878, 14689, 14684, 14971, 14668, 14818, 14663, 14840, 14547, 14854, 14900, 14801, 14884, 14815, 14691, 14800, 14762, 14736, 14878, 15010, 15002, 14756, 14676, 14970, 14921, 14517, 14839, 14834, 14668, 14565, 14842, 14555, 14840, 14830, 14763, 14956, 14730, 14549]
+
+truth __ found __ log(fx) __ p0 __ success? __ fevals
+[108.0, 590.0, 116.0] __ [107.99999999564052, 589.9999999981836, 115.99999999965868] __ -39.409 __ [150, 600, 150] __ True __ 56983
+[50.0, 673.0, 207.0] __ [267.86266221675095, 521.8663300439883, 352.2311067354616] __ -1.657 __ [150, 600, 150] __ False __ 38514
+[118.0, 513.0, 206.0] __ [217.83614719524854, 500.60307798790456, 686.2615892569817] __ -2.351 __ [150, 600, 150] __ False __ 33200
+[187.0, 518.0, 64.0] __ [196.99032515586984, 520.766997668068, 202.11565029546236] __ -2.219 __ [150, 600, 150] __ False __ 30117
+[86.0, 547.0, 243.0] __ [74.52516301685779, 563.6395498034316, 395.13529650705453] __ -2.195 __ [150, 600, 150] __ False __ 24310
+Avg. dev. __ fails __ grd size
+nan __ 0 __ 252
+fevals at each grid pnt: all function evals: []
+
+
+basinhopping algo with bounds
+truth __ found __ log(fx) __ p0 __ success? __ fevals
+[108.0, 590.0, 116.0] __ [107.99999999740672, 589.999999998916, 116.00000000326037] __ -41.478 __ [150, 600, 150] __ True __ 32228
+[50.0, 673.0, 207.0] __ [225.195620306247, 664.2765479385939, 237.84414640734255] __ -2.449 __ [150, 600, 150] __ False __ 7940
+[118.0, 513.0, 206.0] __ [118.00000000301229, 513.0000000011968, 205.9999999900569] __ -40.448 __ [150, 600, 150] __ True __ 46804
+[187.0, 518.0, 64.0] __ [186.99999999819326, 517.9999999961196, 63.99999999685652] __ -40.143 __ [150, 600, 150] __ True __ 23400
+[86.0, 547.0, 243.0] __ [85.99999997429522, 547.0000000268942, 242.9999999766789] __ -38.418 __ [150, 600, 150] __ True __ 25344
+[31.0, 570.0, 167.0] __ [160.05421447803462, 576.1331277898248, 120.18941625807773] __ -1.031 __ [150, 600, 150] __ False __ 13648
+[234.0, 672.0, 244.0] __ [77.2185541920384, 688.7421235839846, 83.83470562750679] __ -1.439 __ [150, 600, 150] __ False __ 16412
+[83.0, 652.0, 160.0] __ [83.00000000069964, 651.9999999966852, 160.0000000037589] __ -40.337 __ [150, 600, 150] __ True __ 26636
+[80.0, 624.0, 85.0] __ [80.00000000073074, 623.9999999934571, 84.99999999610472] __ -39.501 __ [150, 600, 150] __ True __ 32312
+[44.0, 587.0, 122.0] __ [125.35142176642796, 584.77301858906, 50.0] __ -3.847 __ [150, 600, 150] __ False __ 9364
+[96.0, 609.0, 291.0] __ [95.9999999973114, 608.9999999980366, 290.99999998918236] __ -39.373 __ [150, 600, 150] __ True __ 20448
+[213.0, 628.0, 231.0] __ [213.0000000011176, 627.99999999779, 230.99999999930765] __ -41.969 __ [150, 600, 150] __ True __ 26740
+[282.0, 509.0, 50.0] __ [171.0688818722995, 589.251858654641, 52.08680337510054] __ -1.362 __ [150, 600, 150] __ False __ 5164
+[116.0, 635.0, 128.0] __ [116.00000000320964, 634.9999999989808, 127.99999999850871] __ -40.701 __ [150, 600, 150] __ True __ 18988
+[239.0, 621.0, 78.0] __ [238.99999999761704, 620.9999999978692, 77.99999999718395] __ -39.398 __ [150, 600, 150] __ True __ 12976
+[268.0, 568.0, 187.0] __ [267.9999999979764, 567.9999999978197, 186.99999999427502] __ -40.113 __ [150, 600, 150] __ True __ 23620
+[248.0, 670.0, 206.0] __ [247.99999999892856, 670.0000000004063, 205.99999999499852] __ -40.764 __ [150, 600, 150] __ True __ 19516
+[61.0, 642.0, 130.0] __ [129.99999998936437, 641.9999999910568, 60.99999998948811] __ -17.55 __ [150, 600, 150] __ False __ 7964
+[172.0, 617.0, 107.0] __ [172.0000000011993, 616.9999999999288, 106.99999999836348] __ -41.78 __ [150, 600, 150] __ True __ 30932
+[23.0, 645.0, 62.0] __ [22.999999999546016, 644.9999999976642, 61.9999999988246] __ -41.408 __ [150, 600, 150] __ True __ 26512
+[249.0, 549.0, 69.0] __ [68.99999999667959, 548.9999999978213, 249.00000000238012] __ -20.056 __ [150, 600, 150] __ False __ 19992
+[186.0, 536.0, 104.0] __ [185.9999999955656, 536.000000003863, 103.99999999405375] __ -40.695 __ [150, 600, 150] __ True __ 23144
+[163.0, 510.0, 114.0] __ [33.4581062565475, 584.3907525943036, 98.03000317938807] __ -1.697 __ [150, 600, 150] __ False __ 18552
+[91.0, 571.0, 176.0] __ [90.99999999929109, 570.99999999669, 176.00000000833757] __ -40.021 __ [150, 600, 150] __ True __ 15284
+[62.0, 616.0, 97.0] __ [69.98932412690054, 607.2283170367648, 242.2984003512831] __ -2.219 __ [150, 600, 150] __ False __ 11592
+[112.0, 578.0, 155.0] __ [112.00000000464023, 577.9999999960997, 154.999999995915] __ -40.979 __ [150, 600, 150] __ True __ 27732
+[133.0, 616.0, 297.0] __ [100.70962974319944, 625.0366099360033, 251.0594300175469] __ -2.771 __ [150, 600, 150] __ False __ 10104
+[57.0, 601.0, 252.0] __ [251.999999993691, 600.9999999908811, 56.99999999027777] __ -19.615 __ [150, 600, 150] __ False __ 23364
+[290.0, 658.0, 94.0] __ [300.0, 640.1938835465475, 195.8941561263742] __ -1.863 __ [150, 600, 150] __ False __ 7560
+[44.0, 664.0, 115.0] __ [31.473901424919216, 642.7537730662076, 256.97029490475234] __ -2.787 __ [150, 600, 150] __ False __ 4984
+[280.0, 693.0, 97.0] __ [279.9999999981716, 692.9999999971815, 96.99999999732384] __ -40.149 __ [150, 600, 150] __ True __ 23156
+[289.0, 629.0, 109.0] __ [289.00000002947496, 628.9999999756233, 108.99999996372881] __ -36.411 __ [150, 600, 150] __ True __ 22876
+[244.0, 653.0, 102.0] __ [243.99999999958706, 652.9999999953932, 101.99999999943479] __ -38.832 __ [150, 600, 150] __ True __ 19292
+[46.0, 639.0, 159.0] __ [187.96630850356817, 560.0849846652949, 300.0] __ -2.205 __ [150, 600, 150] __ False __ 6868
+[182.0, 643.0, 138.0] __ [182.0000001339209, 642.9999998511724, 138.0000003781388] __ -35.177 __ [150, 600, 150] __ True __ 22200
+[106.0, 513.0, 154.0] __ [106.00000001928372, 512.9999999976359, 153.99999997963323] __ -38.74 __ [150, 600, 150] __ True __ 29924
+[84.0, 561.0, 151.0] __ [83.99999999949507, 560.9999999964642, 151.00000001548258] __ -40.238 __ [150, 600, 150] __ True __ 18544
+[282.0, 536.0, 98.0] __ [281.9999999902392, 535.9999999997791, 97.99999999374754] __ -38.885 __ [150, 600, 150] __ True __ 32556
+[147.0, 683.0, 77.0] __ [235.3409353108001, 646.9618832451058, 274.15295890412233] __ -1.926 __ [150, 600, 150] __ False __ 8460
+[128.0, 515.0, 149.0] __ [127.99999999236847, 514.9999999867395, 149.00000004287799] __ -38.024 __ [150, 600, 150] __ True __ 23228
+[265.0, 566.0, 213.0] __ [118.01333315699631, 647.237981787218, 117.54895849374597] __ -1.713 __ [150, 600, 150] __ False __ 5964
+[282.0, 534.0, 202.0] __ [281.9999999995265, 533.999999999846, 201.99999999780286] __ -42.3 __ [150, 600, 150] __ True __ 21664
+[37.0, 524.0, 153.0] __ [36.9999999971148, 523.9999999985561, 153.0000000012326] __ -40.191 __ [150, 600, 150] __ True __ 37740
+[61.0, 677.0, 197.0] __ [219.53195592602992, 666.5559714798306, 77.93619919033877] __ -2.098 __ [150, 600, 150] __ False __ 8320
+[211.0, 520.0, 273.0] __ [272.9999999914749, 519.99999998765, 210.9999999949784] __ -19.7 __ [150, 600, 150] __ False __ 10532
+[122.0, 669.0, 226.0] __ [121.99999999054356, 668.9999999981203, 225.99999999125313] __ -39.212 __ [150, 600, 150] __ True __ 13552
+[20.0, 621.0, 55.0] __ [20.0, 620.9999999969007, 54.99999999869892] __ -40.641 __ [150, 600, 150] __ True __ 37572
+[135.0, 509.0, 298.0] __ [134.99999999705378, 508.99999999669666, 298.00000000038807] __ -38.482 __ [150, 600, 150] __ True __ 13896
+[33.0, 528.0, 112.0] __ [125.67471672501836, 500.0, 56.99535181003507] __ -1.818 __ [150, 600, 150] __ False __ 4472
+[112.0, 648.0, 98.0] __ [111.99999999753149, 647.9999999978506, 97.99999999399432] __ -39.549 __ [150, 600, 150] __ True __ 22884
+[258.0, 595.0, 297.0] __ [120.84056252575562, 640.6259129276525, 284.97754060858966] __ -1.662 __ [150, 600, 150] __ False __ 4164
+[117.0, 607.0, 105.0] __ [116.99999999450098, 607.000000001106, 104.99999999757604] __ -39.916 __ [150, 600, 150] __ True __ 19632
+[200.0, 628.0, 249.0] __ [199.9999999969814, 627.9999999986136, 249.0000000002222] __ -40.817 __ [150, 600, 150] __ True __ 27768
+[179.0, 568.0, 296.0] __ [179.00000001325327, 567.999999990998, 296.00000000245296] __ -38.673 __ [150, 600, 150] __ True __ 19368
+[185.0, 670.0, 129.0] __ [185.0000000006647, 669.9999999972495, 129.00000000703233] __ -40.276 __ [150, 600, 150] __ True __ 17208
+[247.0, 556.0, 215.0] __ [247.00000001719076, 555.9999999723391, 215.00000000793457] __ -34.593 __ [150, 600, 150] __ True __ 13460
+[52.0, 696.0, 250.0] __ [249.99999998871138, 695.9999999967836, 51.99999999589212] __ -19.855 __ [150, 600, 150] __ False __ 21476
+[280.0, 646.0, 128.0] __ [280.00000001866204, 645.9999999717928, 128.00000008598388] __ -37.384 __ [150, 600, 150] __ True __ 22672
+[299.0, 603.0, 136.0] __ [299.00000000073373, 603.0000000022902, 135.9999999878009] __ -40.764 __ [150, 600, 150] __ True __ 18492
+[247.0, 557.0, 100.0] __ [247.00000001088998, 556.9999999640821, 99.99999997299493] __ -36.893 __ [150, 600, 150] __ True __ 9872
+[107.0, 580.0, 212.0] __ [106.9999999976443, 579.9999999988147, 211.9999999963369] __ -40.563 __ [150, 600, 150] __ True __ 21428
+[28.0, 537.0, 95.0] __ [27.999999992304126, 536.999999999306, 94.99999999297603] __ -39.689 __ [150, 600, 150] __ True __ 24084
+[209.0, 606.0, 93.0] __ [234.97771715697056, 522.34789422151, 234.97866347129414] __ -1.67 __ [150, 600, 150] __ False __ 6664
+[148.0, 657.0, 59.0] __ [147.999999997949, 656.999999998471, 58.99999999571129] __ -39.572 __ [150, 600, 150] __ True __ 21824
+[50.0, 558.0, 263.0] __ [262.99999999959635, 557.9999999968611, 50.0] __ -19.178 __ [150, 600, 150] __ False __ 8840
+[211.0, 502.0, 243.0] __ [211.00000000353734, 501.9999999996409, 242.99999998795093] __ -34.479 __ [150, 600, 150] __ True __ 11136
+[248.0, 691.0, 286.0] __ [247.99999999659468, 690.9999999963627, 285.9999999958317] __ -39.74 __ [150, 600, 150] __ True __ 30336
+[229.0, 676.0, 120.0] __ [120.00000000151405, 675.9999999958933, 229.00000000074286] __ -19.008 __ [150, 600, 150] __ False __ 12716
+[297.0, 619.0, 107.0] __ [106.99999996251381, 618.9999999924336, 296.99999996400476] __ -18.556 __ [150, 600, 150] __ False __ 14132
+[245.0, 509.0, 206.0] __ [244.99999999761937, 508.9999999980662, 206.00000000563958] __ -40.176 __ [150, 600, 150] __ True __ 28128
+[295.0, 572.0, 202.0] __ [294.99999999723576, 571.9999999969799, 201.99999999786078] __ -39.679 __ [150, 600, 150] __ True __ 11136
+[233.0, 601.0, 283.0] __ [233.0000000092177, 600.9999999935587, 282.99999998873955] __ -38.608 __ [150, 600, 150] __ True __ 13908
+[79.0, 681.0, 287.0] __ [78.99999999787917, 680.9999999983613, 286.9999999948932] __ -39.906 __ [150, 600, 150] __ True __ 30020
+[271.0, 595.0, 232.0] __ [271.000000013764, 594.999999990727, 232.00000001776993] __ -37.772 __ [150, 600, 150] __ True __ 15384
+[46.0, 588.0, 87.0] __ [45.99999999553333, 587.9999999827413, 86.99999998543612] __ -38.57 __ [150, 600, 150] __ True __ 14104
+[49.0, 619.0, 174.0] __ [172.88221391320192, 619.2717110731779, 50.0] __ -5.757 __ [150, 600, 150] __ False __ 6776
+[205.0, 547.0, 104.0] __ [204.99999999307397, 547.0000000031324, 103.99999998603617] __ -38.845 __ [150, 600, 150] __ True __ 16868
+[59.0, 591.0, 72.0] __ [58.99999998949953, 590.9999999987668, 71.99999999734499] __ -39.403 __ [150, 600, 150] __ True __ 19752
+[206.0, 660.0, 134.0] __ [206.00000001149309, 659.9999999908907, 134.00000000569352] __ -39.645 __ [150, 600, 150] __ True __ 30392
+[46.0, 665.0, 178.0] __ [45.99999999566968, 664.9999999987197, 178.00000000393132] __ -39.75 __ [150, 600, 150] __ True __ 17588
+[157.0, 619.0, 166.0] __ [156.99999999372778, 619.0000000003186, 166.00000000429694] __ -41.075 __ [150, 600, 150] __ True __ 15572
+[271.0, 662.0, 282.0] __ [271.00000000055985, 661.9999999953883, 281.99999999301366] __ -38.551 __ [150, 600, 150] __ True __ 26236
+[149.0, 621.0, 54.0] __ [148.9999999897473, 621.0000000021163, 53.99999999772135] __ -39.229 __ [150, 600, 150] __ True __ 25360
+[157.0, 648.0, 280.0] __ [127.10925484237893, 659.1699947208427, 127.13217865387364] __ -2.372 __ [150, 600, 150] __ False __ 11820
+[53.0, 607.0, 119.0] __ [49.59140032522213, 605.8093989183808, 284.0967062160474] __ -1.899 __ [150, 600, 150] __ False __ 5120
+[237.0, 559.0, 225.0] __ [236.99999999562976, 559.0000000023427, 224.99999999395047] __ -39.651 __ [150, 600, 150] __ True __ 22060
+[240.0, 569.0, 185.0] __ [240.00000000487043, 568.9999999934405, 185.00000000498608] __ -40.696 __ [150, 600, 150] __ True __ 27188
+[284.0, 658.0, 209.0] __ [208.999999985079, 658.0000000085807, 283.99999998988886] __ -19.18 __ [150, 600, 150] __ False __ 17300
+[47.0, 552.0, 189.0] __ [185.5924759893749, 550.4351034419934, 50.0] __ -3.594 __ [150, 600, 150] __ False __ 7404
+[94.0, 597.0, 236.0] __ [94.00000000066626, 596.999999995598, 235.99999999790603] __ -38.811 __ [150, 600, 150] __ True __ 11524
+[33.0, 691.0, 238.0] __ [168.96007226500933, 691.4172839004689, 240.67756193328296] __ -2.47 __ [150, 600, 150] __ False __ 4768
+[280.0, 644.0, 208.0] __ [279.9999999945508, 644.000000013568, 207.99999995783548] __ -37.115 __ [150, 600, 150] __ True __ 21688
+[224.0, 684.0, 116.0] __ [224.00000000353128, 683.9999999895804, 116.00000002544608] __ -38.341 __ [150, 600, 150] __ True __ 19232
+[223.0, 660.0, 64.0] __ [251.76580995653313, 616.3068191084845, 208.7652708551495] __ -1.487 __ [150, 600, 150] __ False __ 8196
+[20.0, 592.0, 180.0] __ [92.93555969218015, 619.3065890467378, 50.0] __ -2.238 __ [150, 600, 150] __ False __ 18596
+[204.0, 666.0, 124.0] __ [204.000000000935, 665.9999999993795, 124.00000000025267] __ -43.267 __ [150, 600, 150] __ True __ 30324
+[281.0, 625.0, 189.0] __ [281.00000000342357, 624.999999993944, 189.0000000086867] __ -39.382 __ [150, 600, 150] __ True __ 20852
+[53.0, 669.0, 70.0] __ [178.21034428745347, 593.3527015784706, 205.29902151499275] __ -2.72 __ [150, 600, 150] __ False __ 8816
+[45.0, 624.0, 173.0] __ [170.37249749316828, 588.0147474446866, 126.06673376546601] __ -1.711 __ [150, 600, 150] __ False __ 6504
+[250.0, 522.0, 189.0] __ [249.99999999520696, 522.0000000009859, 188.99999999612265] __ -40.137 __ [150, 600, 150] __ True __ 30416
+Avg. dev. __ fails __ grd size
+nan __ 0 __ 252
+fevals at each grid pnt: all function evals: []
+
+shgo algorithm, same freqs
+truth __ found __ log(fx) __ p0 __ success? __ fevals
+[108.0, 590.0, 116.0] __ [107.9999999725015, 590.0000000115093, 115.99999996209081] __ -36.398 __ [150, 600, 150] __ True __ 10953
+[50.0, 673.0, 207.0] __ [206.99999986033524, 673.0000000332881, 50.00000001689856] __ -18.17 __ [150, 600, 150] __ False __ 8955
+[118.0, 513.0, 206.0] __ [118.00000000560303, 512.9999999946014, 205.99999999491882] __ -38.661 __ [150, 600, 150] __ True __ 11781
+[187.0, 518.0, 64.0] __ [186.99999999672704, 517.9999999982956, 63.99999999639416] __ -40.512 __ [150, 600, 150] __ True __ 6314
+[86.0, 547.0, 243.0] __ [242.99999999848578, 546.9999999924544, 86.00000000596638] __ -19.782 __ [150, 600, 150] __ False __ 11809
+[31.0, 570.0, 167.0] __ [34.00022880206254, 565.2164886325824, 175.0] __ -6.858 __ [150, 600, 150] __ False __ 9071
+[234.0, 672.0, 244.0] __ [233.99999999111643, 672.0000000036101, 243.99999999307104] __ -39.073 __ [150, 600, 150] __ True __ 12841
+[83.0, 652.0, 160.0] __ [82.99999997629006, 652.0000000188948, 159.99999995888632] __ -37.929 __ [150, 600, 150] __ True __ 12322
+[80.0, 624.0, 85.0] __ [79.36698617270989, 625.0, 85.27486127420677] __ -8.735 __ [150, 600, 150] __ True __ 7112
+[44.0, 587.0, 122.0] __ [43.999999650216154, 587.0000001224051, 121.99999976835214] __ -34.37 __ [150, 600, 150] __ True __ 9990
+[96.0, 609.0, 291.0] __ [291.000000040055, 609.0000000029494, 95.99999999504162] __ -18.414 __ [150, 600, 150] __ False __ 8976
+[213.0, 628.0, 231.0] __ [212.99999999094797, 628.0000000095342, 230.99999998691501] __ -38.883 __ [150, 600, 150] __ True __ 8108
+[282.0, 509.0, 50.0] __ [282.00000000554536, 508.9999999921931, 50.0] __ -38.257 __ [150, 600, 150] __ True __ 9774
+[116.0, 635.0, 128.0] __ [116.00000000457327, 634.9999999911776, 128.00000000434667] __ -38.223 __ [150, 600, 150] __ True __ 10689
+[239.0, 621.0, 78.0] __ [239.00000010246694, 620.9999996859634, 78.0000007340714] __ -32.317 __ [150, 600, 150] __ True __ 12448
+[268.0, 568.0, 187.0] __ [267.99999999351024, 567.999999998874, 186.99999999407032] __ -39.979 __ [150, 600, 150] __ True __ 7142
+[248.0, 670.0, 206.0] __ [206.00000000582506, 669.9999999935663, 248.0000000041587] __ -19.327 __ [150, 600, 150] __ False __ 12413
+[61.0, 642.0, 130.0] __ [129.99999996425973, 642.0000000066802, 60.99999998244315] __ -18.486 __ [150, 600, 150] __ False __ 10228
+[172.0, 617.0, 107.0] __ [172.00000000233155, 616.9999999925385, 107.00000000913501] __ -39.026 __ [150, 600, 150] __ True __ 10782
+[23.0, 645.0, 62.0] __ [22.16471028460671, 646.7986335858299, 65.62500000000001] __ -5.971 __ [150, 600, 150] __ True __ 8546
+[249.0, 549.0, 69.0] __ [241.15759302895046, 562.5, 65.625] __ -4.473 __ [150, 600, 150] __ False __ 10271
+[186.0, 536.0, 104.0] __ [186.00000000576617, 535.9999999930773, 104.00000000064891] __ -39.425 __ [150, 600, 150] __ True __ 7643
+[163.0, 510.0, 114.0] __ [114.00000001260246, 509.99999998345544, 163.00000003231995] __ -19.398 __ [150, 600, 150] __ False __ 9921
+[91.0, 571.0, 176.0] __ [90.99999999993767, 570.9999999968344, 175.9999999979435] __ -39.815 __ [150, 600, 150] __ True __ 6884
+[62.0, 616.0, 97.0] __ [61.99999999469193, 615.9999999927551, 96.99999999854144] __ -38.778 __ [150, 600, 150] __ True __ 9158
+[112.0, 578.0, 155.0] __ [111.99999999528727, 577.9999999969014, 155.00000000329868] __ -39.222 __ [150, 600, 150] __ True __ 5417
+[133.0, 616.0, 297.0] __ [132.99999999515023, 616.0000000028114, 296.9999999907649] __ -39.404 __ [150, 600, 150] __ True __ 10824
+[57.0, 601.0, 252.0] __ [57.00000000289584, 600.9999999970663, 251.99999999683416] __ -40.011 __ [150, 600, 150] __ True __ 14849
+[290.0, 658.0, 94.0] __ [289.9999999778815, 657.9999999972266, 93.99999997182553] __ -37.219 __ [150, 600, 150] __ True __ 10277
+[44.0, 664.0, 115.0] __ [43.99999997223722, 664.0000000078498, 114.99999996801256] __ -37.623 __ [150, 600, 150] __ True __ 7060
+[280.0, 693.0, 97.0] __ [279.99999999026284, 692.9999999978728, 96.99999999857458] __ -39.522 __ [150, 600, 150] __ True __ 6604
+[289.0, 629.0, 109.0] __ [288.99999989309475, 628.9999999954613, 108.99999992816244] __ -34.717 __ [150, 600, 150] __ True __ 7733
+[244.0, 653.0, 102.0] __ [243.999999997615, 652.9999999953725, 102.00000000436353] __ -38.549 __ [150, 600, 150] __ True __ 9777
+[46.0, 639.0, 159.0] __ [45.999999957834866, 639.0000000248554, 158.99999992037849] __ -36.557 __ [150, 600, 150] __ True __ 12933
+[182.0, 643.0, 138.0] __ [137.9999999604217, 643.0000000159974, 181.9999999692974] __ -18.482 __ [150, 600, 150] __ False __ 10953
+[106.0, 513.0, 154.0] __ [106.00000008458339, 513.0000000344794, 153.99999981247808] __ -35.829 __ [150, 600, 150] __ True __ 16544
+[84.0, 561.0, 151.0] __ [150.9999999650906, 560.9999999985041, 83.99999997087397] __ -18.472 __ [150, 600, 150] __ False __ 13090
+[282.0, 536.0, 98.0] __ [280.3037996472156, 537.5000000000002, 95.54695956070228] __ -6.08 __ [150, 600, 150] __ True __ 12584
+[147.0, 683.0, 77.0] __ [146.9999999849378, 682.9999999999897, 77.0000000004364] __ -39.43 __ [150, 600, 150] __ True __ 6341
+[128.0, 515.0, 149.0] __ [127.99999994891382, 515.0000000359086, 148.9999998282972] __ -35.704 __ [150, 600, 150] __ True __ 12982
+[265.0, 566.0, 213.0] __ [265.0000000088438, 565.9999999873279, 212.99999999087487] __ -38.512 __ [150, 600, 150] __ True __ 9110
+[282.0, 534.0, 202.0] __ [282.0000000028786, 533.9999999911987, 201.99999998706554] __ -38.203 __ [150, 600, 150] __ True __ 11164
+[37.0, 524.0, 153.0] __ [36.49832548194404, 522.9580461231028, 159.3750000000066] __ -6.286 __ [150, 600, 150] __ False __ 6694
+[61.0, 677.0, 197.0] __ [60.99999999223112, 676.999999991857, 197.00000001770502] __ -37.54 __ [150, 600, 150] __ True __ 12522
+[211.0, 520.0, 273.0] __ [211.00000001503847, 519.9999999927999, 273.0000000173034] __ -37.601 __ [150, 600, 150] __ True __ 11354
+[122.0, 669.0, 226.0] __ [121.99999999575499, 668.9999999996323, 225.9999999938132] __ -40.268 __ [150, 600, 150] __ True __ 8047
+[20.0, 621.0, 55.0] __ [20.000000002852417, 620.9999999948608, 55.00000000148753] __ -41.023 __ [150, 600, 150] __ True __ 4226
+[135.0, 509.0, 298.0] __ [134.99999985093177, 508.99999998228134, 298.0000001793318] __ -36.137 __ [150, 600, 150] __ True __ 10349
+[33.0, 528.0, 112.0] __ [32.999999968124, 527.9999999965859, 112.00000000289762] __ -38.434 __ [150, 600, 150] __ True __ 6367
+[112.0, 648.0, 98.0] __ [111.99999999315968, 647.9999999960392, 97.99999999012653] __ -38.219 __ [150, 600, 150] __ True __ 9896
+[258.0, 595.0, 297.0] __ [257.99999999887916, 594.9999999987845, 297.00000000479974] __ -40.758 __ [150, 600, 150] __ True __ 9505
+[117.0, 607.0, 105.0] __ [117.00000000455843, 606.9999999902125, 105.00000000144334] __ -38.552 __ [150, 600, 150] __ True __ 8890
+[200.0, 628.0, 249.0] __ [202.45128603072718, 624.9999999999962, 249.71199347110633] __ -5.576 __ [150, 600, 150] __ True __ 8922
+[179.0, 568.0, 296.0] __ [187.43431811844718, 562.5, 299.99999999999545] __ -4.111 __ [150, 600, 150] __ False __ 11042
+[185.0, 670.0, 129.0] __ [128.99999999797944, 669.9999999999195, 184.99999999800215] __ -20.314 __ [150, 600, 150] __ False __ 6092
+[247.0, 556.0, 215.0] __ [215.0000000001564, 556.0000000014313, 246.99999999062405] __ -19.31 __ [150, 600, 150] __ False __ 11766
+[52.0, 696.0, 250.0] __ [51.999999995321524, 695.999999995024, 250.0000000010419] __ -38.501 __ [150, 600, 150] __ True __ 8799
+[280.0, 646.0, 128.0] __ [128.00000002985882, 645.9999999875852, 280.0000000043881] __ -18.123 __ [150, 600, 150] __ False __ 8898
+[299.0, 603.0, 136.0] __ [298.9999999940067, 602.9999999933075, 136.00000003199497] __ -38.916 __ [150, 600, 150] __ True __ 8363
+[247.0, 557.0, 100.0] __ [246.99999997575188, 557.0000000186567, 99.9999999775047] __ -37.682 __ [150, 600, 150] __ True __ 10802
+[107.0, 580.0, 212.0] __ [106.99999999261526, 579.9999999976851, 211.99999999050092] __ -39.001 __ [150, 600, 150] __ True __ 6551
+[28.0, 537.0, 95.0] __ [27.999999990699663, 537.0000000047287, 94.99999999390397] __ -39.748 __ [150, 600, 150] __ True __ 5381
+[209.0, 606.0, 93.0] __ [208.99999999567473, 605.9999999934544, 92.99999999661796] __ -38.346 __ [150, 600, 150] __ True __ 11856
+[148.0, 657.0, 59.0] __ [148.00000000148384, 656.999999996312, 59.00000000012699] __ -39.492 __ [150, 600, 150] __ True __ 6233
+[50.0, 558.0, 263.0] __ [49.99999998183835, 558.0000000118831, 262.9999999766172] __ -38.834 __ [150, 600, 150] __ True __ 7787
+[211.0, 502.0, 243.0] __ [247.5, 502.4595922130604, 211.3848716327] __ -2.835 __ [150, 600, 150] __ False __ 6787
+[248.0, 691.0, 286.0] __ [247.99999999057212, 690.9999999963887, 285.9999999903126] __ -39.072 __ [150, 600, 150] __ True __ 9446
+[229.0, 676.0, 120.0] __ [228.9999999941376, 675.9999999847204, 120.00000008009881] __ -36.813 __ [150, 600, 150] __ True __ 10013
+[297.0, 619.0, 107.0] __ [296.99999999166926, 618.9999999893153, 106.99999999192259] __ -38.411 __ [150, 600, 150] __ True __ 7321
+[245.0, 509.0, 206.0] __ [244.99999997021737, 508.9999999977713, 206.00000000613164] __ -38.592 __ [150, 600, 150] __ True __ 9996
+[295.0, 572.0, 202.0] __ [294.99999999849274, 571.9999999935551, 202.00000000373015] __ -39.241 __ [150, 600, 150] __ True __ 6548
+[233.0, 601.0, 283.0] __ [232.36501308138327, 601.1485650832832, 284.375] __ -9.059 __ [150, 600, 150] __ True __ 10412
+[79.0, 681.0, 287.0] __ [78.99999997251989, 680.9999999547657, 287.00000029584277] __ -35.452 __ [150, 600, 150] __ True __ 12892
+[271.0, 595.0, 232.0] __ [262.7884081724881, 598.5611038656205, 221.87499999999974] __ -4.083 __ [150, 600, 150] __ False __ 7827
+[46.0, 588.0, 87.0] __ [41.529936989619024, 591.3642910848071, 95.1881568216079] __ -7.076 __ [150, 600, 150] __ False __ 11554
+[49.0, 619.0, 174.0] __ [172.88221425936422, 619.2717109860137, 50.0] __ -5.757 __ [150, 600, 150] __ False __ 6512
+[205.0, 547.0, 104.0] __ [204.9999999885679, 546.9999999969478, 103.99999999579413] __ -38.179 __ [150, 600, 150] __ True __ 13931
+[59.0, 591.0, 72.0] __ [59.0000000002864, 590.9999999982944, 72.00000000283067] __ -40.772 __ [150, 600, 150] __ True __ 10416
+[206.0, 660.0, 134.0] __ [206.00000001044506, 659.9999999896769, 134.00000003415641] __ -38.355 __ [150, 600, 150] __ True __ 5641
+[46.0, 665.0, 178.0] __ [45.999999995575884, 664.9999999959332, 178.00000002741808] __ -38.415 __ [150, 600, 150] __ True __ 5560
+[157.0, 619.0, 166.0] __ [155.18673140244616, 621.0749738612533, 159.375] __ -5.117 __ [150, 600, 150] __ False __ 7320
+[271.0, 662.0, 282.0] __ [270.2736009304634, 662.5, 284.375] __ -5.305 __ [150, 600, 150] __ True __ 14017
+[149.0, 621.0, 54.0] __ [148.99999999036675, 620.9999999998224, 54.000000010698884] __ -38.813 __ [150, 600, 150] __ True __ 6602
+[157.0, 648.0, 280.0] __ [158.65935722110552, 646.9213018142327, 284.375] __ -6.246 __ [150, 600, 150] __ True __ 8104
+[53.0, 607.0, 119.0] __ [119.00000002436192, 606.9999999794155, 52.99999999272216] __ -19.702 __ [150, 600, 150] __ False __ 12782
+[237.0, 559.0, 225.0] __ [237.00000000740297, 558.9999999846364, 225.0000000002083] __ -38.961 __ [150, 600, 150] __ True __ 10973
+[240.0, 569.0, 185.0] __ [239.99999999966414, 568.9999999949836, 185.0000000021237] __ -39.158 __ [150, 600, 150] __ True __ 11693
+[284.0, 658.0, 209.0] __ [283.99999999322097, 657.9999999974322, 209.00000000840407] __ -38.907 __ [150, 600, 150] __ True __ 9354
+[47.0, 552.0, 189.0] __ [46.99999995804477, 552.0000000498434, 188.99999996225745] __ -37.476 __ [150, 600, 150] __ True __ 7752
+[94.0, 597.0, 236.0] __ [94.00000003001699, 596.9999999829264, 236.0000000311385] __ -36.508 __ [150, 600, 150] __ True __ 10904
+[33.0, 691.0, 238.0] __ [32.9999999943804, 691.0000000005713, 237.9999999913943] __ -39.644 __ [150, 600, 150] __ True __ 10586
+[280.0, 644.0, 208.0] __ [279.9999999914762, 643.999999996477, 207.99999999058977] __ -39.015 __ [150, 600, 150] __ True __ 9197
+[224.0, 684.0, 116.0] __ [224.00000000663016, 683.9999999898226, 116.00000001102734] __ -38.373 __ [150, 600, 150] __ True __ 9267
+[223.0, 660.0, 64.0] __ [222.9999999920405, 659.9999999945494, 63.999999999376186] __ -37.994 __ [150, 600, 150] __ True __ 12107
+[20.0, 592.0, 180.0] __ [20.00000000132151, 591.9999999981359, 180.00000000188186] __ -41.467 __ [150, 600, 150] __ True __ 10298
+[204.0, 666.0, 124.0] __ [203.9999999945473, 666.0000000031541, 123.99999998457363] __ -39.127 __ [150, 600, 150] __ True __ 6139
+[281.0, 625.0, 189.0] __ [258.3518185865978, 648.7853344693367, 122.05134157537731] __ -3.822 __ [150, 600, 150] __ False __ 8507
+[53.0, 669.0, 70.0] __ [53.0000000228524, 669.0000000019194, 69.99999997370519] __ -36.68 __ [150, 600, 150] __ True __ 9226
+[45.0, 624.0, 173.0] __ [44.99999999309388, 624.0000000044615, 172.99999998890112] __ -39.412 __ [150, 600, 150] __ True __ 5659
+[250.0, 522.0, 189.0] __ [247.5, 522.2559366842837, 191.04358172358505] __ -5.789 __ [150, 600, 150] __ True __ 9109
+Avg. dev. __ fails __ grd size
+nan __ 0 __ 252
+fevals at each grid pnt: all function evals: []
+
+shgo amp loss only
+truth __ found __ log(fx) __ p0 __ success? __ fevals
+[108.0, 590.0, 116.0] __ [108.00000030665547, 589.9999999801191, 115.99999970196073] __ -19.785 __ [150, 600, 150] __ True __ 8212
+[50.0, 673.0, 207.0] __ [49.99999997098042, 672.9999999897785, 206.9999999817563] __ -19.479 __ [150, 600, 150] __ True __ 5023
+[118.0, 513.0, 206.0] __ [205.99999999711144, 512.9999999646345, 118.00000009937283] __ -19.562 __ [150, 600, 150] __ False __ 7514
+[187.0, 518.0, 64.0] __ [186.99999998883524, 517.9999999878471, 63.99999999778079] __ -20.193 __ [150, 600, 150] __ True __ 4881
+[86.0, 547.0, 243.0] __ [85.99999997404163, 546.9999999787731, 243.00000001959984] __ -19.958 __ [150, 600, 150] __ True __ 8079
+[31.0, 570.0, 167.0] __ [37.50000000000137, 569.9703248471783, 159.3749999999984] __ -3.809 __ [150, 600, 150] __ False __ 7333
+[234.0, 672.0, 244.0] __ [233.99999999727478, 671.9999999896213, 244.0000000148015] __ -20.23 __ [150, 600, 150] __ True __ 6881
+[83.0, 652.0, 160.0] __ [82.99999999266588, 651.9999999976691, 159.9999999783367] __ -20.951 __ [150, 600, 150] __ True __ 7022
+[80.0, 624.0, 85.0] __ [85.00000002069275, 623.9999999865136, 79.99999997459174] __ -19.973 __ [150, 600, 150] __ False __ 5879
+[44.0, 587.0, 122.0] __ [43.99999999242288, 586.9999999860252, 122.0000000188161] __ -20.204 __ [150, 600, 150] __ True __ 8757
+[96.0, 609.0, 291.0] __ [290.99999979099675, 609.0000000569357, 95.99999983027034] __ -19.352 __ [150, 600, 150] __ False __ 7838
+[213.0, 628.0, 231.0] __ [230.99999999785325, 627.9999999995342, 212.9999999994295] __ -21.569 __ [150, 600, 150] __ False __ 5324
+[282.0, 509.0, 50.0] __ [37.5, 506.2161151185725, 296.9296206694935] __ -3.803 __ [150, 600, 150] __ False __ 8341
+[116.0, 635.0, 128.0] __ [116.00000001413481, 634.9999999956076, 127.9999999849944] __ -20.294 __ [150, 600, 150] __ True __ 7248
+[239.0, 621.0, 78.0] __ [77.9999999977492, 620.9999999943993, 238.99999999984678] __ -20.874 __ [150, 600, 150] __ False __ 7755
+[268.0, 568.0, 187.0] __ [186.99999999529103, 567.9999999975765, 267.999999990788] __ -20.41 __ [150, 600, 150] __ False __ 7511
+[248.0, 670.0, 206.0] __ [206.00000000227823, 670.000000000243, 247.99999999177274] __ -20.91 __ [150, 600, 150] __ False __ 7402
+[61.0, 642.0, 130.0] __ [60.999999995937586, 641.9999999993295, 129.99999998964697] __ -21.201 __ [150, 600, 150] __ True __ 7210
+[172.0, 617.0, 107.0] __ [172.00000203844806, 616.9999993823195, 107.00000116426334] __ -18.08 __ [150, 600, 150] __ True __ 7482
+[23.0, 645.0, 62.0] __ [20.0, 646.0667372001002, 65.625] __ -3.36 __ [150, 600, 150] __ True __ 7129
+[249.0, 549.0, 69.0] __ [68.99999999857523, 548.9999999936305, 249.00000001075344] __ -20.188 __ [150, 600, 150] __ False __ 7697
+[186.0, 536.0, 104.0] __ [103.99999997136118, 536.0000000173476, 185.99999996327813] __ -19.946 __ [150, 600, 150] __ False __ 6072
+[163.0, 510.0, 114.0] __ [114.0000000177161, 509.9999999917656, 163.0000000104162] __ -19.949 __ [150, 600, 150] __ False __ 9080
+[91.0, 571.0, 176.0] __ [90.99999999271131, 570.999999999546, 175.99999999532062] __ -20.706 __ [150, 600, 150] __ True __ 7781
+[62.0, 616.0, 97.0] __ [62.00000000226551, 616.0000000032758, 97.00000000207132] __ -21.156 __ [150, 600, 150] __ True __ 8333
+[112.0, 578.0, 155.0] __ [155.0000000657334, 577.999999989121, 112.00000002112095] __ -19.323 __ [150, 600, 150] __ False __ 7335
+[133.0, 616.0, 297.0] __ [295.98231288230096, 617.4627237772766, 128.1249999999998] __ -3.678 __ [150, 600, 150] __ False __ 5936
+[57.0, 601.0, 252.0] __ [56.99999999689286, 600.999999990587, 251.99999999317788] __ -20.139 __ [150, 600, 150] __ True __ 7176
+[290.0, 658.0, 94.0] __ [263.0910552355891, 654.1838039946956, 106.12566257703499] __ -2.857 __ [150, 600, 150] __ False __ 6545
+[44.0, 664.0, 115.0] __ [43.99999996872094, 663.999999990817, 114.99999995094295] __ -19.327 __ [150, 600, 150] __ True __ 7768
+[280.0, 693.0, 97.0] __ [97.00000242147462, 692.9999994030487, 280.00000208550966] __ -17.995 __ [150, 600, 150] __ False __ 7612
+[289.0, 629.0, 109.0] __ [289.00000002983745, 628.9999999895645, 108.99999998888016] __ -19.935 __ [150, 600, 150] __ True __ 7316
+[244.0, 653.0, 102.0] __ [53.608364211736934, 677.4191935960831, 217.74698843698718] __ -3.072 __ [150, 600, 150] __ False __ 5138
+[46.0, 639.0, 159.0] __ [46.0000000043273, 638.9999999952362, 158.99999998489034] __ -19.94 __ [150, 600, 150] __ True __ 4434
+[182.0, 643.0, 138.0] __ [138.0000000107174, 642.9999999994913, 182.000000002238] __ -20.786 __ [150, 600, 150] __ False __ 5237
+[106.0, 513.0, 154.0] __ [106.00000002807815, 512.9999999906868, 154.00000003193455] __ -19.924 __ [150, 600, 150] __ True __ 8785
+[84.0, 561.0, 151.0] __ [83.99999997932318, 560.9999999829662, 151.00000004091063] __ -19.735 __ [150, 600, 150] __ True __ 6623
+[282.0, 536.0, 98.0] __ [282.00000007925684, 535.9999999192187, 97.99999999168149] __ -18.573 __ [150, 600, 150] __ True __ 7510
+[147.0, 683.0, 77.0] __ [146.99999996749307, 683.0000000065738, 76.99999998920781] __ -20.031 __ [150, 600, 150] __ True __ 6801
+[128.0, 515.0, 149.0] __ [128.00000072741275, 514.9999998436653, 149.000000036154] __ -18.314 __ [150, 600, 150] __ True __ 7202
+[265.0, 566.0, 213.0] __ [217.818388701371, 585.5137963632437, 190.78996150490164] __ -4.032 __ [150, 600, 150] __ False __ 5056
+[282.0, 534.0, 202.0] __ [201.9999999880764, 533.9999999771583, 282.0000000081984] __ -20.242 __ [150, 600, 150] __ False __ 6445
+[37.0, 524.0, 153.0] __ [34.07330817826837, 521.5846956142032, 159.375] __ -3.527 __ [150, 600, 150] __ False __ 5691
+[61.0, 677.0, 197.0] __ [196.99999997471775, 676.9999999932974, 61.00000001737296] __ -20.127 __ [150, 600, 150] __ False __ 6810
+[211.0, 520.0, 273.0] __ [273.00000000072777, 519.9999999952595, 210.99999999478328] __ -20.203 __ [150, 600, 150] __ False __ 6880
+[122.0, 669.0, 226.0] __ [225.9999999982568, 668.9999999962007, 122.00000000214746] __ -20.423 __ [150, 600, 150] __ False __ 7060
+[20.0, 621.0, 55.0] __ [20.000000005407518, 620.9999999914836, 54.99999999346495] __ -20.179 __ [150, 600, 150] __ True __ 4917
+[135.0, 509.0, 298.0] __ [297.99999997360607, 508.9999999872422, 135.00000000235264] __ -20.026 __ [150, 600, 150] __ False __ 9321
+[33.0, 528.0, 112.0] __ [33.00000008681713, 527.9999999494091, 112.00000010971209] __ -19.615 __ [150, 600, 150] __ True __ 7152
+[112.0, 648.0, 98.0] __ [97.99999995734656, 647.9999999893807, 112.00000003494296] __ -19.813 __ [150, 600, 150] __ False __ 6902
+[258.0, 595.0, 297.0] __ [278.5072247085633, 588.9327098887535, 293.4942016480736] __ -4.627 __ [150, 600, 150] __ False __ 5652
+[117.0, 607.0, 105.0] __ [117.0000000180577, 606.9999999943177, 104.99999998658606] __ -20.757 __ [150, 600, 150] __ True __ 6076
+[200.0, 628.0, 249.0] __ [112.62106529230188, 648.8549348599083, 195.5346382579952] __ -3.686 __ [150, 600, 150] __ False __ 5380
+[179.0, 568.0, 296.0] __ [295.99999997143664, 567.9999999922621, 179.00000001739755] __ -19.587 __ [150, 600, 150] __ False __ 6677
+[185.0, 670.0, 129.0] __ [129.00000008359368, 670.0000000060578, 184.99999997172782] __ -19.893 __ [150, 600, 150] __ False __ 6970
+[247.0, 556.0, 215.0] __ [246.9999999725578, 555.9999999939392, 214.9999999894766] __ -19.827 __ [150, 600, 150] __ True __ 7286
+[52.0, 696.0, 250.0] __ [51.99999997791578, 695.9999999818386, 249.9999999871522] __ -19.934 __ [150, 600, 150] __ True __ 6977
+[280.0, 646.0, 128.0] __ [128.00000001829392, 645.9999999962879, 279.99999998029404] __ -20.439 __ [150, 600, 150] __ False __ 6709
+[299.0, 603.0, 136.0] __ [299.0000000655936, 602.9999999180284, 136.00000023494604] __ -18.761 __ [150, 600, 150] __ True __ 6941
+[247.0, 557.0, 100.0] __ [37.12518941488079, 571.6477091200636, 265.20900449601857] __ -3.735 __ [150, 600, 150] __ False __ 7956
+[107.0, 580.0, 212.0] __ [211.99999999329256, 579.9999999890489, 107.00000000942443] __ -20.08 __ [150, 600, 150] __ False __ 5271
+[28.0, 537.0, 95.0] __ [27.99999992535181, 537.0000000170022, 94.99999993971306] __ -20.141 __ [150, 600, 150] __ True __ 5930
+[209.0, 606.0, 93.0] __ [93.00000000090651, 605.9999999911831, 208.99999999254703] __ -20.062 __ [150, 600, 150] __ False __ 7156
+[148.0, 657.0, 59.0] __ [147.99999999923324, 656.9999999997586, 58.999999995816395] __ -20.857 __ [150, 600, 150] __ True __ 7129
+[50.0, 558.0, 263.0] __ [50.000000003639016, 557.9999999864751, 262.9999999900406] __ -20.273 __ [150, 600, 150] __ True __ 6804
+[211.0, 502.0, 243.0] __ [243.00000000977536, 502.0000000010147, 210.99999998424832] __ -20.181 __ [150, 600, 150] __ False __ 5818
+[248.0, 691.0, 286.0] __ [286.00000001046834, 690.99999998984, 247.9999999987386] __ -19.381 __ [150, 600, 150] __ False __ 7511
+[229.0, 676.0, 120.0] __ [228.999999993198, 676.0000000004579, 120.0000000042974] __ -20.901 __ [150, 600, 150] __ True __ 7348
+[297.0, 619.0, 107.0] __ [109.12649013039287, 622.6529926332388, 284.375] __ -3.36 __ [150, 600, 150] __ False __ 6300
+[245.0, 509.0, 206.0] __ [205.99999997524034, 508.99999998735296, 244.99999997474364] __ -19.624 __ [150, 600, 150] __ False __ 5340
+[295.0, 572.0, 202.0] __ [294.99999999166533, 571.9999999961815, 201.99999999995745] __ -20.27 __ [150, 600, 150] __ True __ 6016
+[233.0, 601.0, 283.0] __ [232.9999999660246, 600.999999970447, 282.99999997365114] __ -19.776 __ [150, 600, 150] __ True __ 6508
+[79.0, 681.0, 287.0] __ [286.99999963245716, 680.999999970418, 78.999999672297] __ -18.705 __ [150, 600, 150] __ False __ 7470
+[271.0, 595.0, 232.0] __ [232.00000000432513, 594.9999999905899, 270.9999999870929] __ -20.168 __ [150, 600, 150] __ False __ 6138
+[46.0, 588.0, 87.0] __ [87.64930623781386, 590.1832960584044, 50.0] __ -3.494 __ [150, 600, 150] __ False __ 4885
+[49.0, 619.0, 174.0] __ [48.800065129538545, 618.5836895055074, 175.0] __ -5.474 __ [150, 600, 150] __ True __ 3775
+[205.0, 547.0, 104.0] __ [203.68378499087285, 537.4999999999968, 103.55091628491569] __ -2.835 __ [150, 600, 150] __ False __ 6695
+[59.0, 591.0, 72.0] __ [71.99999999457526, 590.9999999916511, 58.99999999766907] __ -20.517 __ [150, 600, 150] __ False __ 5156
+[206.0, 660.0, 134.0] __ [206.00000003117557, 659.9999999880113, 134.00000001696253] __ -19.62 __ [150, 600, 150] __ True __ 6522
+[46.0, 665.0, 178.0] __ [45.99999999368022, 665.0000000016216, 177.99999998037535] __ -19.575 __ [150, 600, 150] __ True __ 4874
+[157.0, 619.0, 166.0] __ [165.9999992702174, 618.999999659408, 157.00000159100864] __ -18.777 __ [150, 600, 150] __ False __ 4069
+[271.0, 662.0, 282.0] __ [270.999999898527, 661.9999999846009, 282.00000002217934] __ -19.707 __ [150, 600, 150] __ True __ 6173
+[149.0, 621.0, 54.0] __ [148.99999996015202, 621.0000000212752, 53.999999998679435] __ -20.014 __ [150, 600, 150] __ True __ 5603
+[157.0, 648.0, 280.0] __ [156.99999999881936, 647.9999999926646, 279.9999999788603] __ -19.688 __ [150, 600, 150] __ True __ 7591
+[53.0, 607.0, 119.0] __ [119.00000007233312, 606.9999999793146, 53.00000005694737] __ -20.013 __ [150, 600, 150] __ False __ 7964
+[237.0, 559.0, 225.0] __ [236.99999998327817, 558.9999999940864, 225.00000002607473] __ -19.641 __ [150, 600, 150] __ True __ 6323
+[240.0, 569.0, 185.0] __ [195.0, 565.6040708346895, 243.6618792434965] __ -3.538 __ [150, 600, 150] __ False __ 5170
+[284.0, 658.0, 209.0] __ [208.9999998653006, 657.9999999895617, 283.99999985482475] __ -19.273 __ [150, 600, 150] __ False __ 5723
+[47.0, 552.0, 189.0] __ [189.6044144793385, 550.6856220693209, 50.0] __ -4.429 __ [150, 600, 150] __ False __ 6138
+[94.0, 597.0, 236.0] __ [93.99999997796353, 596.9999999950851, 236.00000003861217] __ -20.146 __ [150, 600, 150] __ True __ 8117
+[33.0, 691.0, 238.0] __ [33.0000002594218, 690.999999929736, 237.9999995895967] __ -18.569 __ [150, 600, 150] __ True __ 6989
+[280.0, 644.0, 208.0] __ [205.42568068132002, 637.6853075149397, 260.03251525108703] __ -3.104 __ [150, 600, 150] __ False __ 5901
+[224.0, 684.0, 116.0] __ [115.999999994453, 683.9999999949574, 223.99999999053372] __ -20.379 __ [150, 600, 150] __ False __ 7499
+[223.0, 660.0, 64.0] __ [63.99999993684053, 659.9999999821613, 222.99999996312482] __ -19.946 __ [150, 600, 150] __ False __ 5325
+[20.0, 592.0, 180.0] __ [20.000001273600255, 591.9999999494203, 179.99999923533733] __ -18.798 __ [150, 600, 150] __ True __ 8709
+[204.0, 666.0, 124.0] __ [204.00000005259767, 665.9999999776937, 123.9999999847619] __ -19.7 __ [150, 600, 150] __ True __ 6247
+[281.0, 625.0, 189.0] __ [281.0000000201819, 624.9999999727335, 189.00000000505005] __ -19.885 __ [150, 600, 150] __ True __ 5051
+[53.0, 669.0, 70.0] __ [78.85463703236258, 658.2141566350233, 97.32443158705553] __ -5.192 __ [150, 600, 150] __ False __ 4081
+[45.0, 624.0, 173.0] __ [44.53916203399418, 623.6603623324812, 175.0000000000004] __ -4.662 __ [150, 600, 150] __ True __ 3204
+[250.0, 522.0, 189.0] __ [188.99999998877564, 521.9999999986339, 249.99999998858655] __ -20.119 __ [150, 600, 150] __ False __ 6421
+Avg. dev. __ fails __ grd size
+nan __ 0 __ 252
+fevals at each grid pnt: all function evals: []
+
+
+truth __ found __ log(fx) __ p0 __ success? __ fevals
+[108.0, 590.0, 116.0] __ [107.99999999999962, 590.0000000000001, 115.99999999999966] __ -57.189 __ [150, 600, 150] __ True __ 11872
+[50.0, 673.0, 207.0] __ [50.0, 673.0, 207.0] __ -inf __ [150, 600, 150] __ True __ 12471
+[118.0, 513.0, 206.0] __ [118.0, 513.0, 206.0] __ -inf __ [150, 600, 150] __ True __ 12829
+[187.0, 518.0, 64.0] __ [187.0, 518.0, 64.0] __ -inf __ [150, 600, 150] __ True __ 13939
+[86.0, 547.0, 243.0] __ [86.0, 547.0, 243.0] __ -inf __ [150, 600, 150] __ True __ 18092
+[31.0, 570.0, 167.0] __ [31.0, 570.0, 167.0] __ -inf __ [150, 600, 150] __ True __ 11091
+[234.0, 672.0, 244.0] __ [234.0, 672.0, 244.0] __ -inf __ [150, 600, 150] __ True __ 11669
+[83.0, 652.0, 160.0] __ [83.0, 652.0, 160.0] __ -inf __ [150, 600, 150] __ True __ 17192
+[80.0, 624.0, 85.0] __ [80.0, 624.0, 85.0] __ -inf __ [150, 600, 150] __ True __ 14252
+[44.0, 587.0, 122.0] __ [44.0, 587.0, 122.0] __ -inf __ [150, 600, 150] __ True __ 12540
+[96.0, 609.0, 291.0] __ [96.00000000000031, 608.9999999999998, 291.00000000000045] __ -57.295 __ [150, 600, 150] __ True __ 15442
+[213.0, 628.0, 231.0] __ [213.0, 628.0, 231.0] __ -inf __ [150, 600, 150] __ True __ 8403
+[282.0, 509.0, 50.0] __ [282.0, 509.00000000000006, 50.0] __ -inf __ [150, 600, 150] __ True __ 17033
+[116.0, 635.0, 128.0] __ [115.99999999999999, 635.0, 128.0] __ -inf __ [150, 600, 150] __ True __ 16250
+[239.0, 621.0, 78.0] __ [238.99999999999994, 621.0, 78.00000000000004] __ -59.923 __ [150, 600, 150] __ True __ 15128
+[268.0, 568.0, 187.0] __ [268.0, 568.0, 187.0] __ -inf __ [150, 600, 150] __ True __ 11408
+[248.0, 670.0, 206.0] __ [248.0, 670.0, 206.0] __ -inf __ [150, 600, 150] __ True __ 15282
+[61.0, 642.0, 130.0] __ [61.0, 642.0, 130.0] __ -inf __ [150, 600, 150] __ True __ 14639
+[172.0, 617.0, 107.0] __ [172.0, 617.0, 107.00000000000004] __ -61.273 __ [150, 600, 150] __ True __ 14565
+[23.0, 645.0, 62.0] __ [23.0, 645.0, 62.0] __ -inf __ [150, 600, 150] __ True __ 9976
+[249.0, 549.0, 69.0] __ [249.0, 549.0, 69.0] __ -inf __ [150, 600, 150] __ True __ 15690
+[186.0, 536.0, 104.0] __ [186.0, 536.0, 103.99999999999999] __ -inf __ [150, 600, 150] __ True __ 12391
+[163.0, 510.0, 114.0] __ [163.0, 510.0, 114.0] __ -inf __ [150, 600, 150] __ True __ 12206
+[91.0, 571.0, 176.0] __ [91.0, 571.0, 176.0] __ -inf __ [150, 600, 150] __ True __ 21922
+[62.0, 616.0, 97.0] __ [62.0, 616.0, 97.0] __ -inf __ [150, 600, 150] __ True __ 12825
+[112.0, 578.0, 155.0] __ [112.0, 578.0, 155.0] __ -inf __ [150, 600, 150] __ True __ 12013
+[133.0, 616.0, 297.0] __ [133.00000000000074, 615.9999999999997, 297.000000000001] __ -56.641 __ [150, 600, 150] __ True __ 12654
+[57.0, 601.0, 252.0] __ [57.0, 601.0, 252.0] __ -inf __ [150, 600, 150] __ True __ 9977
+[290.0, 658.0, 94.0] __ [290.0, 658.0, 94.0] __ -inf __ [150, 600, 150] __ True __ 11442
+[44.0, 664.0, 115.0] __ [44.0, 664.0, 114.99999999999999] __ -inf __ [150, 600, 150] __ True __ 14270
+[280.0, 693.0, 97.0] __ [280.0, 693.0, 97.0] __ -inf __ [150, 600, 150] __ True __ 13166
+[289.0, 629.0, 109.0] __ [289.0, 629.0, 108.99999999999999] __ -60.647 __ [150, 600, 150] __ True __ 15061
+[244.0, 653.0, 102.0] __ [244.0, 653.0, 102.0] __ -inf __ [150, 600, 150] __ True __ 14489
+[46.0, 639.0, 159.0] __ [46.0, 639.0, 159.0] __ -inf __ [150, 600, 150] __ True __ 11318
+[182.0, 643.0, 138.0] __ [182.0, 643.0, 138.0] __ -inf __ [150, 600, 150] __ True __ 10623
+[106.0, 513.0, 154.0] __ [106.0, 513.0, 154.0] __ -inf __ [150, 600, 150] __ True __ 16009
+[84.0, 561.0, 151.0] __ [84.0, 561.0, 151.0] __ -inf __ [150, 600, 150] __ True __ 12751
+[282.0, 536.0, 98.0] __ [282.0, 536.0, 98.0] __ -inf __ [150, 600, 150] __ True __ 11413
+[147.0, 683.0, 77.0] __ [147.0, 683.0, 77.0] __ -inf __ [150, 600, 150] __ True __ 13334
+[128.0, 515.0, 149.0] __ [128.0, 515.0, 149.0] __ -inf __ [150, 600, 150] __ True __ 15517
+[265.0, 566.0, 213.0] __ [264.99999999999994, 566.0, 213.00000000000003] __ -59.742 __ [150, 600, 150] __ True __ 10314
+[282.0, 534.0, 202.0] __ [282.0, 534.0, 202.0] __ -inf __ [150, 600, 150] __ True __ 11277
+[37.0, 524.0, 153.0] __ [37.0, 524.0, 153.0] __ -inf __ [150, 600, 150] __ True __ 9802
+[61.0, 677.0, 197.0] __ [61.00000000000001, 677.0, 197.0] __ -inf __ [150, 600, 150] __ True __ 15965
+[211.0, 520.0, 273.0] __ [210.99999999999997, 520.0, 273.0] __ -inf __ [150, 600, 150] __ True __ 16008
+[122.0, 669.0, 226.0] __ [122.0, 669.0, 226.0] __ -inf __ [150, 600, 150] __ True __ 10866
+[20.0, 621.0, 55.0] __ [20.0, 621.0, 55.0] __ -inf __ [150, 600, 150] __ True __ 11869
+[135.0, 509.0, 298.0] __ [135.0, 509.00000000000006, 298.0] __ -inf __ [150, 600, 150] __ True __ 16997
+[33.0, 528.0, 112.0] __ [33.0, 528.0, 111.99999999999999] __ -inf __ [150, 600, 150] __ True __ 9288
+[112.0, 648.0, 98.0] __ [112.0, 648.0, 98.0] __ -inf __ [150, 600, 150] __ True __ 11640
+[258.0, 595.0, 297.0] __ [258.0000000000001, 594.9999999999999, 297.0000000000003] __ -57.194 __ [150, 600, 150] __ True __ 14881
+[117.0, 607.0, 105.0] __ [117.0, 607.0, 105.0] __ -inf __ [150, 600, 150] __ True __ 12208
+[200.0, 628.0, 249.0] __ [200.0, 628.0, 248.99999999999997] __ -inf __ [150, 600, 150] __ True __ 11216
+[179.0, 568.0, 296.0] __ [179.0000000000007, 568.0, 295.99999999999835] __ -55.469 __ [150, 600, 150] __ True __ 11852
+[185.0, 670.0, 129.0] __ [185.0, 670.0, 129.0] __ -inf __ [150, 600, 150] __ True __ 13783
+[247.0, 556.0, 215.0] __ [247.0, 556.0, 215.0] __ -inf __ [150, 600, 150] __ True __ 12985
+[52.0, 696.0, 250.0] __ [52.0, 696.0, 250.00000000000003] __ -inf __ [150, 600, 150] __ True __ 13727
+[280.0, 646.0, 128.0] __ [280.0, 646.0, 128.0] __ -inf __ [150, 600, 150] __ True __ 13879
+[299.0, 603.0, 136.0] __ [298.99999999999994, 603.0, 136.0000000000001] __ -59.68 __ [150, 600, 150] __ True __ 12459
+[247.0, 557.0, 100.0] __ [247.0, 557.0, 100.0] __ -inf __ [150, 600, 150] __ True __ 15433
+[107.0, 580.0, 212.0] __ [107.0, 580.0, 212.0] __ -inf __ [150, 600, 150] __ True __ 10715
+[28.0, 537.0, 95.0] __ [28.0, 537.0, 95.0] __ -inf __ [150, 600, 150] __ True __ 9386
+[209.0, 606.0, 93.0] __ [209.00000000000003, 606.0, 93.0] __ -inf __ [150, 600, 150] __ True __ 14930
+[148.0, 657.0, 59.0] __ [148.0, 657.0, 59.00000000000001] __ -inf __ [150, 600, 150] __ True __ 11608
+[50.0, 558.0, 263.0] __ [50.000000000000256, 557.9999999999998, 263.00000000000006] __ -57.397 __ [150, 600, 150] __ True __ 11288
+[211.0, 502.0, 243.0] __ [210.99999999999997, 502.0, 243.0] __ -inf __ [150, 600, 150] __ True __ 11125
+[248.0, 691.0, 286.0] __ [248.0, 691.0, 286.0] __ -inf __ [150, 600, 150] __ True __ 12711
+[229.0, 676.0, 120.0] __ [229.0, 676.0, 120.0] __ -inf __ [150, 600, 150] __ True __ 10618
+[297.0, 619.0, 107.0] __ [297.0, 619.0, 107.0] __ -inf __ [150, 600, 150] __ True __ 12701
+[245.0, 509.0, 206.0] __ [244.99999999999966, 509.00000000000017, 206.00000000000028] __ -56.735 __ [150, 600, 150] __ True __ 12653
+[295.0, 572.0, 202.0] __ [295.0, 572.0, 202.0] __ -inf __ [150, 600, 150] __ True __ 11456
+[233.0, 601.0, 283.0] __ [233.0, 601.0, 283.0] __ -inf __ [150, 600, 150] __ True __ 9903
+[79.0, 681.0, 287.0] __ [79.0, 681.0, 287.0] __ -inf __ [150, 600, 150] __ True __ 14818
+[271.0, 595.0, 232.0] __ [271.0, 595.0, 232.0] __ -inf __ [150, 600, 150] __ True __ 8677
+[46.0, 588.0, 87.0] __ [46.0, 588.0, 87.0] __ -inf __ [150, 600, 150] __ True __ 12435
+[49.0, 619.0, 174.0] __ [49.0, 619.0, 174.0] __ -inf __ [150, 600, 150] __ True __ 14941
+[205.0, 547.0, 104.0] __ [205.0, 547.0, 103.99999999999999] __ -inf __ [150, 600, 150] __ True __ 14933
+[59.0, 591.0, 72.0] __ [59.0, 591.0, 72.0] __ -inf __ [150, 600, 150] __ True __ 10711
+[206.0, 660.0, 134.0] __ [206.0, 660.0, 134.0] __ -inf __ [150, 600, 150] __ True __ 20682
+[46.0, 665.0, 178.0] __ [46.0, 665.0, 178.0] __ -inf __ [150, 600, 150] __ True __ 12778
+[157.0, 619.0, 166.0] __ [156.99999999999994, 619.0, 166.0] __ -60.575 __ [150, 600, 150] __ True __ 8994
+[271.0, 662.0, 282.0] __ [271.0, 662.0, 282.0] __ -inf __ [150, 600, 150] __ True __ 10869
+[149.0, 621.0, 54.0] __ [149.0, 621.0, 54.0] __ -inf __ [150, 600, 150] __ True __ 8724
+[157.0, 648.0, 280.0] __ [156.99999999999997, 648.0, 279.99999999999994] __ -60.14 __ [150, 600, 150] __ True __ 10200
+[53.0, 607.0, 119.0] __ [53.0, 607.0, 119.00000000000003] __ -61.998 __ [150, 600, 150] __ True __ 10330
+[237.0, 559.0, 225.0] __ [237.0, 559.0, 225.00000000000003] __ -inf __ [150, 600, 150] __ True __ 13524
+[240.0, 569.0, 185.0] __ [240.00000000000006, 569.0, 184.99999999999991] __ -59.098 __ [150, 600, 150] __ True __ 13355
+[284.0, 658.0, 209.0] __ [284.0, 658.0, 209.00000000000003] __ -inf __ [150, 600, 150] __ True __ 13317
+[47.0, 552.0, 189.0] __ [47.0, 552.0, 189.0] __ -inf __ [150, 600, 150] __ True __ 13717
+[94.0, 597.0, 236.0] __ [94.0, 597.0, 236.0] __ -inf __ [150, 600, 150] __ True __ 17345
+[33.0, 691.0, 238.0] __ [33.0, 691.0, 237.99999999999997] __ -inf __ [150, 600, 150] __ True __ 12122
+[280.0, 644.0, 208.0] __ [280.00000000000017, 643.9999999999998, 208.00000000000028] __ -57.273 __ [150, 600, 150] __ True __ 11493
+[224.0, 684.0, 116.0] __ [223.99999999999997, 684.0, 115.99999999999999] __ -inf __ [150, 600, 150] __ True __ 10745
+[223.0, 660.0, 64.0] __ [223.0, 660.0, 64.0] __ -inf __ [150, 600, 150] __ True __ 10894
+[20.0, 592.0, 180.0] __ [20.0, 592.0, 180.0] __ -inf __ [150, 600, 150] __ True __ 10739
+[204.0, 666.0, 124.0] __ [204.0000000000005, 665.9999999999998, 124.00000000000003] __ -56.847 __ [150, 600, 150] __ True __ 19376
+[281.0, 625.0, 189.0] __ [281.0, 625.0, 189.0] __ -inf __ [150, 600, 150] __ True __ 11951
+[53.0, 669.0, 70.0] __ [53.0, 669.0, 70.0] __ -inf __ [150, 600, 150] __ True __ 10993
+[45.0, 624.0, 173.0] __ [45.0, 624.0, 173.0] __ -inf __ [150, 600, 150] __ True __ 13296
+[250.0, 522.0, 189.0] __ [250.0, 522.0, 189.0] __ -inf __ [150, 600, 150] __ True __ 17547
+Avg. dev. __ fails __ grd size
+nan __ 0 __ 252
+fevals at each grid pnt: all function evals: []
+
+# grid search
+truth __ found __ log(fx) __ p0 __ success? __ fevals
+[108.0, 590.0, 116.0] __ [108.46, 589.96, 115.73] __ -9.472 __ [100, 600, 100] __ True __ 14785
+[50.0, 673.0, 207.0] __ [50.17, 672.98, 207.13] __ -9.801 __ [50, 700, 200] __ True __ 14811
+[118.0, 513.0, 206.0] __ [118.09, 513.07, 206.13] __ -9.232 __ [100, 700, 250] __ True __ 14789
+[187.0, 518.0, 64.0] __ [186.88, 518.47, 64.13] __ -9.182 __ [150, 600, 100] __ True __ 14672
+[86.0, 547.0, 243.0] __ [85.99, 546.93, 243.05] __ -10.682 __ [100, 550, 250] __ True __ 14943
+[31.0, 570.0, 167.0] __ [28.81, 570.07, 169.66] __ -6.484 __ [50, 650, 100] __ True __ 14843
+[234.0, 672.0, 244.0] __ [234.07, 671.83, 243.45] __ -7.693 __ [250, 600, 300] __ True __ 14846
+[83.0, 652.0, 160.0] __ [83.09, 652.03, 159.84] __ -9.946 __ [100, 650, 200] __ True __ 14840
+[80.0, 624.0, 85.0] __ [80.05, 623.9, 84.99] __ -11.053 __ [100, 600, 100] __ True __ 15001
+[44.0, 587.0, 122.0] __ [44.14, 587.0, 122.01] __ -10.487 __ [50, 600, 150] __ True __ 14676
+[96.0, 609.0, 291.0] __ [96.28, 608.81, 291.57] __ -9.189 __ [100, 750, 300] __ True __ 15029
+[213.0, 628.0, 231.0] __ [213.1, 627.88, 231.11] __ -10.24 __ [200, 700, 250] __ True __ 14766
+[282.0, 509.0, 50.0] __ [281.44, 509.41, 50.79] __ -9.388 __ [250, 600, 50] __ True __ 14990
+[116.0, 635.0, 128.0] __ [115.75, 635.02, 128.14] __ -9.991 __ [100, 700, 150] __ True __ 14732
+[239.0, 621.0, 78.0] __ [238.82, 621.14, 77.79] __ -9.312 __ [200, 650, 100] __ True __ 14843
+[268.0, 568.0, 187.0] __ [268.0, 567.9, 186.92] __ -9.16 __ [300, 550, 200] __ True __ 14827
+[248.0, 670.0, 206.0] __ [247.65, 670.1, 206.08] __ -9.481 __ [300, 650, 200] __ True __ 14801
+[61.0, 642.0, 130.0] __ [61.04, 642.0, 130.27] __ -10.116 __ [50, 650, 150] __ True __ 15029
+[172.0, 617.0, 107.0] __ [171.23, 617.11, 106.5] __ -7.437 __ [200, 700, 100] __ True __ 15036
+[23.0, 645.0, 62.0] __ [23.63, 644.86, 61.55] __ -8.143 __ [50, 600, 50] __ True __ 14838
+[249.0, 549.0, 69.0] __ [248.95, 549.32, 69.18] __ -9.57 __ [300, 550, 100] __ True __ 14944
+[186.0, 536.0, 104.0] __ [186.08, 535.83, 104.25] __ -10.598 __ [150, 600, 150] __ True __ 14749
+[163.0, 510.0, 114.0] __ [162.75, 510.15, 113.43] __ -9.632 __ [200, 650, 100] __ True __ 14663
+[91.0, 571.0, 176.0] __ [90.73, 570.8, 176.64] __ -8.269 __ [100, 700, 150] __ True __ 14913
+[62.0, 616.0, 97.0] __ [62.09, 616.06, 96.91] __ -9.884 __ [50, 600, 150] __ True __ 14846
+[112.0, 578.0, 155.0] __ [111.79, 577.64, 156.85] __ -8.174 __ [150, 750, 150] __ True __ 14738
+[133.0, 616.0, 297.0] __ [133.23, 615.83, 297.14] __ -9.638 __ [150, 650, 250] __ True __ 14753
+[57.0, 601.0, 252.0] __ [56.9, 601.02, 251.92] __ -10.244 __ [50, 750, 250] __ True __ 14887
+[290.0, 658.0, 94.0] __ [289.83, 658.23, 93.4] __ -8.365 __ [300, 750, 100] __ True __ 14729
+[44.0, 664.0, 115.0] __ [43.89, 664.09, 115.04] __ -10.838 __ [50, 650, 100] __ True __ 14964
+[280.0, 693.0, 97.0] __ [280.45, 692.52, 96.22] __ -7.002 __ [250, 750, 150] __ True __ 14764
+[289.0, 629.0, 109.0] __ [288.59, 629.38, 108.73] __ -8.384 __ [250, 650, 150] __ True __ 14832
+[244.0, 653.0, 102.0] __ [244.08, 652.96, 101.87] __ -10.494 __ [250, 650, 100] __ True __ 14847
+[46.0, 639.0, 159.0] __ [45.97, 639.02, 158.65] __ -10.062 __ [50, 700, 200] __ True __ 14854
+[182.0, 643.0, 138.0] __ [181.85, 643.07, 138.21] __ -10.214 __ [150, 650, 150] __ True __ 14744
+[106.0, 513.0, 154.0] __ [106.16, 512.91, 153.99] __ -10.102 __ [100, 650, 150] __ True __ 14867
+[84.0, 561.0, 151.0] __ [83.87, 560.89, 151.39] __ -9.624 __ [100, 500, 200] __ True __ 14754
+[282.0, 536.0, 98.0] __ [281.93, 535.98, 97.88] __ -10.612 __ [250, 600, 100] __ True __ 14767
+[147.0, 683.0, 77.0] __ [146.89, 682.97, 76.98] __ -10.714 __ [150, 750, 100] __ True __ 14599
+[128.0, 515.0, 149.0] __ [127.98, 515.05, 148.97] __ -10.746 __ [150, 500, 150] __ True __ 14721
+[265.0, 566.0, 213.0] __ [264.84, 566.26, 212.41] __ -8.87 __ [300, 650, 250] __ True __ 14834
+[282.0, 534.0, 202.0] __ [282.14, 533.84, 202.32] __ -10.265 __ [300, 650, 200] __ True __ 14871
+[37.0, 524.0, 153.0] __ [36.91, 524.09, 152.77] __ -11.049 __ [50, 450, 200] __ True __ 14602
+[61.0, 677.0, 197.0] __ [62.04, 676.57, 198.65] __ -6.456 __ [100, 750, 150] __ True __ 14916
+[211.0, 520.0, 273.0] __ [211.16, 519.85, 272.81] __ -9.443 __ [200, 700, 300] __ True __ 14961
+[122.0, 669.0, 226.0] __ [121.82, 669.1, 226.33] __ -9.691 __ [150, 600, 250] __ True __ 14792
+[20.0, 621.0, 55.0] __ [19.58, 620.96, 55.03] __ -8.746 __ [50, 550, 50] __ True __ 14705
+[135.0, 509.0, 298.0] __ [134.83, 509.18, 298.48] __ -7.74 __ [150, 500, 300] __ True __ 14880
+[33.0, 528.0, 112.0] __ [33.31, 527.61, 112.9] __ -9.482 __ [50, 450, 150] __ True __ 14597
+[112.0, 648.0, 98.0] __ [112.02, 647.95, 97.99] __ -11.282 __ [100, 650, 200] __ True __ 14909
+[258.0, 595.0, 297.0] __ [257.98, 595.02, 296.93] __ -11.613 __ [250, 750, 300] __ True __ 14781
+[117.0, 607.0, 105.0] __ [116.86, 606.97, 104.93] __ -10.132 __ [150, 600, 100] __ True __ 14717
+[200.0, 628.0, 249.0] __ [199.87, 628.11, 249.03] __ -9.705 __ [200, 750, 300] __ True __ 14810
+[179.0, 568.0, 296.0] __ [179.01, 567.98, 296.4] __ -9.416 __ [200, 650, 250] __ True __ 14906
+[185.0, 670.0, 129.0] __ [184.82, 670.03, 129.98] __ -8.718 __ [150, 750, 150] __ True __ 14703
+[247.0, 556.0, 215.0] __ [246.82, 555.81, 215.45] __ -7.645 __ [300, 700, 200] __ True __ 14866
+[52.0, 696.0, 250.0] __ [52.0, 696.02, 250.04] __ -11.965 __ [50, 700, 250] __ True __ 14819
+[280.0, 646.0, 128.0] __ [279.94, 645.82, 129.04] __ -8.919 __ [300, 650, 150] __ True __ 14639
+[299.0, 603.0, 136.0] __ [299.2, 602.85, 136.8] __ -8.962 __ [300, 600, 150] __ True __ 14849
+[247.0, 557.0, 100.0] __ [246.97, 556.98, 99.89] __ -10.786 __ [250, 700, 100] __ True __ 14932
+[107.0, 580.0, 212.0] __ [106.62, 580.23, 212.17] __ -8.391 __ [100, 450, 250] __ True __ 14790
+[28.0, 537.0, 95.0] __ [27.95, 537.2, 94.73] __ -9.655 __ [50, 450, 100] __ True __ 14744
+[209.0, 606.0, 93.0] __ [208.97, 605.98, 93.15] __ -10.521 __ [200, 700, 100] __ True __ 14801
+[148.0, 657.0, 59.0] __ [147.75, 657.03, 58.95] __ -9.926 __ [200, 450, 150] __ True __ 14759
+[50.0, 558.0, 263.0] __ [50.62, 557.37, 262.94] __ -7.491 __ [50, 550, 300] __ True __ 14835
+[211.0, 502.0, 243.0] __ [211.04, 502.02, 243.0] __ -12.002 __ [200, 500, 250] __ True __ 14737
+[248.0, 691.0, 286.0] __ [248.04, 690.92, 285.88] __ -9.127 __ [300, 600, 300] __ True __ 14848
+[229.0, 676.0, 120.0] __ [228.68, 676.13, 119.93] __ -8.679 __ [200, 650, 150] __ True __ 14872
+[297.0, 619.0, 107.0] __ [297.24, 618.99, 107.47] __ -8.056 __ [250, 550, 150] __ True __ 14892
+[245.0, 509.0, 206.0] __ [244.86, 508.93, 205.83] __ -9.296 __ [300, 500, 200] __ True __ 14839
+[295.0, 572.0, 202.0] __ [294.9, 571.99, 201.96] __ -10.976 __ [300, 650, 200] __ True __ 14634
+[233.0, 601.0, 283.0] __ [233.15, 600.92, 283.17] __ -10.608 __ [250, 600, 300] __ True __ 14856
+[79.0, 681.0, 287.0] __ [78.92, 680.75, 288.88] __ -7.557 __ [150, 600, 250] __ True __ 14932
+[271.0, 595.0, 232.0] __ [270.97, 594.93, 232.07] __ -10.993 __ [300, 600, 250] __ True __ 14770
+[46.0, 588.0, 87.0] __ [46.01, 588.09, 87.13] __ -10.183 __ [50, 600, 100] __ True __ 14633
+[49.0, 619.0, 174.0] __ [49.12, 619.02, 173.78] __ -10.032 __ [50, 600, 200] __ True __ 14769
+[205.0, 547.0, 104.0] __ [204.9, 547.19, 103.76] __ -9.811 __ [200, 700, 100] __ True __ 14829
+[59.0, 591.0, 72.0] __ [58.4, 591.82, 71.61] __ -8.067 __ [100, 550, 50] __ True __ 14737
+[206.0, 660.0, 134.0] __ [205.91, 660.08, 133.59] __ -9.484 __ [200, 750, 150] __ True __ 15046
+[46.0, 665.0, 178.0] __ [45.74, 665.15, 177.69] __ -8.921 __ [50, 650, 200] __ True __ 14798
+[157.0, 619.0, 166.0] __ [157.06, 618.97, 165.9] __ -10.47 __ [150, 650, 200] __ True __ 14645
+[271.0, 662.0, 282.0] __ [270.84, 661.85, 282.43] __ -8.266 __ [300, 650, 300] __ True __ 14780
+[149.0, 621.0, 54.0] __ [148.9, 620.92, 53.93] __ -10.278 __ [150, 550, 50] __ True __ 14729
+[157.0, 648.0, 280.0] __ [157.0, 647.93, 280.17] __ -10.607 __ [200, 600, 250] __ True __ 14676
+[53.0, 607.0, 119.0] __ [52.88, 607.35, 118.79] __ -8.007 __ [50, 650, 100] __ True __ 14999
+[237.0, 559.0, 225.0] __ [236.98, 559.1, 224.93] __ -9.376 __ [300, 600, 250] __ True __ 14882
+[240.0, 569.0, 185.0] __ [240.13, 568.69, 184.52] __ -6.954 __ [200, 450, 300] __ True __ 14886
+[284.0, 658.0, 209.0] __ [283.55, 658.11, 208.87] __ -8.778 __ [300, 650, 300] __ True __ 14720
+[47.0, 552.0, 189.0] __ [46.57, 552.11, 189.16] __ -9.141 __ [50, 500, 200] __ True __ 14909
+[94.0, 597.0, 236.0] __ [94.15, 596.9, 235.81] __ -9.886 __ [100, 600, 300] __ True __ 15074
+[33.0, 691.0, 238.0] __ [33.14, 690.78, 237.88] __ -8.836 __ [50, 550, 200] __ True __ 14824
+[280.0, 644.0, 208.0] __ [279.99, 643.99, 208.09] __ -11.899 __ [300, 650, 200] __ True __ 14608
+[224.0, 684.0, 116.0] __ [224.04, 683.98, 116.16] __ -11.066 __ [200, 700, 150] __ True __ 14802
+[223.0, 660.0, 64.0] __ [222.78, 659.99, 63.63] __ -9.484 __ [200, 550, 100] __ True __ 14616
+[20.0, 592.0, 180.0] __ [20.35, 592.37, 178.37] __ -7.044 __ [50, 550, 250] __ True __ 14765
+[204.0, 666.0, 124.0] __ [204.05, 665.78, 125.03] __ -8.825 __ [250, 550, 150] __ True __ 15049
+[281.0, 625.0, 189.0] __ [280.97, 624.99, 188.84] __ -10.693 __ [300, 650, 200] __ True __ 14749
+[53.0, 669.0, 70.0] __ [53.11, 668.94, 70.03] __ -10.626 __ [50, 650, 100] __ True __ 14780
+[45.0, 624.0, 173.0] __ [45.04, 623.76, 173.13] __ -8.723 __ [50, 500, 150] __ True __ 14719
+[250.0, 522.0, 189.0] __ [250.09, 522.13, 188.96] __ -9.093 __ [300, 600, 200] __ True __ 15116
+Avg. dev. __ fails __ grd size
+0.6752880980850828 __ 0 __ 252
+fevals at each grid pnt: all function evals: [14785, 14811, 14789, 14672, 14943, 14843, 14846, 14840, 15001, 14676, 15029, 14766, 14990, 14732, 14843, 14827, 14801, 15029, 15036, 14838, 14944, 14749, 14663, 14913, 14846, 14738, 14753, 14887, 14729, 14964, 14764, 14832, 14847, 14854, 14744, 14867, 14754, 14767, 14599, 14721, 14834, 14871, 14602, 14916, 14961, 14792, 14705, 14880, 14597, 14909, 14781, 14717, 14810, 14906, 14703, 14866, 14819, 14639, 14849, 14932, 14790, 14744, 14801, 14759, 14835, 14737, 14848, 14872, 14892, 14839, 14634, 14856, 14932, 14770, 14633, 14769, 14829, 14737, 15046, 14798, 14645, 14780, 14729, 14676, 14999, 14882, 14886, 14720, 14909, 15074, 14824, 14608, 14802, 14616, 14765, 15049, 14749, 14780, 14719, 15116]
+
+truth __ found __ log(fx) __ p0 __ success? __ fevals
+[108.0, 590.0, 116.0] __ [-1.6591323564416953, 737.185407539158, 230.06696462163347] __ -1.887 __ [150, 600, 150] __ False __ 11906
+[50.0, 673.0, 207.0] __ [30.701594838210045, 614.425984591606, 62.70608280519724] __ -2.699 __ [150, 600, 150] __ False __ 12160
+[118.0, 513.0, 206.0] __ [50.737534247193466, 625.664917769368, 50.36638249103565] __ -2.069 __ [150, 600, 150] __ False __ 13926
+[187.0, 518.0, 64.0] __ [21.81220954715861, 755.3923193541032, 231.5309931994658] __ -1.793 __ [150, 600, 150] __ False __ 13382
+[86.0, 547.0, 243.0] __ [36.22356795993393, 732.1302085034412, 64.16436084797752] __ -2.099 __ [150, 600, 150] __ False __ 13983
+[31.0, 570.0, 167.0] __ [39.74928078194688, 630.0689709457213, 58.0887480693368] __ -2.369 __ [150, 600, 150] __ False __ 16042
+[234.0, 672.0, 244.0] __ [36.31511531259623, 611.0117658828942, 58.86320732273818] __ -2.51 __ [150, 600, 150] __ False __ 13420
+[83.0, 652.0, 160.0] __ [41.930051415713194, 636.7600533081535, 194.7121259612253] __ -2.036 __ [150, 600, 150] __ False __ 15283
+[80.0, 624.0, 85.0] __ [45.596174550497494, 630.1135621157871, 62.088036725525114] __ -2.23 __ [150, 600, 150] __ False __ 11688
+[44.0, 587.0, 122.0] __ [43.80506963479584, 618.4257352347788, 75.91694478673986] __ -3.083 __ [150, 600, 150] __ False __ 13879
+[96.0, 609.0, 291.0] __ [42.607193608136996, 617.5296361636654, 70.53331551618335] __ -3.138 __ [150, 600, 150] __ False __ 14726
+[213.0, 628.0, 231.0] __ [41.85960017929574, 627.2830346880482, 61.806520516827966] __ -2.355 __ [150, 600, 150] __ False __ 14184
+[282.0, 509.0, 50.0] __ [30.87578428820883, 629.8521582370324, 62.507210055786516] __ -2.315 __ [150, 600, 150] __ False __ 12352
+[116.0, 635.0, 128.0] __ [40.65289244244795, 615.5109645100902, 65.77189594989991] __ -2.387 __ [150, 600, 150] __ False __ 13416
+[239.0, 621.0, 78.0] __ [48.720192165692396, 629.5505113311442, 60.189389275563585] __ -1.707 __ [150, 600, 150] __ False __ 15030
+[268.0, 568.0, 187.0] __ [13.70721282600956, 735.0712555765261, 60.823304427371156] __ -2.787 __ [150, 600, 150] __ False __ 11890
+[248.0, 670.0, 206.0] __ [25.926286323537624, 738.614011470433, 49.67065663597846] __ -3.221 __ [150, 600, 150] __ False __ 14124
+[61.0, 642.0, 130.0] __ [18.46740031757726, 616.3708083490156, 53.3163926756934] __ -2.851 __ [150, 600, 150] __ False __ 11948
+[172.0, 617.0, 107.0] __ [35.25041139206625, 736.6788089360683, 55.36067795470709] __ -2.941 __ [150, 600, 150] __ False __ 13680
+[23.0, 645.0, 62.0] __ [44.43800893024671, 630.0646084304726, 53.09117376402069] __ -1.967 __ [150, 600, 150] __ False __ 14953
+[249.0, 549.0, 69.0] __ [41.84432522049063, 732.0148149624538, 63.78360289420976] __ -2.64 __ [150, 600, 150] __ False __ 14090
+[186.0, 536.0, 104.0] __ [32.79154256941824, 736.846118414222, 57.88228186658921] __ -3.149 __ [150, 600, 150] __ False __ 14212
+[163.0, 510.0, 114.0] __ [41.697922260574074, 612.4500792325534, 64.58422663862996] __ -3.146 __ [150, 600, 150] __ False __ 13124
+[91.0, 571.0, 176.0] __ [36.92811937281182, 618.9381168452605, 66.54093331691104] __ -2.675 __ [150, 600, 150] __ False __ 13903
+[62.0, 616.0, 97.0] __ [46.01039579675924, 637.3138988134472, 191.92012641324322] __ -1.903 __ [150, 600, 150] __ False __ 14395
+[112.0, 578.0, 155.0] __ [41.7533152188083, 613.5251571771482, 66.5182393178051] __ -2.934 __ [150, 600, 150] __ False __ 12895
+[133.0, 616.0, 297.0] __ [30.6954635087634, 737.3702475529295, 51.965785780058546] __ -2.796 __ [150, 600, 150] __ False __ 13605
+[57.0, 601.0, 252.0] __ [28.223216258739903, 615.8918445735394, 63.6250231480076] __ -2.359 __ [150, 600, 150] __ False __ 13026
+[290.0, 658.0, 94.0] __ [35.95547958801578, 617.3448715589225, 68.49846062448312] __ -3.285 __ [150, 600, 150] __ False __ 13962
+[44.0, 664.0, 115.0] __ [41.36902683152448, 733.2494066432687, 63.46889157603627] __ -2.201 __ [150, 600, 150] __ False __ 12161
+[280.0, 693.0, 97.0] __ [39.04918369772042, 619.4815901138899, 69.434057903008] __ -2.236 __ [150, 600, 150] __ False __ 13111
+[289.0, 629.0, 109.0] __ [19.060436140550614, 738.287882471687, 52.21174415520637] __ -3.107 __ [150, 600, 150] __ False __ 12675
+[244.0, 653.0, 102.0] __ [40.27578401308931, 625.746600091567, 61.949656073706635] __ -2.541 __ [150, 600, 150] __ False __ 11352
+[46.0, 639.0, 159.0] __ [36.80797213047846, 616.6129952361729, 67.14979708296846] __ -3.218 __ [150, 600, 150] __ False __ 13526
+[182.0, 643.0, 138.0] __ [31.418920986477303, 717.9427357796379, 74.0890616432643] __ -2.097 __ [150, 600, 150] __ False __ 11436
+[106.0, 513.0, 154.0] __ [41.56462740749163, 615.1294519808364, 65.33700382628197] __ -2.68 __ [150, 600, 150] __ False __ 13856
+[84.0, 561.0, 151.0] __ [28.267068758154455, 740.4451236665086, 195.7803319031554] __ -3.07 __ [150, 600, 150] __ False __ 13441
+[282.0, 536.0, 98.0] __ [38.03611702167562, 735.6854394254412, 57.15749765061892] __ -2.245 __ [150, 600, 150] __ False __ 12923
+[147.0, 683.0, 77.0] __ [39.20112669383318, 732.8438343287223, 63.62267443639411] __ -2.452 __ [150, 600, 150] __ False __ 14797
+[128.0, 515.0, 149.0] __ [35.670637516646465, 732.7793597822603, 63.01614885491561] __ -2.504 __ [150, 600, 150] __ False __ 13419
+[265.0, 566.0, 213.0] __ [10.71302506787535, 619.9867707192673, 63.490638048630814] __ -2.115 __ [150, 600, 150] __ False __ 10844
+[282.0, 534.0, 202.0] __ [40.825292499131436, 637.3138988179762, 197.10522969885733] __ -1.856 __ [150, 600, 150] __ False __ 15910
+[37.0, 524.0, 153.0] __ [43.49884953520498, 612.6916208201442, 71.38081167314391] __ -2.26 __ [150, 600, 150] __ False __ 13704
+[61.0, 677.0, 197.0] __ [43.02584756439686, 630.2715913787401, 62.63599364542076] __ -2.079 __ [150, 600, 150] __ False __ 13421
+[211.0, 520.0, 273.0] __ [36.44390208426944, 630.2940551937236, 59.42508645450911] __ -2.279 __ [150, 600, 150] __ False __ 14117
+[122.0, 669.0, 226.0] __ [43.40249272256931, 734.8098866658427, 62.69688687460145] __ -2.125 __ [150, 600, 150] __ False __ 15000
+[20.0, 621.0, 55.0] __ [40.35376747268425, 627.5948934604037, 63.095859518844904] __ -2.5 __ [150, 600, 150] __ False __ 11734
+[135.0, 509.0, 298.0] __ [34.495280214846254, 631.0136765849152, 55.113868830377356] __ -2.188 __ [150, 600, 150] __ False __ 11304
+[33.0, 528.0, 112.0] __ [41.73936487701784, 733.5180699735729, 63.01449372699241] __ -2.655 __ [150, 600, 150] __ False __ 12958
+[112.0, 648.0, 98.0] __ [43.48452350940031, 619.395274008423, 73.55341391057308] __ -2.581 __ [150, 600, 150] __ False __ 14619
+[258.0, 595.0, 297.0] __ [49.23606192751036, 629.980506723078, 61.53048803942289] __ -2.092 __ [150, 600, 150] __ False __ 15176
+[117.0, 607.0, 105.0] __ [38.42094545088955, 736.5855518568127, 58.19826019865934] __ -2.56 __ [150, 600, 150] __ False __ 13745
+[200.0, 628.0, 249.0] __ [27.03672392621642, 737.9027827079997, 57.772122598089] __ -3.197 __ [150, 600, 150] __ False __ 12753
+[179.0, 568.0, 296.0] __ [41.198669027870146, 735.0252429068399, 58.83560780523647] __ -2.249 __ [150, 600, 150] __ False __ 14020
+[185.0, 670.0, 129.0] __ [222.8599932529764, 629.1276409181698, 45.896718111920734] __ -2.03 __ [150, 600, 150] __ False __ 10161
+[247.0, 556.0, 215.0] __ [44.58611613916764, 735.163497979478, 59.408187225512634] __ -2.411 __ [150, 600, 150] __ False __ 14216
+[52.0, 696.0, 250.0] __ [25.698549855198948, 629.6672445737722, 71.19028674641913] __ -1.86 __ [150, 600, 150] __ False __ 11088
+[280.0, 646.0, 128.0] __ [35.85996002189478, 625.4934185923821, 71.7448778549284] __ -2.442 __ [150, 600, 150] __ False __ 12851
+[299.0, 603.0, 136.0] __ [38.780897502726134, 734.6028422854608, 63.243319535969306] __ -2.333 __ [150, 600, 150] __ False __ 14222
+[247.0, 557.0, 100.0] __ [22.18393548312255, 619.2827616427556, 68.61747125519567] __ -2.17 __ [150, 600, 150] __ False __ 12191
+[107.0, 580.0, 212.0] __ [15.59010396579328, 621.1109612574094, 221.7316920201381] __ -2.534 __ [150, 600, 150] __ False __ 11771
+[28.0, 537.0, 95.0] __ [24.41042753814508, 737.5684844330533, 52.57927595060916] __ -2.254 __ [150, 600, 150] __ False __ 12923
+[209.0, 606.0, 93.0] __ [41.04957127083302, 733.7819489701575, 59.89915830028488] __ -1.967 __ [150, 600, 150] __ False __ 15152
+[148.0, 657.0, 59.0] __ [38.668272319050914, 611.5772951946899, 62.26471035315642] __ -2.757 __ [150, 600, 150] __ False __ 14417
+[50.0, 558.0, 263.0] __ [170.20057681983081, 637.3138988424425, 67.72994541271957] __ -1.595 __ [150, 600, 150] __ False __ 12679
+[211.0, 502.0, 243.0] __ [18.553137793246727, 623.7444474518193, 72.54561392721621] __ -2.169 __ [150, 600, 150] __ False __ 11504
+[248.0, 691.0, 286.0] __ [47.77292355077729, 636.8374851512946, 189.36953706682908] __ -1.963 __ [150, 600, 150] __ False __ 15353
+[229.0, 676.0, 120.0] __ [40.671984678298585, 736.1960216292425, 60.79652645280284] __ -2.534 __ [150, 600, 150] __ False __ 13746
+[297.0, 619.0, 107.0] __ [186.05616793687653, 635.7707794021628, 61.851729543184575] __ -2.045 __ [150, 600, 150] __ False __ 11524
+[245.0, 509.0, 206.0] __ [37.99836872477597, 735.420713373417, 57.65862071926453] __ -2.308 __ [150, 600, 150] __ False __ 13095
+[295.0, 572.0, 202.0] __ [37.78347249227015, 727.0273172885798, 65.48915288781579] __ -2.289 __ [150, 600, 150] __ False __ 16923
+[233.0, 601.0, 283.0] __ [-0.05366221172727699, 754.7648393136146, 257.4108504874006] __ -1.662 __ [150, 600, 150] __ False __ 11183
+[79.0, 681.0, 287.0] __ [41.89618876851135, 736.3224946021305, 55.60692519633788] __ -2.068 __ [150, 600, 150] __ False __ 13624
+[271.0, 595.0, 232.0] __ [-36.43292078907891, 751.3244971944322, 42.09201628371043] __ -1.599 __ [150, 600, 150] __ False __ 14024
+[46.0, 588.0, 87.0] __ [32.52255424844313, 626.8638473867318, 62.653530869626294] __ -2.548 __ [150, 600, 150] __ False __ 13751
+[49.0, 619.0, 174.0] __ [42.15846253330595, 735.266683485049, 61.331880703712486] __ -2.429 __ [150, 600, 150] __ False __ 13945
+[205.0, 547.0, 104.0] __ [42.70106674026645, 614.9858290073224, 65.97986151096015] __ -2.862 __ [150, 600, 150] __ False __ 12917
+[59.0, 591.0, 72.0] __ [41.38868737391191, 628.0081741246538, 61.32894796269865] __ -2.431 __ [150, 600, 150] __ False __ 12811
+[206.0, 660.0, 134.0] __ [37.358645624290645, 735.9358559727527, 59.178470971773024] __ -2.74 __ [150, 600, 150] __ False __ 14401
+[46.0, 665.0, 178.0] __ [48.003762689878826, 517.9406619578807, 64.26546989251904] __ -2.066 __ [150, 600, 150] __ False __ 13956
+[157.0, 619.0, 166.0] __ [-39.796559161908604, 750.329477021405, 47.95682194222432] __ -1.727 __ [150, 600, 150] __ False __ 13813
+[271.0, 662.0, 282.0] __ [47.36074969011247, 721.5122462650659, 63.19390199367554] __ -2.099 __ [150, 600, 150] __ False __ 14478
+[149.0, 621.0, 54.0] __ [40.816426131087496, 629.3336215485631, 61.70520624859179] __ -2.125 __ [150, 600, 150] __ False __ 13310
+[157.0, 648.0, 280.0] __ [32.261771200188036, 737.4087108432608, 54.07088839350371] __ -2.841 __ [150, 600, 150] __ False __ 13241
+[53.0, 607.0, 119.0] __ [43.664397905087604, 630.1389907971461, 60.424968016634764] __ -2.268 __ [150, 600, 150] __ False __ 12353
+[237.0, 559.0, 225.0] __ [34.347670081864564, 736.07941994099, 60.773106208136454] __ -2.405 __ [150, 600, 150] __ False __ 15390
+[240.0, 569.0, 185.0] __ [17.462885857121655, 633.9971980427019, 68.20273471375748] __ -1.813 __ [150, 600, 150] __ False __ 12716
+[284.0, 658.0, 209.0] __ [45.274075057787385, 610.6304520823617, 61.37272942276797] __ -3.008 __ [150, 600, 150] __ False __ 13229
+[47.0, 552.0, 189.0] __ [34.82181324284289, 735.8564694840883, 58.12979235999332] __ -2.492 __ [150, 600, 150] __ False __ 13766
+[94.0, 597.0, 236.0] __ [29.265609744368362, 738.4162242688124, 56.3087735731561] __ -2.612 __ [150, 600, 150] __ False __ 14036
+[33.0, 691.0, 238.0] __ [41.71979737759078, 733.8181291072085, 59.739568187484636] __ -2.026 __ [150, 600, 150] __ False __ 14024
+[280.0, 644.0, 208.0] __ [-8.373068843822047, 744.8335343736421, 45.713643544010566] __ -2.271 __ [150, 600, 150] __ False __ 11165
+[224.0, 684.0, 116.0] __ [37.69790582645341, 726.3520894504454, 63.33439680399353] __ -2.157 __ [150, 600, 150] __ False __ 16929
+[223.0, 660.0, 64.0] __ [22.63832450312848, 736.9437805736709, 57.99462307237211] __ -2.425 __ [150, 600, 150] __ False __ 12627
+[20.0, 592.0, 180.0] __ [41.271906751233686, 614.0833874125683, 66.67584239771976] __ -2.353 __ [150, 600, 150] __ False __ 14772
+[204.0, 666.0, 124.0] __ [37.11459846167608, 631.9363649815882, 211.3391389038568] __ -2.211 __ [150, 600, 150] __ False __ 14640
+[281.0, 625.0, 189.0] __ [37.144475325273405, 631.6632045687222, 212.1030893318644] __ -1.82 __ [150, 600, 150] __ False __ 15388
+[53.0, 669.0, 70.0] __ [47.4742065825329, 732.6223563496551, 64.95294995826404] __ -2.242 __ [150, 600, 150] __ False __ 15517
+[45.0, 624.0, 173.0] __ [49.04751547383532, 635.9580141526326, 188.28326788449408] __ -1.824 __ [150, 600, 150] __ False __ 17758
+[250.0, 522.0, 189.0] __ [42.99445423237671, 632.235067517324, 60.04557109793767] __ -1.921 __ [150, 600, 150] __ False __ 13785
+Avg. dev. __ fails __ grd size
+nan __ 0 __ 252
+fevals at each grid pnt: all function evals: []
+
+truth __ found __ log(fx) __ p0 __ success? __ fevals
+[108.0, 590.0, 116.0] __ [260.82, 769.31, 207.29] __ -1.743 __ [300, 750, 250] __ False __ 14979
+[50.0, 673.0, 207.0] __ [29.32, 619.14, 70.44] __ -2.57 __ [50, 600, 50] __ False __ 14975
+[118.0, 513.0, 206.0] __ [44.98, 386.63, 76.47] __ -2.325 __ [50, 550, 100] __ False __ 15044
+[187.0, 518.0, 64.0] __ [32.69, 826.69, 79.42] __ -1.8 __ [100, 650, 100] __ False __ 15040
+[86.0, 547.0, 243.0] __ [36.42, 398.16, 61.66] __ -2.544 __ [50, 450, 50] __ False __ 15049
+[31.0, 570.0, 167.0] __ [39.25, 630.56, 58.68] __ -2.365 __ [50, 650, 100] __ False __ 14955
+[234.0, 672.0, 244.0] __ [36.56, 611.78, 60.93] __ -2.401 __ [50, 550, 50] __ False __ 14965
+[83.0, 652.0, 160.0] __ [46.8, 288.61, 55.4] __ -2.222 __ [50, 450, 50] __ False __ 15085
+[80.0, 624.0, 85.0] __ [48.19, 284.9, 60.82] __ -2.743 __ [50, 450, 50] __ False __ 15098
+[44.0, 587.0, 122.0] __ [43.71, 618.43, 76.13] __ -3.081 __ [50, 550, 100] __ False __ 15005
+[96.0, 609.0, 291.0] __ [45.43, 609.22, 58.46] __ -3.455 __ [50, 600, 50] __ False __ 15058
+[213.0, 628.0, 231.0] __ [42.33, 626.75, 61.68] __ -2.347 __ [50, 600, 50] __ False __ 15078
+[282.0, 509.0, 50.0] __ [31.33, 630.47, 64.11] __ -2.277 __ [50, 500, 100] __ False __ 14838
+[116.0, 635.0, 128.0] __ [40.19, 616.42, 65.9] __ -2.372 __ [50, 500, 100] __ False __ 15011
+[239.0, 621.0, 78.0] __ [51.24, 285.06, 59.84] __ -1.977 __ [50, 450, 50] __ False __ 15309
+[268.0, 568.0, 187.0] __ [16.33, 730.16, 69.81] __ -2.384 __ [50, 700, 50] __ False __ 14937
+[248.0, 670.0, 206.0] __ [40.61, 839.52, 65.36] __ -2.315 __ [50, 650, 100] __ False __ 14976
+[61.0, 642.0, 130.0] __ [15.4, 626.65, 65.44] __ -2.485 __ [50, 550, 50] __ False __ 15001
+[172.0, 617.0, 107.0] __ [35.21, 736.73, 55.25] __ -2.941 __ [50, 750, 50] __ False __ 14925
+[23.0, 645.0, 62.0] __ [41.45, 397.69, 65.22] __ -2.151 __ [50, 550, 50] __ False __ 15095
+[249.0, 549.0, 69.0] __ [45.4, 727.77, 68.86] __ -2.459 __ [50, 600, 100] __ False __ 15053
+[186.0, 536.0, 104.0] __ [32.89, 736.93, 59.09] __ -3.122 __ [50, 650, 50] __ False __ 14968
+[163.0, 510.0, 114.0] __ [41.34, 612.27, 64.42] __ -3.104 __ [50, 500, 100] __ False __ 15013
+[91.0, 571.0, 176.0] __ [37.04, 618.41, 65.94] __ -2.673 __ [50, 600, 50] __ False __ 14941
+[62.0, 616.0, 97.0] __ [40.96, 394.99, 65.87] __ -2.224 __ [50, 600, 50] __ False __ 15076
+[112.0, 578.0, 155.0] __ [42.06, 614.62, 67.65] __ -2.851 __ [50, 500, 100] __ False __ 15082
+[133.0, 616.0, 297.0] __ [34.51, 736.68, 63.15] __ -2.653 __ [100, 550, 100] __ False __ 14916
+[57.0, 601.0, 252.0] __ [27.81, 618.23, 67.18] __ -2.337 __ [50, 550, 50] __ False __ 14917
+[290.0, 658.0, 94.0] __ [35.99, 617.12, 68.47] __ -3.278 __ [50, 550, 100] __ False __ 14942
+[44.0, 664.0, 115.0] __ [46.84, 283.85, 62.64] __ -2.336 __ [50, 450, 50] __ False __ 15061
+[280.0, 693.0, 97.0] __ [39.63, 610.91, 55.21] __ -1.971 __ [50, 550, 50] __ False __ 14956
+[289.0, 629.0, 109.0] __ [18.26, 746.75, 408.99] __ -2.46 __ [50, 750, 300] __ False __ 14855
+[244.0, 653.0, 102.0] __ [40.77, 625.88, 61.49] __ -2.537 __ [100, 650, 100] __ False __ 15060
+[46.0, 639.0, 159.0] __ [36.13, 616.42, 65.7] __ -3.04 __ [50, 500, 100] __ False __ 14976
+[182.0, 643.0, 138.0] __ [23.76, 395.2, 68.41] __ -1.977 __ [50, 450, 50] __ False __ 14967
+[106.0, 513.0, 154.0] __ [41.43, 614.94, 64.96] __ -2.671 __ [50, 500, 100] __ False __ 14956
+[84.0, 561.0, 151.0] __ [25.49, 737.32, 53.51] __ -2.594 __ [50, 750, 50] __ False __ 14835
+[282.0, 536.0, 98.0] __ [38.29, 735.81, 56.97] __ -2.241 __ [50, 600, 100] __ False __ 15032
+[147.0, 683.0, 77.0] __ [38.8, 732.78, 62.2] __ -2.439 __ [100, 650, 100] __ False __ 15043
+[128.0, 515.0, 149.0] __ [34.07, 734.01, 57.92] __ -2.41 __ [100, 750, 50] __ False __ 14948
+[265.0, 566.0, 213.0] __ [10.1, 1071.01, 68.42] __ -2.473 __ [100, 500, 100] __ False __ 14912
+[282.0, 534.0, 202.0] __ [36.61, 394.52, 64.15] __ -2.145 __ [50, 450, 50] __ False __ 14948
+[37.0, 524.0, 153.0] __ [43.5, 612.79, 71.3] __ -2.258 __ [50, 550, 100] __ False __ 15023
+[61.0, 677.0, 197.0] __ [47.15, 284.23, 62.91] __ -2.646 __ [50, 450, 50] __ False __ 15068
+[211.0, 520.0, 273.0] __ [36.36, 630.36, 59.32] __ -2.279 __ [50, 550, 50] __ False __ 14934
+[122.0, 669.0, 226.0] __ [46.72, 288.23, 60.72] __ -2.706 __ [50, 450, 50] __ False __ 15133
+[20.0, 621.0, 55.0] __ [40.61, 628.02, 62.94] __ -2.497 __ [50, 500, 100] __ False __ 15068
+[135.0, 509.0, 298.0] __ [34.38, 631.13, 55.06] __ -2.188 __ [50, 500, 100] __ False __ 14900
+[33.0, 528.0, 112.0] __ [41.33, 733.43, 62.19] __ -2.647 __ [50, 550, 100] __ False __ 15084
+[112.0, 648.0, 98.0] __ [43.66, 619.27, 73.62] __ -2.578 __ [50, 550, 100] __ False __ 15067
+[258.0, 595.0, 297.0] __ [52.21, 285.06, 58.3] __ -2.728 __ [50, 450, 50] __ False __ 15125
+[117.0, 607.0, 105.0] __ [38.38, 736.7, 59.01] __ -2.55 __ [50, 600, 100] __ False __ 14995
+[200.0, 628.0, 249.0] __ [28.69, 737.36, 61.65] __ -2.949 __ [50, 550, 50] __ False __ 14918
+[179.0, 568.0, 296.0] __ [45.14, 627.58, 56.89] __ -2.202 __ [50, 650, 100] __ False __ 15146
+[185.0, 670.0, 129.0] __ [222.18, 629.26, 46.12] __ -2.019 __ [250, 650, 50] __ False __ 14868
+[247.0, 556.0, 215.0] __ [49.31, 286.41, 60.74] __ -2.301 __ [50, 450, 50] __ False __ 15097
+[52.0, 696.0, 250.0] __ [23.52, 827.87, 83.45] __ -1.914 __ [50, 650, 100] __ False __ 14985
+[280.0, 646.0, 128.0] __ [35.79, 625.67, 72.44] __ -2.439 __ [50, 500, 100] __ False __ 14974
+[299.0, 603.0, 136.0] __ [38.6, 734.79, 62.77] __ -2.332 __ [50, 600, 100] __ False __ 15065
+[247.0, 557.0, 100.0] __ [21.82, 619.39, 69.25] __ -2.168 __ [50, 550, 50] __ False __ 14936
+[107.0, 580.0, 212.0] __ [18.03, 630.02, 69.08] __ -1.98 __ [50, 550, 50] __ False __ 14890
+[28.0, 537.0, 95.0] __ [31.81, 615.26, 62.64] __ -2.263 __ [50, 550, 50] __ False __ 14901
+[209.0, 606.0, 93.0] __ [38.49, 735.46, 53.42] __ -1.864 __ [50, 750, 50] __ False __ 14997
+[148.0, 657.0, 59.0] __ [37.49, 614.96, 67.93] __ -2.617 __ [50, 500, 100] __ False __ 14881
+[50.0, 558.0, 263.0] __ [2.56, 827.91, 72.07] __ -2.117 __ [50, 550, 100] __ False __ 14949
+[211.0, 502.0, 243.0] __ [18.68, 623.48, 73.11] __ -2.167 __ [50, 500, 100] __ False __ 14918
+[248.0, 691.0, 286.0] __ [52.35, 288.24, 59.18] __ -2.213 __ [50, 450, 50] __ False __ 15167
+[229.0, 676.0, 120.0] __ [40.77, 736.07, 62.18] __ -2.526 __ [50, 600, 100] __ False __ 15058
+[297.0, 619.0, 107.0] __ [186.25, 635.79, 61.82] __ -2.044 __ [150, 650, 50] __ False __ 14991
+[245.0, 509.0, 206.0] __ [42.67, 614.45, 67.48] __ -2.556 __ [50, 750, 100] __ False __ 14972
+[295.0, 572.0, 202.0] __ [272.04, 769.22, 212.15] __ -2.698 __ [300, 750, 250] __ False __ 15066
+[233.0, 601.0, 283.0] __ [263.65, 768.62, 211.09] __ -1.681 __ [300, 750, 250] __ False __ 15019
+[79.0, 681.0, 287.0] __ [45.84, 616.43, 72.02] __ -2.369 __ [50, 550, 100] __ False __ 15095
+[271.0, 595.0, 232.0] __ [163.94, 900.23, 192.34] __ -1.931 __ [200, 750, 200] __ False __ 15036
+[46.0, 588.0, 87.0] __ [32.43, 627.03, 62.59] __ -2.547 __ [50, 600, 50] __ False __ 14917
+[49.0, 619.0, 174.0] __ [42.03, 735.26, 61.17] __ -2.428 __ [50, 600, 100] __ False __ 15012
+[205.0, 547.0, 104.0] __ [42.59, 615.79, 66.41] __ -2.845 __ [50, 600, 50] __ False __ 14952
+[59.0, 591.0, 72.0] __ [46.6, 284.76, 63.35] __ -2.583 __ [50, 450, 50] __ False __ 15103
+[206.0, 660.0, 134.0] __ [37.02, 736.07, 58.63] __ -2.732 __ [50, 600, 100] __ False __ 14926
+[46.0, 665.0, 178.0] __ [43.82, 394.92, 67.84] __ -2.218 __ [50, 450, 50] __ False __ 15057
+[157.0, 619.0, 166.0] __ [-30.24, 747.74, 60.16] __ -1.523 __ [50, 600, 50] __ False __ 14979
+[271.0, 662.0, 282.0] __ [48.3, 288.28, 60.55] __ -2.854 __ [50, 450, 50] __ False __ 15140
+[149.0, 621.0, 54.0] __ [45.9, 282.23, 63.72] __ -2.365 __ [50, 450, 50] __ False __ 14998
+[157.0, 648.0, 280.0] __ [38.08, 613.17, 67.42] __ -2.401 __ [100, 500, 100] __ False __ 15052
+[53.0, 607.0, 119.0] __ [47.06, 284.04, 63.0] __ -2.495 __ [50, 450, 50] __ False __ 14987
+[237.0, 559.0, 225.0] __ [34.17, 735.64, 60.86] __ -2.395 __ [50, 650, 100] __ False __ 15008
+[240.0, 569.0, 185.0] __ [171.19, 417.14, 51.95] __ -2.6 __ [150, 500, 100] __ False __ 15059
+[284.0, 658.0, 209.0] __ [45.24, 610.84, 61.86] __ -2.997 __ [50, 600, 50] __ False __ 14872
+[47.0, 552.0, 189.0] __ [34.81, 735.97, 57.71] __ -2.49 __ [50, 750, 50] __ False __ 15056
+[94.0, 597.0, 236.0] __ [38.24, 839.86, 62.87] __ -2.764 __ [50, 550, 100] __ False __ 15023
+[33.0, 691.0, 238.0] __ [47.51, 286.15, 62.05] __ -2.122 __ [50, 450, 50] __ False __ 15125
+[280.0, 644.0, 208.0] __ [4.77, 834.19, 73.3] __ -1.963 __ [50, 550, 100] __ False __ 14977
+[224.0, 684.0, 116.0] __ [46.22, 417.47, 173.19] __ -2.414 __ [50, 500, 150] __ False __ 15021
+[223.0, 660.0, 64.0] __ [34.68, 831.31, 72.46] __ -2.146 __ [50, 550, 100] __ False __ 14956
+[20.0, 592.0, 180.0] __ [36.82, 735.4, 57.3] __ -2.285 __ [50, 600, 100] __ False __ 14880
+[204.0, 666.0, 124.0] __ [37.65, 631.95, 209.84] __ -2.182 __ [50, 650, 150] __ False __ 15154
+[281.0, 625.0, 189.0] __ [48.08, 284.58, 56.75] __ -2.203 __ [50, 450, 50] __ False __ 15156
+[53.0, 669.0, 70.0] __ [48.49, 289.18, 60.16] __ -2.354 __ [50, 450, 50] __ False __ 15100
+[45.0, 624.0, 173.0] __ [57.87, 282.26, 57.23] __ -2.225 __ [50, 450, 50] __ False __ 15181
+[250.0, 522.0, 189.0] __ [43.31, 631.99, 59.82] __ -1.917 __ [50, 750, 50] __ False __ 15046
+Avg. dev. __ fails __ grd size
+376.3738356885469 __ 100 __ 252
+fevals at each grid pnt: all function evals: [14979, 14975, 15044, 15040, 15049, 14955, 14965, 15085, 15098, 15005, 15058, 15078, 14838, 15011, 15309, 14937, 14976, 15001, 14925, 15095, 15053, 14968, 15013, 14941, 15076, 15082, 14916, 14917, 14942, 15061, 14956, 14855, 15060, 14976, 14967, 14956, 14835, 15032, 15043, 14948, 14912, 14948, 15023, 15068, 14934, 15133, 15068, 14900, 15084, 15067, 15125, 14995, 14918, 15146, 14868, 15097, 14985, 14974, 15065, 14936, 14890, 14901, 14997, 14881, 14949, 14918, 15167, 15058, 14991, 14972, 15066, 15019, 15095, 15036, 14917, 15012, 14952, 15103, 14926, 15057, 14979, 15140, 14998, 15052, 14987, 15008, 15059, 14872, 15056, 15023, 15125, 14977, 15021, 14956, 14880, 15154, 15156, 15100, 15181, 15046]
+

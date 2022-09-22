@@ -138,19 +138,26 @@ if __name__ == '__main__':
     # p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
     # p_opt = np.array([142.5, 541.3, 174.4]) * um_to_m
     #p_opt = array([29, 850, 37]) * um_to_m
-    p_opt = array([118.0, 513.0, 206.0]) * um_to_m
+    p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
+    p_opt1 = np.array([74.4, 641.3, 42.5]) * um_to_m
     #   p_opt = array([206.0, 513.0, 118.0]) * um_to_m
     # p_opt = np.array([20, 350, 120]) * um_to_m
 
     sam_idx = 78
-    # phase_measured = get_measured_phase(freqs, sam_idx)
+    phase_measured = get_measured_phase(freqs, sam_idx)
+    amplitude_measured = get_measured_amplitude(freqs, sam_idx)
 
-    # limited_slice = np.abs(phase_measured) <= pi
-    # phase_measured = phase_measured[limited_slice]
-    # freqs = freqs[limited_slice]
+    #limited_slice = np.abs(phase_measured) <= pi
+    #phase_measured = phase_measured[limited_slice]
+    #amplitude_measured = amplitude_measured[limited_slice]
+    #freqs = freqs[limited_slice]
 
     phase_mod = get_phase(freqs, p_opt, n)
     amp_mod = get_amplitude(freqs, p_opt, n)
+
+    phase_mod1 = get_phase(freqs, p_opt1, n)
+    amp_mod1 = get_amplitude(freqs, p_opt1, n)
+
     slope_slice = (freqs < 1400 * GHz) * (freqs >= 1 * GHz)
     print(sum(slope_slice))
     print(np.mean(np.diff(unwrap(phase_mod))))
@@ -162,22 +169,23 @@ if __name__ == '__main__':
     plt.legend()
 
     fig, (ax1, ax2) = plt.subplots(1, 2)
-    ax1.plot(freqs / GHz, phase_mod, label=f"phase model, {p_opt * 10 ** 6}")
-    # ax1.plot(freqs / GHz, phase_measured, label="phase measured")
+    ax1.plot(freqs / GHz, phase_mod, label=f"Phase model, {p_opt * 10 ** 6}")
+    ax1.plot(freqs / GHz, phase_mod1, label=f"Phase model, {p_opt1 * 10 ** 6}")
     ax1.set_xlabel("frequency (GHz)")
     ax1.set_ylabel("phase (rad)")
     ax1.legend()
 
-    ax2.plot(freqs / GHz, amp_mod, label=f"amplitude model, {p_opt * 10 ** 6}")
+    ax2.plot(freqs / GHz, amp_mod, label=f"Amplitude model, {p_opt * 10 ** 6}")
+    ax2.plot(freqs / GHz, amp_mod1, label=f"Amplitude model, {p_opt1 * 10 ** 6}")
     selected_freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * 1000
     selected_freqs = array([0.020, 0.060, 0.150, 0.550, 0.640, 0.760]) * 1000
     for xc in selected_freqs:
+        continue
         ax2.axvline(x=xc, color="red")
     ax2.set_xlabel("frequency (GHz)")
-    ax2.set_ylabel("amp (a.u.)")
+    ax2.set_ylabel("I (a.u.)")
     ax2.legend()
-
-    print(amp_mod[10])
+    plt.show()
 
     plt.figure()
 
