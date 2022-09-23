@@ -210,6 +210,28 @@ def mult_2x2_matrix_chain(arr_in):
     return M_out
 
 
+def count_minima(y):
+    mean_val = np.mean(y)
+    y_minima = y[y < mean_val]
+
+    # min distance to last saddle point
+    zero_passes = 0
+    last_minima = np.inf
+    threshold_distance = 0  # min distance between minima
+    was_close0 = False
+    for idx, isclose0 in enumerate(np.isclose(np.diff(y_minima), 0, atol=2e-7)):
+        dist_last_minima = abs(idx - last_minima)
+        if isclose0 * (dist_last_minima > threshold_distance) * (not was_close0):
+            zero_passes += 1
+            print(dist_last_minima)
+            last_minima = idx
+        if isclose0:
+            was_close0 = True
+        else:
+            was_close0 = False
+    print("minima count :", zero_passes)
+
+
 if __name__ == '__main__':
     from consts import wide_mask
 

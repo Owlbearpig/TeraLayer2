@@ -19,7 +19,6 @@ mpl.rcParams['ytick.direction'] = 'in'
 # plt.xkcd()
 mpl.rcParams.update({'font.size': 22})
 
-
 # print(mpl.rcParams.keys())
 
 

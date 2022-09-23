@@ -49,10 +49,10 @@ plt.rcParams.update({'font.size': 16})
 
 color_lst = ["blue", "red", "green"]
 
-#ax2.scatter(sample_idx_py, truths[:, 0], label=f"d{0} truth", s=dot_size, zorder=1, color=color_lst[0], alpha=0.24)
-#ax.scatter(sample_idx_py, truths[:, 1], label=f"d{1} truth", s=dot_size, zorder=1, color=color_lst[1], alpha=0.24)
-#ax2.scatter(0, -10, label=f"d{1} truth", s=dot_size, zorder=1, color=color_lst[1], alpha=0.24)  # legend hack ...
-#ax2.scatter(sample_idx_py, truths[:, 2], label=f"d{2} truth", s=dot_size, zorder=1, color=color_lst[2], alpha=0.24)
+ax2.scatter(sample_idx_py, truths[:, 0], label=f"d{0} truth", s=dot_size, zorder=1, color=color_lst[0], alpha=0.24)
+ax.scatter(sample_idx_py, truths[:, 1], label=f"d{1} truth", s=dot_size, zorder=1, color=color_lst[1], alpha=0.24)
+ax2.scatter(0, -10, label=f"d{1} truth", s=dot_size, zorder=1, color=color_lst[1], alpha=0.24)  # legend hack ...
+ax2.scatter(sample_idx_py, truths[:, 2], label=f"d{2} truth", s=dot_size, zorder=1, color=color_lst[2], alpha=0.24)
 
 dot_size -= 20
 ax2.scatter(sample_idx_py, results[:, 0], label=f"d{0} opt. res.", s=dot_size, zorder=2, color=color_lst[0], marker=(5, 2))
