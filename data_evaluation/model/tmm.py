@@ -1,12 +1,13 @@
 import numpy as np
 from numpy import cos, sin, arcsin, exp, dot, conj, pi
-from consts import um_to_m, c0, THz, GHz
+from consts import um_to_m, c0, THz, GHz, array
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from numba import jit
 from model.refractive_index import get_n, get_n_no_dispersion
 from scipy.optimize import curve_fit
 from model.measurement_data import get_measured_phase, get_measured_amplitude
+from functions import noise_gen
 
 mpl.rcParams['axes.grid'] = True
 mpl.rcParams['lines.marker'] = 'o'
@@ -17,7 +18,7 @@ mpl.rcParams['xtick.direction'] = 'in'
 mpl.rcParams['ytick.direction'] = 'in'
 # plt.style.use(['dark_background'])
 # plt.xkcd()
-mpl.rcParams.update({'font.size': 22})
+mpl.rcParams.update({'font.size': 16})
 
 # print(mpl.rcParams.keys())
 
@@ -58,15 +59,7 @@ def multir_complex(freqs, p, n):
                                             [-ra[s + 1], 1]], dtype=np.complex128)
             P = np.array([[exp(-fi[s] * 1j), 0], [0, exp(fi[s] * 1j)]])
             M = dot(M, dot(P, Q))
-        """
-        if np.isclose(freqs[h], 64*GHz):
-            print(freqs[h])
-            #print(fi)
-            print("ra", -ra)
-            print("rb", rb)
-            #print(M)
-            exit()
-        """
+
         r[h] = M[0, 1] / M[1, 1]
 
     return r
@@ -123,8 +116,6 @@ def thickest_layer_approximation(freqs, model_data):
 
 
 if __name__ == '__main__':
-    from consts import array
-
     # freqs = array([0.400, 0.480, 0.560, 0.640, 0.720, 0.800]) * THz
     all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
     freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz
@@ -133,85 +124,43 @@ if __name__ == '__main__':
 
     #n = get_n_no_dispersion(freqs, 2.70)
 
-    print(n[0, :])
     # p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
-    # p_opt = np.array([142.5, 541.3, 174.4]) * um_to_m
-    #p_opt = array([29, 850, 37]) * um_to_m
     p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
-    p_opt1 = np.array([74.4, 641.3, 42.5]) * um_to_m
-    #   p_opt = array([206.0, 513.0, 118.0]) * um_to_m
-    # p_opt = np.array([20, 350, 120]) * um_to_m
+    #p_opt1 = np.array([74.4, 641.3, 42.5]) * um_to_m
+    p_opt1 = np.array([42.5, 641.3, 74.4]) * um_to_m
 
     sam_idx = 78
     phase_measured = get_measured_phase(freqs, sam_idx)
     amplitude_measured = get_measured_amplitude(freqs, sam_idx)
 
-    #limited_slice = np.abs(phase_measured) <= pi
-    #phase_measured = phase_measured[limited_slice]
-    #amplitude_measured = amplitude_measured[limited_slice]
-    #freqs = freqs[limited_slice]
+    limited_slice = np.abs(phase_measured) <= pi
+    phase_measured = phase_measured[limited_slice]
+    amplitude_measured = amplitude_measured[limited_slice]
+    freqs_filtered = freqs[limited_slice]
 
     phase_mod = get_phase(freqs, p_opt, n)
     amp_mod = get_amplitude(freqs, p_opt, n)
 
-    phase_mod1 = get_phase(freqs, p_opt1, n)
-    amp_mod1 = get_amplitude(freqs, p_opt1, n)
-
-    slope_slice = (freqs < 1400 * GHz) * (freqs >= 1 * GHz)
-    print(sum(slope_slice))
-    print(np.mean(np.diff(unwrap(phase_mod))))
-
-    plt.figure()
-    plt.plot(freqs[:-1] / GHz, np.diff(unwrap(phase_mod)), label=f"{p_opt * 10 ** 6}")
-    plt.xlabel("frequency (GHz)")
-    plt.ylabel("phase diff (rad)")
-    plt.legend()
+    noise_amp, noise_phase = noise_gen(freqs, True, scale=0.08), noise_gen(freqs, True, scale=0.15)
+    phase_mod1 = get_phase(freqs, p_opt1, n) + noise_phase
+    amp_mod1 = get_amplitude(freqs, p_opt1, n) + noise_amp
 
     fig, (ax1, ax2) = plt.subplots(1, 2)
     ax1.plot(freqs / GHz, phase_mod, label=f"Phase model, {p_opt * 10 ** 6}")
     ax1.plot(freqs / GHz, phase_mod1, label=f"Phase model, {p_opt1 * 10 ** 6}")
+    ax1.plot(freqs_filtered / GHz, phase_measured, label=f"Phase measured, sam_idx: {sam_idx}")
     ax1.set_xlabel("frequency (GHz)")
     ax1.set_ylabel("phase (rad)")
     ax1.legend()
 
     ax2.plot(freqs / GHz, amp_mod, label=f"Amplitude model, {p_opt * 10 ** 6}")
     ax2.plot(freqs / GHz, amp_mod1, label=f"Amplitude model, {p_opt1 * 10 ** 6}")
+    ax2.plot(freqs_filtered / GHz, amplitude_measured, label=f"Amplitude measured, sam_idx: {sam_idx}")
     selected_freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * 1000
-    selected_freqs = array([0.020, 0.060, 0.150, 0.550, 0.640, 0.760]) * 1000
     for xc in selected_freqs:
-        continue
         ax2.axvline(x=xc, color="red")
     ax2.set_xlabel("frequency (GHz)")
     ax2.set_ylabel("I (a.u.)")
     ax2.legend()
     plt.show()
 
-    plt.figure()
-
-    def sine(x, a, omega):
-        return a * np.sin(x * omega) ** 2
-
-
-    fit_slice = (0 * GHz < all_freqs) * (all_freqs < 150 * GHz)
-    selected_freqs = selected_freqs[:2] * GHz
-    selected_mod_points = get_amplitude(selected_freqs, p_opt, n)
-
-    p0 = array([0.554, 0.038])  # sine
-    popt, pcov = curve_fit(sine, selected_freqs / GHz, selected_mod_points, p0=p0)
-    print(popt)
-    print(pi / popt[1])
-    print(10 ** 6 * c0 / (2 * 2.7 * (pi / popt[1]) * GHz))
-    thickness = 10 ** 6 * c0 / (2 * 2.7 * (pi / popt[1]) * GHz)
-    plt.title(r"Fit of A$\sin(\nu\omega)^2$")
-    plt.text(110, 0.15, fr"$\pi/\omega={round(pi / popt[1], 2)}$ GHz")
-    plt.text(110, 0.05, r"$\frac{mc}{2n\omega}=$")
-    plt.text(120, 0.05, rf"{round(thickness, 1)} ($\mu$m)")
-    plt.plot(all_freqs[fit_slice] / GHz, amp_mod[fit_slice], label=f"Model {p_opt * 10 ** 6} ($\mu$m)")
-    plt.scatter(selected_freqs / GHz, selected_mod_points, color="red", label="Model at selected frequencies", s=40)
-    plt.plot(all_freqs[fit_slice] / GHz, sine(all_freqs[fit_slice] / GHz, *popt), label="Sine fit")
-    # plt.plot(all_freqs[fit_slice] / GHz, sine(all_freqs[fit_slice] / GHz, *p0), label="sine fit at p0")
-
-    plt.xlabel("Frequency (GHz)")
-    plt.ylabel("Intensity (a.u.)")
-    plt.legend(loc='upper right')
-    plt.show()

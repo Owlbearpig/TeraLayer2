@@ -4,20 +4,19 @@ from model.tmm import get_amplitude, get_phase, thickest_layer_approximation
 from model.refractive_index import get_n
 from optimization.nelder_mead_nD import Point
 import matplotlib.pyplot as plt
+from functions import noise_gen
 
 
 class Cost:
     def __init__(self, freqs, p_solution):
         self.freqs = freqs
         self.n = get_n(freqs, n_min=2.8, n_max=2.8)
-        en_noise = False
-        if en_noise:
-            noise = (0.9 + np.random.random(len(freqs)) * 0.2)
-        else:
-            noise = 1
+        self.en_noise = True
+        noise_amp = noise_gen(self.freqs, self.en_noise, scale=0.08, seed=420)
+        noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.15, seed=421)
 
-        self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) * noise
-        self.R0_phase = get_phase(freqs, p_solution * um_to_m, self.n) * noise
+        self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) + noise_amp
+        self.R0_phase = get_phase(freqs, p_solution * um_to_m, self.n) + noise_phase
 
     def cost(self, point, *args):
         def cost_function(p):
@@ -25,15 +24,9 @@ class Cost:
             phase_loss = sum((get_phase(self.freqs, p, self.n) - self.R0_phase) ** 2)
 
             loss = np.log10(amp_loss * phase_loss)
-            # loss = np.log10(amp_loss)
-            # loss = amp_loss * phase_loss
 
             return loss
 
-        point = Point()
-        print(type(point), type(Point))
-        print(isinstance(point, Point))
-        exit()
         if isinstance(point, Point):
             p = array([point.x[0], point.x[1], point.x[2]], dtype=float) * um_to_m
 
@@ -46,7 +39,7 @@ class Cost:
 
 if __name__ == '__main__':
     freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz  # pretty good
-    p_sol = array([118.0, 513.0, 206.0]) * um_to_m
+    p_sol = array([118.0, 513.0, 206.0])
 
     new_cost = Cost(freqs, p_sol)
     cost_func = new_cost.cost

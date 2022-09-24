@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 from model.initial_tests.multir_numba import multir_numba
 import pandas as pd
 from consts import *
@@ -230,6 +231,18 @@ def count_minima(y):
         else:
             was_close0 = False
     print("minima count :", zero_passes)
+
+
+def noise_gen(freqs, enabled, scale=1, seed=420):
+    np.random.seed(seed)
+    if enabled:
+        noise = np.random.normal(0, scale, len(freqs))
+        #plt.plot(noise2)
+        #plt.show()
+
+        return noise
+    else:
+        return np.ones_like(freqs)
 
 
 if __name__ == '__main__':

@@ -235,7 +235,7 @@ def nm_gridsearch(cost_func, p0, grid_spacing=50):
         # solution in p0 of simplex
         print("solution (simplex.p0):", simplex.p[0])
 
-        if simplex.p[0].fx < res["fx"]:
+        if simplex.p[0].fx < res["fun"]:
             res["x"], res["fun"], res["lstart"] = simplex.p[0].x, simplex.p[0].fx, start_val
     if verbose:
         print("Best minimum: ", np.round(res["x"], 2), res["fun"])
@@ -243,18 +243,4 @@ def nm_gridsearch(cost_func, p0, grid_spacing=50):
     return res
 
 
-if __name__ == '__main__':
-    from model.cost_function import Cost
-    from numpy.random import uniform
-
-    freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz  # pretty good
-    p_sol = array([118.0, 513.0, 206.0]) * um_to_m
-
-    new_cost = Cost(freqs, p_sol)
-    cost_func = new_cost.cost
-
-    p0 = array([150, 600, 150])
-
-    res = nm_gridsearch(cost_func, p0)
-    print(res)
 
