@@ -6,7 +6,7 @@ import matplotlib as mpl
 from numba import jit
 from model.refractive_index import get_n, get_n_no_dispersion
 from scipy.optimize import curve_fit
-from model.measurement_data import get_measured_phase, get_measured_amplitude
+from model.measurement_data import get_measured_phase, get_measured_amplitude, get_ref_amplitude, get_ref_phase
 from functions import noise_gen
 
 mpl.rcParams['axes.grid'] = True
@@ -124,12 +124,9 @@ if __name__ == '__main__':
 
     #n = get_n_no_dispersion(freqs, 2.70)
 
-    # p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
     p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
-    #p_opt1 = np.array([74.4, 641.3, 42.5]) * um_to_m
-    p_opt1 = np.array([42.5, 641.3, 74.4]) * um_to_m
 
-    sam_idx = 78
+    sam_idx = 28
     phase_measured = get_measured_phase(freqs, sam_idx)
     amplitude_measured = get_measured_amplitude(freqs, sam_idx)
 
@@ -138,29 +135,25 @@ if __name__ == '__main__':
     amplitude_measured = amplitude_measured[limited_slice]
     freqs_filtered = freqs[limited_slice]
 
-    phase_mod = get_phase(freqs, p_opt, n)
-    amp_mod = get_amplitude(freqs, p_opt, n)
-
-    noise_amp, noise_phase = noise_gen(freqs, True, scale=0.08), noise_gen(freqs, True, scale=0.15)
-    phase_mod1 = get_phase(freqs, p_opt1, n) + noise_phase
-    amp_mod1 = get_amplitude(freqs, p_opt1, n) + noise_amp
+    noise_amp, noise_phase = noise_gen(freqs, True, scale=0.15), noise_gen(freqs, True, scale=0.10)
+    phase_mod = get_phase(freqs, p_opt, n) + noise_phase
+    amp_mod = get_amplitude(freqs, p_opt, n)*(1+noise_amp)**2
 
     fig, (ax1, ax2) = plt.subplots(1, 2)
-    ax1.plot(freqs / GHz, phase_mod, label=f"Phase model, {p_opt * 10 ** 6}")
-    ax1.plot(freqs / GHz, phase_mod1, label=f"Phase model, {p_opt1 * 10 ** 6}")
+    ax1.plot(freqs / GHz, phase_mod, label=f"Noisy phase model, {p_opt * 10 ** 6}")
     ax1.plot(freqs_filtered / GHz, phase_measured, label=f"Phase measured, sam_idx: {sam_idx}")
-    ax1.set_xlabel("frequency (GHz)")
-    ax1.set_ylabel("phase (rad)")
+    ax1.set_xlabel("Frequency (GHz)")
+    ax1.set_ylabel("Phase (rad)")
     ax1.legend()
 
-    ax2.plot(freqs / GHz, amp_mod, label=f"Amplitude model, {p_opt * 10 ** 6}")
-    ax2.plot(freqs / GHz, amp_mod1, label=f"Amplitude model, {p_opt1 * 10 ** 6}")
-    ax2.plot(freqs_filtered / GHz, amplitude_measured, label=f"Amplitude measured, sam_idx: {sam_idx}")
+    ax2.plot(freqs / GHz, amp_mod, label=f"Noisy intensity model, {p_opt * 10 ** 6}")
+    ax2.plot(freqs_filtered / GHz, amplitude_measured, label=f"Int. measured, sam_idx: {sam_idx}")
     selected_freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * 1000
     for xc in selected_freqs:
+        continue
         ax2.axvline(x=xc, color="red")
-    ax2.set_xlabel("frequency (GHz)")
-    ax2.set_ylabel("I (a.u.)")
+    ax2.set_xlabel("Frequency (GHz)")
+    ax2.set_ylabel("Int. (a.u.)")
     ax2.legend()
     plt.show()
 

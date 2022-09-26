@@ -22,7 +22,7 @@ def rand_sol():
 
 
 def is_success(sol, p):
-    limit = 5
+    limit = 15
     return all([abs(sol[i] - p[i]) < limit for i in range(len(sol))])
 
 
@@ -40,7 +40,8 @@ if __name__ == '__main__':
 
     deviations, failures, fevals_all = [], 0, []
     with open("results.txt", "a") as file:
-        description = "SHGO with white noise, scale 0.08, 0.15, diff phase,amp seeds"
+        description = "SHGO with white noise, scale std_phase = 0.10 (+), std_amp = 0.15 *(1+noise)**2, 420, 421 seeds "
+        description += "1.5 noise scale"
         header = description + "\ntruth __ found __ log(fx) __ p0 __ success? __ fevals"
         file.write(header + "\n")
         for test_value in test_values:
@@ -50,7 +51,7 @@ if __name__ == '__main__':
             # freqs = array([0.020, 0.060, 0.150, 0.550, 0.640, 0.760]) * THz
             # freqs = array([0.040, 0.080, 0.150, 0.550, 0.720, 0.780]) * THz  # pretty good
 
-            new_cost = Cost(freqs, p_sol)
+            new_cost = Cost(freqs, p_sol, 1.5)
             cost_func = new_cost.cost
 
             p0 = array([150, 600, 150])

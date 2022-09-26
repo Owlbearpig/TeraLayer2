@@ -23,12 +23,15 @@ def deviation(x, y):
 def fail_cnt(x, y):
     devs = deviation(x, y)
 
-    cnt = 0
+    cnt, max_devs = 0, []
     for i in range(len(x)):
         if any(devs[i] >= threshold):
             cnt += 1
-            print(f"Failed, result: {x[i]}, target: {y[i]}. Max dev: {round(max(devs[i]), 1)}")
+            max_dev = round(max(devs[i]), 1)
+            print(f"Failed, result: {x[i]}, target: {y[i]}. Max dev: {max_dev}")
+            max_devs.append(max_dev)
 
+    print(f"Avg. max. dev. of fails: {np.round(np.mean(max_devs), 1)}pm{np.round(np.std(max_devs), 1)}", )
     return cnt
 
 
@@ -37,7 +40,7 @@ def fail_cnt(x, y):
 results, truths, fevals = [], [], []
 with open(solutions, "r") as file:
     for line_idx, line in enumerate(file.readlines()):
-        idx_start = 427
+        idx_start = 851
         line_idx += 1
         if (line_idx >= idx_start) * (line_idx <= idx_start + 99):
             split_line = line.split(" __ ")

@@ -8,14 +8,14 @@ from functions import noise_gen
 
 
 class Cost:
-    def __init__(self, freqs, p_solution):
+    def __init__(self, freqs, p_solution, noise_std_scale=1):
         self.freqs = freqs
         self.n = get_n(freqs, n_min=2.8, n_max=2.8)
         self.en_noise = True
-        noise_amp = noise_gen(self.freqs, self.en_noise, scale=0.08, seed=420)
-        noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.15, seed=421)
+        noise_amp = noise_gen(self.freqs, self.en_noise, scale=0.15*noise_std_scale, seed=420)
+        noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.10*noise_std_scale, seed=421)
 
-        self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) + noise_amp
+        self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) * (1 + noise_amp)**2
         self.R0_phase = get_phase(freqs, p_solution * um_to_m, self.n) + noise_phase
 
     def cost(self, point, *args):

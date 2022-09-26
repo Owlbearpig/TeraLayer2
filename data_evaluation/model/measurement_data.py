@@ -7,7 +7,6 @@ from pathlib import Path
 from helpers import is_iterable
 import os
 
-
 np.set_printoptions(suppress=True)
 
 # mpl.rcParams['lines.linestyle'] = '--'
@@ -46,6 +45,38 @@ def get_measured_amplitude(freqs, sam_idx=slice(None)):
 
     selected_freqs_idx = array([np.argwhere(np.isclose(freq, data_array[0, :, 0] * MHz))[0][0] for freq in freqs])
     return np.real((data_array[sam_idx, selected_freqs_idx, 1] / ref_data[selected_freqs_idx, 1]) ** 2)
+
+
+def get_bg_amplitude(freqs):
+    if not is_iterable(freqs):
+        freqs = [freqs]
+
+    selected_freqs_idx = array([np.argwhere(np.isclose(freq, bg_data[:, 0] * MHz))[0][0] for freq in freqs])
+    return np.real((bg_data[selected_freqs_idx, 1]) ** 2)
+
+
+def get_bg_phase(freqs):
+    if not is_iterable(freqs):
+        freqs = [freqs]
+
+    selected_freqs_idx = array([np.argwhere(np.isclose(freq, bg_data[:, 0] * MHz))[0][0] for freq in freqs])
+    return bg_data[selected_freqs_idx, 2]
+
+
+def get_ref_amplitude(freqs):
+    if not is_iterable(freqs):
+        freqs = [freqs]
+
+    selected_freqs_idx = array([np.argwhere(np.isclose(freq, bg_data[:, 0] * MHz))[0][0] for freq in freqs])
+    return np.real((ref_data[selected_freqs_idx, 1]) ** 2)
+
+
+def get_ref_phase(freqs):
+    if not is_iterable(freqs):
+        freqs = [freqs]
+
+    selected_freqs_idx = array([np.argwhere(np.isclose(freq, ref_data[:, 0] * MHz))[0][0] for freq in freqs])
+    return ref_data[selected_freqs_idx, 2]
 
 
 if __name__ == '__main__':
@@ -100,8 +131,8 @@ if __name__ == '__main__':
 
     phase_meas = get_measured_phase(freqs)
 
-    plt.plot(freqs/THz, 20*np.log10(bg_data[f_slice, 1]), label=f"Background")
-    plt.plot(freqs/THz, 20 * np.log10(data_array[sam_idx, f_slice, 1]), label=f"Sample, idx: {sam_idx}")
+    plt.plot(freqs / THz, 20 * np.log10(bg_data[f_slice, 1]), label=f"Background")
+    plt.plot(freqs / THz, 20 * np.log10(data_array[sam_idx, f_slice, 1]), label=f"Sample, idx: {sam_idx}")
     plt.xlabel("Frequency")
     plt.ylabel("Amplitude (dB)")
     plt.legend()

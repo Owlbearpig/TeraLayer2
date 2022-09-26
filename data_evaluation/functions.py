@@ -233,7 +233,7 @@ def count_minima(y):
     print("minima count :", zero_passes)
 
 
-def noise_gen(freqs, enabled, scale=1, seed=420):
+def noise_gen(freqs, enabled, scale=1, seed=None):
     np.random.seed(seed)
     if enabled:
         noise = np.random.normal(0, scale, len(freqs))
