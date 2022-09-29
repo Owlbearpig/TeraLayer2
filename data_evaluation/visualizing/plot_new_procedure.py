@@ -40,7 +40,7 @@ def fail_cnt(x, y):
 results, truths, fevals = [], [], []
 with open(solutions, "r") as file:
     for line_idx, line in enumerate(file.readlines()):
-        idx_start = 851
+        idx_start = 1593
         line_idx += 1
         if (line_idx >= idx_start) * (line_idx <= idx_start + 99):
             split_line = line.split(" __ ")

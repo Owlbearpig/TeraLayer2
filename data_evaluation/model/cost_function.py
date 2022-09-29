@@ -12,8 +12,8 @@ class Cost:
         self.freqs = freqs
         self.n = get_n(freqs, n_min=2.8, n_max=2.8)
         self.en_noise = True
-        noise_amp = noise_gen(self.freqs, self.en_noise, scale=0.15*noise_std_scale, seed=420)
-        noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.10*noise_std_scale, seed=421)
+        noise_amp = noise_gen(self.freqs, self.en_noise, scale=0.15*noise_std_scale, seed=None)
+        noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.10*noise_std_scale, seed=None)
 
         self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) * (1 + noise_amp)**2
         self.R0_phase = get_phase(freqs, p_solution * um_to_m, self.n) + noise_phase
@@ -39,11 +39,17 @@ class Cost:
 
 if __name__ == '__main__':
     freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz  # pretty good
-    p_sol = array([118.0, 513.0, 206.0])
-
-    new_cost = Cost(freqs, p_sol)
+    p_sol = array([ 76, 530, 200.])
+    #for _ in range(100):
+    new_cost = Cost(freqs, p_sol, noise_std_scale=1)
     cost_func = new_cost.cost
 
+    """ # noise can make fx of p_sol (also small variations of p_sol?) higher than other candidates. 
+    p_test = array([ 79.07, 530.87, 334.56])
+    print("truth fx: ", cost_func(p_sol))
+    print("found fx: ", cost_func(p_test))
+    print(cost_func(p_sol) < cost_func(p_test))
+    """
     rez = 1
     x = np.arange(0, 1000, rez)
     y1 = array([cost_func(array([d1, p_sol[1], p_sol[2]])) for d1 in x])
