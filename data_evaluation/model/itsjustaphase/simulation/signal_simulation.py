@@ -245,3 +245,4 @@ for i in range(1):
              ab1 * ab2 * ab3 * t01 * t12 * t23 * r3 * t32 * t21 * t10 * thz_pulse2(t - t_3, tau)
         y2 += np.random.random(len(t)) * np.max(np.abs(y2)) * 0.02
         temp = np.vstack((t, y2)).T
+
