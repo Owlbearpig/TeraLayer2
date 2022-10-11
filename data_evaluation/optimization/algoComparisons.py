@@ -88,3 +88,4 @@ if __name__ == '__main__':
         file.write(f"{np.mean(array(deviations))} __ {failures}\n")
         file.write("nfev at each grid pnt: " + func_evals_s + "\n")
         file.write("\n")
+
