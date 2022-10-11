@@ -246,3 +246,4 @@ for i in range(1):
         y2 += np.random.random(len(t)) * np.max(np.abs(y2)) * 0.02
         temp = np.vstack((t, y2)).T
 
+
