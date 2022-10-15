@@ -40,8 +40,8 @@ if __name__ == '__main__':
 
     deviations, failures, fevals_all = [], 0, []
     with open("results.txt", "a") as file:
-        description = "SHGO with white noise, scale std_phase = 0.10 (+), std_amp = 0.15 *(1+noise)**2"
-        description += "0.75 noise scale, 421 truth seed, no noise seeds, 5 iters, n=300"
+        description = "SHGO with white noise, scale std_phase = 0.10 (+), std_amp = 0.15 *(1+noise)**2 "
+        description += "0.75 noise scale, 421 truth seed, no noise seeds, 5 iters, n=300, cartesian loss"
         header = description + "\ntruth __ found __ log(fx) __ p0 __ success? __ fevals"
         file.write(header + "\n")
         for test_value in test_values:

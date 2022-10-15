@@ -1,6 +1,6 @@
 import numpy as np
 from consts import um_to_m, THz, GHz, um, array
-from model.tmm import get_amplitude, get_phase, thickest_layer_approximation
+from model.tmm import get_amplitude, get_phase, thickest_layer_approximation, get_r_cart
 from model.refractive_index import get_n
 from optimization.nelder_mead_nD import Point
 import matplotlib.pyplot as plt
@@ -20,8 +20,18 @@ class Cost:
 
     def cost(self, point, *args):
         def cost_function(p):
+            """
             amp_loss = sum((get_amplitude(self.freqs, p, self.n) - self.R0_amplitude) ** 2)
             phase_loss = sum((get_phase(self.freqs, p, self.n) - self.R0_phase) ** 2)
+
+            loss = np.log10(amp_loss * phase_loss)
+            """
+
+            r_mod = get_r_cart(self.freqs, p, self.n)
+            r_exp = np.sqrt(self.R0_amplitude) * np.exp(1j*self.R0_phase)
+
+            amp_loss = sum((r_mod.real - r_exp.real) ** 2)
+            phase_loss = sum((r_mod.imag - r_exp.imag) ** 2)
 
             loss = np.log10(amp_loss * phase_loss)
 

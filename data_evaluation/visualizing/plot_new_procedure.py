@@ -40,16 +40,19 @@ def fail_cnt(x, y):
 results, truths, fevals = [], [], []
 with open(solutions, "r") as file:
     for line_idx, line in enumerate(file.readlines()):
-        idx_start = 1593
+        idx_start = 1911
         line_idx += 1
         if (line_idx >= idx_start) * (line_idx <= idx_start + 99):
             split_line = line.split(" __ ")
-            fevals.append(float(split_line[5]))
+            try:
+                fevals.append(float(split_line[5]))
+            except Exception:
+                continue
             truth, res = eval(split_line[0]), eval(split_line[1])
             results.append(res)
             truths.append(truth)
 
-print(len(results))
+print(f"Identified {len(results)} / 100 entries")
 
 print(f"Fevals average: {np.mean(fevals)}")
 results, truths = array(results), array(truths)

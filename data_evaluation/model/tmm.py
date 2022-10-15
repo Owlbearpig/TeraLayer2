@@ -20,6 +20,7 @@ mpl.rcParams['ytick.direction'] = 'in'
 # plt.xkcd()
 mpl.rcParams.update({'font.size': 16})
 
+
 # print(mpl.rcParams.keys())
 
 
@@ -78,16 +79,23 @@ def custom_unwrap(phase):
 
 @jit(cache=True, nopython=False)
 def get_phase(freqs, p, n):
-    R_C = multir_complex(freqs, p, n)
+    r = multir_complex(freqs, p, n)
 
-    return np.angle(R_C)
+    return np.angle(r)
 
 
 @jit(cache=True, nopython=False)
 def get_amplitude(freqs, p, n):
-    r_c = multir_complex(freqs, p, n)
+    r = multir_complex(freqs, p, n)
 
-    return np.real(r_c * conj(r_c))
+    return np.real(r * conj(r))
+
+
+@jit(cache=True, nopython=False)
+def get_r_cart(freqs, p, n):
+    r = multir_complex(freqs, p, n)
+
+    return r
 
 
 def unwrap(phase):
@@ -122,7 +130,7 @@ if __name__ == '__main__':
     freqs = all_freqs.copy()
     n = get_n(freqs, 2.80, 2.80)
 
-    #n = get_n_no_dispersion(freqs, 2.70)
+    # n = get_n_no_dispersion(freqs, 2.70)
 
     p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
 
@@ -135,9 +143,11 @@ if __name__ == '__main__':
     amplitude_measured = amplitude_measured[limited_slice]
     freqs_filtered = freqs[limited_slice]
 
-    noise_amp, noise_phase = noise_gen(freqs, True, scale=0.15), noise_gen(freqs, True, scale=0.10)
+    noise_std_scale = 0.50
+    noise_amp = noise_gen(freqs, True, scale=0.15*noise_std_scale)
+    noise_phase = noise_gen(freqs, True, scale=0.10*noise_std_scale)
     phase_mod = get_phase(freqs, p_opt, n) + noise_phase
-    amp_mod = get_amplitude(freqs, p_opt, n)*(1+noise_amp)**2
+    amp_mod = get_amplitude(freqs, p_opt, n) * (1 + noise_amp) ** 2
 
     fig, (ax1, ax2) = plt.subplots(1, 2)
     ax1.plot(freqs / GHz, phase_mod, label=f"Noisy phase model, {p_opt * 10 ** 6}")
@@ -156,4 +166,3 @@ if __name__ == '__main__':
     ax2.set_ylabel("Int. (a.u.)")
     ax2.legend()
     plt.show()
-
