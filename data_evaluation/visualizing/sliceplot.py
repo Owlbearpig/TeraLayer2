@@ -83,6 +83,7 @@ print(np.min(grid_vals))
 
 cbar = fig.colorbar(img)
 cbar.set_label('log10(loss)', rotation=270, labelpad=10)
+
 axmax = fig.add_axes([0.05, 0.1, 0.02, 0.8])
 amp_slider = Slider(
     ax=axmax,

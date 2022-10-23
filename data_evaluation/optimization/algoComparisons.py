@@ -40,7 +40,7 @@ if __name__ == '__main__':
 
     deviations, failures, fevals_all = [], 0, []
     with open("results.txt", "a") as file:
-        description = "SHGO with white noise, scale std_phase = 0.10 (+), std_amp = 0.15 *(1+noise)**2 "
+        description = "p0GridSearch with white noise, scale std_phase = 0.10 (+), std_amp = 0.15 *(1+noise)**2 "
         description += "0.75 noise scale, 421 truth seed, no noise seeds, 5 iters, n=300, cartesian loss"
         header = description + "\ntruth __ found __ log(fx) __ p0 __ success? __ fevals"
         file.write(header + "\n")
@@ -63,8 +63,8 @@ if __name__ == '__main__':
             bounds = [(20, 300), (500, 700), (50, 300)]
             minimizer_kwargs = {"bounds": bounds}
             #res = basinhopping(new_cost.cost, p0, 50, 1, grid_spacing, minimizer_kwargs, disp=True)
-            res = shgo(cost_func, bounds=bounds, n=300, iters=5, minimizer_kwargs={"method": "Nelder-Mead"})
-            #res = nm_gridsearch(cost_func, p0, grid_spacing=50)
+            #res = shgo(cost_func, bounds=bounds, n=300, iters=5, minimizer_kwargs={"method": "Nelder-Mead"})
+            res = nm_gridsearch(cost_func, p0, grid_spacing=grid_spacing)
 
             success = is_success(res["x"], p_sol)
             failures += not success
