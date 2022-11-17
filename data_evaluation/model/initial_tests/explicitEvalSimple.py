@@ -163,15 +163,30 @@ def explicit_reflectance_complex(p):
         ss0, ss1, ss2, ss3 = sine(s0), sine(s1), sine(s2), sine(s3)
         cs0, cs1, cs2, cs3 = cose(s0), cose(s1), cose(s2), cose(s3)
 
-        m01_r = -2 * a * ss1 * (1-b*b) * ss2
-        m01_i = 2 * b * ss0 + 2 * a * ss1 * (1 + b * b) * cs2 + 2 * a * a * b * ss3
+        """ # correct
+        m01_r = 2 * a * (b*b - 1) * ss1 * ss2 # 2
+        m01_i = 2 * (b * ss0 + a * (1 + b * b) * ss1 * cs2 + a * a * b * ss3) # 4
 
-        m11_r = (1-b*b)*cs0 + a*a*(b*b-1) * cs3
-        m11_i = (b*b+1)*(ss0 + a*a*ss3) + 4*a*b*ss1*cs2
+        m11_r = (b*b-1) * (a*a*cs3 - cs0) # 2
+        m11_i = (b*b+1) * (a*a*ss3 + ss0) + 4 * a * b * ss1 * cs2 # 4
+        """
+        c0 = 2 * a * (b * b - 1)
+        c1 = 2 * b
+        c2 = 2 * a * (1 + b * b)
+        c3 = 2 * a * a * b
+        c4 = a * a
+        c5 = b * b - 1
+        c6 = b * b + 1
+        c7 = 4 * a * b
 
-        print(m01_r + 1j*m01_i)
+        m01_r = c0 * ss1 * ss2  # 2
+        m01_i = c1 * ss0 + c2 * ss1 * cs2 + c3 * ss3  # 4
+
+        m11_r = c5 * (c4 * cs3 - cs0)  # 2
+        m11_i = c6 * (c4 * ss3 + ss0) + c7 * ss1 * cs2  # 4
+
+        print(m01_r + 1j * m01_i)
         print(m11_r + 1j * m11_i)
-        print()
 
     exit()
     # return r
