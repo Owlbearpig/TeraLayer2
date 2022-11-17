@@ -68,7 +68,7 @@ def multir_complex(freqs, p, n):
 
             P = np.array([[exp(-fi[s] * 1j), 0], [0, exp(fi[s] * 1j)]])
             M = dot(M, dot(P, Q))
-        print(h, M[0, 1])
+        print(h, M[1, 1])
 
         r[h] = M[0, 1] / M[1, 1]
     #print(np.conj(r)*r)

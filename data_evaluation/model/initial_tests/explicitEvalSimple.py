@@ -46,12 +46,20 @@ def cose(x):
 
 
 def correct_mod(s):
-    return s % (2 * pi)# - pi
+    ret = s % (2 * pi)
+    if ret > pi:
+        ret -= 2*pi
+    return ret
     #return s % (2 * pi) - pi
 
 
 def c_mod(s):
-    res = s - 2 * pi * (int(s / (2 * pi)) - (s < 0)) - pi
+    #res = s - 2 * pi * (int(s / (2 * pi)) - (s < 0)) - pi
+    res = s - 2 * pi * int(s / (2 * pi))
+
+    if res > pi:
+        res -= 2*pi
+
     return res
 
 
@@ -144,21 +152,27 @@ def explicit_reflectance_complex(p):
 
         #print(s0, s1, s2, s3)
 
-        s0, s1, s2, s3 = correct_mod(s0), correct_mod(s1), correct_mod(s2), correct_mod(s3)
+        s0, s1, s2, s3 = c_mod(s0), c_mod(s1), c_mod(s2), c_mod(s3)
 
         #print(c_mod(s0), c_mod(s1), c_mod(s2), c_mod(s3))
         #print(correct_mod(s0), correct_mod(s1), correct_mod(s2), correct_mod(s3))
         #print()
+        #ss0, ss1, ss2, ss3 = sin(s0), sin(s1), sin(s2), sin(s3)
+        #cs0, cs1, cs2, cs3 = cos(s0), cos(s1), cos(s2), cos(s3)
+
         ss0, ss1, ss2, ss3 = sine(s0), sine(s1), sine(s2), sine(s3)
         cs0, cs1, cs2, cs3 = cose(s0), cose(s1), cose(s2), cose(s3)
 
+        m01_r = -2 * a * ss1 * (1-b*b) * ss2
+        m01_i = 2 * b * ss0 + 2 * a * ss1 * (1 + b * b) * cs2 + 2 * a * a * b * ss3
 
-        m01_r = -2*a*ss1*(1-b*b)*ss2
-        m01_i = 2 * b * sin(s0) + 2 * a * sin(s1) * (1 + b * b) * cos(s2) + 2 * a * a * b * sin(s3)
-        #m01_i = 2*b*ss0 + 2*a*ss1*(1+b*b)*cs2 + 2*a*a*b*ss3
-        print(m01_i)
+        m11_r = (1-b*b)*cs0 + a*a*(b*b-1) * cs3
+        m11_i = (b*b+1)*(ss0 + a*a*ss3) + 4*a*b*ss1*cs2
 
-        #print(m12_r + 1j*m12_i)
+        print(m01_r + 1j*m01_i)
+        print(m11_r + 1j * m11_i)
+        print()
+
     exit()
     # return r
 
