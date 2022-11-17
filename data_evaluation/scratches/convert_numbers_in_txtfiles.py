@@ -2,7 +2,7 @@ from snippets.base_converters import twos_compl_to_dec
 from pathlib import Path
 import os
 
-log_file_stub = "sim_output"
+log_file_stub = "display_output_input_module"
 #log_file_stub = "display_output_mult"
 #log_file_stub = "display_output_loss_after"
 #log_file_stub = "display_output_lut_fp_division"
@@ -11,7 +11,7 @@ if os.name == "posix":
     vivado_project_path = Path(r"/media/alex/WDElements/IPs")
 else:
     vivado_project_path = Path(r"H:\IPs")
-p = 10
+p = 22
 show_bin_str = False
 
 
@@ -49,6 +49,12 @@ def convert_file(file_path):
                                 dec = twos_compl_to_dec(bin_str, p=p)
                                 converted_line += str(round(dec, 3))
                             elif len(bin_str) == 3 + p:  # fx
+                                dec = twos_compl_to_dec(bin_str, p=p)
+                                converted_line += str(round(dec, 8))
+                            elif len(bin_str) == 8 + p:
+                                dec = twos_compl_to_dec(bin_str, p=p)
+                                converted_line += str(round(dec, 8))
+                            elif len(bin_str) == 12 + 2 * p:
                                 dec = twos_compl_to_dec(bin_str, p=p)
                                 converted_line += str(round(dec, 8))
                             else:

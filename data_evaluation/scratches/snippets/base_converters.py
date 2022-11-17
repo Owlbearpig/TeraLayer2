@@ -1,5 +1,6 @@
 from consts import *
 from functions import format_data
+from optimization.nelder_mead_nD import grid, initial_simplex, Point
 
 
 def bin_to_dec(bin_str, signed=True):
@@ -285,7 +286,7 @@ def generate_initial_simplex_and_centroid(p0, pd, p):
     from optimization.nelder_mead_fromC import Point, initial_simplex, get_centroid
     p_start = Point(p0)  # start 30 620 30
 
-    simplex = initial_simplex(p_start, only_coords=True)
+    simplex = initial_simplex(p_start, cost_func=None)
 
     p_ce = Point(name="p_ce")
     get_centroid(simplex, p_ce)
@@ -303,12 +304,40 @@ def machine_constant(pd=0, p=22):
     print(f"reg [p-1:0] recip_3 = {pd + p}'b{bin_str}; // 1/3 0Q{p}")
 
 
+def grid_points_v(points, pd=12, p=22):
+    for idx, point in enumerate(points):
+        p0 = initial_simplex(Point(array(point)))
+
+        print(f"// Initial point idx {idx}")
+        print(f"8\'b{int_to_bin(idx, 8)} : begin")
+        for i in range(4):
+            for j in range(3):
+                val_dec = p0.p[i].x[j]
+                val_bin = dec_to_twoscompl(p0.p[i].x[j], pd, p, format=True)
+                print(f"    p{i}_d{j}_0 = {val_bin};" + f" // {round(val_dec, 1)}")
+            if i != 3:
+                print()
+        print("end")
+
+
+# TODO make gui for the viable functions + window to paste text to translate numbers ...
+
 if __name__ == '__main__':
+    print(list_to_twos_comp("[193.0 544.0 168.0]", pd=12, p=22))
+    print(twos_compl_to_dec("1011110000100100010100001", p=22))
+    exit()
+    p0 = array([150, 600, 150])
+    grid_spacing = 50
+    grid_points = grid(p0, grid_spacing)
+
+    grid_points_v(grid_points, pd=12, p=22)
+
+    # run these to change precision
     # machine_constant(pd=0, p=22)
     # generate_initial_simplex_and_centroid(array([30, 620, 30]), pd=12, p=22)
     s = "[31.162231 630.244385 31.162231]"
     #print_lst_verilog(s, p=22)
-    convert_measurement_to_bin(pd=3, p=10, short=False)  # pd should be 3
+    #convert_measurement_to_bin(pd=3, p=22, short=False)  # pd should be 3
     # convert_constants_fg(pd=0, p=22) # pd should be 0
     # cordic_format_constants(pd=8, p=22)  # pd should be 8
     # convert_cos_constants(pd=4, p=22)  # pd should be 4

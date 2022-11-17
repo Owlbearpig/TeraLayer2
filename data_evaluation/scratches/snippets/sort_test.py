@@ -1,6 +1,6 @@
 import numpy as np
 
-np.random.seed(86)
+np.random.seed(567546)
 
 a = np.random.randint(0, 10, 4)
 

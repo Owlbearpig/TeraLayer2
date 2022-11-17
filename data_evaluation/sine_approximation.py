@@ -9,9 +9,10 @@ x = np.linspace(-1.4*pi, 1.4*pi, 100)
 y = sin(x)
 ax.plot(x, sin(x), label='sin(x)')
 ax.plot(x, sine(x), label='sine(x) (approximation)')
+ax.plot(x, sine(x)-sin(x), label='sine(x) (approximation)')
+#ax.xaxis.set_major_formatter(FormatStrFormatter('%g $\pi$'))
+#ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(base=1.0))
 
-ax.xaxis.set_major_formatter(FormatStrFormatter('%g $\pi$'))
-ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(base=1.0))
 
 plt.title('Approximation vs sin(x)')
 plt.xlabel('x')

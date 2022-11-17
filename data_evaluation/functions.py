@@ -59,7 +59,7 @@ def load_files(sample_file_idx=0, data_type='amplitude'):
         return s[slice_0:slice_1, 4], b[slice_0:slice_1, 2], s[slice_0:slice_1, 2]
 
 
-def format_data(mask=None, sample_file_idx=0, verbose=True):
+def format_data(mask=None, sample_file_idx=0, verbose=False):
     f = f_axis()
     r, b, s = load_files(sample_file_idx)
 
@@ -237,7 +237,7 @@ def noise_gen(freqs, enabled, scale=1, seed=None):
     np.random.seed(seed)
     if enabled:
         noise = np.random.normal(0, scale, len(freqs))
-        #plt.plot(noise2)
+        #plt.plot(noise)
         #plt.show()
 
         return noise

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy import array
 
-solutions = ROOT_DIR / "optimization" / "results.txt"
+solutions = ROOT_DIR / "optimization" / "results_nm_grid.txt"
 
 threshold = 15
 
@@ -40,9 +40,9 @@ def fail_cnt(x, y):
 results, truths, fevals = [], [], []
 with open(solutions, "r") as file:
     for line_idx, line in enumerate(file.readlines()):
-        idx_start = 1911
+        idx_start = 425
         line_idx += 1
-        if (line_idx >= idx_start) * (line_idx <= idx_start + 99):
+        if (line_idx >= idx_start) * (line_idx <= idx_start + 100):
             split_line = line.split(" __ ")
             try:
                 fevals.append(float(split_line[5]))

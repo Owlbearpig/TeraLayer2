@@ -39,19 +39,20 @@ if __name__ == '__main__':
         test_values.append(rand_sol())
 
     deviations, failures, fevals_all = [], 0, []
-    with open("results.txt", "a") as file:
-        description = "p0GridSearch with white noise, scale std_phase = 0.10 (+), std_amp = 0.15 *(1+noise)**2 "
-        description += "0.75 noise scale, 421 truth seed, no noise seeds, 5 iters, n=300, cartesian loss"
-        header = description + "\ntruth __ found __ log(fx) __ p0 __ success? __ fevals"
+    with open("results_nm_grid.txt", "a") as file:
+        description = "p0GridSearch without noise, 0.80 init simplex scale, "
+        description += "421 truth seed, 20 iters, cartesian loss"
+        header = description + "\ntruth __ found __ log(fx) __ p0 __ success? __ fevals __ opt_p0"
         file.write(header + "\n")
+
         for test_value in test_values:
             p_sol = array(test_value, dtype=float)
 
-            freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz  # pretty good
+            # freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz  # pretty good
             # freqs = array([0.020, 0.060, 0.150, 0.550, 0.640, 0.760]) * THz
             # freqs = array([0.040, 0.080, 0.150, 0.550, 0.720, 0.780]) * THz  # pretty good
-
-            new_cost = Cost(freqs, p_sol, 0.75)
+            freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz # GHz; freqs. set on fpga
+            new_cost = Cost(freqs, p_sol, 0.00)
             cost_func = new_cost.cost
 
             p0 = array([150, 600, 150])
@@ -64,14 +65,15 @@ if __name__ == '__main__':
             minimizer_kwargs = {"bounds": bounds}
             #res = basinhopping(new_cost.cost, p0, 50, 1, grid_spacing, minimizer_kwargs, disp=True)
             #res = shgo(cost_func, bounds=bounds, n=300, iters=5, minimizer_kwargs={"method": "Nelder-Mead"})
-            res = nm_gridsearch(cost_func, p0, grid_spacing=grid_spacing)
+            options = {"grid_spacing" : grid_spacing, "simplex_scale": 0.80, "iterations": 20}
+            res = nm_gridsearch(cost_func, p0, options)
 
             success = is_success(res["x"], p_sol)
             failures += not success
 
-            nfev, fx, x = res["nfev"], res["fun"], res["x"]
+            nfev, fx, x, opt_p0 = res["nfev"], res["fun"], res["x"], res["lstart"]
             file.write(f"{[*p_sol]} __ {[*np.round(x, 2)]} __ {round(fx, 3)} __ {[*p0]} __ "
-                       f"{success} __ {nfev}\n")
+                       f"{success} __ {nfev} __ {opt_p0}\n")
 
             print("Solution: ", p_sol, "Best minimum: ", np.round(x, 2), fx)
             deviations.append(sum([abs(x[i] - p_sol[i]) for i in range(len(p_sol))]))

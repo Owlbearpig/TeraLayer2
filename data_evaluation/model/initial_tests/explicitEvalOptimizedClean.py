@@ -16,6 +16,7 @@ class ExplicitEval:
         self.freqs, self.ref_phase, self.bg_phase, self.sam_phase = f, r, b, s
 
         self.s_consts = self.set_semi_consts()
+        print("self.s_consts: ", self.s_consts)
         self.unit_scale_factor = 1
 
         print(f'\nMeasured reflectance (R0):  {self.R0}')

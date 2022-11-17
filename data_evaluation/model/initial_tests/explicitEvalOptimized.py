@@ -90,16 +90,16 @@ def explicit_reflectance(p):
 
     r = m_12 / m_22
 
-    return r * conj(r)
+    return r# * conj(r)
 
 
 if __name__ == '__main__':
     from functions import avg_runtime
+    p = np.array([193.0, 544.0, 168.0]) * um_to_m
+    #R_numba = multir_numba(lam, d_best)
+    r = explicit_reflectance(p)
+    print(r)
+    #avg_runtime(multir_numba, lam, d_best)
+    #avg_runtime(explicit_reflectance, d_best)
 
-    R_numba = multir_numba(lam, d_best)
-    R_explicit = explicit_reflectance(d_best)
-
-    avg_runtime(multir_numba, lam, d_best)
-    avg_runtime(explicit_reflectance, d_best)
-
-    print(np.all(np.isclose(R_numba, R_explicit)))
+    #print(np.all(np.isclose(R_numba, R_explicit)))

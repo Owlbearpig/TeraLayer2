@@ -74,20 +74,23 @@ def simplex_sort(simplex):
         p.name = f"p{i}"
 
 
-def initial_simplex(p_start, cost_func, sample_idx=None, fevals=0):
+def initial_simplex(p_start, cost_func=None, sample_idx=None, fevals=0, size=0.80):
     simplex = Simplex(*[Point(name=f"p{i}") for i in range(n + 1)])
     for i in range(n + 1):
         for j in range(n):
             if i - 1 == j:
                 if not np.isclose(p_start.x[j], 0):
-                    simplex.p[i].x[j] = 0.80 * p_start.x[j]
+                    simplex.p[i].x[j] = size * p_start.x[j]
                 else:
                     simplex.p[i].x[j] = 0.00025
             else:
                 simplex.p[i].x[j] = p_start.x[j]
-        cost_func(simplex.p[i], sample_idx)
-        fevals += 1
-    simplex_sort(simplex)
+        if cost_func is not None:
+            cost_func(simplex.p[i], sample_idx)
+            fevals += 1
+
+    if cost_func is not None:
+        simplex_sort(simplex)
 
     return simplex
 
@@ -105,9 +108,10 @@ def grid(p_center, spacing):
     return grid_points
 
 
-def nm_gridsearch(cost_func, p0, grid_spacing=50):
+def nm_gridsearch(cost_func, p0, options):
+    grid_spacing = options["grid_spacing"]
     verbose = False
-    iterations = 30
+    iterations = options["iterations"]
     p0_grid = grid(p0, grid_spacing)
 
     res = {"fun": np.inf, "nfev": 0}
@@ -128,7 +132,7 @@ def nm_gridsearch(cost_func, p0, grid_spacing=50):
 
         cost_func(p_start)
         res["nfev"] += 1
-        simplex = initial_simplex(p_start, cost_func, fevals=res["nfev"])
+        simplex = initial_simplex(p_start, cost_func, fevals=res["nfev"], size=options["simplex_scale"])
         get_centroid(simplex, p_ce)
         if verbose:
             print("initial simplex and centroid:")
@@ -243,4 +247,10 @@ def nm_gridsearch(cost_func, p0, grid_spacing=50):
     return res
 
 
+if __name__ == '__main__':
+    p0 = array([150, 600, 150])
+    grid_spacing = 50
+    grid_points = grid(p0, grid_spacing)
 
+    print(grid_points)
+    print(len(grid_points))

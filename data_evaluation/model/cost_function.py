@@ -1,6 +1,6 @@
 import numpy as np
 from consts import um_to_m, THz, GHz, um, array
-from model.tmm import get_amplitude, get_phase, thickest_layer_approximation, get_r_cart
+from model.tmm_reduced import get_amplitude, get_phase, thickest_layer_approximation, get_r_cart
 from model.refractive_index import get_n
 from optimization.nelder_mead_nD import Point
 import matplotlib.pyplot as plt
@@ -16,17 +16,28 @@ class Cost:
         noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.10*noise_std_scale, seed=None)
 
         self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) * (1 + noise_amp)**2
-        self.R0_phase = get_phase(freqs, p_solution * um_to_m, self.n) + noise_phase
+        self.R0_phase = get_phase(self.freqs, p_solution * um_to_m, self.n) + noise_phase
 
     def cost(self, point, *args):
         def cost_function(p):
+            # amp loss only
             """
             amp_loss = sum((get_amplitude(self.freqs, p, self.n) - self.R0_amplitude) ** 2)
             phase_loss = sum((get_phase(self.freqs, p, self.n) - self.R0_phase) ** 2)
 
-            loss = np.log10(amp_loss * phase_loss)
-            """
+            loss = amp_loss
 
+            """
+            # cartesian loss
+            r_mod = get_r_cart(self.freqs, p, self.n)
+            r_exp = np.sqrt(self.R0_amplitude) * np.exp(1j * self.R0_phase)
+            #print(r_mod)
+            amp_loss = sum((r_mod.real - r_exp.real) ** 2)
+            phase_loss = sum((r_mod.imag - r_exp.imag) ** 2)
+
+            loss = amp_loss + phase_loss
+
+            """
             r_mod = get_r_cart(self.freqs, p, self.n)
             r_exp = np.sqrt(self.R0_amplitude) * np.exp(1j*self.R0_phase)
 
@@ -34,25 +45,29 @@ class Cost:
             phase_loss = sum((r_mod.imag - r_exp.imag) ** 2)
 
             loss = np.log10(amp_loss * phase_loss)
+            """
 
             return loss
 
-        if isinstance(point, Point):
-            p = array([point.x[0], point.x[1], point.x[2]], dtype=float) * um_to_m
-
-            point.fx = cost_function(p)
-        else:
+        if type(point) is np.ndarray:
             p = point.copy() * um_to_m
 
             return cost_function(p)
+        else:
+            p = array([point.x[0], point.x[1], point.x[2]], dtype=float) * um_to_m
+
+            point.fx = cost_function(p)
 
 
 if __name__ == '__main__':
-    freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz  # pretty good
-    p_sol = array([ 76, 530, 200.])
+    freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
+    p_sol = array([193.0, 544.0, 168.0])
     #for _ in range(100):
-    new_cost = Cost(freqs, p_sol, noise_std_scale=1)
+    new_cost = Cost(freqs, p_sol, noise_std_scale=0)
     cost_func = new_cost.cost
+    cost_func(p_sol)
+    #print(cost_func(p_sol))
+    exit()
 
     """ # noise can make fx of p_sol (also small variations of p_sol?) higher than other candidates. 
     p_test = array([ 79.07, 530.87, 334.56])
