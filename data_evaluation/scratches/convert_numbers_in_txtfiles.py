@@ -2,10 +2,11 @@ from snippets.base_converters import twos_compl_to_dec
 from pathlib import Path
 import os
 
-log_file_stub = "display_output_input_module"
+#log_file_stub = "display_output_input_module"
 #log_file_stub = "display_output_mult"
 #log_file_stub = "display_output_loss_after"
 #log_file_stub = "display_output_lut_fp_division"
+log_file_stub = "display_output_machine_v2_0"
 
 if os.name == "posix":
     vivado_project_path = Path(r"/media/alex/WDElements/IPs")
@@ -39,8 +40,8 @@ def convert_file(file_path):
                                 dec = twos_compl_to_dec(bin_str, p=0)
                                 # converted_line += f"{str(int(dec))}, ({bin_str[1:]})"
                                 converted_line += f"{str(int(dec))}"
-                            elif len(bin_str) == 2 + 14:
-                                dec = twos_compl_to_dec(bin_str, p=14)
+                            elif len(bin_str) == 16:
+                                dec = twos_compl_to_dec(bin_str, p=0)
                                 converted_line += str(round(dec, 6))
                             elif len(bin_str) == 2 * 3 + 2 * p:
                                 dec = twos_compl_to_dec(bin_str, p=2*p)
@@ -57,6 +58,10 @@ def convert_file(file_path):
                             elif len(bin_str) == 12 + 2 * p:
                                 dec = twos_compl_to_dec(bin_str, p=p)
                                 converted_line += str(round(dec, 8))
+                            elif len(bin_str) == 6*(3+p):
+                                for i in range(6):
+                                    dec = twos_compl_to_dec(bin_str[i*(3+p):(i+1)*(3+p)], p=p)
+                                    converted_line += str(round(dec, 8)) + ", " * (i != 5)
                             else:
                                 converted_line += bin_str
                             if show_bin_str:

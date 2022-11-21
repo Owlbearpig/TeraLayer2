@@ -32,8 +32,6 @@ if __name__ == '__main__':
     np.random.seed(421)
     rand = np.random.random
 
-    all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
-
     test_values = []
     for _ in range(100):
         test_values.append(rand_sol())
@@ -41,7 +39,7 @@ if __name__ == '__main__':
     deviations, failures, fevals_all = [], 0, []
     with open("results_nm_grid.txt", "a") as file:
         description = "p0GridSearch without noise, 0.80 init simplex scale, "
-        description += "421 truth seed, 20 iters, cartesian loss"
+        description += "421 truth seed, 30 iters, no_div_loss + approximation"
         header = description + "\ntruth __ found __ log(fx) __ p0 __ success? __ fevals __ opt_p0"
         file.write(header + "\n")
 
@@ -65,7 +63,7 @@ if __name__ == '__main__':
             minimizer_kwargs = {"bounds": bounds}
             #res = basinhopping(new_cost.cost, p0, 50, 1, grid_spacing, minimizer_kwargs, disp=True)
             #res = shgo(cost_func, bounds=bounds, n=300, iters=5, minimizer_kwargs={"method": "Nelder-Mead"})
-            options = {"grid_spacing" : grid_spacing, "simplex_scale": 0.80, "iterations": 20}
+            options = {"grid_spacing" : grid_spacing, "simplex_scale": 0.80, "iterations": 30}
             res = nm_gridsearch(cost_func, p0, options)
 
             success = is_success(res["x"], p_sol)

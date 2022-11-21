@@ -130,7 +130,7 @@ if __name__ == '__main__':
     p_sol = array([193.0, 544.0, 168.0])
     freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
 
-    new_cost = Cost(freqs, p_sol, 0.75)
+    new_cost = Cost(freqs, p_sol, 0.00)
     cost_func = new_cost.cost # model data, noise: 0.00
 
     # cost_func = partial(cost_og, sample_idx=3) # real data
@@ -143,14 +143,14 @@ if __name__ == '__main__':
     verbose = True
     save_output = False
     en_shrinking = True
-    print_state = False
+    print_state = True
 
     p_r = Point(name="p_r")
     p_e = Point(name="p_e")
     p_c = Point(name="p_c")
     p_ce = Point(name="p_ce")
 
-    p0 = array([200, 600, 450])
+    p0 = array([50, 450, 50])
 
     p_start = Point(p0)
 
@@ -176,7 +176,7 @@ if __name__ == '__main__':
 
     min_fx_val = []
     p0_fx_val = []
-    for i in range(1, 50):
+    for i in range(1, 25):
         shrink = False
         if verbose:
             print(f"start of iteration {i}")

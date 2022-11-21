@@ -1,540 +1,1440 @@
-r, xxxxxxxxxxxxxxxxxx
-r0, xxxxxxxxxxxxxxxxxx
-diff_sqr, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
 r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 0 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.02682471
+r0_imag, 0.28428674
+r_denum, 1.24678373
+cd_real_norm_pw, 0.0334444
+cd_imag_norm_pw, 0.35444403
+r_enum_real, 0.29712081
+r_enum_imag, -0.71693254
+diff_sqr_real, 0.069525
+diff_sqr_imag, 1.147848
 r_total_loss, 0.0
+cntr, 0001
+o_total_loss, 0.0
 clk cycle 1 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.53020501
+r0_imag, 0.32835889
+r_denum, 1.24091291
+cd_real_norm_pw, 0.65793824
+cd_imag_norm_pw, 0.40746474
+r_enum_real, 0.36110044
+r_enum_imag, -0.67929673
+diff_sqr_real, 0.088113
+diff_sqr_imag, 1.181051
+r_total_loss, 1.217373
+cntr, 0010
+o_total_loss, 0.0
 clk cycle 2 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, -0.01748991
+r0_imag, -0.60037446
+r_denum, 0.97868466
+cd_real_norm_pw, -0.01711726
+cd_imag_norm_pw, -0.58757734
+r_enum_real, -0.08344555
+r_enum_imag, -0.45049882
+diff_sqr_real, 0.004399
+diff_sqr_imag, 0.018791
+r_total_loss, 2.486536
+cntr, 0011
+o_total_loss, 0.0
 clk cycle 3 done 
 
-r, 0.02026367
-r0, 0.01379395
-diff_sqr, 4.2e-05
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, -0.15931749
+r0_imag, -0.15998483
+r_denum, 0.76893902
+cd_real_norm_pw, -0.12250566
+cd_imag_norm_pw, -0.12301874
+r_enum_real, -0.06530905
+r_enum_imag, -0.00069785
+diff_sqr_real, 0.003271
+diff_sqr_imag, 0.014962
+r_total_loss, 2.509726
+cntr, 0100
+o_total_loss, 0.0
 clk cycle 4 done 
 
-r, 0.3309021
-r0, 0.33526611
-diff_sqr, 1.9e-05
-r_total_loss, 4.2e-05
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.12671018
+r0_imag, 0.3393774
+r_denum, 0.82730103
+cd_real_norm_pw, 0.1048274
+cd_imag_norm_pw, 0.2807672
+r_enum_real, 0.01099539
+r_enum_imag, -0.22867942
+diff_sqr_real, 0.008804
+diff_sqr_imag, 0.259536
+r_total_loss, 2.52796
+cntr, 0101
+o_total_loss, 0.0
 clk cycle 5 done 
 
-r, 0.24346924
-r0, 0.08914185
-diff_sqr, 0.023817
-r_total_loss, 6.1e-05
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.46840572
+r0_imag, 0.3172493
+r_denum, 0.7659142
+cd_real_norm_pw, 0.35875845
+cd_imag_norm_pw, 0.24298573
+r_enum_real, 0.00854254
+r_enum_imag, -0.03951621
+diff_sqr_real, 0.122651
+diff_sqr_imag, 0.079807
+r_total_loss, 2.7963
+cntr, 0110
+o_total_loss, 2.99875879
 clk cycle 6 done 
 
-r, 0.3840332
-r0, 0.21856689
-diff_sqr, 0.027379
-r_total_loss, 0.023878
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 2.7963
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 7 done 
 
-r, 0.16308594
-r0, 0.09707642
-diff_sqr, 0.004357
-r_total_loss, 0.051257
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 2.7963
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 8 done 
 
-r, 0.29638672
-r0, 0.03945923
-diff_sqr, 0.066012
-r_total_loss, 0.055614
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 2.7963
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 9 done 
 
-r, 0.0
-r0, 0.0
-diff_sqr, 0.0
-r_total_loss, 0.121626
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 2.7963
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 10 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 2.7963
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 11 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 2.7963
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 12 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 2.7963
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 13 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 2.7963
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 14 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.02682471
+r0_imag, 0.28428674
+r_denum, 0.82330012
+cd_real_norm_pw, 0.02208471
+cd_imag_norm_pw, 0.23405313
+r_enum_real, -0.212533
+r_enum_imag, -0.06052041
+diff_sqr_real, 0.055045
+diff_sqr_imag, 0.086774
+r_total_loss, 2.7963
+cntr, 0001
+o_total_loss, 0.0
 clk cycle 15 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.53020501
+r0_imag, 0.32835889
+r_denum, 0.81963158
+cd_real_norm_pw, 0.4345727
+cd_imag_norm_pw, 0.26913309
+r_enum_real, 0.20913887
+r_enum_imag, -0.04561687
+diff_sqr_real, 0.05082
+diff_sqr_imag, 0.099068
+r_total_loss, 2.938119
+cntr, 0010
+o_total_loss, 0.0
 clk cycle 16 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, -0.01748991
+r0_imag, -0.60037446
+r_denum, 0.81599784
+cd_real_norm_pw, -0.01427174
+cd_imag_norm_pw, -0.4899044
+r_enum_real, 0.19635963
+r_enum_imag, -0.05554223
+diff_sqr_real, 0.044366
+diff_sqr_imag, 0.18867
+r_total_loss, 3.088007
+cntr, 0011
+o_total_loss, 0.0
 clk cycle 17 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, -0.15931749
+r0_imag, -0.15998483
+r_denum, 0.86312866
+cd_real_norm_pw, -0.13751173
+cd_imag_norm_pw, -0.13808751
+r_enum_real, 0.28026962
+r_enum_imag, -0.08469129
+diff_sqr_real, 0.174541
+diff_sqr_imag, 0.002851
+r_total_loss, 3.321043
+cntr, 0100
+o_total_loss, 0.0
 clk cycle 18 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.12671018
+r0_imag, 0.3393774
+r_denum, 0.97950554
+cd_real_norm_pw, 0.12411308
+cd_imag_norm_pw, 0.33242202
+r_enum_real, 0.20526743
+r_enum_imag, -0.41219664
+diff_sqr_real, 0.006586
+diff_sqr_imag, 0.554457
+r_total_loss, 3.498436
+cntr, 0101
+o_total_loss, 0.0
 clk cycle 19 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.46840572
+r0_imag, 0.3172493
+r_denum, 0.79256344
+cd_real_norm_pw, 0.37124109
+cd_imag_norm_pw, 0.25144005
+r_enum_real, 0.02690721
+r_enum_imag, -0.14810252
+diff_sqr_real, 0.118566
+diff_sqr_imag, 0.159634
+r_total_loss, 4.059479
+cntr, 0110
+o_total_loss, -3.66232133
 clk cycle 20 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 4.059479
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 21 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.02682471
+r0_imag, 0.28428674
+r_denum, 0.82330012
+cd_real_norm_pw, 0.02208471
+cd_imag_norm_pw, 0.23405313
+r_enum_real, -0.212533
+r_enum_imag, -0.06052041
+diff_sqr_real, 0.055045
+diff_sqr_imag, 0.086774
+r_total_loss, 4.059479
+cntr, 0001
+o_total_loss, 0.0
 clk cycle 22 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.53020501
+r0_imag, 0.32835889
+r_denum, 0.81963158
+cd_real_norm_pw, 0.4345727
+cd_imag_norm_pw, 0.26913309
+r_enum_real, 0.20913887
+r_enum_imag, -0.04561687
+diff_sqr_real, 0.05082
+diff_sqr_imag, 0.099068
+r_total_loss, 4.201298
+cntr, 0010
+o_total_loss, 0.0
 clk cycle 23 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, -0.01748991
+r0_imag, -0.60037446
+r_denum, 0.81599784
+cd_real_norm_pw, -0.01427174
+cd_imag_norm_pw, -0.4899044
+r_enum_real, 0.19635963
+r_enum_imag, -0.05554223
+diff_sqr_real, 0.044366
+diff_sqr_imag, 0.18867
+r_total_loss, 4.351186
+cntr, 0011
+o_total_loss, 0.0
 clk cycle 24 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, -0.15931749
+r0_imag, -0.15998483
+r_denum, 0.86312866
+cd_real_norm_pw, -0.13751173
+cd_imag_norm_pw, -0.13808751
+r_enum_real, 0.28026962
+r_enum_imag, -0.08469129
+diff_sqr_real, 0.174541
+diff_sqr_imag, 0.002851
+r_total_loss, 4.584222
+cntr, 0100
+o_total_loss, 0.0
 clk cycle 25 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.12671018
+r0_imag, 0.3393774
+r_denum, 0.97950554
+cd_real_norm_pw, 0.12411308
+cd_imag_norm_pw, 0.33242202
+r_enum_real, 0.20526743
+r_enum_imag, -0.41219664
+diff_sqr_real, 0.006586
+diff_sqr_imag, 0.554457
+r_total_loss, 4.761614
+cntr, 0101
+o_total_loss, 0.0
 clk cycle 26 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.46840572
+r0_imag, 0.3172493
+r_denum, 0.79256344
+cd_real_norm_pw, 0.37124109
+cd_imag_norm_pw, 0.25144005
+r_enum_real, 0.02690721
+r_enum_imag, -0.14810252
+diff_sqr_real, 0.118566
+diff_sqr_imag, 0.159634
+r_total_loss, 5.322657
+cntr, 0110
+o_total_loss, -2.39914274
 clk cycle 27 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 28 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 29 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 30 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 31 done 
 
-r, 3.052e-05
-r0, 0.01379395
-diff_sqr, 0.000189
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 32 done 
 
-r, 0.24432373
-r0, 0.33526611
-diff_sqr, 0.008271
-r_total_loss, 0.000189
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 33 done 
 
-r, 0.32156372
-r0, 0.08914185
-diff_sqr, 0.05402
-r_total_loss, 0.00846
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 34 done 
 
-r, 0.3885498
-r0, 0.21856689
-diff_sqr, 0.028894
-r_total_loss, 0.06248
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 35 done 
 
-r, 0.05975342
-r0, 0.09707642
-diff_sqr, 0.001393
-r_total_loss, 0.091374
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 36 done 
 
-r, 0.21340942
-r0, 0.03945923
-diff_sqr, 0.030259
-r_total_loss, 0.092767
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 37 done 
 
-r, 0.0
-r0, 0.0
-diff_sqr, 0.0
-r_total_loss, 0.123026
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 38 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 39 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 40 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 41 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 42 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 43 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 44 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 45 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 46 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 47 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 48 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 49 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 50 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 51 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 52 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 53 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 54 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 55 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 56 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 57 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 58 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 59 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 60 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 61 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 62 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 63 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 64 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 65 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 66 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 67 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 68 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 69 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 70 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 71 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 72 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 73 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 74 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 75 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 76 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 77 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 78 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 79 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 80 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 81 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 82 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 83 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 84 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 85 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 86 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 87 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 88 done 
 
-r, 0.0
-r0, 0.01379395
-diff_sqr, 0.00019
-r_total_loss, 0.0
+cur_data_real, 0.02682471, 0.53020501, -0.01748991, -0.15931749, 0.12671018, 0.46840572
+cur_data_imag, 0.28428674, 0.32835889, -0.60037446, -0.15998483, 0.3393774, 0.3172493
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 5.322657
+cntr, 0000
+o_total_loss, 0.0
 clk cycle 89 done 
 

@@ -258,6 +258,17 @@ def convert_sin_constants(pd=4, p=23):
 def convert_constants_ab(pd=3, p=23):
     from model.initial_tests.explicitEvalSimple import a, b  # careful, consts.py also has a=1 defined ...
 
+    c0 = 2 * a * (b * b - 1)
+    c1 = 2 * b
+    c2 = 2 * a * (1 + b * b)
+    c3 = 2 * a * a * b
+    c4 = a * a
+    c5 = b * b - 1
+    c6 = b * b + 1
+    c7 = 4 * a * b
+
+    cnst_lst = [c0, c1, c2, c3, c4, c5, c6, c7]
+    """
     c0 = (1 - a * a) * b
     c1 = (1 - a * a)
     c2 = (a * a + 1) * b
@@ -267,12 +278,14 @@ def convert_constants_ab(pd=3, p=23):
     c6 = - 2 * a * b * b
     c7 = - (1 - a * a) * b * b
     c8 = (a * a + 1) * b * b
-
+    
     cnst_lst = [c0, c1, c2, c3, c4, c5, c6, c7, c8]
+    """
+
 
     for i, cnst in enumerate(cnst_lst):
         bin_str = dec_to_twoscompl(cnst, int_width=pd, frac_width=p, format=True)
-        print(f"c{i} = {bin_str}; // {cnst} {pd}Q{p}")
+        print(f"assign c{i} = {bin_str}; // {cnst} {pd}Q{p}")
 
 
 def convert_div_lut_constants(pd=3, p=23):
@@ -320,18 +333,71 @@ def grid_points_v(points, pd=12, p=22):
         print("end")
 
 
+def convert_lines(s, p):
+    lines = s.split(r"\n")
+    show_bin_str = False
+
+    converted_lines = []
+    for line in lines:
+        converted_line, bin_str = "", ""
+        for i, char in enumerate(line + " "):
+            if char not in ["0", "1"]:
+                if line[i - 1] in ["0", "1"]:
+                    if (len(bin_str) == 1) | (len(bin_str) == 2):  # small bin_strs are likely dec already
+                        converted_line += bin_str
+                    elif len(bin_str) == 8:
+                        bin_str = "0" + bin_str  # 8 bit cntr
+                        dec = twos_compl_to_dec(bin_str, p=0)
+                        converted_line += str(int(dec))
+                    elif len(bin_str) == 5:
+                        bin_str = "0" + bin_str  # state is unsigned and 4 bit long number.
+                        dec = twos_compl_to_dec(bin_str, p=0)
+                        # converted_line += f"{str(int(dec))}, ({bin_str[1:]})"
+                        converted_line += f"{str(int(dec))}"
+                    elif len(bin_str) == 2 + 14:
+                        dec = twos_compl_to_dec(bin_str, p=14)
+                        converted_line += str(round(dec, 6))
+                    elif len(bin_str) == 2 * 3 + 2 * p:
+                        dec = twos_compl_to_dec(bin_str, p=2 * p)
+                        converted_line += str(round(dec, 6))
+                    elif len(bin_str) == 12 + p:  # coords
+                        dec = twos_compl_to_dec(bin_str, p=p)
+                        converted_line += str(round(dec, 3))
+                    elif len(bin_str) == 3 + p:  # fx
+                        dec = twos_compl_to_dec(bin_str, p=p)
+                        converted_line += str(round(dec, 8))
+                    elif len(bin_str) == 8 + p:
+                        dec = twos_compl_to_dec(bin_str, p=p)
+                        converted_line += str(round(dec, 8))
+                    elif len(bin_str) == 12 + 2 * p:
+                        dec = twos_compl_to_dec(bin_str, p=p)
+                        converted_line += str(round(dec, 8))
+                    else:
+                        converted_line += bin_str
+                    if show_bin_str:
+                        converted_line += f" ({bin_str})"
+                    bin_str = ""
+                converted_line += char
+            else:
+                bin_str += char
+
+        converted_lines.append(converted_line)
+
+    return converted_lines
+
+
 # TODO make gui for the viable functions + window to paste text to translate numbers ...
 
 if __name__ == '__main__':
-    print(list_to_twos_comp("[193.0 544.0 168.0]", pd=12, p=22))
-    print(twos_compl_to_dec("1011110000100100010100001", p=22))
-    exit()
+    #print(list_to_twos_comp("[193.0 544.0 168.0]", pd=12, p=22))
+    #print(twos_compl_to_dec("1011110000100100010100001", p=22))
+    #exit()
     p0 = array([150, 600, 150])
     grid_spacing = 50
     grid_points = grid(p0, grid_spacing)
 
-    grid_points_v(grid_points, pd=12, p=22)
-
+    #grid_points_v(grid_points, pd=12, p=22)
+    convert_constants_fg(p=22)
     # run these to change precision
     # machine_constant(pd=0, p=22)
     # generate_initial_simplex_and_centroid(array([30, 620, 30]), pd=12, p=22)

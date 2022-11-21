@@ -1,5 +1,5 @@
 import numpy as np
-
+from numba import jit
 from consts import *
 from optimization.nelderMeadSource import _minimize_neldermead
 from functions import format_data
@@ -48,17 +48,17 @@ def cose(x):
 def correct_mod(s):
     ret = s % (2 * pi)
     if ret > pi:
-        ret -= 2*pi
+        ret -= 2 * pi
     return ret
-    #return s % (2 * pi) - pi
+    # return s % (2 * pi) - pi
 
 
 def c_mod(s):
-    #res = s - 2 * pi * (int(s / (2 * pi)) - (s < 0)) - pi
+    # res = s - 2 * pi * (int(s / (2 * pi)) - (s < 0)) - pi
     res = s - 2 * pi * int(s / (2 * pi))
 
     if res > pi:
-        res -= 2*pi
+        res -= 2 * pi
 
     return res
 
@@ -121,44 +121,47 @@ def explicit_reflectance(p):
         # note: (in real impl. this is seperated into real and imag part) -> 8 mult, and 1 div
         R[i] = (m_12_r * m_12_r + m_12_i * m_12_i) / (m_22_r * m_22_r + m_22_i * m_22_i)  # 8
 
-        #r_real = (m_12_r * m_22_r + m_12_i * m_22_i) / (m_22_r * m_22_r + m_22_i * m_22_i)
-        #r_imag = (m_22_i * m_12_r - m_22_r * m_12_i) / (m_22_r * m_22_r + m_22_i * m_22_i)
+        # r_real = (m_12_r * m_22_r + m_12_i * m_22_i) / (m_22_r * m_22_r + m_22_i * m_22_i)
+        # r_imag = (m_22_i * m_12_r - m_22_r * m_12_i) / (m_22_r * m_22_r + m_22_i * m_22_i)
 
-        #r[i] = r_real + 1j * r_imag
+        # r[i] = r_real + 1j * r_imag
 
         # 17 + 32 = 49 multiplications in total
 
     return R
 
 
+#@jit(cache=True)
 def explicit_reflectance_complex(p):
     r = np.zeros(6, dtype=complex)
+    m01, m11 = np.zeros(6, dtype=complex), np.zeros(6, dtype=complex)
     for i in range(6):
         f0 = f[i] * p[0]
         f1 = g[i] * p[1]
         f2 = f[i] * p[2]
-
-        exp = lambda x: np.exp(1j*x)
         """
+        exp = lambda x: np.exp(1j*x)
+        
         m01 = (exp(1j*(-f0-f1))+a*b*exp(1j*(f0-f1)))*(-b*exp(-1j*f2)-a*exp(1j*f2)) + \
               (a*exp(1j*(f1-f0))+b*exp(1j*(f0+f1)))*(a*b*exp(-1j*f2)+exp(1j*f2))
         m01 = (exp(-f0 - f1) + a * b * exp(f0 - f1)) * (-b * exp(- f2) - a * exp(f2)) + \
               (a * exp(f1 - f0) + b * exp(f0 + f1)) * (a * b * exp(-f2) + exp(f2))
-        """
+        
         m01 = -b*exp(-f0-f1-f2) -a*exp(-f0-f1+f2) -a*b*b*exp(f0-f1-f2) - a*a*b*exp(f0-f1+f2) + \
         a*a*b*exp(-f0+f1-f2)+a*exp(-f0+f1+f2)+a*b*b*exp(f0+f1-f2)+b*exp(f0+f1+f2)
         #print(m01)
+        """
         s0, s1, s2, s3 = f0 + f1 + f2, f1, f2 - f0, f1 - f0 - f2
 
-        #print(s0, s1, s2, s3)
+        # print(s0, s1, s2, s3)
 
         s0, s1, s2, s3 = c_mod(s0), c_mod(s1), c_mod(s2), c_mod(s3)
 
-        #print(c_mod(s0), c_mod(s1), c_mod(s2), c_mod(s3))
-        #print(correct_mod(s0), correct_mod(s1), correct_mod(s2), correct_mod(s3))
-        #print()
-        #ss0, ss1, ss2, ss3 = sin(s0), sin(s1), sin(s2), sin(s3)
-        #cs0, cs1, cs2, cs3 = cos(s0), cos(s1), cos(s2), cos(s3)
+        # print(c_mod(s0), c_mod(s1), c_mod(s2), c_mod(s3))
+        # print(correct_mod(s0), correct_mod(s1), correct_mod(s2), correct_mod(s3))
+        # print()
+        # ss0, ss1, ss2, ss3 = sin(s0), sin(s1), sin(s2), sin(s3)
+        # cs0, cs1, cs2, cs3 = cos(s0), cos(s1), cos(s2), cos(s3)
 
         ss0, ss1, ss2, ss3 = sine(s0), sine(s1), sine(s2), sine(s3)
         cs0, cs1, cs2, cs3 = cose(s0), cose(s1), cose(s2), cose(s3)
@@ -179,23 +182,48 @@ def explicit_reflectance_complex(p):
         c6 = b * b + 1
         c7 = 4 * a * b
 
+        """
+        #from scratches.snippets.base_converters import convert_constants_ab
+        #convert_constants_ab(pd=3, p=22)
+        #print(c0)
+        #print(c1)
+        #print(c2)
+        #print(c3)
+        #print(c4)
+        #print(c5)
+        #print(c6)
+        #print(c7)
+        #exit()
+        """
+        d0 = ss1 * cs2
+
         m01_r = c0 * ss1 * ss2  # 2
-        m01_i = c1 * ss0 + c2 * ss1 * cs2 + c3 * ss3  # 4
+        m01_i = c1 * ss0 + c2 * d0 + c3 * ss3  # 4
 
         m11_r = c5 * (c4 * cs3 - cs0)  # 2
-        m11_i = c6 * (c4 * ss3 + ss0) + c7 * ss1 * cs2  # 4
+        m11_i = c6 * (c4 * ss3 + ss0) + c7 * d0  # 4
 
-        print(m01_r + 1j * m01_i)
-        print(m11_r + 1j * m11_i)
+        #r_denum = (m11_r * m11_r + m11_i * m11_i)
 
-    exit()
+        r_enum_real = (m11_r * m01_r + m11_i * m01_i)
+        r_enum_imag = (m01_i * m11_r - m01_r * m11_i)
+
+        #print("r_enum_real", r_enum_real)
+        #print("r_enum_imag", r_enum_imag)
+        #print("r_denum", r_denum, "\n")
+
+        #r = r_enum_real / r_denum + 1j * r_enum_imag / r_denum
+        m01[i] = m01_r + 1j * m01_i
+        m11[i] = m11_r + 1j * m11_i
+    # exit()
     # return r
+    return m01, m11
 
 
 if __name__ == '__main__':
 
-    #mask = custom_mask_420
-    #sample_idx = 0
+    # mask = custom_mask_420
+    # sample_idx = 0
 
     # lam, R0 = format_data(mask=mask, sample_file_idx=sample_idx)
 
@@ -206,7 +234,7 @@ if __name__ == '__main__':
     # R_numba = multir_numba(lam, p0)
     explicit_reflectance(p0)
     r_explicit = explicit_reflectance_complex(p0)
-    #print(r_explicit)
+    # print(r_explicit)
     exit()
 
     # print(R_explicit)

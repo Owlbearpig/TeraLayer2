@@ -24,7 +24,7 @@ mpl.rcParams.update({'font.size': 16})
 # print(mpl.rcParams.keys())
 
 
-#@jit(cache=True, nopython=True)
+@jit(cache=True, nopython=True)
 def multir_complex(freqs, p, n):
     thea = 1 * 8.0 * pi / 180.0
     es = p.copy()
@@ -68,14 +68,72 @@ def multir_complex(freqs, p, n):
 
             P = np.array([[exp(-fi[s] * 1j), 0], [0, exp(fi[s] * 1j)]])
             M = dot(M, dot(P, Q))
-        print(h, M[0, 1])
-        print(h, M[1, 1])
-
+        #print(h, M[0, 1])
+        #print(h, M[1, 1])
 
         r[h] = M[0, 1] / M[1, 1]
+        #print(r[h])
+
+    #print(r)
     #print(np.conj(r)*r)
-    exit()
+    #exit()
+
     return r
+
+
+@jit(cache=True, nopython=True)
+def tmm_matrix_elems(freqs, p, n):
+    thea = 1 * 8.0 * pi / 180.0
+    es = p.copy()
+
+    the = np.zeros(len(freqs), dtype=np.complex128)
+    ra, rb = np.zeros(len(freqs), dtype=np.complex128), np.zeros(len(freqs), dtype=np.complex128)
+    ta, tb = np.zeros(len(freqs), dtype=np.complex128), np.zeros(len(freqs), dtype=np.complex128)
+    the[0] = thea
+
+    m01, m11 = np.zeros(len(freqs), dtype=np.complex128), np.zeros(len(freqs), dtype=np.complex128)
+    r = np.zeros(len(freqs), dtype=np.complex128)
+    nc = 3
+
+    for h in range(len(freqs)):
+        for k in range(nc + 1):
+            the[k + 1] = arcsin(n[h, k] * sin(the[k]) / n[h, k + 1])
+            ra[k] = ((n[h, k] * cos(the[k + 1])) - ((n[h, k + 1]) * cos(the[k]))) / \
+                    ((n[h, k + 1] * cos(the[k])) + (n[h, k] * cos(the[k + 1])))
+            rb[k] = ((n[h, k + 1] * cos(the[k])) - (n[h, k] * cos(the[k + 1]))) / \
+                    ((n[h, k] * cos(the[k + 1])) + (n[h, k + 1] * cos(the[k])))
+            ta[k] = (2 * n[h, k] * cos(the[k + 1])) / \
+                    ((n[h, k + 1] * cos(the[k])) + (n[h, k] * cos(the[k + 1])))
+            tb[k] = (2 * n[h, k + 1] * cos(the[k])) / \
+                    ((n[h, k] * cos(the[k + 1])) + (n[h, k + 1] * cos(the[k])))
+
+        """ correct, line below with transmission coeff.
+        M = (1 / tb[0]) * np.array([[(ta[0] * tb[0]) - (ra[0] * rb[0]), rb[0]],
+                                    [-ra[0], 1]], dtype=np.complex128)
+        """
+        #"""
+        M = np.array([[(ta[0] * tb[0]) - (ra[0] * rb[0]), rb[0]],
+                                    [-ra[0], 1]], dtype=np.complex128)
+        #"""
+        fi = np.zeros(nc, dtype=np.complex128)
+        #print(M)
+        for s in range(nc):
+            fi[s] = (2 * pi * n[h, s + 1] * es[s]) * (freqs[h] / c0)
+            """ correct
+            Q = (1 / tb[s + 1]) * np.array([[(ta[s + 1] * tb[s + 1]) - (ra[s + 1] * rb[s + 1]), rb[s + 1]],
+                                            [-ra[s + 1], 1]], dtype=np.complex128)
+            """
+            #"""
+            Q = np.array([[(ta[s + 1] * tb[s + 1]) - (ra[s + 1] * rb[s + 1]), rb[s + 1]],
+                                            [-ra[s + 1], 1]], dtype=np.complex128)
+            #"""
+            P = np.array([[exp(-fi[s] * 1j), 0], [0, exp(fi[s] * 1j)]])
+            M = dot(M, dot(P, Q))
+
+        m01[h], m11[h] = M[0, 1], M[1, 1]
+        #r[h] = M[0, 1] / M[1, 1]
+
+    return m01, m11 # r
 
 
 @jit(cache=True, nopython=True)

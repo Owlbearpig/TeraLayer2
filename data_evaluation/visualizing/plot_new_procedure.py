@@ -6,7 +6,7 @@ from numpy import array
 
 solutions = ROOT_DIR / "optimization" / "results_nm_grid.txt"
 
-threshold = 15
+fail_threshold = 15
 
 
 def deviation(x, y):
@@ -25,7 +25,7 @@ def fail_cnt(x, y):
 
     cnt, max_devs = 0, []
     for i in range(len(x)):
-        if any(devs[i] >= threshold):
+        if any(devs[i] >= fail_threshold):
             cnt += 1
             max_dev = round(max(devs[i]), 1)
             print(f"Failed, result: {x[i]}, target: {y[i]}. Max dev: {max_dev}")
@@ -119,7 +119,7 @@ for axis in ['top', 'bottom', 'left', 'right']:
 
 ax.set_ylabel("Layer width (µm)")
 ax.yaxis.set_label_coords(-0.05, -0.0)
-ax.set_title(f"Fail count: {fail_cnt(results, truths)} (Max diff. > {threshold})")
+ax.set_title(f"Fail count: {fail_cnt(results, truths)} (Max diff. > {fail_threshold})")
 
 dev = deviation(results, truths)
 plt.title(f"Avg. deviation: "
