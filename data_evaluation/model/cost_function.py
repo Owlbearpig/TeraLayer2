@@ -63,7 +63,13 @@ class Cost:
             """
             amp_loss = sum((r_mod_enum_r - r_exp.real * r_mod_denum) ** 2)
             phase_loss = sum((r_mod_enum_i - r_exp.imag * r_mod_denum) ** 2)
-            # """
+            """
+            s = 0
+            for i in range(6):
+                s += (r_mod_enum_r[i] - r_exp.real[i] * r_mod_denum[i]) ** 2 + \
+                     (r_mod_enum_i[i] - r_exp.imag[i] * r_mod_denum[i]) ** 2
+                print(s)
+            """
 
             """
             r_mod = get_r_cart(self.freqs, p, self.n)
@@ -98,6 +104,7 @@ if __name__ == '__main__':
     cost_func = new_cost.cost
     # cost_func(p_sol)
     p = array([150.0, 400.0, 50.0])
+    p = array([50, 450, 100])
     #p = array([50, 450, 50])
 
     print(cost_func(p))

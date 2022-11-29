@@ -143,7 +143,7 @@ if __name__ == '__main__':
     verbose = True
     save_output = False
     en_shrinking = True
-    print_state = True
+    print_state = False
 
     p_r = Point(name="p_r")
     p_e = Point(name="p_e")
@@ -151,6 +151,8 @@ if __name__ == '__main__':
     p_ce = Point(name="p_ce")
 
     p0 = array([50, 450, 50])
+    p0 = array([300, 750, 300])
+    #p0 = p_sol.copy() * 0.99
 
     p_start = Point(p0)
 
@@ -176,7 +178,7 @@ if __name__ == '__main__':
 
     min_fx_val = []
     p0_fx_val = []
-    for i in range(1, 25):
+    for i in range(1, 15):
         shrink = False
         if verbose:
             print(f"start of iteration {i}")
@@ -188,14 +190,14 @@ if __name__ == '__main__':
 
         if (p_r.fx < simplex.p[0].fx):
             if verbose:
-                print("difference p_r.fx < simplex.p[0].fx", f'{abs(p_r.fx - simplex.p[0].fx):.20f}')
+                print("difference p_r.fx < simplex.p[0].fx", f'{(p_r.fx - simplex.p[0].fx):.20f}')
             update_point(simplex, p_ce, RHO * CHI, p_e)  # b00010
             cost_func(p_e)
             if print_state:
                 print("b00010")
             if p_e.fx < p_r.fx:
                 if verbose:
-                    print("difference p_e.fx < p_r.fx", f'{abs(p_e.fx - p_r.fx):.20f}')
+                    print("difference p_e.fx < p_r.fx", f'{(p_e.fx - p_r.fx):.20f}')
                     print("expand")
                 copy_point(p_e, simplex.p[3])  # b00100
                 if print_state:
@@ -211,7 +213,7 @@ if __name__ == '__main__':
                 print("b00011")
             if p_r.fx < simplex.p[2].fx:  # b00011
                 if verbose:
-                    print("difference p_r.fx < simplex.p[2].fx", f'{abs(p_r.fx - simplex.p[2].fx):.20f}')
+                    print("difference p_r.fx < simplex.p[2].fx", f'{(p_r.fx - simplex.p[2].fx):.20f}')
                     print("reflect 2")
                 copy_point(p_r, simplex.p[3])  # b00110
                 if print_state:
@@ -221,14 +223,18 @@ if __name__ == '__main__':
                     print("b00111")
                 if p_r.fx < simplex.p[3].fx:  # b00111
                     if verbose:
-                        print("difference p_r.fx < simplex.p[3].fx", f'{abs(p_r.fx - simplex.p[3].fx):.20f}')
+                        print("difference p_r.fx < simplex.p[3].fx",
+                              f'{(p_r.fx):.4f}', f'{(simplex.p[3].fx):.4f}',
+                              f'{(p_r.fx - simplex.p[3].fx):.20f}')
                     update_point(simplex, p_ce, RHO * GAMMA, p_c)  # b01000
                     cost_func(p_c)
                     if print_state:
                         print("b01000")
                     if p_c.fx <= p_r.fx:
                         if verbose:
-                            print("difference p_c.fx <= p_r.fx", f'{abs(p_c.fx - p_r.fx):.20f}')
+                            print("difference p_c.fx <= p_r.fx",
+                                  f'{(p_c.fx):.4f}', f'{(p_r.fx):.4f}',
+                                  f'{(p_c.fx - p_r.fx):.20f}')
                             print("contract out")
                         copy_point(p_c, simplex.p[3])  # b01010
                         if print_state:
@@ -247,7 +253,7 @@ if __name__ == '__main__':
                     if p_c.fx <= simplex.p[3].fx:
                         if verbose:
                             print("difference p_c.fx <= simplex.p[3].fx",
-                                  f'{abs(p_c.fx - simplex.p[3].fx):.20f}')
+                                  f'{(p_c.fx - simplex.p[3].fx):.20f}')
                             print("contract in")
                         copy_point(p_c, simplex.p[3])  # b01100
                         if print_state:

@@ -109,12 +109,18 @@ def grid(p_center, spacing):
 
 
 def nm_gridsearch(cost_func, p0, options):
+    def terminate(iter_cnt, max_iterations, fx):
+        # if we reach a good fx val continue iterations for a little longer
+        if fx < 0.1:
+            return iter_cnt < 30
+        else:
+            return iter_cnt < max_iterations
+
     grid_spacing = options["grid_spacing"]
     verbose = False
     iterations = options["iterations"]
     p0_grid = grid(p0, grid_spacing)
-
-    res = {"fun": np.inf, "nfev": 0}
+    res = {"fun": np.inf, "nfev": 0, "local_fun": []}
     for start_val in p0_grid:
         p_start = Point(array(start_val), name="Start point")
         if verbose:
@@ -139,8 +145,10 @@ def nm_gridsearch(cost_func, p0, options):
             print(simplex)
             print(p_ce, "\n")
 
-        fx_vals = []
-        for h in range(0, iterations):
+        fx_vals, h = [], 0
+        # for h in range(0, iterations):
+        while terminate(h, iterations, simplex.p[0].fx):
+            h += 1
             shrink = False
             if verbose:
                 print(f"start of iteration {h}")
@@ -239,11 +247,12 @@ def nm_gridsearch(cost_func, p0, options):
         # solution in p0 of simplex
         print("solution (simplex.p0):", simplex.p[0])
 
+        res["local_fun"].append(simplex.p[0].fx)
         if simplex.p[0].fx < res["fun"]:
             res["x"], res["fun"], res["lstart"] = simplex.p[0].x, simplex.p[0].fx, start_val
+        print(h)
     if verbose:
         print("Best minimum: ", np.round(res["x"], 2), res["fun"])
-
     return res
 
 

@@ -7,6 +7,7 @@ import os
 #log_file_stub = "display_output_loss_after"
 #log_file_stub = "display_output_lut_fp_division"
 log_file_stub = "display_output_machine_v2_0"
+#log_file_stub = "display_output_nm_v2_0"
 
 if os.name == "posix":
     vivado_project_path = Path(r"/media/alex/WDElements/IPs")
@@ -64,7 +65,9 @@ def convert_file(file_path):
                                     converted_line += str(round(dec, 8)) + ", " * (i != 5)
                             else:
                                 converted_line += bin_str
-                            if show_bin_str:
+                            if len(bin_str) == 6:
+                                converted_line += f" ({bin_str[1:]})"
+                            elif show_bin_str:
                                 converted_line += f" ({bin_str})"
                             bin_str = ""
                         converted_line += char
