@@ -31,7 +31,10 @@ class Point:
         self.name = name
 
     def __repr__(self):
-        return f"{self.name}, x: {self.x}, fx: {self.fx}"
+        if self.name:
+            return f"{self.name}, x: {self.x}, fx: {self.fx}"
+        else:
+            return f"x: {self.x}, fx: {self.fx}"
 
 
 def swap_points(p1, p2):
@@ -150,8 +153,11 @@ if __name__ == '__main__':
     p_c = Point(name="p_c")
     p_ce = Point(name="p_ce")
 
-    p0 = array([50, 450, 50])
-    p0 = array([300, 750, 300])
+    from random import choice
+    from nelder_mead_nD import grid
+    grid_pnts = grid()
+
+    p0 = choice(grid_pnts)
     #p0 = p_sol.copy() * 0.99
 
     p_start = Point(p0)
@@ -311,6 +317,7 @@ if __name__ == '__main__':
 
     # solution in p0 of simplex
     print("solution (simplex.p0):", simplex.p[0])
+    print(f"start point:{p_start}")
 
     plt.title(f"initial simplex scale: {size}")
     plt.plot(min_fx_val, label="min_fx_val")

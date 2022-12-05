@@ -9,7 +9,7 @@ def translate_string(s, p):
 
 
 def conv_to_verilog(s, p, pd):
-    # Garbage ):
+    # Garbage ): Idd...
     p, pd = int(p), int(pd)
     ret_lines = []
 

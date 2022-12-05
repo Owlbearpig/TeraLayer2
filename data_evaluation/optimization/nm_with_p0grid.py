@@ -7,13 +7,13 @@ from model.cost_function import Cost
 
 
 if __name__ == '__main__':
-    #p_sol = array([193.0, 544.0, 168.0])
     #p_sol = array([254.0, 644.0, 320.0])
     np.random.seed(420)
-    p_sol = array([100.0, 400.0, 200.0]) * (1 - np.random.random() / 10)
+    #p_sol = array([100.0, 400.0, 200.0]) * (1 - np.random.random() / 10)
+    p_sol = array([193.0, 544.0, 168.0])
 
     freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
-    new_cost = Cost(freqs, p_sol, 0.10)
+    new_cost = Cost(freqs, p_sol, 0.00)
     cost_func = new_cost.cost
 
     p0 = array([150, 600, 150]) # shouldn´t change
@@ -29,5 +29,7 @@ if __name__ == '__main__':
     res = nm_gridsearch(cost_func, p0, options)
     print(p_sol)
     print(res["x"], res["fun"])
+    total_runtime = (750 / 3780) * res["total_iters"]
+    print("total iterations:", res["total_iters"], f"runtime: {total_runtime} us")
     plt.plot(res["local_fun"])
     plt.show()

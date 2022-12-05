@@ -22,7 +22,7 @@ class Cost:
     def cost(self, point, *args):
         def cost_function(p):
             r_exp = np.sqrt(self.R0_amplitude) * np.exp(1j * self.R0_phase)
-
+            print(r_exp)
             # amp loss only
             """
             amp_loss = sum((get_amplitude(self.freqs, p, self.n) - self.R0_amplitude) ** 2)
@@ -97,6 +97,7 @@ class Cost:
 if __name__ == '__main__':
     freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
     p_sol = array([193.0, 544.0, 168.0])
+    p_sol = array([170, 690, 69])
     #p_sol = array([293.0, 344.0, 108.0])
     #p_sol = array([50.0, 400.0, 50.0])
     # for _ in range(100):

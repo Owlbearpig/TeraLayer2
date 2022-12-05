@@ -95,9 +95,10 @@ def initial_simplex(p_start, cost_func=None, sample_idx=None, fevals=0, size=0.8
     return simplex
 
 
-def grid(p_center, spacing):
+def grid(p_center=array([150, 600, 150]), spacing=50):
     size = 3
     grid_points = []
+
     for i in range(-size, size + 1):
         for j in range(-size, size + 1):
             for k in range(-size, size + 1):
@@ -111,11 +112,12 @@ def grid(p_center, spacing):
 def nm_gridsearch(cost_func, p0, options):
     def terminate(iter_cnt, max_iterations, fx):
         # if we reach a good fx val continue iterations for a little longer
-        if fx < 0.1:
-            return iter_cnt < 30
+        if fx < 0.5:
+            return iter_cnt < max_iterations
         else:
             return iter_cnt < max_iterations
 
+    total_iters = 0
     grid_spacing = options["grid_spacing"]
     verbose = False
     iterations = options["iterations"]
@@ -244,15 +246,19 @@ def nm_gridsearch(cost_func, p0, options):
             print(p_ce)
             print(simplex, "\n")
 
+        # iterations, start value
+        print(h, start_val)
+        total_iters += h
         # solution in p0 of simplex
         print("solution (simplex.p0):", simplex.p[0])
-
         res["local_fun"].append(simplex.p[0].fx)
         if simplex.p[0].fx < res["fun"]:
             res["x"], res["fun"], res["lstart"] = simplex.p[0].x, simplex.p[0].fx, start_val
-        print(h)
+
     if verbose:
         print("Best minimum: ", np.round(res["x"], 2), res["fun"])
+    res["total_iters"] = total_iters
+
     return res
 
 
