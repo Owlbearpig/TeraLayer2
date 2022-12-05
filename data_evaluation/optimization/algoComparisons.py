@@ -4,6 +4,7 @@ import numpy as np
 from numpy import array, sum
 import matplotlib as mpl
 from model.cost_function import Cost
+from functions import gen_p_sols
 
 # mpl.rcParams['lines.linestyle'] = '--'
 mpl.rcParams['lines.marker'] = 'o'
@@ -17,8 +18,7 @@ mpl.rcParams['ytick.direction'] = 'in'
 mpl.rcParams.update({'font.size': 22})
 
 
-def rand_sol():
-    return [int(i) for i in [uniform(20, 300), uniform(500, 700), uniform(50, 300)]]
+
 
 
 def is_success(sol, p):
@@ -27,14 +27,8 @@ def is_success(sol, p):
 
 
 if __name__ == '__main__':
-    from numpy.random import uniform
 
-    np.random.seed(421)
-    rand = np.random.random
-
-    test_values = []
-    for _ in range(100):
-        test_values.append(rand_sol())
+    test_values = gen_p_sols(cnt=100)
 
     deviations, failures, fevals_all = [], 0, []
     with open("results_nm_grid.txt", "a") as file:

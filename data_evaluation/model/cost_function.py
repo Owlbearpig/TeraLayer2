@@ -18,11 +18,11 @@ class Cost:
 
         self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) * (1 + noise_amp) ** 2
         self.R0_phase = get_phase(self.freqs, p_solution * um_to_m, self.n) + noise_phase
+        self.r_exp = np.sqrt(self.R0_amplitude) * np.exp(1j * self.R0_phase)
 
     def cost(self, point, *args):
         def cost_function(p):
-            r_exp = np.sqrt(self.R0_amplitude) * np.exp(1j * self.R0_phase)
-            print(r_exp)
+
             # amp loss only
             """
             amp_loss = sum((get_amplitude(self.freqs, p, self.n) - self.R0_amplitude) ** 2)
@@ -61,8 +61,8 @@ class Cost:
             print("diff_sqr_imag", (r_mod_enum_i - r_exp.imag * r_mod_denum) ** 2, "\n")
             print(r_exp)
             """
-            amp_loss = sum((r_mod_enum_r - r_exp.real * r_mod_denum) ** 2)
-            phase_loss = sum((r_mod_enum_i - r_exp.imag * r_mod_denum) ** 2)
+            amp_loss = sum((r_mod_enum_r - self.r_exp.real * r_mod_denum) ** 2)
+            phase_loss = sum((r_mod_enum_i - self.r_exp.imag * r_mod_denum) ** 2)
             """
             s = 0
             for i in range(6):

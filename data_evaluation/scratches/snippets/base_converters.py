@@ -1,6 +1,7 @@
 from consts import *
-from functions import format_data
+from functions import format_data, gen_p_sols
 from optimization.nelder_mead_nD import grid, initial_simplex, Point
+from model.cost_function import Cost
 
 
 def bin_to_dec(bin_str, signed=True):
@@ -200,6 +201,70 @@ def convert_measurement_to_bin(pd=3, p=23, short=False):
             print(bin_str + "," * (len(R0) - 1 != i) + f" // {R0_i}")
         print("};\nend")
 
+def model_data_to_verilog(pd=3, p=22):
+    p_sols = gen_p_sols(cnt=100)
+
+    noise_factor = 0.00
+    for p_sol in p_sols:
+        p_sol = array(p_sol, dtype=float)
+        freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
+        new_cost = Cost(freqs, p_sol, noise_factor)
+        r_exp = new_cost.r_exp
+
+        print("#1000000")
+        print(f"// model data (r_exp) for p_sol = {p_sol}")
+        print("cur_data_real = {")
+        for i, r_exp_i in enumerate(r_exp):
+            bin_str = f"    {dec_to_twoscompl(r_exp_i.real, pd, p, format=True)}"
+            print(bin_str + "," * (len(r_exp) - 1 != i) + f" // {r_exp_i}")
+        print("};")
+        print("cur_data_imag = {")
+        for i, r_exp_i in enumerate(r_exp):
+            bin_str = f"    {dec_to_twoscompl(r_exp_i.imag, pd, p, format=True)}"
+            print(bin_str + "," * (len(r_exp) - 1 != i) + f" // {r_exp_i}")
+        print("};\n")
+
+    """
+    #1000000
+    // model data (r_exp) for p_sol = [193.0, 544.0, 168.0]
+    cur_data_real = {
+        25'b000_0000011011011101111111, // (0.02682477+0.28428691j)
+        25'b000_1000011110111011100001, // (0.53020506+0.32835899j)
+        25'b111_1111101110000101110010, // (-0.01749006-0.60037449j)
+        25'b111_1101011100110110111110, // (-0.15931759-0.15998499j)
+        25'b000_0010000001110000000101, // (0.12671039+0.33937756j)
+        25'b000_0111011111101001011100 // (0.46840577+0.31724943j)
+    };
+    cur_data_imag = {
+        25'b000_0100100011000111000001, // (0.02682477+0.28428691j)
+        25'b000_0101010000001111010101, // (0.53020506+0.32835899j)
+        25'b111_0110011001001101110111, // (-0.01749006-0.60037449j)
+        25'b111_1101011100001011001111, // (-0.15931759-0.15998499j)
+        25'b000_0101011011100001011100, // (0.12671039+0.33937756j)
+        25'b000_0101000100110111010000 // (0.46840577+0.31724943j)
+    };
+    
+    #1000000
+    // model data (r_exp) for p_sol = [293.0, 344.0, 108.0]
+    cur_data_real = {
+        25'b000_0010000110011110111011, // (0.13133135-0.29962632j)
+        25'b111_1101110010010010001101, // (-0.1383942-0.09266519j)
+        25'b000_0010010100000010110001, // (0.14457346+0.15464758j)
+        25'b000_0110111101001011100011, // (0.43474663-0.10420059j)
+        25'b111_1000000001100110010010, // (-0.49843951-0.20505074j)
+        25'b111_1101100000100110001110 // (-0.155667+0.05826344j)
+    };
+    cur_data_imag = {
+        25'b111_1011001101001011101101, // (0.13133135-0.29962632j)
+        25'b111_1110100001000111000111, // (-0.1383942-0.09266519j)
+        25'b000_0010011110010110111110, // (0.14457346+0.15464758j)
+        25'b111_1110010101010011001000, // (0.43474663-0.10420059j)
+        25'b111_1100101110000001110011, // (-0.49843951-0.20505074j)
+        25'b000_0000111011101010010110 // (-0.155667+0.05826344j)
+    };
+    """
+
+
 
 def convert_constants_fg(pd=0, p=23):
     from model.initial_tests.explicitEvalSimple import f, g
@@ -389,6 +454,8 @@ def convert_lines(s, p):
 # TODO make gui for the viable functions + window to paste text to translate numbers ...
 
 if __name__ == '__main__':
+    model_data_to_verilog(pd=3, p=22)
+    exit()
     #print(list_to_twos_comp("[193.0 544.0 168.0]", pd=12, p=22))
     #print(twos_compl_to_dec("1011110000100100010100001", p=22))
     #exit()

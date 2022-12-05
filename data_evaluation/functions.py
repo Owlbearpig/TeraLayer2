@@ -245,6 +245,20 @@ def noise_gen(freqs, enabled, scale=1, seed=None):
         return np.ones_like(freqs)
 
 
+def gen_p_sols(cnt=100):
+
+    np.random.seed(421)
+
+    def rand_sol():
+        return [int(i) for i in [uniform(20, 300), uniform(500, 700), uniform(50, 300)]]
+
+    p_sols = []
+    for _ in range(cnt):
+        p_sols.append(rand_sol())
+
+    return p_sols
+
+
 if __name__ == '__main__':
     from consts import wide_mask
 
