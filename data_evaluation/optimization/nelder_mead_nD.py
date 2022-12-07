@@ -250,7 +250,7 @@ def nm_gridsearch(cost_func, p0, options):
         print(h, start_val)
         total_iters += h
         # solution in p0 of simplex
-        print("solution (simplex.p0):", simplex.p[0])
+        print("solution (simplex.p0):", simplex.p[0], "\n")
         res["local_fun"].append(simplex.p[0].fx)
         if simplex.p[0].fx < res["fun"]:
             res["x"], res["fun"], res["lstart"] = simplex.p[0].x, simplex.p[0].fx, start_val

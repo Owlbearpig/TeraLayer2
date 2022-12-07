@@ -11,6 +11,7 @@ if __name__ == '__main__':
     np.random.seed(420)
     #p_sol = array([100.0, 400.0, 200.0]) * (1 - np.random.random() / 10)
     p_sol = array([193.0, 544.0, 168.0])
+    p_sol = array([76., 530., 200.])
 
     freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
     new_cost = Cost(freqs, p_sol, 0.00)
