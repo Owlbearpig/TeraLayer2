@@ -4,9 +4,9 @@ import os
 
 #log_file_stub = "display_output_input_module"
 #log_file_stub = "display_output_mult"
-#log_file_stub = "display_output_loss_after"
+log_file_stub = "display_output_loss_after"
 #log_file_stub = "display_output_lut_fp_division"
-log_file_stub = "display_output_machine_v2_0"
+#log_file_stub = "display_output_machine_v2_0"
 #log_file_stub = "display_output_nm_v2_0"
 
 if os.name == "posix":
@@ -47,10 +47,13 @@ def convert_file(file_path):
                             elif len(bin_str) == 2 * 3 + 2 * p:
                                 dec = twos_compl_to_dec(bin_str, p=2*p)
                                 converted_line += str(round(dec, 6))
+                            elif len(bin_str) == 2 * 4 + 2 * p:
+                                dec = twos_compl_to_dec(bin_str, p=2*p)
+                                converted_line += str(round(dec, 6))
                             elif len(bin_str) == 12 + p:  # coords
                                 dec = twos_compl_to_dec(bin_str, p=p)
                                 converted_line += str(round(dec, 3))
-                            elif len(bin_str) == 3 + p:  # fx
+                            elif len(bin_str) == 4 + p:  # fx
                                 dec = twos_compl_to_dec(bin_str, p=p)
                                 converted_line += str(round(dec, 8))
                             elif len(bin_str) == 8 + p:

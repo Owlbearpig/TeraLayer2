@@ -95,10 +95,8 @@ def initial_simplex(p_start, cost_func=None, sample_idx=None, fevals=0, size=0.8
     return simplex
 
 
-def grid(p_center=array([150, 600, 150]), spacing=50):
-    size = 3
+def grid(p_center=array([150, 600, 150]), spacing=50, size=3):
     grid_points = []
-
     for i in range(-size, size + 1):
         for j in range(-size, size + 1):
             for k in range(-size, size + 1):
@@ -119,9 +117,10 @@ def nm_gridsearch(cost_func, p0, options):
 
     total_iters = 0
     grid_spacing = options["grid_spacing"]
+    size = options["size"]
     verbose = False
     iterations = options["iterations"]
-    p0_grid = grid(p0, grid_spacing)
+    p0_grid = grid(p0, grid_spacing, size)
     res = {"fun": np.inf, "nfev": 0, "local_fun": []}
     for start_val in p0_grid:
         p_start = Point(array(start_val), name="Start point")

@@ -153,6 +153,22 @@ def list_to_twos_comp(lst, pd=12, p=17):
 
     return ret
 
+def twos_comp_list_to_dec(lst, p=22):
+    """ example input:
+    s = "[0000110100101111011001000111100011, 0010100101000000010011100000010101, 0000010000000000100011100001000001]"
+    print(list_to_twos_comp(s))
+    exit()
+    return: [210.9620292186737, 660.0190479755402, 64.03468346595764], p=22
+    """
+    lst = sanitize_str(lst)
+
+    ret = []
+    for part in lst.split(","):
+        number = twos_compl_to_dec(part, p=p)
+        ret.append(number)
+
+    return ret
+
 
 def print_lst_verilog(lst_str, pd=12, p=17, point_name="i"):
     """ example input:
@@ -204,15 +220,17 @@ def convert_measurement_to_bin(pd=3, p=23, short=False):
 def model_data_to_verilog(pd=3, p=22):
     p_sols = gen_p_sols(cnt=100)
 
-    noise_factor = 0.00
+    noise_factor = 0.50
     for p_sol in p_sols:
         p_sol = array(p_sol, dtype=float)
         freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
-        new_cost = Cost(freqs, p_sol, noise_factor)
+        new_cost = Cost(freqs, p_sol, noise_factor, seed=420)
         r_exp = new_cost.r_exp
 
         print("#1000000")
         print(f"// model data (r_exp) for p_sol = {p_sol}")
+        for i in range(3):
+            print(f"p_sol_d{i} = {int(p_sol[i])};")
         print("cur_data_real = {")
         for i, r_exp_i in enumerate(r_exp):
             bin_str = f"    {dec_to_twoscompl(r_exp_i.real, pd, p, format=True)}"
@@ -226,6 +244,9 @@ def model_data_to_verilog(pd=3, p=22):
 
     """
     #1000000
+    p_sol_d0 = 193;
+	p_sol_d1 = 544;
+	p_sol_d2 = 168;
     // model data (r_exp) for p_sol = [193.0, 544.0, 168.0]
     cur_data_real = {
         25'b000_0000011011011101111111, // (0.02682477+0.28428691j)
@@ -454,6 +475,10 @@ def convert_lines(s, p):
 # TODO make gui for the viable functions + window to paste text to translate numbers ...
 
 if __name__ == '__main__':
+    """
+    s = "[0000110100101111011001000111100011, 0010100101000000010011100000010101, 0000010000000000100011100001000001]"
+    twos_comp_list_to_dec(s)
+    """
     model_data_to_verilog(pd=3, p=22)
     exit()
     #print(list_to_twos_comp("[193.0 544.0 168.0]", pd=12, p=22))

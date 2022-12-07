@@ -1,7 +1,14 @@
-busy, 0
-temp_loss, 0.0
-loss_buffer, 0.0
-delay, 0
+cur_data_real, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cur_data_imag, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
 r_total_loss, 0.0
 cntr, 0000
 o_total_loss, 0.0
@@ -10,801 +17,2234 @@ clk cycle 0 done
 busy, 0
 temp_loss, 0.0
 loss_buffer, 0.0
-delay, 0
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 0 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
 r_total_loss, 0.0
 cntr, 0000
 o_total_loss, 0.0
 clk cycle 1 done 
 
-busy, 1
+busy, 0
 temp_loss, 0.0
 loss_buffer, 0.0
-delay, 0
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 1 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
 r_total_loss, 0.0
 cntr, 0000
 o_total_loss, 0.0
 clk cycle 2 done 
 
-busy, 1
-temp_loss, 1.217373
+busy, 0
+temp_loss, 0.0
 loss_buffer, 0.0
-delay, 0
+latched, 0
 r_total_loss, 0.0
-cntr, 0001
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 2 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
 o_total_loss, 0.0
 clk cycle 3 done 
 
 busy, 1
-temp_loss, 2.486536
+temp_loss, 0.0
 loss_buffer, 0.0
-delay, 0
-r_total_loss, 1.217373
-cntr, 0010
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 3 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000100010010100110110101
+r0_imag, 0000011001001100000101001
+r_denum, 0010101111111010100001011
+cd_real_norm_pw, 0000101111001011001101000
+cd_imag_norm_pw, 0000100010100111100010000
+r_enum_real, 0001100011101000000000111
+r_enum_imag, 1111000010011110000000001
+diff_sqr_real, 0.167909
+diff_sqr_imag, 0.564246
+r_total_loss, 0.0
+cntr, 0001
 o_total_loss, 0.0
 clk cycle 4 done 
 
 busy, 1
-temp_loss, 2.509726
+temp_loss, 0.732155
 loss_buffer, 0.0
-delay, 0
-r_total_loss, 2.486536
-cntr, 0011
+latched, 0
+r_total_loss, 0.0
+cntr, 0001
+o_total_loss, 0.0
+clk cycle 4 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000110001001011101000101
+r0_imag, 0000001100100101011100100
+r_denum, 0001111110100000101111110
+cd_real_norm_pw, 0000110000100111000010001
+cd_imag_norm_pw, 0000001100011100000101000
+r_enum_real, 1111110111111100101100100
+r_enum_imag, 1111000100001111111011111
+diff_sqr_real, 0.195955
+diff_sqr_imag, 0.318076
+r_total_loss, 0.732155
+cntr, 0010
 o_total_loss, 0.0
 clk cycle 5 done 
 
 busy, 1
-temp_loss, 2.52796
+temp_loss, 1.246186
 loss_buffer, 0.0
-delay, 0
-r_total_loss, 2.509726
-cntr, 0100
+latched, 0
+r_total_loss, 0.732155
+cntr, 0010
+o_total_loss, 0.0
+clk cycle 5 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0001001000100100100000011
+r0_imag, 1111111100101000101000100
+r_denum, 0001100111100111111111011
+cd_real_norm_pw, 0000111010110000000011000
+cd_imag_norm_pw, 1111111101010001101001010
+r_enum_real, 1111111010100011011011011
+r_enum_imag, 0000010111111110111010010
+diff_sqr_real, 0.251543
+diff_sqr_imag, 0.043535
+r_total_loss, 1.246186
+cntr, 0011
 o_total_loss, 0.0
 clk cycle 6 done 
 
 busy, 1
-temp_loss, 2.7963
-loss_buffer, 2.52795982
-delay, 1
-r_total_loss, 2.52796
-cntr, 0101
-o_total_loss, 2.52795982
+temp_loss, 1.541264
+loss_buffer, 0.0
+latched, 0
+r_total_loss, 1.246186
+cntr, 0011
+o_total_loss, 0.0
+clk cycle 6 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000100111010011011101010
+r0_imag, 0000000011011100111000000
+r_denum, 0001100100111110110110110
+cd_real_norm_pw, 0000011111000000100000000
+cd_imag_norm_pw, 0000000010101110010000001
+r_enum_real, 0000000000101111101001011
+r_enum_imag, 0000010001111011001011110
+diff_sqr_real, 0.0559
+diff_sqr_imag, 0.014105
+r_total_loss, 1.541264
+cntr, 0100
+o_total_loss, 0.0
 clk cycle 7 done 
 
-busy, 0
-temp_loss, 2.998759
-loss_buffer, 2.52795982
-delay, 0
-r_total_loss, 2.7963
-cntr, 0110
-o_total_loss, 2.99875879
+busy, 1
+temp_loss, 1.61127
+loss_buffer, 0.0
+latched, 0
+r_total_loss, 1.541264
+cntr, 0100
+o_total_loss, 0.0
+clk cycle 7 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 1111000011011100101010111
+r0_imag, 1111110101110010100000111
+r_denum, 0011100111010101100000000
+cd_real_norm_pw, 1110010010100100000100011
+cd_imag_norm_pw, 1111101101100010111100100
+r_enum_real, 0010101000011010001010110
+r_enum_imag, 1111001101101100010111110
+diff_sqr_real, 4.711793
+diff_sqr_imag, 0.061926
+r_total_loss, 1.61127
+cntr, 0101
+o_total_loss, 0.0
 clk cycle 8 done 
 
-busy, 0
-temp_loss, 0.0
-loss_buffer, 2.52795982
-delay, 0
-r_total_loss, 0.0
-cntr, 0000
-o_total_loss, 2.52795982
+busy, 1
+temp_loss, 6.384989
+loss_buffer, 0.0
+latched, 0
+r_total_loss, 1.61127
+cntr, 0101
+o_total_loss, 0.0
+clk cycle 8 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000100010010001111000111
+r0_imag, 0000111100111011011001110
+r_denum, 0010010111100100011111011
+cd_real_norm_pw, 0000101000100101111000000
+cd_imag_norm_pw, 0001001000001001011100100
+r_enum_real, 0000010000000011111010110
+r_enum_imag, 1110100111001001001001000
+diff_sqr_real, 0.036728
+diff_sqr_imag, 1.582186
+r_total_loss, 6.384989
+cntr, 0110
+o_total_loss, -7.9960978
 clk cycle 9 done 
 
 busy, 0
-temp_loss, 0.0
-loss_buffer, 2.52795982
-delay, 0
+temp_loss, 8.003902
+loss_buffer, 0.0
+latched, 0
+r_total_loss, 6.384989
+cntr, 0110
+o_total_loss, -7.9960978
+clk cycle 9 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 2.52795982
+o_total_loss, -7.9960978
 clk cycle 10 done 
 
-busy, 0
+busy, 1
 temp_loss, 0.0
-loss_buffer, 2.52795982
-delay, 0
+loss_buffer, -7.9960978
+latched, 1
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 2.52795982
+o_total_loss, -7.9960978
+clk cycle 10 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000100010010100110110101
+r0_imag, 0000011001001100000101001
+r_denum, 0010101111111010100001011
+cd_real_norm_pw, 0000101111001011001101000
+cd_imag_norm_pw, 0000100010100111100010000
+r_enum_real, 0001100011101000000000111
+r_enum_imag, 1111000010011110000000001
+diff_sqr_real, 0.167909
+diff_sqr_imag, 0.564246
+r_total_loss, 0.0
+cntr, 0001
+o_total_loss, -7.9960978
 clk cycle 11 done 
 
-busy, 0
-temp_loss, 0.0
-loss_buffer, 2.52795982
-delay, 0
+busy, 1
+temp_loss, 0.732155
+loss_buffer, -7.9960978
+latched, 0
 r_total_loss, 0.0
-cntr, 0000
-o_total_loss, 2.52795982
+cntr, 0001
+o_total_loss, -7.9960978
+clk cycle 11 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000110001001011101000101
+r0_imag, 0000001100100101011100100
+r_denum, 0001111110100000101111110
+cd_real_norm_pw, 0000110000100111000010001
+cd_imag_norm_pw, 0000001100011100000101000
+r_enum_real, 1111110111111100101100100
+r_enum_imag, 1111000100001111111011111
+diff_sqr_real, 0.195955
+diff_sqr_imag, 0.318076
+r_total_loss, 0.732155
+cntr, 0010
+o_total_loss, -7.9960978
 clk cycle 12 done 
 
-busy, 0
-temp_loss, 0.0
-loss_buffer, 2.52795982
-delay, 0
-r_total_loss, 0.0
-cntr, 0000
-o_total_loss, 2.52795982
+busy, 1
+temp_loss, 1.246186
+loss_buffer, -7.9960978
+latched, 0
+r_total_loss, 0.732155
+cntr, 0010
+o_total_loss, -7.9960978
+clk cycle 12 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0001001000100100100000011
+r0_imag, 1111111100101000101000100
+r_denum, 0001100111100111111111011
+cd_real_norm_pw, 0000111010110000000011000
+cd_imag_norm_pw, 1111111101010001101001010
+r_enum_real, 1111111010100011011011011
+r_enum_imag, 0000010111111110111010010
+diff_sqr_real, 0.251543
+diff_sqr_imag, 0.043535
+r_total_loss, 1.246186
+cntr, 0011
+o_total_loss, -7.9960978
 clk cycle 13 done 
 
-busy, 0
-temp_loss, 0.0
-loss_buffer, 2.52795982
-delay, 0
-r_total_loss, 0.0
-cntr, 0000
-o_total_loss, 2.52795982
+busy, 1
+temp_loss, 1.541264
+loss_buffer, -7.9960978
+latched, 0
+r_total_loss, 1.246186
+cntr, 0011
+o_total_loss, -7.9960978
+clk cycle 13 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000100111010011011101010
+r0_imag, 0000000011011100111000000
+r_denum, 0001100100111110110110110
+cd_real_norm_pw, 0000011111000000100000000
+cd_imag_norm_pw, 0000000010101110010000001
+r_enum_real, 0000000000101111101001011
+r_enum_imag, 0000010001111011001011110
+diff_sqr_real, 0.0559
+diff_sqr_imag, 0.014105
+r_total_loss, 1.541264
+cntr, 0100
+o_total_loss, -7.9960978
 clk cycle 14 done 
 
-busy, 0
-temp_loss, 0.0
-loss_buffer, 2.52795982
-delay, 0
-r_total_loss, 0.0
-cntr, 0000
-o_total_loss, 2.52795982
+busy, 1
+temp_loss, 1.61127
+loss_buffer, -7.9960978
+latched, 0
+r_total_loss, 1.541264
+cntr, 0100
+o_total_loss, -7.9960978
+clk cycle 14 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 1111000011011100101010111
+r0_imag, 1111110101110010100000111
+r_denum, 0011100111010101100000000
+cd_real_norm_pw, 1110010010100100000100011
+cd_imag_norm_pw, 1111101101100010111100100
+r_enum_real, 0010101000011010001010110
+r_enum_imag, 1111001101101100010111110
+diff_sqr_real, 4.711793
+diff_sqr_imag, 0.061926
+r_total_loss, 1.61127
+cntr, 0101
+o_total_loss, -7.9960978
 clk cycle 15 done 
 
 busy, 1
-temp_loss, 0.0
-loss_buffer, 2.52795982
-delay, 0
-r_total_loss, 0.0
-cntr, 0000
-o_total_loss, 2.52795982
+temp_loss, 6.384989
+loss_buffer, -7.9960978
+latched, 0
+r_total_loss, 1.61127
+cntr, 0101
+o_total_loss, -7.9960978
+clk cycle 15 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000100010010001111000111
+r0_imag, 0000111100111011011001110
+r_denum, 0010010111100100011111011
+cd_real_norm_pw, 0000101000100101111000000
+cd_imag_norm_pw, 0001001000001001011100100
+r_enum_real, 0000010000000011111010110
+r_enum_imag, 1110100111001001001001000
+diff_sqr_real, 0.036728
+diff_sqr_imag, 1.582186
+r_total_loss, 6.384989
+cntr, 0110
+o_total_loss, -7.9960978
 clk cycle 16 done 
 
-busy, 1
-temp_loss, 0.141819
-loss_buffer, 2.52795982
-delay, 0
+busy, 0
+temp_loss, 8.003902
+loss_buffer, -7.9960978
+latched, 0
+r_total_loss, 6.384989
+cntr, 0110
+o_total_loss, -7.9960978
+clk cycle 16 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
 r_total_loss, 0.0
-cntr, 0001
-o_total_loss, 2.52795982
+cntr, 0000
+o_total_loss, -7.9960978
 clk cycle 17 done 
 
 busy, 1
-temp_loss, 0.291707
-loss_buffer, 2.52795982
-delay, 0
-r_total_loss, 0.141819
-cntr, 0010
-o_total_loss, 2.52795982
+temp_loss, 0.0
+loss_buffer, -7.9960978
+latched, 1
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, -7.9960978
+clk cycle 17 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000100010010100110110101
+r0_imag, 0000011001001100000101001
+r_denum, 0010101111111010100001011
+cd_real_norm_pw, 0000101111001011001101000
+cd_imag_norm_pw, 0000100010100111100010000
+r_enum_real, 0001100011101000000000111
+r_enum_imag, 1111000010011110000000001
+diff_sqr_real, 0.167909
+diff_sqr_imag, 0.564246
+r_total_loss, 0.0
+cntr, 0001
+o_total_loss, -7.9960978
 clk cycle 18 done 
 
 busy, 1
-temp_loss, 0.524743
-loss_buffer, 2.52795982
-delay, 0
-r_total_loss, 0.291707
-cntr, 0011
-o_total_loss, 2.52795982
+temp_loss, 0.732155
+loss_buffer, -7.9960978
+latched, 0
+r_total_loss, 0.0
+cntr, 0001
+o_total_loss, -7.9960978
+clk cycle 18 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000110001001011101000101
+r0_imag, 0000001100100101011100100
+r_denum, 0001111110100000101111110
+cd_real_norm_pw, 0000110000100111000010001
+cd_imag_norm_pw, 0000001100011100000101000
+r_enum_real, 1111110111111100101100100
+r_enum_imag, 1111000100001111111011111
+diff_sqr_real, 0.195955
+diff_sqr_imag, 0.318076
+r_total_loss, 0.732155
+cntr, 0010
+o_total_loss, -7.9960978
 clk cycle 19 done 
 
 busy, 1
-temp_loss, 0.702135
-loss_buffer, 2.52795982
-delay, 0
-r_total_loss, 0.524743
-cntr, 0100
-o_total_loss, 2.52795982
+temp_loss, 1.246186
+loss_buffer, -7.9960978
+latched, 0
+r_total_loss, 0.732155
+cntr, 0010
+o_total_loss, -7.9960978
+clk cycle 19 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0001001000100100100000011
+r0_imag, 1111111100101000101000100
+r_denum, 0001100111100111111111011
+cd_real_norm_pw, 0000111010110000000011000
+cd_imag_norm_pw, 1111111101010001101001010
+r_enum_real, 1111111010100011011011011
+r_enum_imag, 0000010111111110111010010
+diff_sqr_real, 0.251543
+diff_sqr_imag, 0.043535
+r_total_loss, 1.246186
+cntr, 0011
+o_total_loss, -7.9960978
 clk cycle 20 done 
 
 busy, 1
-temp_loss, 1.263178
-loss_buffer, 0.70213532
-delay, 1
-r_total_loss, 0.702135
-cntr, 0101
-o_total_loss, 0.70213532
+temp_loss, 1.541264
+loss_buffer, -7.9960978
+latched, 0
+r_total_loss, 1.246186
+cntr, 0011
+o_total_loss, -7.9960978
+clk cycle 20 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000100111010011011101010
+r0_imag, 0000000011011100111000000
+r_denum, 0001100100111110110110110
+cd_real_norm_pw, 0000011111000000100000000
+cd_imag_norm_pw, 0000000010101110010000001
+r_enum_real, 0000000000101111101001011
+r_enum_imag, 0000010001111011001011110
+diff_sqr_real, 0.0559
+diff_sqr_imag, 0.014105
+r_total_loss, 1.541264
+cntr, 0100
+o_total_loss, -7.9960978
 clk cycle 21 done 
 
-busy, 0
-temp_loss, 1.541379
-loss_buffer, 0.70213532
-delay, 0
-r_total_loss, 1.263178
-cntr, 0110
-o_total_loss, 1.5413785
+busy, 1
+temp_loss, 1.61127
+loss_buffer, -7.9960978
+latched, 0
+r_total_loss, 1.541264
+cntr, 0100
+o_total_loss, -7.9960978
+clk cycle 21 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 1111000011011100101010111
+r0_imag, 1111110101110010100000111
+r_denum, 0011100111010101100000000
+cd_real_norm_pw, 1110010010100100000100011
+cd_imag_norm_pw, 1111101101100010111100100
+r_enum_real, 0010101000011010001010110
+r_enum_imag, 1111001101101100010111110
+diff_sqr_real, 4.711793
+diff_sqr_imag, 0.061926
+r_total_loss, 1.61127
+cntr, 0101
+o_total_loss, -7.9960978
 clk cycle 22 done 
 
 busy, 1
-temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
-r_total_loss, 0.0
-cntr, 0000
-o_total_loss, 0.70213532
+temp_loss, 6.384989
+loss_buffer, -7.9960978
+latched, 0
+r_total_loss, 1.61127
+cntr, 0101
+o_total_loss, -7.9960978
+clk cycle 22 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000100010010001111000111
+r0_imag, 0000111100111011011001110
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000011010001011111010011
+cd_imag_norm_pw, 0000101110100010110000010
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.041853
+diff_sqr_imag, 0.132218
+r_total_loss, 6.384989
+cntr, 0110
+o_total_loss, 6.55905867
 clk cycle 23 done 
 
-busy, 1
-temp_loss, 0.141819
-loss_buffer, 0.70213532
-delay, 0
+busy, 0
+temp_loss, 6.559059
+loss_buffer, -7.9960978
+latched, 0
+r_total_loss, 6.384989
+cntr, 0110
+o_total_loss, 6.55905867
+clk cycle 23 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
 r_total_loss, 0.0
-cntr, 0001
-o_total_loss, 0.70213532
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 24 done 
 
-busy, 1
-temp_loss, 0.291707
-loss_buffer, 0.70213532
-delay, 0
-r_total_loss, 0.141819
-cntr, 0010
-o_total_loss, 0.70213532
+busy, 0
+temp_loss, 0.0
+loss_buffer, 6.55905867
+latched, 1
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
+clk cycle 24 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 25 done 
 
-busy, 1
-temp_loss, 0.524743
-loss_buffer, 0.70213532
-delay, 0
-r_total_loss, 0.291707
-cntr, 0011
-o_total_loss, 0.70213532
+busy, 0
+temp_loss, 0.0
+loss_buffer, 6.55905867
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
+clk cycle 25 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 26 done 
 
-busy, 1
-temp_loss, 0.702135
-loss_buffer, 0.70213532
-delay, 0
-r_total_loss, 0.524743
-cntr, 0100
-o_total_loss, 0.70213532
+busy, 0
+temp_loss, 0.0
+loss_buffer, 6.55905867
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
+clk cycle 26 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 27 done 
 
-busy, 1
-temp_loss, 1.263178
-loss_buffer, 0.70213532
-delay, 1
-r_total_loss, 0.702135
-cntr, 0101
-o_total_loss, 0.70213532
+busy, 0
+temp_loss, 0.0
+loss_buffer, 6.55905867
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
+clk cycle 27 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 28 done 
 
 busy, 0
-temp_loss, 1.541379
-loss_buffer, 0.70213532
-delay, 0
-r_total_loss, 1.263178
-cntr, 0110
-o_total_loss, 1.5413785
+temp_loss, 0.0
+loss_buffer, 6.55905867
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
+clk cycle 28 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 29 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 29 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 30 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 30 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 31 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 31 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 32 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 32 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 33 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 33 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 34 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 34 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 35 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 35 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 36 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 36 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 37 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 37 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 38 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 38 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 39 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 39 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 40 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 40 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 41 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 41 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 42 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 42 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 43 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 43 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 44 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 44 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 45 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 45 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 46 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 46 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 47 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 47 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 48 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 48 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 49 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 49 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 50 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 50 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 51 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 51 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 52 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 52 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 53 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 53 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 54 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 54 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 55 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 55 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 56 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 56 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 57 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 57 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 58 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 58 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 59 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 59 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 60 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 60 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 61 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 61 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 62 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 62 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 63 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 63 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 64 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 64 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 65 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 65 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 66 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 66 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 67 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 67 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 68 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 68 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 69 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 69 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 70 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 70 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 71 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 71 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 72 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 72 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 73 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 73 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 74 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 74 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 75 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 75 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 76 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 76 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 77 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 77 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 78 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 78 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 79 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 79 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 80 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 80 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 81 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 81 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 82 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 82 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 83 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 83 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 84 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 84 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 85 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 85 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 86 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 86 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 87 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 87 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 88 done 
 
 busy, 0
 temp_loss, 0.0
-loss_buffer, 0.70213532
-delay, 0
+loss_buffer, 6.55905867
+latched, 0
 r_total_loss, 0.0
 cntr, 0000
-o_total_loss, 0.70213532
+o_total_loss, 6.55905867
+clk cycle 88 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0000000000000000000000000
+r0_imag, 0000000000000000000000000
+r_denum, 0001100001110001110111111
+cd_real_norm_pw, 0000000000000000000000000
+cd_imag_norm_pw, 0000000000000000000000000
+r_enum_real, 0000000000000000000000000
+r_enum_imag, 0000000000000000000000000
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
+clk cycle 89 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, 6.55905867
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 6.55905867
 clk cycle 89 done 
 

@@ -9,12 +9,12 @@ from functions import noise_gen
 
 
 class Cost:
-    def __init__(self, freqs, p_solution, noise_std_scale=1):
+    def __init__(self, freqs, p_solution, noise_std_scale=1, seed=420):
         self.freqs = freqs
         self.n = get_n(freqs, n_min=2.8, n_max=2.8)
         self.en_noise = True
-        noise_amp = noise_gen(self.freqs, self.en_noise, scale=0.15 * noise_std_scale, seed=None)
-        noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.10 * noise_std_scale, seed=None)
+        noise_amp = noise_gen(self.freqs, self.en_noise, scale=0.15 * noise_std_scale, seed=seed)
+        noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.10 * noise_std_scale, seed=seed)
 
         self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) * (1 + noise_amp) ** 2
         self.R0_phase = get_phase(self.freqs, p_solution * um_to_m, self.n) + noise_phase
@@ -98,14 +98,15 @@ if __name__ == '__main__':
     freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
     p_sol = array([193.0, 544.0, 168.0])
     p_sol = array([170, 690, 69])
-    p_sol = array([76., 530., 200.])
+    p_sol = array([168., 609., 98.])
     #p_sol = array([293.0, 344.0, 108.0])
     #p_sol = array([50.0, 400.0, 50.0])
     # for _ in range(100):
     new_cost = Cost(freqs, p_sol, noise_std_scale=0)
     cost_func = new_cost.cost
     # cost_func(p_sol)
-    p = array([150.0, 500.0, 100.0])
+    #p = array([150.0, 500.0, 100.0])
+    p = array([239.777814149857, 476.259423971176, 235.382882833481])
     #p = array([124.032175779343, 482.15819144249, 318.681606531143])
     #p = array([50, 450, 50])
 
