@@ -13,7 +13,7 @@ freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz # GHz; freqs. se
 freqs_all = np.arange(0.0, 1400.0, 1) * GHz
 
 new_cost = Cost(freqs_all, p_sol, 0.00)
-new_cost_noisy = Cost(freqs_all, p_sol, 0.50)
+new_cost_noisy = Cost(freqs_all, p_sol, 0.75)
 
 r0_amp = new_cost.R0_amplitude.flatten()
 r0_phase = new_cost.R0_phase.flatten()

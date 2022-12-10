@@ -14,7 +14,8 @@ class Cost:
         self.n = get_n(freqs, n_min=2.8, n_max=2.8)
         self.en_noise = True
         noise_amp = noise_gen(self.freqs, self.en_noise, scale=0.15 * noise_std_scale, seed=seed)
-        noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.10 * noise_std_scale, seed=seed)
+        #noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.10 * noise_std_scale, seed=seed)
+        noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.20 * noise_std_scale, seed=seed)
 
         self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) * (1 + noise_amp) ** 2
         self.R0_phase = get_phase(self.freqs, p_solution * um_to_m, self.n) + noise_phase
@@ -82,7 +83,7 @@ class Cost:
             """
             loss = amp_loss + phase_loss
 
-            return loss
+            return loss / 2
 
         if type(point) is np.ndarray:
             p = point.copy() * um_to_m

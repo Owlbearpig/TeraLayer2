@@ -110,8 +110,8 @@ def grid(p_center=array([150, 600, 150]), spacing=50, size=3):
 def nm_gridsearch(cost_func, p0, options):
     def terminate(iter_cnt, max_iterations, fx):
         # if we reach a good fx val continue iterations for a little longer
-        if fx < 0.5:
-            return iter_cnt < max_iterations
+        if fx < 0.1:
+            return iter_cnt < max_iterations*4
         else:
             return iter_cnt < max_iterations
 

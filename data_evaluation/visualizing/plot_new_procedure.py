@@ -5,7 +5,7 @@ import numpy as np
 from numpy import array
 from scratches.snippets.base_converters import twos_comp_list_to_dec
 
-fail_threshold = 10
+fail_threshold = 15
 
 
 def deviation(x, y):

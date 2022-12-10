@@ -220,7 +220,7 @@ def convert_measurement_to_bin(pd=3, p=23, short=False):
 def model_data_to_verilog(pd=3, p=22):
     p_sols = gen_p_sols(cnt=100)
 
-    noise_factor = 0.50
+    noise_factor = 0.75
     for p_sol in p_sols:
         p_sol = array(p_sol, dtype=float)
         freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
