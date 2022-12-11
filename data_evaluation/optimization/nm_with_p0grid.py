@@ -11,8 +11,9 @@ if __name__ == '__main__':
     np.random.seed(420)
     #p_sol = array([100.0, 400.0, 200.0]) * (1 - np.random.random() / 10)
     p_sol = array([193.0, 544.0, 168.0])
-    p_sol = array([76., 530., 200.])
-    p_sol = array([296., 540.,  77.])
+    #p_sol = array([76., 530., 200.])
+    p_sol = array([168., 609.,  98.])
+    #p_sol = array([296., 540.,  77.])
 
     freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
     new_cost = Cost(freqs, p_sol, 0.00)
@@ -27,11 +28,13 @@ if __name__ == '__main__':
     minimizer_kwargs = {"bounds": bounds}
     #res = basinhopping(new_cost.cost, p0, 50, 1, grid_spacing, minimizer_kwargs, disp=True)
     #res = shgo(cost_func, bounds=bounds, n=300, iters=5, minimizer_kwargs={"method": "Nelder-Mead"})
-    options = {"grid_spacing" : grid_spacing, "simplex_scale": 0.80, "iterations": 20, "size": size}
+    options = {"grid_spacing" : grid_spacing, "simplex_scale": 0.80, "iterations": 5, "size": size,
+               "verbose": False}
     res = nm_gridsearch(cost_func, p0, options)
     print(p_sol)
     print(res["x"], res["fun"])
     total_runtime = (750 / 3780) * res["total_iters"]
     print("total iterations:", res["total_iters"], f"runtime: {total_runtime} us")
+    print("Total obj. func. calls: ", res["nfev"])
     plt.plot(res["local_fun"])
     plt.show()
