@@ -12,13 +12,13 @@ class Cost:
     def __init__(self, freqs, p_solution, noise_std_scale=1, seed=420):
         self.freqs = freqs
         self.n = get_n(freqs, n_min=2.8, n_max=2.8)
-        self.en_noise = True
+        self.en_noise = False
         noise_amp = noise_gen(self.freqs, self.en_noise, scale=0.15 * noise_std_scale, seed=seed)
         #noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.10 * noise_std_scale, seed=seed)
         noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.20 * noise_std_scale, seed=seed)
 
-        self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) * (1 + noise_amp) ** 2
-        self.R0_phase = get_phase(self.freqs, p_solution * um_to_m, self.n) + noise_phase
+        self.R0_amplitude = get_amplitude(self.freqs, p_solution * um_to_m, self.n) * (2 - noise_amp) ** 2
+        self.R0_phase = get_phase(self.freqs, p_solution * um_to_m, self.n) + np.abs(1 - noise_phase)
         self.r_exp = np.sqrt(self.R0_amplitude) * np.exp(1j * self.R0_phase)
 
     def cost(self, point, *args):
@@ -62,8 +62,10 @@ class Cost:
             print("diff_sqr_imag", (r_mod_enum_i - r_exp.imag * r_mod_denum) ** 2, "\n")
             print(r_exp)
             """
+            """
             amp_loss = sum((r_mod_enum_r - self.r_exp.real * r_mod_denum) ** 2)
             phase_loss = sum((r_mod_enum_i - self.r_exp.imag * r_mod_denum) ** 2)
+            """
             """
             s = 0
             for i in range(6):
@@ -72,7 +74,7 @@ class Cost:
                 print(s)
             """
 
-            """
+            #"""
             r_mod = get_r_cart(self.freqs, p, self.n)
             r_exp = np.sqrt(self.R0_amplitude) * np.exp(1j*self.R0_phase)
 
@@ -80,10 +82,10 @@ class Cost:
             phase_loss = sum((r_mod.imag - r_exp.imag) ** 2)
 
             loss = np.log10(amp_loss * phase_loss)
-            """
+            # """
             loss = amp_loss + phase_loss
 
-            return loss / 2
+            return loss #/ 2
 
         if type(point) is np.ndarray:
             p = point.copy() * um_to_m
@@ -103,11 +105,13 @@ if __name__ == '__main__':
     #p_sol = array([293.0, 344.0, 108.0])
     #p_sol = array([50.0, 400.0, 50.0])
     # for _ in range(100):
+    p_sol = array([289.0, 645.0, 106.0])
     new_cost = Cost(freqs, p_sol, noise_std_scale=0)
     cost_func = new_cost.cost
     # cost_func(p_sol)
     #p = array([150.0, 500.0, 100.0])
-    p = array([239.777814149857, 476.259423971176, 235.382882833481])
+    p = array([289.0, 645.0, 106.0])
+    #p = array([239.777814149857, 476.259423971176, 235.382882833481])
     #p = array([124.032175779343, 482.15819144249, 318.681606531143])
     #p = array([50, 450, 50])
 

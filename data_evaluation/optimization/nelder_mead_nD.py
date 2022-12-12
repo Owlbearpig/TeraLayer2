@@ -251,24 +251,27 @@ def nm_algo(start_val, cost_func, res, options):
     res["local_fun"].append(simplex.p[0].fx)
     if simplex.p[0].fx < res["fun"]:
         res["x"], res["fun"] = simplex.p[0].x, simplex.p[0].fx
-        res["lstart"].append(start_val)
+        if not options["enhance_step"]:
+            res["lstart"].append(start_val)
 
 
 def nm_gridsearch(cost_func, p0, options):
     grid_spacing = options["grid_spacing"]
     size = options["size"]
     p0_grid = grid(p0, grid_spacing, size)
+
     res = {"fun": np.inf, "nfev": 0, "local_fun": [], "total_iters": 0, "lstart": []}
 
     for start_val in p0_grid:
         # perform a single run of the nm algo
         nm_algo(start_val, cost_func, res, options)
-    # enhance best result
-    options["iterations"] = 50
-    nm_algo(res["lstart"][-1], cost_func, res, options)
 
+    # enhance best results
     options["iterations"] = 50
-    nm_algo(res["lstart"][-3], cost_func, res, options)
+    options["enhance_step"] = True
+    #for i in range(len(res["lstart"])):
+    #    nm_algo(res["lstart"][-i], cost_func, res, options)
+    nm_algo(res["lstart"][-1], cost_func, res, options)
 
     if options["verbose"]:
         print("Best minimum: ", np.round(res["x"], 2), res["fun"])
