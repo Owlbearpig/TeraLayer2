@@ -100,8 +100,11 @@ def grid(p_center=array([150, 600, 150]), spacing=50, size=3):
     for i in range(-size, size + 1):
         for j in range(-size, size + 1):
             for k in range(-size, size + 1):
-                point = [p_center[0] + i * spacing, p_center[1] + j * spacing, p_center[2] + k * spacing]
-                if all(point):
+                p0 = (p_center[0] + i * spacing)
+                p1 = (p_center[1] + j * spacing)
+                p2 = (p_center[2] + k * spacing)
+                point = [p0, p1, p2]
+                if all(point) and all([x >= 0 for x in point]):
                     grid_points.append(point)
 
     return grid_points
@@ -109,10 +112,11 @@ def grid(p_center=array([150, 600, 150]), spacing=50, size=3):
 
 def nm_algo(start_val, cost_func, res, options):
     iterations = options["iterations"]
+
     def terminate(iter_cnt, max_iterations, fx):
         # if we reach a good fx val continue iterations for a little longer
         if fx < 0.04:
-            return iter_cnt < max_iterations*1
+            return iter_cnt < max_iterations * 1
         else:
             return iter_cnt < max_iterations
 
@@ -246,20 +250,25 @@ def nm_algo(start_val, cost_func, res, options):
     print("solution (simplex.p0):", simplex.p[0], "\n")
     res["local_fun"].append(simplex.p[0].fx)
     if simplex.p[0].fx < res["fun"]:
-        res["x"], res["fun"], res["lstart"] = simplex.p[0].x, simplex.p[0].fx, start_val
+        res["x"], res["fun"] = simplex.p[0].x, simplex.p[0].fx
+        res["lstart"].append(start_val)
+
 
 def nm_gridsearch(cost_func, p0, options):
     grid_spacing = options["grid_spacing"]
     size = options["size"]
     p0_grid = grid(p0, grid_spacing, size)
-    res = {"fun": np.inf, "nfev": 0, "local_fun": [], "total_iters": 0}
+    res = {"fun": np.inf, "nfev": 0, "local_fun": [], "total_iters": 0, "lstart": []}
 
     for start_val in p0_grid:
         # perform a single run of the nm algo
         nm_algo(start_val, cost_func, res, options)
     # enhance best result
-    options["iterations"] = options["iterations"] * 20
-    nm_algo(res["lstart"], cost_func, res, options)
+    options["iterations"] = 50
+    nm_algo(res["lstart"][-1], cost_func, res, options)
+
+    options["iterations"] = 50
+    nm_algo(res["lstart"][-3], cost_func, res, options)
 
     if options["verbose"]:
         print("Best minimum: ", np.round(res["x"], 2), res["fun"])
@@ -269,8 +278,8 @@ def nm_gridsearch(cost_func, p0, options):
 
 if __name__ == '__main__':
     p0 = array([150, 600, 150])
-    grid_spacing = 50
-    grid_points = grid(p0, grid_spacing)
+    grid_spacing, size = 25, 6
+    grid_points = grid(p0, grid_spacing, size)
 
     print(grid_points)
     print(len(grid_points))

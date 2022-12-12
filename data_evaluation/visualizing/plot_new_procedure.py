@@ -33,9 +33,12 @@ def fail_cnt(x, y):
     print(f"Avg. max. dev. of fails: {np.round(np.mean(max_devs), 1)}pm{np.round(np.std(max_devs), 1)}", )
     return cnt
 
+
 solutions = ROOT_DIR / "optimization" / "results_nm_grid.txt"
-vivado_sim_output_path = r"H:\IPs\eval\proj_eval1\proj_eval1.sim\sim_1\behav\xsim\sim_output.txt"
-#vivado_sim_output_path = r"H:\IPs\eval\proj_eval1\proj_eval1.sim\sim_1\behav\xsim\sim_output_noise.txt"
+
+
+# vivado_sim_output_path = r"H:\IPs\eval\proj_eval1\proj_eval1.sim\sim_1\behav\xsim\sim_output.txt"
+# vivado_sim_output_path = r"H:\IPs\eval\proj_eval1\proj_eval1.sim\sim_1\behav\xsim\sim_output_noise.txt"
 
 def read_result_file(file_path=solutions, vivado_sim=False, p=22):
     # pm0.25, 0.20, 0.15, 0.10, 0.05, 0.00
@@ -43,7 +46,7 @@ def read_result_file(file_path=solutions, vivado_sim=False, p=22):
     results, truths, fevals = [], [], []
     with open(file_path, "r") as file:
         for line_idx, line in enumerate(file.readlines()):
-            idx_start = 0
+            idx_start = 109
             line_idx += 1
             if (line_idx >= idx_start) * (line_idx <= idx_start + 100):
                 split_line = line.split(" __ ")
@@ -61,8 +64,9 @@ def read_result_file(file_path=solutions, vivado_sim=False, p=22):
 
     return results, truths, fevals
 
-results, truths, fevals = read_result_file(vivado_sim_output_path, vivado_sim=True)
-#results, truths, fevals = read_result_file(solutions)
+
+# results, truths, fevals = read_result_file(vivado_sim_output_path, vivado_sim=True)
+results, truths, fevals = read_result_file(solutions)
 
 print(f"Identified {len(results)} / 100 entries")
 
@@ -88,7 +92,7 @@ if plot_version_2:
     ax0.scatter(sample_idx_py, results[:, 0], label=f"$d_{0}$ opt. res.", s=dot_size, zorder=2, color=color_lst[0],
                 marker=(5, 2))
     ax1.scatter(sample_idx_py, results[:, 1], label=f"$d_{1}$ opt. res.", s=dot_size, zorder=2, color=color_lst[1],
-               marker=(5, 2))
+                marker=(5, 2))
 
     ax2.scatter(sample_idx_py, results[:, 2], label=f"$d_{2}$ opt. res.", s=dot_size, zorder=2, color=color_lst[2],
                 marker=(5, 2))
@@ -130,7 +134,8 @@ else:
                 marker=(5, 2))
     ax.scatter(sample_idx_py, results[:, 1], label=f"d{1} opt. res.", s=dot_size, zorder=2, color=color_lst[1],
                marker=(5, 2))
-    ax2.scatter(0, -10, label=f"d{1} opt. res.", s=dot_size, zorder=2, color=color_lst[1], marker=(5, 2))  # legend hack ...
+    ax2.scatter(0, -10, label=f"d{1} opt. res.", s=dot_size, zorder=2, color=color_lst[1],
+                marker=(5, 2))  # legend hack ...
     ax2.scatter(sample_idx_py, results[:, 2], label=f"d{2} opt. res.", s=dot_size, zorder=2, color=color_lst[2],
                 marker=(5, 2))
 

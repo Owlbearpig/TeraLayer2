@@ -18,9 +18,6 @@ mpl.rcParams['ytick.direction'] = 'in'
 mpl.rcParams.update({'font.size': 22})
 
 
-
-
-
 def is_success(sol, p):
     limit = 15
     return all([abs(sol[i] - p[i]) < limit for i in range(len(sol))])
@@ -33,8 +30,8 @@ if __name__ == '__main__':
     deviations, failures, fevals_all = [], 0, []
     with open("results_nm_grid.txt", "a") as file:
         description = "p0GridSearch without noise, 0.80 init simplex scale, "
-        description += "421 truth seed, 15 iters, no_div_loss + approximation"
-        header = description + "\ntruth __ found __ log(fx) __ p0 __ success? __ fevals __ opt_p0"
+        description += "421 truth seed, 15 iters, size=3, spacing=50, no_div_loss + approximation"
+        header = description + "\ntruth __ found __ fx __ p0 __ success? __ fevals __ opt_p0"
         file.write(header + "\n")
 
         for test_value in test_values:
@@ -43,7 +40,7 @@ if __name__ == '__main__':
             # freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz  # pretty good
             # freqs = array([0.020, 0.060, 0.150, 0.550, 0.640, 0.760]) * THz
             # freqs = array([0.040, 0.080, 0.150, 0.550, 0.720, 0.780]) * THz  # pretty good
-            freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz # GHz; freqs. set on fpga
+            freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
             new_cost = Cost(freqs, p_sol, 0.00)
             cost_func = new_cost.cost
 
@@ -55,15 +52,16 @@ if __name__ == '__main__':
 
             bounds = [(20, 300), (500, 700), (50, 300)]
             minimizer_kwargs = {"bounds": bounds}
-            #res = basinhopping(new_cost.cost, p0, 50, 1, grid_spacing, minimizer_kwargs, disp=True)
-            #res = shgo(cost_func, bounds=bounds, n=300, iters=5, minimizer_kwargs={"method": "Nelder-Mead"})
-            options = {"grid_spacing" : grid_spacing, "simplex_scale": 0.80, "iterations": 15, "size": 3}
+            # res = basinhopping(new_cost.cost, p0, 50, 1, grid_spacing, minimizer_kwargs, disp=True)
+            # res = shgo(cost_func, bounds=bounds, n=300, iters=5, minimizer_kwargs={"method": "Nelder-Mead"})
+            options = {"grid_spacing": grid_spacing, "simplex_scale": 0.80, "iterations": 15, "size": 3,
+                       "verbose": False}
             res = nm_gridsearch(cost_func, p0, options)
 
             success = is_success(res["x"], p_sol)
             failures += not success
 
-            nfev, fx, x, opt_p0 = res["nfev"], res["fun"], res["x"], res["lstart"]
+            nfev, fx, x, opt_p0 = res["nfev"], res["fun"], res["x"], res["lstart"][-1]
             file.write(f"{[*p_sol]} __ {[*np.round(x, 2)]} __ {round(fx, 3)} __ {[*p0]} __ "
                        f"{success} __ {nfev} __ {opt_p0}\n")
 
@@ -82,4 +80,3 @@ if __name__ == '__main__':
         file.write(f"{np.mean(array(deviations))} __ {failures}\n")
         file.write("nfev at each grid pnt: " + func_evals_s + "\n")
         file.write("\n")
-

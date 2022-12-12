@@ -97,8 +97,8 @@ class Cost:
 
 if __name__ == '__main__':
     freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
-    p_sol = array([193.0, 544.0, 168.0])
-    p_sol = array([170, 690, 69])
+    #p_sol = array([193.0, 544.0, 168.0])
+    #p_sol = array([170, 690, 69])
     p_sol = array([168., 609., 98.])
     #p_sol = array([293.0, 344.0, 108.0])
     #p_sol = array([50.0, 400.0, 50.0])
