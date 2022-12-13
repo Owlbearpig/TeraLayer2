@@ -25,12 +25,17 @@ def is_success(sol, p):
 
 if __name__ == '__main__':
 
-    test_values = gen_p_sols(cnt=100)
+    seed = 420
+    grid_spacing = 55
+    simplex_scale = 0.80
+    iterations = 17
+    size = 2
 
+    test_values = gen_p_sols(cnt=100, seed=seed)
     deviations, failures, fevals_all = [], 0, []
     with open("results_nm_grid.txt", "a") as file:
-        description = "p0GridSearch without noise, 0.80 init simplex scale, "
-        description += "421 truth seed, 16 iters, size=2, spacing=55, no_div_loss + approximation"
+        description = f"p0GridSearch without noise, {simplex_scale} init simplex scale, "
+        description += f"Seed={seed}, {iterations} iters, size={size}, spacing={grid_spacing}, no_div_loss + approximation"
         header = description + "\ntruth __ found __ fx __ p0 __ success? __ fevals __ opt_p0"
         file.write(header + "\n")
 
@@ -45,7 +50,6 @@ if __name__ == '__main__':
             cost_func = new_cost.cost
 
             p0 = array([150, 600, 150])
-            grid_spacing = 55
 
             from scipy.optimize import basinhopping, shgo
             from optimization.nelder_mead_nD import nm_gridsearch
@@ -54,8 +58,8 @@ if __name__ == '__main__':
             minimizer_kwargs = {"bounds": bounds}
             # res = basinhopping(new_cost.cost, p0, 50, 1, grid_spacing, minimizer_kwargs, disp=True)
             # res = shgo(cost_func, bounds=bounds, n=300, iters=5, minimizer_kwargs={"method": "Nelder-Mead"})
-            options = {"grid_spacing": grid_spacing, "simplex_scale": 0.80, "iterations": 17, "size": 2,
-                       "verbose": False, "enhance_step": False}
+            options = {"grid_spacing": grid_spacing, "simplex_scale": simplex_scale, "iterations": iterations,
+                       "size": size, "verbose": False, "enhance_step": False}
             res = nm_gridsearch(cost_func, p0, options)
 
             success = is_success(res["x"], p_sol)
