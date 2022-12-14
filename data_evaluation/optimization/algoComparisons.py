@@ -26,10 +26,10 @@ def is_success(sol, p):
 if __name__ == '__main__':
 
     seed = 420
-    grid_spacing = 55
+    grid_spacing = 25
     simplex_scale = 0.80
-    iterations = 17
-    size = 2
+    iterations = 5
+    size = 4
 
     test_values = gen_p_sols(cnt=100, seed=seed)
     deviations, failures, fevals_all = [], 0, []

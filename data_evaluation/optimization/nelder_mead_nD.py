@@ -281,7 +281,7 @@ def nm_gridsearch(cost_func, p0, options):
 
 if __name__ == '__main__':
     p0 = array([150, 600, 150])
-    grid_spacing, size = 25, 6
+    grid_spacing, size = 55, 2
     grid_points = grid(p0, grid_spacing, size)
 
     print(grid_points)
