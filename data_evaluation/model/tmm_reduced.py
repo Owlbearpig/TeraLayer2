@@ -24,7 +24,7 @@ mpl.rcParams.update({'font.size': 16})
 # print(mpl.rcParams.keys())
 
 
-@jit(cache=True, nopython=True)
+@jit(cache=True, nopython=False)
 def multir_complex(freqs, p, n):
     thea = 1 * 8.0 * pi / 180.0
     es = p.copy()

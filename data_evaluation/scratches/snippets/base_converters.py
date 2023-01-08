@@ -23,7 +23,7 @@ def bin_to_dec(bin_str, signed=True):
 
 
 def int_to_bin(n, int_width):
-    # care if n doesnt fit in int_width
+    # care if n doesn't fit in int_width
     int_part = int(n)
     bin_int = bin(int_part).replace("0b", "")
     return (int_width - len(bin_int)) * "0" + bin_int
@@ -62,18 +62,19 @@ def add_one(s):
     return res[::-1]
 
 
-def dec_to_twoscompl(r, int_width=8, frac_width=23, format=False):
+def dec_to_twoscompl(r, pd=8, p=23, format=False):
     if r > 0:
-        res = int_to_bin(r, int_width=int_width) + "_" + fraction_to_bin(r, frac_width=frac_width)
+        res = int_to_bin(r, int_width=pd) + "_" + fraction_to_bin(r, frac_width=p)
     else:
         r = abs(r)
-        res = int_to_bin(r, int_width=int_width) + "_" + fraction_to_bin(r, frac_width=frac_width)
+        res = int_to_bin(r, int_width=pd) + "_" + fraction_to_bin(r, frac_width=p)
         res = invert_bin(res)
         res = add_one(res)
 
-    if int_width == 0:
+    if pd == 0:
         res = res.replace("0_", "")
-    if frac_width == 0:
+        res = res.replace("1_", "")
+    if p == 0:
         res = res[:-1]
     if format:
         cntr = 0
@@ -292,7 +293,7 @@ def convert_constants_fg(pd=0, p=23):
 
     for i, g_ in enumerate(g):
         g_ *= um_to_m
-        line_end_part = dec_to_twoscompl(g_, int_width=pd, frac_width=p, format=True)
+        line_end_part = dec_to_twoscompl(g_, pd=pd, p=p, format=True)
         if i == 0:
             print(f"assign g = (cntr == 3'b{int_to_bin(i + 1, 3)}) ? {line_end_part} : // {g_} 0Q{p}")
         else:
@@ -301,7 +302,7 @@ def convert_constants_fg(pd=0, p=23):
 
     for i, f_ in enumerate(f):
         f_ *= um_to_m
-        line_end_part = dec_to_twoscompl(f_, int_width=pd, frac_width=p, format=True)
+        line_end_part = dec_to_twoscompl(f_, pd=pd, p=p, format=True)
         if i == 0:
             print(f"assign f = (cntr == 3'b{int_to_bin(i + 1, 3)}) ? {line_end_part} : // {f_} 0Q{p}")
         else:
@@ -310,34 +311,34 @@ def convert_constants_fg(pd=0, p=23):
 
 
 def cordic_format_constants(pd=8, p=23):
-    pi_bin_s = dec_to_twoscompl(pi, int_width=pd, frac_width=p, format=True)
+    pi_bin_s = dec_to_twoscompl(pi, pd=pd, p=p, format=True)
     print(f"pi = {pi_bin_s}; // pi {pd}Q{p}")
-    pi2_bin_s = dec_to_twoscompl(2 * pi, int_width=pd, frac_width=p, format=True)
+    pi2_bin_s = dec_to_twoscompl(2 * pi, pd=pd, p=p, format=True)
     print(f"pi2 = {pi2_bin_s}; // 2pi {pd}Q{p}")
-    pi2_inv_bin_s = dec_to_twoscompl(1 / (2 * pi), int_width=pd, frac_width=p, format=True)
+    pi2_inv_bin_s = dec_to_twoscompl(1 / (2 * pi), pd=pd, p=p, format=True)
     print(f"pi2_inv = {pi2_inv_bin_s}; // 1/(2pi) {pd}Q{p}")
 
 
 def convert_cos_constants(pd=8, p=23):
     # print("cos approx constants")
-    pi_bin_s = dec_to_twoscompl(pi, int_width=pd, frac_width=p, format=True)
+    pi_bin_s = dec_to_twoscompl(pi, pd=pd, p=p, format=True)
     print(f"pi = {pi_bin_s}; // pi {pd}Q{p}")
-    pi2_bin_s = dec_to_twoscompl(2 * pi, int_width=pd, frac_width=p, format=True)
+    pi2_bin_s = dec_to_twoscompl(2 * pi, pd=pd, p=p, format=True)
     print(f"pi2 = {pi2_bin_s}; // 2pi {pd}Q{p}")
-    pi_half = dec_to_twoscompl(pi / 2, int_width=pd, frac_width=p, format=True)
+    pi_half = dec_to_twoscompl(pi / 2, pd=pd, p=p, format=True)
     print(f"pi_half = {pi_half}; // pi/2 {pd}Q{p}\n")
     convert_sin_constants(pd=pd, p=p)
 
 
 def convert_sin_constants(pd=4, p=23):
     # print("sin approx constants")
-    B = dec_to_twoscompl(4 / pi, int_width=pd, frac_width=p, format=True)
+    B = dec_to_twoscompl(4 / pi, pd=pd, p=p, format=True)
     print(f"B = {B}; // 4/pi {pd}Q{p}")
-    C = dec_to_twoscompl(-4 / pi ** 2, int_width=pd, frac_width=p, format=True)
+    C = dec_to_twoscompl(-4 / pi ** 2, pd=pd, p=p, format=True)
     print(f"C = {C}; // -4/pi**2 {pd}Q{p}")
-    P = dec_to_twoscompl(0.225, int_width=pd, frac_width=p, format=True)
+    P = dec_to_twoscompl(0.225, pd=pd, p=p, format=True)
     print(f"P = {P}; // 0.225 {pd}Q{p}")
-    one = dec_to_twoscompl(1, int_width=pd, frac_width=p, format=True)
+    one = dec_to_twoscompl(1, pd=pd, p=p, format=True)
     print(f"one = {one}; // 1 {pd}Q{p}")
 
 
@@ -370,14 +371,14 @@ def convert_constants_ab(pd=3, p=23):
 
 
     for i, cnst in enumerate(cnst_lst):
-        bin_str = dec_to_twoscompl(cnst, int_width=pd, frac_width=p, format=True)
+        bin_str = dec_to_twoscompl(cnst, pd=pd, p=p, format=True)
         print(f"assign c{i} = {bin_str}; // {cnst} {pd}Q{p}")
 
 
 def convert_div_lut_constants(pd=3, p=23):
-    bin_str = dec_to_twoscompl(3 / 2, int_width=pd, frac_width=p, format=True)
+    bin_str = dec_to_twoscompl(3 / 2, pd=pd, p=p, format=True)
     print(f"reg [3+p-1:0] c1 = {bin_str}; // 3/2 {pd}Q{p}")
-    bin_str = dec_to_twoscompl(3 / 4, int_width=pd, frac_width=p, format=True)
+    bin_str = dec_to_twoscompl(3 / 4, pd=pd, p=p, format=True)
     print(f"reg [3+p-1:0] c2 = {bin_str}; // 3/4 {pd}Q{p}")
 
 
@@ -399,7 +400,7 @@ def generate_initial_simplex_and_centroid(p0, pd, p):
 
 
 def machine_constant(pd=0, p=22):
-    bin_str = dec_to_twoscompl(1 / 3, int_width=pd, frac_width=p, format=False)
+    bin_str = dec_to_twoscompl(1 / 3, pd=pd, p=p, format=False)
     print(f"reg [p-1:0] recip_3 = {pd + p}'b{bin_str}; // 1/3 0Q{p}")
 
 
@@ -455,6 +456,9 @@ def convert_lines(s, p):
                     elif len(bin_str) == 8 + p:
                         dec = twos_compl_to_dec(bin_str, p=p)
                         converted_line += str(round(dec, 8))
+                    elif len(bin_str) == 0 + p:
+                        dec = twos_compl_to_dec(bin_str, p=p)
+                        converted_line += str(dec)
                     elif len(bin_str) == 12 + 2 * p:
                         dec = twos_compl_to_dec(bin_str, p=p)
                         converted_line += str(round(dec, 8))

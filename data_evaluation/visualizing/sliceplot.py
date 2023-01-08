@@ -1,27 +1,24 @@
 import matplotlib.pyplot as plt
 from consts import *
 from matplotlib.widgets import Slider
-from model.initial_tests.explicitEvalOptimizedClean import ExplicitEval
-
+from model.cost_function import Cost
 """
 1. calculate sum(residuals) over 3D grid with some resolution(rez)
 2. 2D plot slices for different z set with slider
 """
 
-mask = custom_mask_420
-sample_idx = 10
-enable_avg = False
-model_calc = False
-new_eval = ExplicitEval(mask, sample_file_idx=sample_idx, enable_avg=enable_avg)
+p_sol = array([282.0, 536.0, 98.0])
+
+cost_func = Cost(p_solution=p_sol, noise_std_scale=0.00).cost
 
 # should be resolution of axes d1, d2, d3
 rez_x, rez_y, rez_z = 200, 200, 200
 # rez_x, rez_y, rez_z = 1000, 1000, 1000
 
-# lb = array([0.000001, 0.000400, 0.000001]) # realistic bounds
-# ub = array([0.000100, 0.000700, 0.000100])
-lb = array([0.000001, 0.000001, 0.000001])
-ub = array([0.001, 0.001, 0.001])
+lb = array([0.000001, 0.000450, 0.000001]) # realistic bounds
+ub = array([0.000350, 0.000750, 0.000350])
+#lb = array([0.000001, 0.000001, 0.000001])
+#ub = array([0.001, 0.001, 0.001])
 
 # initial 'full' grid matching bounds
 grd_x = np.linspace(lb[0], ub[0], rez_x)
@@ -31,18 +28,8 @@ grd_z = np.linspace(lb[2], ub[2], rez_z)
 file_name = f'{rez_x}_{rez_y}_{rez_z}_rez_xyz_' \
             f'{int(lb[0] * um)}-{int(ub[0] * um)}_' \
             f'{int(lb[1] * um)}-{int(ub[1] * um)}_' \
-            f'{int(lb[2] * um)}-{int(ub[2] * um)}_newRI_'
+            f'{int(lb[2] * um)}-{int(ub[2] * um)}_'
 
-if model_calc:
-    file_name += f'_model_calc'
-
-    p0 = array([45, 628, 80]) * um_to_m
-    new_eval.set_R0(p0)
-
-if enable_avg:
-    file_name += f'_sample_avgs'
-else:
-    file_name += f'_sample_idx{sample_idx}' * (not model_calc)
 file_name += '.npy'
 
 file_name = str(Path('plot_data') / file_name)
@@ -58,11 +45,11 @@ except FileNotFoundError:
         for j in range(rez_y):
             for k in range(rez_z):
                 p = array([grd_x[i], grd_y[j], grd_z[k]])
-                grid_vals[i, j, k] = new_eval.error(p)
+                grid_vals[i, j, k] = cost_func(p)
 
     np.save(file_name, grid_vals)
 
-grid_vals = np.log10(grid_vals)
+#grid_vals = np.log10(grid_vals)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)

@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 from consts import custom_mask_420, um_to_m, THz, GHz, um
 import numpy as np
-from numpy import array, sum
+from numfi import numfi
+from numpy import array, sum, pi
 import matplotlib as mpl
 
 # mpl.rcParams['lines.linestyle'] = '--'
@@ -30,12 +31,8 @@ class Simplex:
 
 
 class Point:
-    def __init__(self, x=None, fx=None, name=""):
-        if x is None:
-            self.x = np.zeros(n)
-        else:
-            self.x = x
-
+    def __init__(self, x, fx=None, name=""):
+        self.x = x
         self.fx = fx
         self.name = name
 
@@ -45,6 +42,17 @@ class Point:
         else:
             return f"x: {self.x}, fx: {self.fx}"
 
+    def __getitem__(self, key):
+        if key == len(self.x):
+            return self.fx
+        else:
+            return self.x[key]
+
+    def __setitem__(self, key, value):
+        if key == len(self.x):
+            self.fx = value
+        else:
+            self.x[key] = value
 
 def swap_points(p1, p2):
     tmp = Point(p1.x, p1.fx)
@@ -60,7 +68,7 @@ def get_centroid(simplex, p_ce):
     for j in range(n):
         s = 0
         for i in range(n):
-            s += sum(simplex.p[i].x[j]) / n
+            s += (1 / n) * sum(simplex.p[i].x[j])
         p_ce.x[j] = s
 
 
@@ -74,19 +82,19 @@ def simplex_sort(simplex):
         p.name = f"p{i}"
 
 
-def initial_simplex(p_start, cost_func=None, sample_idx=None, fevals=0, size=0.80):
-    simplex = Simplex(*[Point(name=f"p{i}") for i in range(n + 1)])
+def initial_simplex(p_start, cost_func=None, fevals=0, spread=40):
+    simplex = Simplex(*[Point(x=0*p_start.x, name=f"p{i}") for i in range(n + 1)])
     for i in range(n + 1):
         for j in range(n):
             if i - 1 == j:
-                if not np.isclose(p_start.x[j], 0):
-                    simplex.p[i].x[j] = size * p_start.x[j]
+                if isinstance(p_start.x, numfi):
+                    simplex.p[i].x[j] = p_start.x[j] - (spread / (2 * pi * 2 ** 6))
                 else:
-                    simplex.p[i].x[j] = 0.00025
+                    simplex.p[i].x[j] = p_start.x[j] - spread
             else:
                 simplex.p[i].x[j] = p_start.x[j]
         if cost_func is not None:
-            cost_func(simplex.p[i], sample_idx)
+            cost_func(simplex.p[i])
             fevals += 1
 
     if cost_func is not None:
@@ -95,15 +103,17 @@ def initial_simplex(p_start, cost_func=None, sample_idx=None, fevals=0, size=0.8
     return simplex
 
 
-def grid(p_center=array([150, 600, 150]), spacing=50, size=3):
+def grid(p_center, spacing=50, size=3):
     grid_points = []
     for i in range(-size, size + 1):
         for j in range(-size, size + 1):
             for k in range(-size, size + 1):
-                p0 = (p_center[0] + i * spacing)
-                p1 = (p_center[1] + j * spacing)
-                p2 = (p_center[2] + k * spacing)
-                point = [p0, p1, p2]
+                if isinstance(p_center, numfi):
+                    point = p_center + (array([i, j, k]) * (spacing * (1 / (2 * pi * 2 ** 6))))
+                else:
+                    point = p_center + array([i, j, k]) * spacing
+
+                point[point < 0] = 0
                 if all(point) and all([x >= 0 for x in point]):
                     grid_points.append(point)
 
@@ -113,15 +123,9 @@ def grid(p_center=array([150, 600, 150]), spacing=50, size=3):
 def nm_algo(start_val, cost_func, res, options):
     iterations = options["iterations"]
 
-    def terminate(iter_cnt, max_iterations, fx):
-        # if we reach a good fx val continue iterations for a little longer
-        if fx < 0.04:
-            return iter_cnt < max_iterations * 1
-        else:
-            return iter_cnt < max_iterations
-
     verbose = options["verbose"]
-    p_start = Point(array(start_val), name="Start point")
+
+    p_start = Point(start_val, name="Start point")
     if verbose:
         print(p_start)
 
@@ -130,14 +134,15 @@ def nm_algo(start_val, cost_func, res, options):
     RHO, CHI, GAMMA, SIGMA = 1.0, 2.0, 0.5, 0.5
     # chi*rho expand,
 
-    p_r = Point(name="p_r")
-    p_e = Point(name="p_e")
-    p_c = Point(name="p_c")
-    p_ce = Point(name="p_ce")
+    p_r = Point(x=0*p_start.x, name="p_r")
+    p_e = Point(x=0*p_start.x, name="p_e")
+    p_c = Point(x=0*p_start.x, name="p_c")
+    p_ce = Point(x=0*p_start.x, name="p_ce")
 
     cost_func(p_start)
     res["nfev"] += 1
-    simplex = initial_simplex(p_start, cost_func, fevals=res["nfev"], size=options["simplex_scale"])
+    simplex = initial_simplex(p_start, cost_func, fevals=res["nfev"], spread=options["simplex_spread"])
+
     get_centroid(simplex, p_ce)
     if verbose:
         print("initial simplex and centroid:")
@@ -145,8 +150,7 @@ def nm_algo(start_val, cost_func, res, options):
         print(p_ce, "\n")
 
     fx_vals, h = [], 0
-    # for h in range(0, iterations):
-    while terminate(h, iterations, simplex.p[0].fx):
+    for h in range(0, iterations):
         h += 1
         shrink = False
         if verbose:
@@ -157,13 +161,13 @@ def nm_algo(start_val, cost_func, res, options):
 
         if p_r.fx < simplex.p[0].fx:
             if verbose:
-                print("difference p_r.fx < simplex.p[0].fx", f'{abs(p_r.fx - simplex.p[0].fx):.20f}')
+                print("difference p_r.fx < simplex.p[0].fx", f'{abs(p_r.fx - simplex.p[0].fx)}')
             update_point(simplex, p_ce, RHO * CHI, p_e)
             cost_func(p_e)
             res["nfev"] += 1
             if p_e.fx < p_r.fx:
                 if verbose:
-                    print("difference p_e.fx < p_r.fx", f'{abs(p_e.fx - p_r.fx):.20f}')
+                    print("difference p_e.fx < p_r.fx", f'{abs(p_e.fx - p_r.fx)}')
                     print("expand")
                 copy_point(p_e, simplex.p[n])
             else:
@@ -174,20 +178,20 @@ def nm_algo(start_val, cost_func, res, options):
             if p_r.fx < simplex.p[n - 1].fx:
                 if verbose:
                     print("difference p_r.fx < simplex.p[2].fx",
-                          f'{abs(p_r.fx - simplex.p[n - 1].fx):.20f}')
+                          f'{abs(p_r.fx - simplex.p[n - 1].fx)}')
                     print("reflect 2")
                 copy_point(p_r, simplex.p[n])
             else:
                 if p_r.fx < simplex.p[n].fx:
                     if verbose:
                         print("difference p_r.fx < simplex.p[3].fx",
-                              f'{abs(p_r.fx - simplex.p[n].fx):.20f}')
+                              f'{abs(p_r.fx - simplex.p[n].fx)}')
                     update_point(simplex, p_ce, RHO * GAMMA, p_c)
                     cost_func(p_c)
                     res["nfev"] += 1
                     if p_c.fx <= p_r.fx:
                         if verbose:
-                            print("difference p_c.fx <= p_r.fx", f'{abs(p_c.fx - p_r.fx):.20f}')
+                            print("difference p_c.fx <= p_r.fx", f'{abs(p_c.fx - p_r.fx)}')
                             print("contract out")
                         copy_point(p_c, simplex.p[n])
                     else:
@@ -201,7 +205,7 @@ def nm_algo(start_val, cost_func, res, options):
                     if p_c.fx <= simplex.p[n].fx:
                         if verbose:
                             print("difference p_c.fx <= simplex.p[3].fx",
-                                  f'{abs(p_c.fx - simplex.p[n].fx):.20f}')
+                                  f'{abs(p_c.fx - simplex.p[n].fx)}')
                             print("contract in")
                         copy_point(p_c, simplex.p[n])
                     else:
@@ -235,8 +239,8 @@ def nm_algo(start_val, cost_func, res, options):
         fx_vals.append(simplex.p[0].fx)
 
     if verbose:
-        print(f"times shrinked: {times_shrinkd}")
-        print("final point values: ")
+        print(f"Times shrinked: {times_shrinkd}")
+        print("Final point values: ")
         print(p_r)
         print(p_e)
         print(p_c)
@@ -244,45 +248,66 @@ def nm_algo(start_val, cost_func, res, options):
         print(simplex, "\n")
 
     # iterations, start value
-    print(h, start_val)
+    print(f"Iterations completed: {h}")
+    print(f"Upscaled starting point: {array(start_val) * (2*pi*2**6)}, (original: {start_val})")
     res["total_iters"] += h
     # solution in p0 of simplex
     print("solution (simplex.p0):", simplex.p[0], "\n")
     res["local_fun"].append(simplex.p[0].fx)
-    if simplex.p[0].fx < res["fun"]:
+
+    if res["fun"] is None: # if first start val gives best result
+        res["x"], res["fun"] = simplex.p[0].x, simplex.p[0].fx
+        res["best_start_points"].append(start_val)
+    elif simplex.p[0].fx < res["fun"]:
         res["x"], res["fun"] = simplex.p[0].x, simplex.p[0].fx
         if not options["enhance_step"]:
-            res["lstart"].append(start_val)
+            res["best_start_points"].append(start_val)
 
 
 def nm_gridsearch(cost_func, p0, options):
+
     grid_spacing = options["grid_spacing"]
     size = options["size"]
+
+    if not "simplex_spread" in options.keys():
+        options["simplex_spread"] = 40
+
+    if "numfi" in options.keys():
+        p0 = options["numfi"](p0 * (1 / (2*pi*2**6)))
+
     p0_grid = grid(p0, grid_spacing, size)
 
-    res = {"fun": np.inf, "nfev": 0, "local_fun": [], "total_iters": 0, "lstart": []}
+    res = {"fun": None, "nfev": 0, "local_fun": [], "total_iters": 0,
+           "best_start_points": [], "p0_dist": []}
 
     for start_val in p0_grid:
         # perform a single run of the nm algo
         nm_algo(start_val, cost_func, res, options)
 
     # enhance best results
-    options["iterations"] = 50
+    options["iterations"] = 3 * options["iterations"]
     options["enhance_step"] = True
-    #for i in range(len(res["lstart"])):
-    #    nm_algo(res["lstart"][-i], cost_func, res, options)
-    nm_algo(res["lstart"][-1], cost_func, res, options)
+
+    nm_algo(res["best_start_points"][-1], cost_func, res, options)
 
     if options["verbose"]:
-        print("Best minimum: ", np.round(res["x"], 2), res["fun"])
+        print("Best minimum: ", res["x"], res["fun"])
+
+    if isinstance(p0, numfi):
+        upscale = (2*pi*2**6)
+        res["x"] = array(res["x"]) * upscale
+        res["best_start_points"] = [array(x) * upscale for x in res["best_start_points"]]
 
     return res
 
 
 if __name__ == '__main__':
     p0 = array([150, 600, 150])
-    grid_spacing, size = 55, 2
+    grid_spacing, size = 50, 3
     grid_points = grid(p0, grid_spacing, size)
 
     print(grid_points)
     print(len(grid_points))
+
+    p_zero = Point(p0)
+    print(p_zero[3])

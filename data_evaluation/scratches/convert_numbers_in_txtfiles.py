@@ -62,6 +62,9 @@ def convert_file(file_path):
                             elif len(bin_str) == 12 + 2 * p:
                                 dec = twos_compl_to_dec(bin_str, p=p)
                                 converted_line += str(round(dec, 8))
+                            elif len(bin_str) == (p+3):
+                                dec = twos_compl_to_dec(bin_str, p=p)
+                                converted_line += str(round(dec, 8))
                             elif len(bin_str) == 6*(3+p):
                                 for i in range(6):
                                     dec = twos_compl_to_dec(bin_str[i*(3+p):(i+1)*(3+p)], p=p)

@@ -35,7 +35,7 @@ with open('recip_lut.mem', 'w') as file:
 
 with open('recip_lut_extended.mem', 'w') as file:
     for x in np.linspace(0.5, 2.5, 2**16):
-        recip_x_2 = dec_to_twoscompl(1/x, int_width=2, frac_width=14)
+        recip_x_2 = dec_to_twoscompl(1 / x, pd=2, p=14)
         file.write(recip_x_2 + '\n')
 
 

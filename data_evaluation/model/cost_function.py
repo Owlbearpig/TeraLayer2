@@ -9,10 +9,16 @@ from functions import noise_gen
 
 
 class Cost:
-    def __init__(self, freqs, p_solution, noise_std_scale=1, seed=420):
+    def __init__(self, freqs=None, p_solution=array([200, 600, 300]), noise_std_scale=1, seed=420):
         approximate_model = True
-        self.freqs = freqs
-        self.n = get_n(freqs, n_min=2.8, n_max=2.8)
+        if freqs is None:
+            self.freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
+        else:
+            self.freqs = freqs
+        if not isinstance(p_solution, np.ndarray):
+            p_solution = array(p_solution)
+
+        self.n = get_n(self.freqs, n_min=2.8, n_max=2.8)
         self.en_noise = False
         noise_amp = noise_gen(self.freqs, self.en_noise, scale=0.15 * noise_std_scale, seed=seed)
         #noise_phase = noise_gen(self.freqs, self.en_noise, scale=0.10 * noise_std_scale, seed=seed)
@@ -31,7 +37,7 @@ class Cost:
 
     def cost(self, point, *args):
         def cost_function(p):
-
+            # p should be in meter (m) -> e.g. 420 * 10^-6 m if 420 um
             # amp loss only
             """
             amp_loss = sum((get_amplitude(self.freqs, p, self.n) - self.R0_amplitude) ** 2)
@@ -71,8 +77,9 @@ class Cost:
             print(r_exp)
             """
             #"""
-            #print(r_mod_enum_r / r_mod_denum, self.r_exp.real)
-            #print(r_mod_enum_i / r_mod_denum, self.r_exp.imag)
+            #print("r_mod_denum: ", r_mod_denum)
+            #print("r_mod_enum_r / r_mod_denum: ", r_mod_enum_r / r_mod_denum, "r_exp.real: ", self.r_exp.real)
+            #print("r_mod_enum_i / r_mod_denum: ", r_mod_enum_i / r_mod_denum, "self.r_exp.imag: ", self.r_exp.imag)
 
             amp_loss = sum((r_mod_enum_r  - self.r_exp.real * r_mod_denum) ** 2)
             phase_loss = sum((r_mod_enum_i  - self.r_exp.imag * r_mod_denum) ** 2)
@@ -95,14 +102,20 @@ class Cost:
             """
             loss = amp_loss + phase_loss
 
-            return loss / 2
+            return loss
 
         if type(point) is np.ndarray:
-            p = point.copy() * um_to_m
+            if all([point[i] < 0.1 for i in range(3)]):
+                p = point.copy()
+            else:
+                p = point.copy() * um_to_m
 
             return cost_function(p)
         else:
-            p = array([point.x[0], point.x[1], point.x[2]], dtype=float) * um_to_m
+            if all([point.x[i] < 0.1 for i in range(3)]):
+                p = array([point.x[0], point.x[1], point.x[2]], dtype=float)
+            else:
+                p = array([point.x[0], point.x[1], point.x[2]], dtype=float) * um_to_m
 
             point.fx = cost_function(p)
 
@@ -111,21 +124,22 @@ if __name__ == '__main__':
     freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
     #p_sol = array([193.0, 544.0, 168.0])
     #p_sol = array([170, 690, 69])
-    p_sol = array([168., 609., 98.])
+    p_sol = array([271.0, 662.0, 282.0])
     #p_sol = array([293.0, 344.0, 108.0])
     #p_sol = array([50.0, 400.0, 50.0])
     # for _ in range(100):
-    p_sol = array([248.0, 691.0, 286.0])
-    new_cost = Cost(freqs, p_sol, noise_std_scale=0)
+    #p_sol = array([290.0, 658.0, 94.0])
+    new_cost = Cost(p_solution=p_sol, noise_std_scale=0)
     cost_func = new_cost.cost
     # cost_func(p_sol)
     #p = array([150.0, 500.0, 100.0])
-    p = array([248.0, 691.0, 286.0])
+    #p = array([ 260., 651.,  50.])
     #p = array([239.777814149857, 476.259423971176, 235.382882833481])
-    #p = array([124.032175779343, 482.15819144249, 318.681606531143])
+    #p = array([299.0, 603.0, 71.0])
+    p = array([124.032175779343, 482.15819144249, 318.681606531143])
     #p = array([50, 450, 50])
 
-    print(cost_func(p))
+    print(cost_func(p_sol))
     exit()
 
     """ # noise can make fx of p_sol (also small variations of p_sol?) higher than other candidates. 

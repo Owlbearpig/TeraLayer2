@@ -1,10 +1,15 @@
 import matplotlib.pyplot as plt
-from consts import custom_mask_420, um_to_m, THz, GHz, um
+from consts import custom_mask_420, um_to_m, THz, GHz, um, pi
 import numpy as np
 from numpy import array, sum
 import matplotlib as mpl
 from model.cost_function import Cost
 from functions import gen_p_sols
+from functools import partial
+from numfi import numfi as numfi_
+from scipy.optimize import basinhopping, shgo
+from optimization.nelder_mead_nD import nm_gridsearch
+from RTL_sim.twos_compl_OF_v2 import CostFuncFixedPoint
 
 # mpl.rcParams['lines.linestyle'] = '--'
 mpl.rcParams['lines.marker'] = 'o'
@@ -25,48 +30,48 @@ def is_success(sol, p):
 
 if __name__ == '__main__':
 
-    seed = 420
-    grid_spacing = 25
-    simplex_scale = 0.80
-    iterations = 5
-    size = 4
+    seed = 420 # generate solutions seed
+    ## grid options
+    grid_spacing = 50
+    size = 3
+    # nm options
+    simplex_spread = 40
+    iterations = 15
+
+    pd, p = 6, 24
+
+    numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
     test_values = gen_p_sols(cnt=100, seed=seed)
     deviations, failures, fevals_all = [], 0, []
-    with open("results_nm_grid.txt", "a") as file:
-        description = f"p0GridSearch without noise, {simplex_scale} init simplex scale, "
-        description += f"Seed={seed}, {iterations} iters, size={size}, spacing={grid_spacing}, no_div_loss + approximation"
+    with open("FP_results_nm_grid.txt", "a") as file:
+        description = f"FP_p0_Gridsearch without noise test2, "
+        description += f"Seed={seed}, iters={iterations}, size={size}, grid_spacing={grid_spacing}, pd={pd}, p={p}"
+        description += f", simplex_spread={simplex_spread}"
         header = description + "\ntruth __ found __ fx __ p0 __ success? __ fevals __ opt_p0"
         file.write(header + "\n")
 
         for test_value in test_values:
             p_sol = array(test_value, dtype=float)
 
-            # freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz  # pretty good
-            # freqs = array([0.020, 0.060, 0.150, 0.550, 0.640, 0.760]) * THz
-            # freqs = array([0.040, 0.080, 0.150, 0.550, 0.720, 0.780]) * THz  # pretty good
-            freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
-            new_cost = Cost(freqs, p_sol, 0.00)
-            cost_func = new_cost.cost
+            #cost_func = Cost(p_sol, 0.00).cost
+            cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol).cost
 
             p0 = array([150, 600, 150])
 
-            from scipy.optimize import basinhopping, shgo
-            from optimization.nelder_mead_nD import nm_gridsearch
-
-            bounds = [(20, 300), (500, 700), (50, 300)]
-            minimizer_kwargs = {"bounds": bounds}
-            # res = basinhopping(new_cost.cost, p0, 50, 1, grid_spacing, minimizer_kwargs, disp=True)
+            # bounds = [(20, 300), (500, 700), (50, 300)]
+            # res = basinhopping(new_cost.cost, p0, 50, 1, grid_spacing, {"bounds": bounds}, disp=True)
             # res = shgo(cost_func, bounds=bounds, n=300, iters=5, minimizer_kwargs={"method": "Nelder-Mead"})
-            options = {"grid_spacing": grid_spacing, "simplex_scale": simplex_scale, "iterations": iterations,
-                       "size": size, "verbose": False, "enhance_step": False}
+            options = {"grid_spacing": grid_spacing, "iterations": iterations, "numfi": numfi,
+                       "simplex_spread": simplex_spread, "size": size, "verbose": False, "enhance_step": False}
+
             res = nm_gridsearch(cost_func, p0, options)
 
             success = is_success(res["x"], p_sol)
             failures += not success
 
-            nfev, fx, x, opt_p0 = res["nfev"], res["fun"], res["x"], res["lstart"][-1]
-            file.write(f"{[*p_sol]} __ {[*np.round(x, 2)]} __ {round(fx, 3)} __ {[*p0]} __ "
+            nfev, fx, x, opt_p0 = res["nfev"], res["fun"], res["x"], res["best_start_points"][-1]
+            file.write(f"{[*p_sol]} __ {[*np.round(x, 2)]} __ {np.round(fx, 3)} __ {[*p0]} __ "
                        f"{success} __ {nfev} __ {opt_p0}\n")
 
             print("Solution: ", p_sol, "Best minimum: ", np.round(x, 2), fx)
