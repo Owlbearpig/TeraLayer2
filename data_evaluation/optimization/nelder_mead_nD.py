@@ -290,13 +290,13 @@ def nm_gridsearch(cost_func, p0, options):
 
     nm_algo(res["best_start_points"][-1], cost_func, res, options)
 
-    if options["verbose"]:
-        print("Best minimum: ", res["x"], res["fun"])
-
     if isinstance(p0, numfi):
         upscale = (2*pi*2**6)
         res["x"] = array(res["x"]) * upscale
         res["best_start_points"] = [array(x) * upscale for x in res["best_start_points"]]
+
+    if options["verbose"]:
+        print(f"Best minimum (upscaled: {isinstance(p0, numfi)}): ", res["x"], res["fun"])
 
     return res
 

@@ -7,7 +7,7 @@ from model.cost_function import Cost
 
 #p_sol = array([282.0, 536.0, 98.0])
 #p_sol = array([200., 100.,  200.])
-p_sol = array([271.0, 662.0, 282.0])
+p_sol = array([297.0, 619.0, 107.0])
 
 cost_func = Cost(p_solution=p_sol, noise_std_scale=0.00).cost
 
@@ -40,6 +40,7 @@ if __name__ == '__main__':
     for d in x:
         p = p_sol.copy()
         p[2] = d
+        p[1] = 450
         y3.append(cost_func(p))
 
 

@@ -42,6 +42,7 @@ class CostFuncFixedPoint:
         self.C = self.numfi(-4 / (pi64 * pi64))
         self.P = self.numfi(0.225)
 
+        self.zero = self.numfi(0)
         self.one, self.two, self.three, self.four = self.numfi(1), self.numfi(2), self.numfi(3), self.numfi(4)
 
         self.c0 = self.two * self.a * (self.b * self.b - self.one)
@@ -54,15 +55,26 @@ class CostFuncFixedPoint:
         self.c7 = self.four * self.a * self.b
 
         self.wide_zero = numfi_(0.0, s=1, w=10 + p, f=p, fixed=True, rounding='floor')
-
+        self.max_loss = 0
     def cost(self, point):
         def c_mod(s):
-            s = numfi_(array(s), s=1, w=12 + p, f=p, fixed=True, rounding='floor')
-            s_interm = (s << 6) - (s << 6).astype(int)
+            """
+            should do (s % 2pi) and if res is > pi subtract 2pi
+            max in = 0.055749477583909995 * (1000 * 3) / (2*pi*2**6) = 0.4159
+            max out =
+            """
 
-            pi2 = numfi_(2 * pi, s=1, w=6 + p, f=p, fixed=True, rounding='floor')
-            res = pi2 * s_interm
+            #s_scaled = s / (2 * pi64 * 2 ** 6)
 
+            s_fp = numfi_(array(s), s=1, w=12 + p, f=p, fixed=True, rounding='floor')
+
+            s_int = (s_fp << 6).astype(int)
+
+            s_interm = (s_fp << 6) - s_int
+
+            res = self.pi2 * self.numfi(s_interm)
+
+            res[res < 0] += self.pi2
             res[res > self.pi] -= self.pi2
 
             return res
@@ -111,12 +123,16 @@ class CostFuncFixedPoint:
             amp_error = 0.5 * amp_diff * amp_diff
             phi_error = 0.5 * phi_diff * phi_diff
 
-            wide_zero = self.wide_zero.copy()
+            zero = self.zero.copy()
             for m in range(len(self.freqs)):
-                wide_zero += amp_error[m]
-                wide_zero += phi_error[m]
+                zero += amp_error[m]
+                zero += phi_error[m]
 
-            loss = wide_zero
+            loss = zero
+
+            if loss > self.max_loss:
+                self.max_loss = loss
+                print("New max loss", self.max_loss)
 
             return loss
 
@@ -139,7 +155,7 @@ if __name__ == '__main__':
     pd, p = 4, 23
     from model.cost_function import Cost
 
-    p_sol = array([271.0, 662.0, 282.0])
+    p_sol = array([282.0, 509.0, 50.0])
 
     cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p).cost
 

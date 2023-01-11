@@ -124,7 +124,7 @@ if __name__ == '__main__':
     freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
     #p_sol = array([193.0, 544.0, 168.0])
     #p_sol = array([170, 690, 69])
-    p_sol = array([271.0, 662.0, 282.0])
+    p_sol = array([168., 609.,  98.])
     #p_sol = array([293.0, 344.0, 108.0])
     #p_sol = array([50.0, 400.0, 50.0])
     # for _ in range(100):
@@ -134,12 +134,12 @@ if __name__ == '__main__':
     # cost_func(p_sol)
     #p = array([150.0, 500.0, 100.0])
     #p = array([ 260., 651.,  50.])
-    #p = array([239.777814149857, 476.259423971176, 235.382882833481])
+    p = array([239.777814149857, 476.259423971176, 235.382882833481])
     #p = array([299.0, 603.0, 71.0])
-    p = array([124.032175779343, 482.15819144249, 318.681606531143])
+    #p = array([150., 500., 150.])
     #p = array([50, 450, 50])
 
-    print(cost_func(p_sol))
+    print(cost_func(p))
     exit()
 
     """ # noise can make fx of p_sol (also small variations of p_sol?) higher than other candidates. 

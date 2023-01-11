@@ -54,10 +54,14 @@ def correct_mod(s):
 
 
 def c_mod(s):
-    # res = s - 2 * pi * (int(s / (2 * pi)) - (s < 0)) - pi
     res = s - 2 * pi * (s / (2 * pi)).astype(int)
+    res[res < 0] += 2 * pi
 
     res[res > pi] -= 2 * pi
+    # res = s - 2 * pi * (int(s / (2 * pi)) - (s < 0)) - pi
+    #res = s - 2 * pi * (s / (2 * pi)).astype(int)
+
+    #res[res > pi] -= 2 * pi
 
     return res
 
