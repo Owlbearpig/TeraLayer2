@@ -12,7 +12,7 @@ if __name__ == '__main__':
     np.random.seed(420)
     p_sol = [271.0, 662.0, 282.0]
 
-    pd, p = 6, 24
+    pd, p = 4, 24
     cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol).cost
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 

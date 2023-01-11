@@ -38,13 +38,13 @@ if __name__ == '__main__':
     simplex_spread = 40
     iterations = 15
 
-    pd, p = 6, 24
+    pd, p = 6, 23
 
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
     test_values = gen_p_sols(cnt=100, seed=seed)
     deviations, failures, fevals_all = [], 0, []
-    with open("FP_results_nm_grid.txt", "a") as file:
+    with open(f"FP_results_nm_grid_{p}.txt", "a") as file:
         description = f"FP_p0_Gridsearch without noise test2, "
         description += f"Seed={seed}, iters={iterations}, size={size}, grid_spacing={grid_spacing}, pd={pd}, p={p}"
         description += f", simplex_spread={simplex_spread}"
