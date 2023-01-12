@@ -56,21 +56,22 @@ class CostFuncFixedPoint:
 
         self.wide_zero = numfi_(0.0, s=1, w=10 + p, f=p, fixed=True, rounding='floor')
         self.max_loss = 0
+
     def cost(self, point):
         def c_mod(s):
             """
             should do (s % 2pi) and if res is > pi subtract 2pi
-            max in = 0.055749477583909995 * (1000 * 3) / (2*pi*2**6) = 0.4159
-            max out =
+            max in = 2*0.02986579156281*1000 + 0.055749477583909995 * 1000 / (2*pi*2**5) = 0.574
+            max out = \pm pi
             """
 
-            #s_scaled = s / (2 * pi64 * 2 ** 6)
+            #s_scaled = s / (2 * pi64 * 2 ** 5)
 
             s_fp = numfi_(array(s), s=1, w=12 + p, f=p, fixed=True, rounding='floor')
 
-            s_int = (s_fp << 6).astype(int)
+            s_int = (s_fp << 5).astype(int)
 
-            s_interm = (s_fp << 6) - s_int
+            s_interm = (s_fp << 5) - s_int
 
             res = self.pi2 * self.numfi(s_interm)
 
@@ -156,10 +157,11 @@ if __name__ == '__main__':
     from model.cost_function import Cost
 
     p_sol = array([282.0, 509.0, 50.0])
+    #p_sol = array([999.0, 999.0, 999.0])
 
     cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p).cost
 
-    p_test = p_sol / (2*pi*2**6)
+    p_test = p_sol / (2*pi*2**5)
 
     start = time.process_time()
     loss = cost_func(p_test)

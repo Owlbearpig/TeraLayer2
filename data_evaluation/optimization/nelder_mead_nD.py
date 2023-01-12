@@ -88,7 +88,7 @@ def initial_simplex(p_start, cost_func=None, fevals=0, spread=40):
         for j in range(n):
             if i - 1 == j:
                 if isinstance(p_start.x, numfi):
-                    simplex.p[i].x[j] = p_start.x[j] - (spread / (2 * pi * 2 ** 6))
+                    simplex.p[i].x[j] = p_start.x[j] - (spread / (2 * pi * 2 ** 5))
                 else:
                     simplex.p[i].x[j] = p_start.x[j] - spread
             else:
@@ -109,7 +109,7 @@ def grid(p_center, spacing=50, size=3):
         for j in range(-size, size + 1):
             for k in range(-size, size + 1):
                 if isinstance(p_center, numfi):
-                    point = p_center + (array([i, j, k]) * (spacing * (1 / (2 * pi * 2 ** 6))))
+                    point = p_center + (array([i, j, k]) * (spacing * (1 / (2 * pi * 2 ** 5))))
                 else:
                     point = p_center + array([i, j, k]) * spacing
 
@@ -249,7 +249,7 @@ def nm_algo(start_val, cost_func, res, options):
 
     # iterations, start value
     print(f"Iterations completed: {h}")
-    print(f"Upscaled starting point: {array(start_val) * (2*pi*2**6)}, (original: {start_val})")
+    print(f"Upscaled starting point: {array(start_val) * (2*pi*2**5)}, (original: {start_val})")
     res["total_iters"] += h
     # solution in p0 of simplex
     print("solution (simplex.p0):", simplex.p[0], "\n")
@@ -273,7 +273,7 @@ def nm_gridsearch(cost_func, p0, options):
         options["simplex_spread"] = 40
 
     if "numfi" in options.keys():
-        p0 = options["numfi"](p0 * (1 / (2*pi*2**6)))
+        p0 = options["numfi"](p0 * (1 / (2*pi*2**5)))
 
     p0_grid = grid(p0, grid_spacing, size)
 
@@ -291,7 +291,7 @@ def nm_gridsearch(cost_func, p0, options):
     nm_algo(res["best_start_points"][-1], cost_func, res, options)
 
     if isinstance(p0, numfi):
-        upscale = (2*pi*2**6)
+        upscale = (2*pi*2**5)
         res["x"] = array(res["x"]) * upscale
         res["best_start_points"] = [array(x) * upscale for x in res["best_start_points"]]
 

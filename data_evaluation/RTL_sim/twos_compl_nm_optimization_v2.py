@@ -10,7 +10,7 @@ import time
 
 if __name__ == '__main__':
     np.random.seed(420)
-    p_sol = [282.0, 509.0, 50.0]
+    p_sol = [280.0, 693.0, 97.0]
 
     pd, p = 4, 23
     cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol).cost
