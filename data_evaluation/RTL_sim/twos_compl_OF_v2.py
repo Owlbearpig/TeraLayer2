@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 from numpy import pi as pi64
 from scratches.snippets.base_converters import dec_to_twoscompl
 from numba import jit
@@ -9,13 +10,14 @@ import numpy as np
 
 
 class CostFuncFixedPoint:
-    def __init__(self, pd, p, p_sol = array([168., 609., 98.]), noise=0):
+    def __init__(self, pd, p, p_sol = array([168., 609., 98.]), noise=0.0, plt_mod=False):
+        self.p_sol = array(p_sol)
 
         self.numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
         self.freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
 
-        r_exp = Cost(freqs=self.freqs, p_solution=array(p_sol), noise_std_scale=noise).r_exp
+        r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=noise, plt_mod=plt_mod).r_exp
 
         self.r_exp_real = self.numfi(r_exp.real)
         self.r_exp_imag = self.numfi(r_exp.imag)
@@ -165,12 +167,13 @@ if __name__ == '__main__':
     // => f(p_sol, p) = 0.5715376463789499 (python) 
     """
     pd, p = 4, 16
+    noise_factor = 0.05
     from model.cost_function import Cost
 
     p_sol = array([282.0, 509.0, 50.0])
     #p_sol = array([999.0, 999.0, 999.0])
 
-    cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p).cost
+    cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p, noise=noise_factor).cost
 
     p_test = p_sol / (2*pi*2**5)
 

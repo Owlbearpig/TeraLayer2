@@ -59,13 +59,14 @@ def multir_complex(freqs, p, n):
         #print(M)
         for s in range(nc):
             fi[s] = (2 * pi * n[h, s + 1] * es[s]) * (freqs[h] / c0)
-            """ correct
+            #""" correct
             Q = (1 / tb[s + 1]) * np.array([[(ta[s + 1] * tb[s + 1]) - (ra[s + 1] * rb[s + 1]), rb[s + 1]],
                                             [-ra[s + 1], 1]], dtype=np.complex128)
+            #"""
             """
             Q = np.array([[(ta[s + 1] * tb[s + 1]) - (ra[s + 1] * rb[s + 1]), rb[s + 1]],
                                             [-ra[s + 1], 1]], dtype=np.complex128)
-
+            """
             P = np.array([[exp(-fi[s] * 1j), 0], [0, exp(fi[s] * 1j)]])
             M = dot(M, dot(P, Q))
         #print(h, M[0, 1])
@@ -216,8 +217,8 @@ if __name__ == '__main__':
     noise_std_scale = 0.50
     noise_amp = noise_gen(freqs, True, scale=0.15*noise_std_scale)
     noise_phase = noise_gen(freqs, True, scale=0.10*noise_std_scale)
-    phase_mod = get_phase(freqs, p_opt, n) + noise_phase
-    amp_mod = get_amplitude(freqs, p_opt, n) * (1 + noise_amp) ** 2
+    phase_mod = get_phase(freqs, p_opt, n) + (1 - noise_phase)
+    amp_mod = get_amplitude(freqs, p_opt, n) * noise_amp ** 2
 
     fig, (ax1, ax2) = plt.subplots(1, 2)
     ax1.plot(freqs / GHz, phase_mod, label=f"Noisy phase model, {p_opt * 10 ** 6}")

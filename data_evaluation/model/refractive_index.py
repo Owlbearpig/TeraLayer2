@@ -12,6 +12,7 @@ def get_n(freqs, n_min=2.71, n_max=2.86):
     #n = np.array([ones(m), 1.50*ones(m), n1, 1.50*ones(m), ones(m)], dtype=np.complex128).transpose()
     n = np.array([ones(m), 1.5*ones(m), n1, 1.5*ones(m), ones(m)], dtype=float).transpose()
     #n = np.array([ones(m), n1, n1, n1, ones(m)], dtype=np.complex128).transpose()
+
     try:
         selected_freqs_idx = array([np.argwhere(np.isclose(freq, freqs_full))[0][0] for freq in freqs])
     except IndexError:

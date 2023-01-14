@@ -10,10 +10,11 @@ import time
 
 if __name__ == '__main__':
     np.random.seed(420)
-    p_sol = [280.0, 693.0, 97.0]
+    p_sol = [42.0, 641.0, 74.0]
+    noise_factor = 1.00
 
-    pd, p = 4, 23
-    cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol).cost
+    pd, p = 4, 13
+    cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_factor, plt_mod=True).cost
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
     p0 = array([150, 600, 150])  # shouldn't change

@@ -135,7 +135,16 @@ def explicit_reflectance(p):
 
 
 #@jit(cache=True)
-def explicit_reflectance_complex(p):
+def explicit_reflectance_complex(p, freqs=None):
+    if freqs is not None:
+        from scipy.constants import c as c0
+        n0, n1 = 1.5, 2.8
+        f, g = (2 * pi * n0) * (freqs / c0), (2 * pi * n1) * (freqs / c0)
+    else:
+        # [420. 520. 650. 800. 850. 950.] GHz:
+        f = array([13203.8236383, 16347.59117122, 20434.48896403, 25150.14026342, 26722.02402988, 29865.79156281])
+        g = array([24647.13745815, 30515.50351962, 38144.37939952, 46946.92849172, 49881.11152245, 55749.47758391])
+
     f0 = f * p[0]
     f1 = g * p[1]
     f2 = f * p[2]

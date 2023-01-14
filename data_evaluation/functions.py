@@ -6,6 +6,7 @@ import time
 import string
 
 
+
 def find_files(top_dir=ROOT_DIR, search_str='', file_extension=''):
     results = [Path(os.path.join(root, name))
                for root, dirs, files in os.walk(top_dir)
@@ -235,15 +236,13 @@ def count_minima(y):
 
 def noise_gen(freqs, enabled, scale=1, seed=None):
     np.random.seed(seed)
+
+    ret = np.ones_like(freqs)
     if enabled:
         noise = np.random.normal(0, scale, len(freqs))
-        #plt.plot(noise)
-        #plt.show()
+        ret += noise
 
-        return noise
-    else:
-        return np.ones_like(freqs)
-
+    return ret
 
 def gen_p_sols(cnt=100, seed=421):
 
