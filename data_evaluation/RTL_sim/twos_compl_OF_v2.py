@@ -9,13 +9,13 @@ import numpy as np
 
 
 class CostFuncFixedPoint:
-    def __init__(self, pd, p, p_sol = array([168., 609., 98.])):
+    def __init__(self, pd, p, p_sol = array([168., 609., 98.]), noise=0):
 
         self.numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
         self.freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
 
-        r_exp = Cost(freqs=self.freqs, p_solution=array(p_sol), noise_std_scale=0).r_exp
+        r_exp = Cost(freqs=self.freqs, p_solution=array(p_sol), noise_std_scale=noise).r_exp
 
         self.r_exp_real = self.numfi(r_exp.real)
         self.r_exp_imag = self.numfi(r_exp.imag)
@@ -82,9 +82,9 @@ class CostFuncFixedPoint:
 
         def sine(x):
 
-            y = x * (self.B + self.C * abs(x))
+            y = x * (self.B + self.C * np.abs(x))
 
-            res = self.P * y * (abs(y) - self.one) + y
+            res = self.P * y * (np.abs(y) - self.one) + y
 
             return res
 
@@ -124,25 +124,36 @@ class CostFuncFixedPoint:
             amp_error = 0.5 * amp_diff * amp_diff
             phi_error = 0.5 * phi_diff * phi_diff
 
+            """
             zero = self.zero.copy()
             for m in range(len(self.freqs)):
                 zero += amp_error[m]
                 zero += phi_error[m]
+            """
 
-            loss = zero
-
+            loss = np.sum(amp_error + phi_error)
+            """
             if loss > self.max_loss:
                 self.max_loss = loss
                 print("New max loss", self.max_loss)
-
+            """
             return loss
 
+        try:
+            p = point.x
+            point.fx = calc_cost(p)
+        except AttributeError:
+            p = point.copy()
+            return calc_cost(p)
+
+        """
         if type(point) is np.ndarray:
             p = point.copy()
             return calc_cost(p)
         else:
             p = point.x
             point.fx = calc_cost(p)
+        """
 
 if __name__ == '__main__':
     import time
@@ -153,7 +164,7 @@ if __name__ == '__main__':
     // p = [999, 999, 999]
     // => f(p_sol, p) = 0.5715376463789499 (python) 
     """
-    pd, p = 4, 23
+    pd, p = 4, 16
     from model.cost_function import Cost
 
     p_sol = array([282.0, 509.0, 50.0])

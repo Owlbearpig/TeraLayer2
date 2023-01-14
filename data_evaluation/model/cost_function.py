@@ -102,7 +102,7 @@ class Cost:
             """
             loss = amp_loss + phase_loss
 
-            return loss
+            return loss / 2
 
         if type(point) is np.ndarray:
             if all([point[i] < 0.1 for i in range(3)]):

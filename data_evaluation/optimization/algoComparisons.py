@@ -37,17 +37,19 @@ if __name__ == '__main__':
     # nm options
     simplex_spread = 40
     iterations = 15
+    # noise options
+    noise_factor = 0.5
 
-    pd, p = 4, 23
+    pd, p = 4, 12
 
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
     test_values = gen_p_sols(cnt=100, seed=seed)
     deviations, failures, fevals_all = [], 0, []
     with open(f"FP_results_nm_grid_{pd}_{p}.txt", "a") as file:
-        description = f"FP_p0_Gridsearch without noise test2, "
+        description = f"FP_p0_Gridsearch noisy, "
         description += f"Seed={seed}, iters={iterations}, size={size}, grid_spacing={grid_spacing}, pd={pd}, p={p}"
-        description += f", simplex_spread={simplex_spread}"
+        description += f", simplex_spread={simplex_spread}, noise_factor={noise_factor}"
         header = description + "\ntruth __ found __ fx __ p0 __ success? __ fevals __ opt_p0"
         file.write(header + "\n")
 
@@ -55,7 +57,7 @@ if __name__ == '__main__':
             p_sol = array(test_value, dtype=float)
 
             #cost_func = Cost(p_sol, 0.00).cost
-            cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol).cost
+            cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_factor).cost
 
             p0 = array([150, 600, 150])
 
