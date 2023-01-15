@@ -27,6 +27,7 @@ def main():
 
     plt.figure()
     f, y = do_fft(t, meas_data[98, :])
+
     plt.plot(f, np.abs(y))
 
 

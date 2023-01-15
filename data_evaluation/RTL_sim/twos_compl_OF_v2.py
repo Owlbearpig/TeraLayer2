@@ -9,6 +9,22 @@ from functools import partial
 import numpy as np
 
 
+def real_data():
+    # [0.420, 0.520, 0.650, 0.800, 0.850, 0.950] * THz
+    data = array([[4.200000E+5, 6.753868E-1, 2.498841E+0, 2.477866E+0, -2.443436E+0],
+            [5.200000E+5, 8.466208E-1, -2.519751E-1, 2.037450E+0, 2.335961E-1],
+            [6.500000E+5, 5.518637E-1, -2.902159E+0, 1.405569E+0, -1.542453E+0],
+            [8.000000E+5, 3.595836E-1, 1.486186E+0, 8.696910E-1, -2.870370E+0],
+            [8.500000E+5, 5.520981E-2, -1.030329E+0, 8.055706E-1, -7.391148E-2],
+            [9.500000E+5, 2.224908E-1, -2.468189E+0, 7.108020E-1, -1.361529E+0]])
+    s, r = data[:, 1], data[:, 3]
+    R = (s / r)**2
+    phase_diff = data[:, 2] - data[:, 4]
+
+    r_exp_meas = np.sqrt(R) * np.exp(1j * phase_diff)
+
+    return r_exp_meas
+
 class CostFuncFixedPoint:
     def __init__(self, pd, p, p_sol = array([168., 609., 98.]), noise=0.0, plt_mod=False):
         self.p_sol = array(p_sol)
@@ -18,6 +34,7 @@ class CostFuncFixedPoint:
         self.freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
 
         r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=noise, plt_mod=plt_mod).r_exp
+        r_exp = real_data()
 
         self.r_exp_real = self.numfi(r_exp.real)
         self.r_exp_imag = self.numfi(r_exp.imag)
