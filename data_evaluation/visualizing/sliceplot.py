@@ -7,12 +7,13 @@ from model.cost_function import Cost
 2. 2D plot slices for different z set with slider
 """
 
-p_sol = array([282.0, 536.0, 98.0])
+p_sol = array([42.0, 641.0, 74.0])
+noise_scale = 0.50
 
-cost_func = Cost(p_solution=p_sol, noise_std_scale=0.00).cost
+cost_func = Cost(p_solution=p_sol, noise_std_scale=noise_scale, plt_mod=True).cost
 
 # should be resolution of axes d1, d2, d3
-rez_x, rez_y, rez_z = 200, 200, 200
+rez_x, rez_y, rez_z = 100, 100, 100
 # rez_x, rez_y, rez_z = 1000, 1000, 1000
 
 lb = array([0.000001, 0.000450, 0.000001]) # realistic bounds

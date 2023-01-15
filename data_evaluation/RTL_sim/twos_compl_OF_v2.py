@@ -29,9 +29,9 @@ class CostFuncFixedPoint:
 
         # [420. 520. 650. 800. 850. 950.] GHz:
         f = array([0.0132038236383, 0.016347591171219998, 0.02043448896403,
-                   0.02515014026342, 0.02672202402988, 0.02986579156281])
+                   0.02515014026342, 0.02672202402988, 0.02986579156281]) * 2**3
         g = array([0.024647137458149997, 0.03051550351962, 0.03814437939952,
-                   0.04694692849172, 0.04988111152245, 0.055749477583909995])
+                   0.04694692849172, 0.04988111152245, 0.055749477583909995]) * 2**3
 
         self.f, self.g = self.numfi(f), self.numfi(g)
 
@@ -63,17 +63,18 @@ class CostFuncFixedPoint:
         def c_mod(s):
             """
             should do (s % 2pi) and if res is > pi subtract 2pi
-            max in = 2*0.02986579156281*1000 + 0.055749477583909995 * 1000 / (2*pi*2**5) = 0.574
+            max in = 2**3*(2*0.02986579156281*1000 + 0.055749477583909995 * 1000) / (2*pi*2**6) =
+                   = 2.297
             max out = \pm pi
             """
 
             #s_scaled = s / (2 * pi64 * 2 ** 5)
+            #
+            s_fp = numfi_(array(s), s=1, w=3 + p, f=p, fixed=True, rounding='floor') # we can store the points as 3 + p
 
-            s_fp = numfi_(array(s), s=1, w=12 + p, f=p, fixed=True, rounding='floor')
+            s_fp_long = numfi_(s_fp, s=1, w=7 + p, f=p, fixed=True, rounding='floor')
 
-            s_int = (s_fp << 5).astype(int)
-
-            s_interm = (s_fp << 5) - s_int
+            s_interm = (s_fp_long << 3) - (s_fp_long << 3).astype(int) # 3 = 6 - 3
 
             res = self.pi2 * self.numfi(s_interm)
 
@@ -168,18 +169,26 @@ if __name__ == '__main__':
     """
     pd, p = 4, 16
     noise_factor = 0.05
+    seed = 420
     from model.cost_function import Cost
+    from functions import gen_p_sols
 
-    p_sol = array([282.0, 509.0, 50.0])
-    #p_sol = array([999.0, 999.0, 999.0])
+    sols = gen_p_sols(1000, seed=seed)
+    for i, p_sol in enumerate(sols):
+        #p_sol = array([282.0, 509.0, 50.0])
+        #p_sol = array([999.0, 999.0, 999.0])
 
-    cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p, noise=noise_factor).cost
+        cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p, noise=noise_factor).cost
 
-    p_test = p_sol / (2*pi*2**5)
+        p_test = p_sol / (2*pi*2**6)
 
-    start = time.process_time()
-    loss = cost_func(p_test)
-    print("Runtime: ", time.process_time() - start, "(s)")
-    print(loss)
-    #print(cost_func(p_test))
+        start = time.process_time()
+        loss = cost_func(p_test)
+
+        if loss > 0.001:
+            print("Runtime: ", time.process_time() - start, "(s)")
+            print(p_sol)
+            print(loss)
+        else:
+            print("passed", i)
 

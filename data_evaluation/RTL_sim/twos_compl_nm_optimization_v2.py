@@ -10,10 +10,10 @@ import time
 
 if __name__ == '__main__':
     np.random.seed(420)
-    p_sol = [42.0, 641.0, 74.0]
-    noise_factor = 1.00
+    p_sol = [234.0, 672.0, 244.0]
+    noise_factor = 0.50
 
-    pd, p = 4, 13
+    pd, p = 4, 9
     cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_factor, plt_mod=True).cost
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
@@ -21,7 +21,7 @@ if __name__ == '__main__':
     grid_spacing, size = 50, 3
 
     options = {"grid_spacing": grid_spacing, "iterations": 15, "numfi": numfi,
-               "size": size, "verbose": False, "enhance_step": False, "simplex_spread": 40}
+               "size": size, "verbose": False, "enhance_step": False, "simplex_spread": 40, "input_scale": 6}
     start = time.process_time()
 
     res = nm_gridsearch(cost_func, p0, options)

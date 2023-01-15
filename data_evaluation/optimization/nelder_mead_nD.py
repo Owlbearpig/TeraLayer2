@@ -82,20 +82,29 @@ def simplex_sort(simplex):
         p.name = f"p{i}"
 
 
-def initial_simplex(p_start, cost_func=None, fevals=0, spread=40):
+def initial_simplex(p_start, options=None, res=None, cost_func=None):
+    if options is not None:
+        input_scaling = options["input_scale"]
+        spread = options["simplex_spread"]
+    else:
+        input_scaling = 6
+        spread = 40
+    if res is None:
+        res = {"nfev": 0}
+
     simplex = Simplex(*[Point(x=0*p_start.x, name=f"p{i}") for i in range(n + 1)])
     for i in range(n + 1):
         for j in range(n):
             if i - 1 == j:
                 if isinstance(p_start.x, numfi):
-                    simplex.p[i].x[j] = p_start.x[j] - (spread / (2 * pi * 2 ** 5))
+                    simplex.p[i].x[j] = p_start.x[j] - (spread / (2 * pi * 2 ** input_scaling))
                 else:
                     simplex.p[i].x[j] = p_start.x[j] - spread
             else:
                 simplex.p[i].x[j] = p_start.x[j]
         if cost_func is not None:
             cost_func(simplex.p[i])
-            fevals += 1
+            res["nfev"] += 1
 
     if cost_func is not None:
         simplex_sort(simplex)
@@ -103,13 +112,17 @@ def initial_simplex(p_start, cost_func=None, fevals=0, spread=40):
     return simplex
 
 
-def grid(p_center, spacing=50, size=3):
+def grid(p_center, options=None):
+    input_scaling = options["input_scale"]
+    spacing = options["grid_spacing"]
+    size = options["size"]
+
     grid_points = []
     for i in range(-size, size + 1):
         for j in range(-size, size + 1):
             for k in range(-size, size + 1):
                 if isinstance(p_center, numfi):
-                    point = p_center + (array([i, j, k]) * (spacing * (1 / (2 * pi * 2 ** 5))))
+                    point = p_center + (array([i, j, k]) * (spacing * (1 / (2 * pi * 2 ** input_scaling))))
                 else:
                     point = p_center + array([i, j, k]) * spacing
 
@@ -122,7 +135,7 @@ def grid(p_center, spacing=50, size=3):
 
 def nm_algo(start_val, cost_func, res, options):
     iterations = options["iterations"]
-
+    input_scaling = options["input_scale"]
     verbose = options["verbose"]
 
     p_start = Point(start_val, name="Start point")
@@ -141,7 +154,7 @@ def nm_algo(start_val, cost_func, res, options):
 
     cost_func(p_start)
     res["nfev"] += 1
-    simplex = initial_simplex(p_start, cost_func, fevals=res["nfev"], spread=options["simplex_spread"])
+    simplex = initial_simplex(p_start, cost_func=cost_func, options=options, res=res)
 
     get_centroid(simplex, p_ce)
     if verbose:
@@ -249,7 +262,7 @@ def nm_algo(start_val, cost_func, res, options):
 
     # iterations, start value
     print(f"Iterations completed: {h}")
-    print(f"Upscaled starting point: {array(start_val) * (2*pi*2**5)}, (original: {start_val})")
+    print(f"Upscaled starting point: {array(start_val) * (2*pi*2**input_scaling)}, (original: {start_val})")
     res["total_iters"] += h
     # solution in p0 of simplex
     print("solution (simplex.p0):", simplex.p[0], "\n")
@@ -265,17 +278,15 @@ def nm_algo(start_val, cost_func, res, options):
 
 
 def nm_gridsearch(cost_func, p0, options):
-
-    grid_spacing = options["grid_spacing"]
-    size = options["size"]
+    input_scaling = options["input_scale"]
 
     if not "simplex_spread" in options.keys():
         options["simplex_spread"] = 40
 
     if "numfi" in options.keys():
-        p0 = options["numfi"](p0 * (1 / (2*pi*2**5)))
+        p0 = options["numfi"](p0 * (1 / (2*pi*2**input_scaling)))
 
-    p0_grid = grid(p0, grid_spacing, size)
+    p0_grid = grid(p0, options)
 
     res = {"fun": None, "nfev": 0, "local_fun": [], "total_iters": 0,
            "best_start_points": [], "p0_dist": []}
@@ -291,7 +302,7 @@ def nm_gridsearch(cost_func, p0, options):
     nm_algo(res["best_start_points"][-1], cost_func, res, options)
 
     if isinstance(p0, numfi):
-        upscale = (2*pi*2**5)
+        upscale = (2*pi*2**input_scaling)
         res["x"] = array(res["x"]) * upscale
         res["best_start_points"] = [array(x) * upscale for x in res["best_start_points"]]
 

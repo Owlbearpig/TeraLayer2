@@ -8,7 +8,7 @@ from RTL_sim.twos_compl_OF_v2 import CostFuncFixedPoint
 
 
 def main():
-    noise_scale = 0.05
+    noise_scale = 1.50
 
     # p_sol = array([282.0, 536.0, 98.0])
     # p_sol = array([200., 100.,  200.])
@@ -18,7 +18,7 @@ def main():
 
     #cost_func = Cost(p_solution=p_sol, noise_std_scale=noise_scale).cost
     pd, p = 4, 13
-    cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_scale).cost
+    cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_scale, plt_mod=True).cost
 
     x = numfi_(x / (2*pi*2**5), s=1, w=pd + p, f=p, fixed=True, rounding='floor')
     p_sol = numfi_(p_sol / (2*pi*2**5), s=1, w=pd + p, f=p, fixed=True, rounding='floor')
@@ -37,7 +37,7 @@ def main():
         p[2] = d
         # p[1] = 450
         y3.append(cost_func(p))
-
+    x = np.array(x) * (2*pi*2**5)
     plt.plot(x, y1, label="y1")
     plt.plot(x, y2, label="y2")
     plt.plot(x, y3, label="y3")

@@ -245,7 +245,6 @@ def noise_gen(freqs, enabled, scale=1, seed=None):
     return ret
 
 def gen_p_sols(cnt=100, seed=421):
-
     np.random.seed(seed)
 
     def rand_sol():
@@ -255,7 +254,7 @@ def gen_p_sols(cnt=100, seed=421):
     for _ in range(cnt):
         p_sols.append(rand_sol())
 
-    return p_sols
+    return array(p_sols, dtype=float)
 
 
 if __name__ == '__main__':
