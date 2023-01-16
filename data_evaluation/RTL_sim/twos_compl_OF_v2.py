@@ -28,13 +28,13 @@ def real_data():
 class CostFuncFixedPoint:
     def __init__(self, pd, p, p_sol = array([168., 609., 98.]), noise=0.0, plt_mod=False):
         self.p_sol = array(p_sol)
-
-        self.numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
+        self.prec_int, self.prec = pd, p
+        self.numfi = partial(numfi_, s=1, w=self.prec_int + self.prec, f=self.prec, fixed=True, rounding='floor')
 
         self.freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
 
         r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=noise, plt_mod=plt_mod).r_exp
-        r_exp = real_data()
+        #r_exp = real_data()
 
         self.r_exp_real = self.numfi(r_exp.real)
         self.r_exp_imag = self.numfi(r_exp.imag)
@@ -73,7 +73,7 @@ class CostFuncFixedPoint:
         self.c6 = self.b * self.b + self.one
         self.c7 = self.four * self.a * self.b
 
-        self.wide_zero = numfi_(0.0, s=1, w=10 + p, f=p, fixed=True, rounding='floor')
+        self.wide_zero = numfi_(0.0, s=1, w=10 + self.prec, f=self.prec, fixed=True, rounding='floor')
         self.max_loss = 0
 
     def cost(self, point):
@@ -87,9 +87,10 @@ class CostFuncFixedPoint:
 
             #s_scaled = s / (2 * pi64 * 2 ** 5)
             #
-            s_fp = numfi_(array(s), s=1, w=3 + p, f=p, fixed=True, rounding='floor') # we can store the points as 3 + p
 
-            s_fp_long = numfi_(s_fp, s=1, w=7 + p, f=p, fixed=True, rounding='floor')
+            s_fp = numfi_(array(s), s=1, w=4 + self.prec, f=self.prec, fixed=True, rounding='floor') # we can store the points as 3 + p
+
+            s_fp_long = numfi_(s_fp, s=1, w=7 + self.prec, f=self.prec, fixed=True, rounding='floor')
 
             s_interm = (s_fp_long << 3) - (s_fp_long << 3).astype(int) # 3 = 6 - 3
 
@@ -160,11 +161,11 @@ class CostFuncFixedPoint:
             return loss
 
         try:
-            p = point.x
-            point.fx = calc_cost(p)
+            x = point.x
+            point.fx = calc_cost(x)
         except AttributeError:
-            p = point.copy()
-            return calc_cost(p)
+            p_ = point.copy()
+            return calc_cost(p_)
 
         """
         if type(point) is np.ndarray:
@@ -184,12 +185,23 @@ if __name__ == '__main__':
     // p = [999, 999, 999]
     // => f(p_sol, p) = 0.5715376463789499 (python) 
     """
-    pd, p = 4, 16
-    noise_factor = 0.05
+    pd, p = 4, 9
+    noise_factor = 0.00
     seed = 420
     from model.cost_function import Cost
     from functions import gen_p_sols
 
+    p_sol = array([241., 661., 237.])
+
+
+    cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p, noise=noise_factor).cost
+
+    p_test = p_sol / (2 * pi * 2 ** 6)
+
+    start = time.process_time()
+    loss = cost_func(p_test) # 0.138671875
+    print(loss)
+    """
     sols = gen_p_sols(1000, seed=seed)
     for i, p_sol in enumerate(sols):
         #p_sol = array([282.0, 509.0, 50.0])
@@ -208,4 +220,4 @@ if __name__ == '__main__':
             print(loss)
         else:
             print("passed", i)
-
+    """

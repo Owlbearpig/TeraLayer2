@@ -10,8 +10,8 @@ import time
 
 if __name__ == '__main__':
     np.random.seed(420)
-    p_sol = [234.0, 672.0, 244.0]
-    noise_factor = 0.50
+    p_sol = array([241., 661., 237.])
+    noise_factor = 0.00
 
     pd, p = 4, 9
     cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_factor, plt_mod=True).cost
