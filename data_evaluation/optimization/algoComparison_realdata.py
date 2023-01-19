@@ -23,13 +23,7 @@ mpl.rcParams['ytick.direction'] = 'in'
 mpl.rcParams.update({'font.size': 22})
 
 
-def is_success(sol, p):
-    limit = 15
-    return all([abs(sol[i] - p[i]) < limit for i in range(len(sol))])
-
-
 if __name__ == '__main__':
-    seed = 420  # generate solutions seed
     ## grid options
     grid_spacing = 50
     size = 3
@@ -39,53 +33,46 @@ if __name__ == '__main__':
     # noise options
     noise_factor = 0.0
 
-    pd, p = 4, 10
+    pd, p = 4, 11
 
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
-    test_values = gen_p_sols(cnt=100, seed=seed)
-    deviations, failures, fevals_all = [], 0, []
-    with open(f"FP_results_nm_grid_{noise_factor}noise_p{p}_v2.txt", "a") as file:
+    test_values = np.arange(0, 101, 1)
+    sols, fevals_all = [], []
+    with open(f"FP_results_realdata_p{p}_v1.txt", "a") as file:
         description = f"FP_p0_Gridsearch noisy, "
-        description += f"Seed={seed}, iters={iterations}, size={size}, grid_spacing={grid_spacing}, pd={pd}, p={p}"
-        description += f", simplex_spread={simplex_spread}, noise_factor={noise_factor}"
-        header = description + "\ntruth __ found __ fx __ p0 __ success? __ fevals __ opt_p0"
+        description += f"Iters={iterations}, size={size}, grid_spacing={grid_spacing}, pd={pd}, p={p}"
+        description += f", simplex_spread={simplex_spread}"
+        header = description + "\nsam_idx __ found __ fx __ p0 __ fevals __ opt_p0"
         file.write(header + "\n")
 
-        for p_sol in test_values:
-            #cost_func = Cost(p_sol, 0.00).cost
-            cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_factor).cost
+        for sam_idx in test_values:
+            cost_func = CostFuncFixedPoint(pd=pd, p=p, sam_idx=sam_idx).cost
 
             p0 = array([150, 600, 150])
 
-            # bounds = [(20, 300), (500, 700), (50, 300)]
-            # res = basinhopping(new_cost.cost, p0, 50, 1, grid_spacing, {"bounds": bounds}, disp=True)
-            # res = shgo(cost_func, bounds=bounds, n=300, iters=5, minimizer_kwargs={"method": "Nelder-Mead"})
             options = {"grid_spacing": grid_spacing, "iterations": iterations, "numfi": numfi,
                        "simplex_spread": simplex_spread, "size": size, "verbose": False, "enhance_step": False,
                        "input_scale": 6}
 
             res = nm_gridsearch(cost_func, p0, options)
 
-            success = is_success(res["x"], p_sol)
-            failures += not success
-
             nfev, fx, x, opt_p0 = res["nfev"], res["fun"], res["x"], res["best_start_points"][-1]
-            file.write(f"{[*p_sol]} __ {[*np.round(x, 2)]} __ {np.round(fx, 3)} __ {[*p0]} __ "
-                       f"{success} __ {nfev} __ {opt_p0}\n")
+            file.write(f"{sam_idx} __ {[*np.round(x, 2)]} __ {np.round(fx, 3)} __ {[*p0]} __ "
+                       f"{nfev} __ {opt_p0}\n")
 
-            print("Solution: ", p_sol, "Best minimum: ", np.round(x, 2), fx)
-            deviations.append(sum([abs(x[i] - p_sol[i]) for i in range(len(p_sol))]))
+            print("SamIdx: ", sam_idx, "Best minimum: ", np.round(x, 2), fx)
+            sols.append(np.round(x, 2))
             fevals_all.append(nfev)
 
-        avg_dev_s = f"Avg. deviation: {np.mean(array(deviations))}"
-        fail_cnt_s = f"Fail count: {failures}"
+        avg_sol = f"Avg. solution: {np.mean(array(sols), axis=0)}"
+        std_dev = f"Avg. std: {np.std(array(sols), axis=0)}"
         func_evals_s = f"All nfev: {fevals_all}"
-        print(avg_dev_s)
-        print(fail_cnt_s)
-        print(func_evals_s)
-        footer = "Avg. dev. __ fails"
+        print("avg_sol: ", avg_sol)
+        print("std_dev: ", std_dev)
+        print("func_evals_s: ", func_evals_s)
+        footer = "Avg. sol. __ std"
         file.write(footer + "\n")
-        file.write(f"{np.mean(array(deviations))} __ {failures}\n")
+        file.write(f"{avg_sol} __ {std_dev}\n")
         file.write("nfev at each grid pnt: " + func_evals_s + "\n")
         file.write("\n")

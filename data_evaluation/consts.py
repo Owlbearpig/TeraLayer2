@@ -15,6 +15,8 @@ Omega_, Delta_, sigma_, mu_, epsilon_, degree_ = '\u03BC', '\u0394', '\u03C3', '
 ROOT_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
 data_dir = Path(ROOT_DIR / 'matlab_enrique' / 'Data')
 optimization_results_dir = Path(ROOT_DIR / 'measurementComparisonResults')
+hhi_data_dir = Path(ROOT_DIR / "data" / "T-Sweeper_and_TeraFlash" /
+                    "Lackierte Keramik" / "CW (T-Sweeper)" / "Kopf_Ahmad_3")
 
 data_file_cnt = 100
 
