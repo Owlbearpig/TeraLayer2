@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 from model.initial_tests.multir_numba import multir_numba
 import pandas as pd
+from numpy import nan_to_num
+from numpy.fft import fft, ifft, fftfreq
 from consts import *
 import time
 import string
@@ -180,18 +182,39 @@ def get_freq_idx(freqs):
     return res
 
 
-def do_fft(t, y):
+def do_fft(data_td):
+    t, y = data_td[:, 0], data_td[:, 1]
     n = len(y)
     dt = np.float(np.mean(np.diff(t)))
-    Y = np.fft.fft(y, n)
+    Y = np.fft.fft(y, n) * exp(-1j)
     f = np.fft.fftfreq(len(t), dt)
-    idx_range = f > 0
+    idx_range = f >= 0
 
-    return f[idx_range], Y[idx_range]
+    return array([f[idx_range], Y[idx_range]]).T
 
 
-def do_ifft(z):
-    pass
+def do_ifft(data_fd, hermitian=True):
+    freqs, y_fd = data_fd[:, 0], data_fd[:, 1]
+
+    y_fd = nan_to_num(y_fd)
+
+    if hermitian:
+        y_fd = np.concatenate((y_fd, np.flip(np.conj(y_fd[1:]))))
+        """
+        * ``a[0]`` should contain the zero frequency term,
+        * ``a[1:n//2]`` should contain the positive-frequency terms,
+        * ``a[n//2 + 1:]`` should contain the negative-frequency terms, in
+          increasing order starting from the most negative frequency.
+        """
+
+    y_td = ifft(y_fd)
+    t = np.arange(len(y_td)) / (2 * freqs.max())
+    #t += 885
+
+    y_td = np.roll(y_td, -350)
+    y_td = np.flip(y_td)
+
+    return array([t, y_td]).T
 
 
 def mult_2x2_matrix_chain(arr_in):

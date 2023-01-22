@@ -73,9 +73,11 @@ if __name__ == '__main__':
     # p = array([44, 74, 44]) * um_to_m
     p = array([106.42211055276383, 743.9748743718594, 86.34170854271358]) * um_to_m
     p = array([40, 640, 75]) * um_to_m
+    #p = array([0, 14, 0]) * um_to_m
     r = new_model.explicit_reflectance(p, return_magn=False, return_r=True)
     print(new_model.freqs)
-    plt.plot(new_model.freqs, np.unwrap(np.angle(r)))
+    #plt.plot(new_model.freqs, np.unwrap(np.angle(r)))
+    plt.plot(new_model.freqs, np.angle(r))
     plt.show()
 
 
