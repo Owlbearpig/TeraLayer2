@@ -6,6 +6,8 @@ import numpy as np
 import os
 from scipy.constants import c as c0
 
+cur_os = os.name
+
 settings = {
     'data_range_idx': (234, -2)
 }
@@ -29,11 +31,9 @@ a = 1
 20 1/cm POM 0.0477
 0.25 1/cm PTFE 0.0006
 @1 THz
-
 5 1/cm POM 0.0120
 ~0.25 1/cm PTFE 0.0006
 @0.5 THz
-
 """
 
 #n = [1, 1.50, 2.8, 1.50, 1]

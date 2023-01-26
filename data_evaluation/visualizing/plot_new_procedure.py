@@ -136,7 +136,7 @@ if plot_version_2:
 
     plt.show()
 elif plot_optim_res_realdata:
-    res_file_path = ROOT_DIR / "optimization" / "FP_results_realdata_p11_v1.txt"
+    res_file_path = ROOT_DIR / "optimization" / "results" / "FP_pd4_p11_cw" / "FP_results_nm_grid_cw_v1.txt"
     sam_idx_lst, results, fevals = read_optim_result(res_file_path)
 
     f, (ax, ax2) = plt.subplots(2, 1, sharex=True)
@@ -162,7 +162,7 @@ elif plot_optim_res_realdata:
                 marker=(5, 2))
 
     ax.set_ylim(580, 720)  # outliers only
-    ax2.set_ylim(-10, 110)  # most of the data
+    ax2.set_ylim(25, 85)  # most of the data
 
     # hide the spines between ax and ax2
     ax.spines['bottom'].set_visible(False)
@@ -201,7 +201,10 @@ elif plot_optim_res_realdata:
 
     ax.set_ylabel("Layer width (µm)")
     ax.yaxis.set_label_coords(-0.05, -0.0)
-    ax.set_title(f"Avg. result: {np.round(np.mean(array(results), axis=0), 1)} (µm), (10 \"decimal places\")")
+    ax.set_title(f"CW data (p=11) \n Avg. result: {np.round(np.mean(array(results), axis=0), 1)} (µm), ")
+    ax2.axhline(np.round(np.mean(array(results), axis=0)[0], 1), color="Blue")
+    ax.axhline(np.round(np.mean(array(results), axis=0)[1], 1), color="Red")
+    ax2.axhline(np.round(np.mean(array(results), axis=0)[2], 1), color="Green")
     std_dev = np.std(array(results), axis=0)
 
     plt.title(f"Avg. deviation: "
@@ -211,6 +214,7 @@ elif plot_optim_res_realdata:
     plt.xlabel("Measurement index")
     # plt.legend(loc=(0.8, 0.7))
     plt.legend(loc=(0.85, 0.95))
+
     plt.show()
 
 else:

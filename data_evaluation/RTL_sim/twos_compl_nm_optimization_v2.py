@@ -12,13 +12,14 @@ if __name__ == '__main__':
     np.random.seed(420)
     p_sol = array([241., 661., 237.])
     noise_factor = 0.00
+    sam_idx = 37
 
-    pd, p = 4, 9
-    cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_factor, plt_mod=True).cost
+    pd, p = 4, 15
+    cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_factor, plt_mod=True, sam_idx=sam_idx).cost
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
     p0 = array([150, 600, 150])  # shouldn't change
-    grid_spacing, size = 50, 3
+    grid_spacing, size = 40, 3
 
     options = {"grid_spacing": grid_spacing, "iterations": 15, "numfi": numfi,
                "size": size, "verbose": False, "enhance_step": False, "simplex_spread": 40, "input_scale": 6}

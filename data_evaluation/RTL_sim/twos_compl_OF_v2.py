@@ -34,18 +34,32 @@ def real_data(sam_idx=10):
 
 
 class CostFuncFixedPoint:
-    def __init__(self, pd, p, p_sol = array([168., 609., 98.]), sam_idx=10, noise=0.0, plt_mod=False):
+    def __init__(self, pd, p, p_sol = array([168., 609., 98.]), sam_idx=None, noise=0.0, plt_mod=False):
         self.p_sol = array(p_sol)
         self.prec_int, self.prec = pd, p
         self.numfi = partial(numfi_, s=1, w=self.prec_int + self.prec, f=self.prec, fixed=True, rounding='floor')
 
         self.freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
+        self.freqs = np.arange(0, 1.5, 0.001) * THz
 
-        r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=noise, plt_mod=plt_mod).r_exp
-        r_exp = real_data(sam_idx)
+        if sam_idx is not None:
+            r_exp = real_data(sam_idx)
+        else:
+            r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=noise, plt_mod=plt_mod).r_exp
 
         self.r_exp_real = self.numfi(r_exp.real)
         self.r_exp_imag = self.numfi(r_exp.imag)
+        plt.plot(self.r_exp_real, label="r real no noise")
+        plt.plot(self.r_exp_imag, label="r imag no noise")
+
+        r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=0.25, plt_mod=plt_mod).r_exp
+
+        self.r_exp_real = self.numfi(r_exp.real)
+        self.r_exp_imag = self.numfi(r_exp.imag)
+        plt.plot(self.r_exp_real, label="r real with noise")
+        plt.plot(self.r_exp_imag, label="r imag with noise")
+        plt.legend()
+        plt.show()
 
         a, b = 0.300922921527581, 0.19737935744311108
 
@@ -200,7 +214,6 @@ if __name__ == '__main__':
     from functions import gen_p_sols
 
     p_sol = array([241., 661., 237.])
-
 
     cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p, noise=noise_factor).cost
 

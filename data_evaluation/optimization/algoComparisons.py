@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from consts import custom_mask_420, um_to_m, THz, GHz, um, pi
+from consts import *
 import numpy as np
 from numpy import array, sum
 import matplotlib as mpl
@@ -37,15 +37,16 @@ if __name__ == '__main__':
     simplex_spread = 40
     iterations = 15
     # noise options
-    noise_factor = 0.0
+    noise_factor = 0.25
 
-    pd, p = 4, 10
-
+    pd, p = 4, 13
+    dir_ = Path("results") / Path(f"FP_pd{pd}_p{p}_mod")
+    dir_.mkdir(exist_ok=True)
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
     test_values = gen_p_sols(cnt=100, seed=seed)
     deviations, failures, fevals_all = [], 0, []
-    with open(f"FP_results_nm_grid_{noise_factor}noise_p{p}_v2.txt", "a") as file:
+    with open(dir_ / f"FP_results_nm_grid_{noise_factor}noise_v2.txt", "a") as file:
         description = f"FP_p0_Gridsearch noisy, "
         description += f"Seed={seed}, iters={iterations}, size={size}, grid_spacing={grid_spacing}, pd={pd}, p={p}"
         description += f", simplex_spread={simplex_spread}, noise_factor={noise_factor}"

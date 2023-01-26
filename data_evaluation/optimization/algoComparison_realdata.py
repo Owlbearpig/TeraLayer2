@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from consts import custom_mask_420, um_to_m, THz, GHz, um, pi
+from consts import *
 import numpy as np
 from numpy import array, sum
 import matplotlib as mpl
@@ -25,7 +25,7 @@ mpl.rcParams.update({'font.size': 22})
 
 if __name__ == '__main__':
     ## grid options
-    grid_spacing = 50
+    grid_spacing = 40
     size = 3
     # nm options
     simplex_spread = 40
@@ -33,14 +33,15 @@ if __name__ == '__main__':
     # noise options
     noise_factor = 0.0
 
-    pd, p = 4, 11
-
+    pd, p = 4, 15
+    dir_ = Path("results") / Path(f"FP_pd{pd}_p{p}_cw")
+    dir_.mkdir(exist_ok=True)
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
     test_values = np.arange(0, 101, 1)
     sols, fevals_all = [], []
-    with open(f"FP_results_realdata_p{p}_v1.txt", "a") as file:
-        description = f"FP_p0_Gridsearch noisy, "
+    with open(dir_ / f"FP_results_nm_grid_cw_v1.txt", "a") as file:
+        description = f"FP_p0_Gridsearch cw, "
         description += f"Iters={iterations}, size={size}, grid_spacing={grid_spacing}, pd={pd}, p={p}"
         description += f", simplex_spread={simplex_spread}"
         header = description + "\nsam_idx __ found __ fx __ p0 __ fevals __ opt_p0"
