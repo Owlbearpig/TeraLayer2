@@ -3,7 +3,8 @@ from consts import THz, GHz, ones, array
 
 
 def get_n(freqs, n_min=2.71, n_max=2.86):
-    df = np.mean(np.diff(freqs))
+    df = np.mean(np.diff(np.abs(freqs)))
+
     freqs_full = np.arange(np.min(freqs), np.max(freqs) + df, df)
 
     if np.max(freqs) > 1*GHz:

@@ -186,9 +186,9 @@ def do_fft(data_td):
     t, y = data_td[:, 0], data_td[:, 1]
     n = len(y)
     dt = np.float(np.mean(np.diff(t)))
-    Y = np.fft.fft(y, n) * exp(-1j)
+    Y = np.conj(np.fft.fft(y, n))
     f = np.fft.fftfreq(len(t), dt)
-    idx_range = f >= 0
+    idx_range = (f >= 0)
 
     return array([f[idx_range], Y[idx_range]]).T
 
@@ -208,10 +208,10 @@ def do_ifft(data_fd, hermitian=True):
         """
 
     y_td = ifft(y_fd)
-    t = np.arange(len(y_td)) / (2 * freqs.max())
+    t = np.arange(len(y_td)) #/ 2*freqs.max()
     #t += 885
 
-    y_td = np.roll(y_td, -350)
+    #y_td = np.roll(y_td, -350)
     y_td = np.flip(y_td)
 
     return array([t, y_td]).T

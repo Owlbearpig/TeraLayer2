@@ -4,7 +4,8 @@ from consts import *
 import pandas as pd
 from model.tmm_package import tmm_package_wrapper
 from model.refractive_index import get_n
-from mpl_settings import *
+
+# from mpl_settings import *
 
 """
 goal was to evaluate the refractive index as a function of frequency
@@ -32,6 +33,8 @@ def load_data(sam_idx=0):
 
     ref_td = np.array([t, ref_td[:, 2]]).T
 
+    sam_td[sam_idx, :] = np.roll(sam_td[sam_idx, :], -5)
+
     return ref_td, np.array([t, sam_td[sam_idx, :]]).T
 
 
@@ -47,25 +50,28 @@ def unwrap(data_fd, is_ref=True):
 
     phase_unwrapped = np.unwrap(np.angle(data_fd[:, 1] * np.exp(-1j * phi_0)))
 
-    return -1 * np.unwrap(np.angle(data_fd[:, 1]))
+    return np.unwrap(np.angle(data_fd[:, 1]))
 
 
 def main():
     ref_td, sam_td = load_data(sam_idx=0)
+
+    from scipy import signal
+
 
     sam_fd = do_fft(sam_td)
     ref_fd = do_fft(ref_td)
 
     freqs = sam_fd[:, 0].real
 
-    # d_list = [43.0, 641.0, 74.0]
-    d_list = [46.1, 619.4, 72.0]
+    d_list = [43.0, 641.0, 74.0]
+    #d_list = [46.1, 619.4, 72.0]
     # d_list = [0.0, 641.0, 0.0]
 
     n = get_n(freqs, n_min=2.80, n_max=2.80)
 
     r_tmm = tmm_package_wrapper(freqs, d_list, n)
-    r_tmm[:, 1] = r_tmm[:, 1]  # * -1 * np.exp(-1j * 2*pi*freqs * 0.80)
+    r_tmm[:, 1] = r_tmm[:, 1] * -1 #* np.exp(-1j * 2*pi*freqs * 0.60)
 
     phase_tmm = np.angle(r_tmm[:, 1])
     # phase_tmm = np.angle(r_tmm[:, 1])
@@ -76,13 +82,17 @@ def main():
     r_exp = sam_fd[:, 1] / ref_fd[:, 1]
 
     plt.figure()
-    plt.plot(ref_td[:, 0], ref_td[:, 1], label="Reference")
-    plt.plot(sam_td[:, 0], sam_td[:, 1], label="Sample")
-    plt.plot(tmm_td[:, 0], tmm_td[:, 1], label="TMM * Reference")
+    # plt.plot(ref_td[:, 0], ref_td[:, 1], label="Reference")
+    # plt.plot(sam_td[:, 0], sam_td[:, 1], label="Sample")
+    # plt.plot(tmm_td[:, 0], tmm_td[:, 1], label="TMM * Reference")
+    plt.plot(ref_td[:, 1], label="Reference")
+    plt.plot(sam_td[:, 1], label="Sample")
+    plt.plot(tmm_td[:, 1], label="TMM * Reference")
     plt.xlabel("Time (ps)")
     plt.ylabel("Amplitude (nA)")
     plt.legend()
-
+    # plt.show()
+    # exit()
     plt.figure()
     plt.plot(ref_fd[:, 0], 20 * np.log10(np.abs(ref_fd[:, 1])), label="Reference")
     plt.plot(sam_fd[:, 0], 20 * np.log10(np.abs(sam_fd[:, 1])), label="Sample")
@@ -101,8 +111,8 @@ def main():
     plt.legend()
     """
     plt.figure()
-    # plt.plot(ref_fd[:, 0], 10 * np.log10(np.abs(ref_fd[:, 1])), label="reference")
-    # plt.plot(sam_fd[:, 0], 10 * np.log10(np.abs(sam_fd[:, 1])), label="sample")
+    #plt.plot(sam_fd[:, 0], np.angle(sam_fd[:, 1]), label="$\phi_{sam}$")
+    #plt.plot(sam_fd[:, 0], np.angle(ref_fd[:, 1]), label="$\phi_{ref}$")
     plt.plot(sam_fd[:, 0], np.angle(r_exp), label="$\phi_{sam} - \phi_{ref}$")
     plt.plot(sam_fd[:, 0], phase_tmm, label="$\phi_{TMM}$")
     plt.xlabel("Frequency (THz)")
@@ -123,6 +133,7 @@ def main():
     plt.legend()
     """
     plt.legend(loc='upper right')
+
 
 if __name__ == '__main__':
     main()

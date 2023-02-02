@@ -23,6 +23,7 @@ for lam in lams:
     print(r)
 """
 
+
 def check_ri(n_lst):
     n_lst = np.array(n_lst)
     if not np.isclose(n_lst[0], 1):
@@ -31,6 +32,7 @@ def check_ri(n_lst):
         n_lst = array([*n_lst, 1])
 
     return n_lst
+
 
 def tmm_package_wrapper(freqs, d_list, n):
     # freq should be in THz ("between 0 and 10 THz"), d in um (wl in um)
@@ -41,7 +43,7 @@ def tmm_package_wrapper(freqs, d_list, n):
     if d_list[-1] != inf:
         d_list = [*d_list, inf]
 
-    angle_in = 8*pi/180
+    angle_in = 8 * pi / 180
 
     if n.ndim == 1:
         lambda_vac = (c0 / freqs) * 10 ** -6
