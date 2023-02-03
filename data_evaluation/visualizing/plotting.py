@@ -93,11 +93,10 @@ def plot_measured_phase(sample_idx=0, mask=None):
     f, r, b, s = get_phase_measured(sample_file_idx=sample_idx, mask=mask)
 
     data_slice = (f > 0 * GHz) * (f < 1000 * GHz)
-    #data_slice = (f > 0 * GHz)
+    # data_slice = (f > 0 * GHz)
 
     r, s, b = r[data_slice], s[data_slice], b[data_slice]
 
-    
     r, s, b = np.unwrap(r), np.unwrap(s), np.unwrap(b)
 
     """
@@ -110,13 +109,13 @@ def plot_measured_phase(sample_idx=0, mask=None):
     s -= ps[1]
     """
 
-    #plt.plot(f[fit_slice] / GHz, r[fit_slice])
-    #plt.plot(f / GHz, pr[0] * f / GHz, label='lin. interpol ref')
-    #plt.plot(f / GHz, ps[0] * f / GHz, label='lin. interpol sam')
+    # plt.plot(f[fit_slice] / GHz, r[fit_slice])
+    # plt.plot(f / GHz, pr[0] * f / GHz, label='lin. interpol ref')
+    # plt.plot(f / GHz, ps[0] * f / GHz, label='lin. interpol sam')
 
     plt.plot(f / GHz, r, label='reference')
     plt.plot(f / GHz, s, label=f'sample Kopf_1x_{sample_idx + 1:04}')
-    #plt.plot(f / GHz, (s - r), label=f'(s-r)')
+    # plt.plot(f / GHz, (s - r), label=f'(s-r)')
     # plt.xlim((0, 2))
     # plt.ylim((0, 1.1))
     plt.xlabel('Frequency (GHz)')
@@ -156,14 +155,14 @@ def plot_thicknesses():
         plt.legend()
         plt.show()
 
+
 def plot_ref(sample_file_idx=10):
     f = f_axis()
     r_phase, b_phase, s_phase = load_files(sample_file_idx, data_type='phase')
     r, b, s = load_files(sample_file_idx, data_type='amplitude')
-    rz = r * np.exp(1j*r_phase)
-    plt.plot(f, 20*np.log10(np.abs(rz)))
+    rz = r * np.exp(1j * r_phase)
+    plt.plot(f, 20 * np.log10(np.abs(rz)))
     plt.show()
-
 
 
 if __name__ == '__main__':
@@ -183,17 +182,16 @@ if __name__ == '__main__':
     plt.plot(new_model.freqs / GHz, np.abs(r), label="model abs(r)")
     plt.xlabel("frequency (GHz)")
     plt.show()
-    #plt.plot(new_model.freqs / GHz, np.unwrap(np.angle(r)), label="model")
+    # plt.plot(new_model.freqs / GHz, np.unwrap(np.angle(r)), label="model")
     dt = 1 / np.mean(np.diff(freqs))
 
     t = mask * dt
 
     r_fd = np.fft.fft(r, len(r))
 
-    plt.plot(t*c0, np.abs(r_fd))
+    plt.plot(t * c0, np.abs(r_fd))
     plt.xlabel("length (m)")
     plt.show()
-
 
     # plot_thicknesses()
     # plot_measured_ampl(sample_idx=10, x_axis="g")

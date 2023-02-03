@@ -6,7 +6,7 @@ from numpy.fft import fft, ifft, fftfreq
 from consts import *
 import time
 import string
-
+from scipy import signal
 
 
 def find_files(top_dir=ROOT_DIR, search_str='', file_extension=''):
@@ -208,10 +208,10 @@ def do_ifft(data_fd, hermitian=True):
         """
 
     y_td = ifft(y_fd)
-    t = np.arange(len(y_td)) #/ 2*freqs.max()
-    #t += 885
+    t = np.arange(len(y_td)) / (2*freqs.max())
+    # t += 885
 
-    #y_td = np.roll(y_td, -350)
+    # y_td = np.roll(y_td, -350)
     y_td = np.flip(y_td)
 
     return array([t, y_td]).T
@@ -267,6 +267,7 @@ def noise_gen(freqs, enabled, scale=1, seed=None):
 
     return ret
 
+
 def gen_p_sols(cnt=100, seed=421):
     np.random.seed(seed)
 
@@ -278,6 +279,17 @@ def gen_p_sols(cnt=100, seed=421):
         p_sols.append(rand_sol())
 
     return array(p_sols, dtype=float)
+
+
+def filtering(data_td, wn=(0.001, 9.999), filt_type="bandpass", order=9):
+    dt = np.mean(np.diff(data_td[:, 0].real))
+    df = 1 / dt
+    #sos = signal.butter(9, (0.0001, 9.9999), 'bandpass', fs=df, output='sos')
+    sos = signal.butter(N=order, Wn=wn, btype=filt_type, fs=df, output='sos')
+    data_td_filtered = signal.sosfilt(sos, data_td[:, 1])
+    data_td_filtered = array([data_td[:, 0], data_td_filtered]).T
+
+    return data_td_filtered
 
 
 if __name__ == '__main__':

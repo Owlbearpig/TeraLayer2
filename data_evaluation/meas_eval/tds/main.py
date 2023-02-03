@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
-from functions import do_fft, do_ifft
+import numpy as np
+
+from functions import do_fft, do_ifft, filtering
 from consts import *
 import pandas as pd
 from model.tmm_package import tmm_package_wrapper
@@ -18,7 +20,7 @@ def pp(data_td):
     return
 
 
-def load_data(sam_idx=0):
+def load_data(sam_idx=None, signal_shift=0):
     data_dir = Path(ROOT_DIR / "data" / "T-Sweeper_and_TeraFlash" / "Lackierte Keramik" / "Puls (TeraFlash)")
 
     bk_gnd_file = data_dir / "2020_01_30_Background_1000pulses.csv"
@@ -28,14 +30,23 @@ def load_data(sam_idx=0):
     bk_gnd_td = pd.read_csv(bk_gnd_file).values
     ref_td = pd.read_csv(ref_file).values
     sam_td = pd.read_csv(data_file).values
-    # print(ref_td.shape)
+
     t = ref_td[:, 0] - ref_td[0, 0]
 
     ref_td = np.array([t, ref_td[:, 2]]).T
 
-    sam_td[sam_idx, :] = np.roll(sam_td[sam_idx, :], -5)
+    if sam_idx is not None:
+        sam_td[sam_idx, :] = np.roll(sam_td[sam_idx, :], signal_shift)
 
-    return ref_td, np.array([t, sam_td[sam_idx, :]]).T
+        return ref_td, np.array([t, sam_td[sam_idx, :]]).T
+
+    sam_cnt = sam_td.shape[0]
+    sam_td_avg = np.zeros_like(sam_td[0, :])
+    for sam_idx in range(sam_cnt):
+        sam_td_avg += np.roll(sam_td[sam_idx, :], signal_shift)
+    sam_td_avg /= sam_cnt
+
+    return ref_td, np.array([t, sam_td_avg]).T
 
 
 def unwrap(data_fd, is_ref=True):
@@ -53,86 +64,67 @@ def unwrap(data_fd, is_ref=True):
     return np.unwrap(np.angle(data_fd[:, 1]))
 
 
+def cost():
+    res = 0
+    return res
+
+
 def main():
-    ref_td, sam_td = load_data(sam_idx=0)
+    samples = [None, 0, 10]
+    for sam_idx in samples:
+        ref_td, sam_td = load_data(sam_idx=sam_idx, signal_shift=-5)
 
-    from scipy import signal
+        ref_td = filtering(ref_td, filt_type="hp", wn=2.3)
+        sam_td = filtering(sam_td, filt_type="hp", wn=2.3)
 
+        sam_fd, ref_fd = do_fft(sam_td), do_fft(ref_td)
 
-    sam_fd = do_fft(sam_td)
-    ref_fd = do_fft(ref_td)
+        freqs = sam_fd[:, 0].real
 
-    freqs = sam_fd[:, 0].real
+        d_list = [43.0, 641.0, 74.0]
+        # d_list = [46.1, 619.4, 72.0]
 
-    d_list = [43.0, 641.0, 74.0]
-    #d_list = [46.1, 619.4, 72.0]
-    # d_list = [0.0, 641.0, 0.0]
+        n = get_n(freqs, n_min=2.80, n_max=2.80)
 
-    n = get_n(freqs, n_min=2.80, n_max=2.80)
+        r_tmm = tmm_package_wrapper(freqs, d_list, n)
+        r_tmm[:, 1] = r_tmm[:, 1] * -1
 
-    r_tmm = tmm_package_wrapper(freqs, d_list, n)
-    r_tmm[:, 1] = r_tmm[:, 1] * -1 #* np.exp(-1j * 2*pi*freqs * 0.60)
+        phase_tmm = np.angle(r_tmm[:, 1])
+        # phase_tmm = np.angle(r_tmm[:, 1])
 
-    phase_tmm = np.angle(r_tmm[:, 1])
-    # phase_tmm = np.angle(r_tmm[:, 1])
+        tmm_fd = array([r_tmm[:, 0].real, r_tmm[:, 1] * ref_fd[:, 1]]).T
+        tmm_td = do_ifft(tmm_fd)
 
-    tmm_fd = array([r_tmm[:, 0].real, r_tmm[:, 1] * ref_fd[:, 1]]).T
-    tmm_td = do_ifft(tmm_fd)
+        print(np.argmax(ref_td[:, 1]) - np.argmax(sam_td[:, 1]))
 
-    r_exp = sam_fd[:, 1] / ref_fd[:, 1]
+        r_exp = sam_fd[:, 1] / ref_fd[:, 1]
 
-    plt.figure()
-    # plt.plot(ref_td[:, 0], ref_td[:, 1], label="Reference")
-    # plt.plot(sam_td[:, 0], sam_td[:, 1], label="Sample")
-    # plt.plot(tmm_td[:, 0], tmm_td[:, 1], label="TMM * Reference")
-    plt.plot(ref_td[:, 1], label="Reference")
-    plt.plot(sam_td[:, 1], label="Sample")
-    plt.plot(tmm_td[:, 1], label="TMM * Reference")
-    plt.xlabel("Time (ps)")
-    plt.ylabel("Amplitude (nA)")
-    plt.legend()
-    # plt.show()
-    # exit()
-    plt.figure()
-    plt.plot(ref_fd[:, 0], 20 * np.log10(np.abs(ref_fd[:, 1])), label="Reference")
-    plt.plot(sam_fd[:, 0], 20 * np.log10(np.abs(sam_fd[:, 1])), label="Sample")
-    plt.plot(ref_fd[:, 0], 20 * np.log10(np.abs(r_tmm[:, 1] * ref_fd[:, 1])), label="TMM * Reference")
-    plt.xlabel("Frequency (THz)")
-    plt.ylabel("Amplitude (dB)")
-    plt.legend()
-    """
-    plt.figure()
-    # plt.plot(ref_fd[:, 0], 10 * np.log10(np.abs(ref_fd[:, 1])), label="reference")
-    # plt.plot(sam_fd[:, 0], 10 * np.log10(np.abs(sam_fd[:, 1])), label="sample")
-    plt.plot(sam_fd[:, 0], np.abs(r_exp), label="r_exp")
-    plt.plot(sam_fd[:, 0], np.abs(r_tmm[:, 1]), label="r_tmm")
-    plt.xlabel("Frequency (THz)")
-    plt.ylabel("Amplitude (dB)")
-    plt.legend()
-    """
-    plt.figure()
-    #plt.plot(sam_fd[:, 0], np.angle(sam_fd[:, 1]), label="$\phi_{sam}$")
-    #plt.plot(sam_fd[:, 0], np.angle(ref_fd[:, 1]), label="$\phi_{ref}$")
-    plt.plot(sam_fd[:, 0], np.angle(r_exp), label="$\phi_{sam} - \phi_{ref}$")
-    plt.plot(sam_fd[:, 0], phase_tmm, label="$\phi_{TMM}$")
-    plt.xlabel("Frequency (THz)")
-    plt.ylabel("Phase (Rad)")
-    plt.legend()
+        plt.figure("Time domain")
+        plt.plot(ref_td[:, 0], ref_td[:, 1], label=f"Reference {sam_idx}")
+        plt.plot(sam_td[:, 0], sam_td[:, 1], label=f"Sample {sam_idx}")
+        plt.plot(tmm_td[:, 0], tmm_td[:, 1], label=f"TMM * Reference")
+        plt.xlabel("Time (ps)")
+        plt.ylabel("Amplitude (nA)")
+        plt.legend()
 
-    ref_phase = unwrap(ref_fd)
-    sam_phase = unwrap(sam_fd)
-    phase_diff = sam_phase - ref_phase
-    """
-    plt.figure()
-    # plt.plot(ref_fd[:, 0], 10 * np.log10(np.abs(ref_fd[:, 1])), label="reference")
-    # plt.plot(sam_fd[:, 0], 10 * np.log10(np.abs(sam_fd[:, 1])), label="sample")
-    plt.plot(sam_fd[:, 0], phase_diff, label="exp")
-    plt.plot(sam_fd[:, 0], np.unwrap(np.angle(r_tmm[:, 1]))-pi, label="tmm")
-    plt.xlabel("Frequency (THz)")
-    plt.ylabel("Phase (Rad)")
-    plt.legend()
-    """
-    plt.legend(loc='upper right')
+        plt.figure("Spectrum")
+        plt.plot(ref_fd[:, 0], 20 * np.log10(np.abs(ref_fd[:, 1])), label=f"Reference {sam_idx}")
+        plt.plot(sam_fd[:, 0], 20 * np.log10(np.abs(sam_fd[:, 1])), label=f"Sample {sam_idx}")
+        plt.plot(ref_fd[:, 0], 20 * np.log10(np.abs(r_tmm[:, 1] * ref_fd[:, 1])), label=f"TMM * Reference")
+        plt.xlabel("Frequency (THz)")
+        plt.ylabel("Amplitude (dB)")
+        plt.legend()
+
+        plt.figure("Phase")
+        # plt.plot(sam_fd[:, 0], np.angle(sam_fd[:, 1]), label="$\phi_{sam}$")
+        # plt.plot(sam_fd[:, 0], np.angle(ref_fd[:, 1]), label="$\phi_{ref}$")
+        plt.plot(sam_fd[:, 0], np.angle(r_exp), label="$\phi_{sam} - \phi_{ref}$" + f"{sam_idx}")
+        plt.plot(sam_fd[:, 0], phase_tmm, label="$\phi_{TMM}$")
+        plt.xlabel("Frequency (THz)")
+        plt.ylabel("Phase (Rad)")
+        plt.legend()
+
+        plt.legend(loc='upper right')
 
 
 if __name__ == '__main__':
