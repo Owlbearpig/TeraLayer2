@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from numpy import pi as pi64
+from functions import do_fft
 from scratches.snippets.base_converters import dec_to_twoscompl
 from numba import jit
 from model.cost_function import Cost
@@ -8,9 +9,35 @@ from numfi import numfi as numfi_
 from functools import partial
 import numpy as np
 import pandas as pan
+from meas_eval.tds.main import load_data
 
 
-def real_data(sam_idx=10):
+def read_data_tds(sam_idx=10):
+    ref_td, sam_td = load_data(sam_idx=sam_idx)
+
+    sam_fd = do_fft(sam_td)
+    ref_fd = do_fft(ref_td)
+
+    freqs = ref_fd[:, 0].real
+
+    selected_freqs = [0.420, 0.520, 0.650, 0.800, 0.850, 0.950]
+    closest_freqs = array([np.argmin(abs(freqs - freq)) for freq in selected_freqs])
+
+    #plt.plot(ref_fd[:, 0], np.log10(np.abs(ref_fd[:, 1])))
+    #plt.plot(ref_fd[closest_freqs, 0], np.log10(np.abs(ref_fd[closest_freqs, 1])))
+    #plt.plot(sam_fd[:, 0], np.log10(np.abs(sam_fd[:, 1])))
+    #plt.plot(sam_fd[closest_freqs, 0], np.log10(np.abs(sam_fd[closest_freqs, 1])))
+    #plt.show()
+
+    s, r = sam_fd[closest_freqs, 1], ref_fd[closest_freqs, 1]
+    R = (s / r) ** 2
+    phase_diff = np.angle(sam_fd[closest_freqs, 1]) - np.angle(ref_fd[closest_freqs, 1])
+
+    r_exp_meas = np.sqrt(R) * np.exp(1j * phase_diff)
+
+    return r_exp_meas
+
+def real_data_cw(sam_idx=10):
     # [0.420, 0.520, 0.650, 0.800, 0.850, 0.950] * THz
     data_path = hhi_data_dir / f"Kopf_Ahmad_10x_{sam_idx:04}"
     data = pan.read_csv(data_path).values
@@ -40,26 +67,15 @@ class CostFuncFixedPoint:
         self.numfi = partial(numfi_, s=1, w=self.prec_int + self.prec, f=self.prec, fixed=True, rounding='floor')
 
         self.freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
-        self.freqs = np.arange(0, 1.5, 0.001) * THz
 
         if sam_idx is not None:
-            r_exp = real_data(sam_idx)
+            #r_exp = real_data_cw(sam_idx)
+            r_exp = read_data_tds(sam_idx)
         else:
             r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=noise, plt_mod=plt_mod).r_exp
 
         self.r_exp_real = self.numfi(r_exp.real)
         self.r_exp_imag = self.numfi(r_exp.imag)
-        plt.plot(self.r_exp_real, label="r real no noise")
-        plt.plot(self.r_exp_imag, label="r imag no noise")
-
-        r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=0.25, plt_mod=plt_mod).r_exp
-
-        self.r_exp_real = self.numfi(r_exp.real)
-        self.r_exp_imag = self.numfi(r_exp.imag)
-        plt.plot(self.r_exp_real, label="r real with noise")
-        plt.plot(self.r_exp_imag, label="r imag with noise")
-        plt.legend()
-        plt.show()
 
         a, b = 0.300922921527581, 0.19737935744311108
 
@@ -215,7 +231,7 @@ if __name__ == '__main__':
 
     p_sol = array([241., 661., 237.])
 
-    cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p, noise=noise_factor).cost
+    cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p, noise=noise_factor, sam_idx=10).cost
 
     p_test = p_sol / (2 * pi * 2 ** 6)
 

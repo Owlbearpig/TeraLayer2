@@ -7,7 +7,7 @@ import pandas as pd
 from model.tmm_package import tmm_package_wrapper
 from model.refractive_index import get_n
 
-# from mpl_settings import *
+from mpl_settings import *
 
 """
 goal was to evaluate the refractive index as a function of frequency
@@ -65,17 +65,16 @@ def unwrap(data_fd, is_ref=True):
 
 
 def cost():
-    res = 0
-    return res
+    return 0
 
 
 def main():
-    samples = [None, 0, 10]
+    samples = [None]
     for sam_idx in samples:
         ref_td, sam_td = load_data(sam_idx=sam_idx, signal_shift=-5)
 
-        ref_td = filtering(ref_td, filt_type="hp", wn=2.3)
-        sam_td = filtering(sam_td, filt_type="hp", wn=2.3)
+        #ref_td = filtering(ref_td, filt_type="hp", wn=2.3)
+        #sam_td = filtering(sam_td, filt_type="hp", wn=2.3)
 
         sam_fd, ref_fd = do_fft(sam_td), do_fft(ref_td)
 
