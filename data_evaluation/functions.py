@@ -188,13 +188,14 @@ def do_fft(data_td):
     dt = np.float(np.mean(np.diff(t)))
     Y = np.conj(np.fft.fft(y, n))
     f = np.fft.fftfreq(len(t), dt)
+
     idx_range = (f >= 0)
 
     return array([f[idx_range], Y[idx_range]]).T
 
 
 def do_ifft(data_fd, hermitian=True):
-    freqs, y_fd = data_fd[:, 0], data_fd[:, 1]
+    freqs, y_fd = data_fd[:, 0].real, data_fd[:, 1]
 
     y_fd = nan_to_num(y_fd)
 
@@ -208,11 +209,14 @@ def do_ifft(data_fd, hermitian=True):
         """
 
     y_td = ifft(y_fd)
-    t = np.arange(len(y_td)) / (2*freqs.max())
+    df = np.mean(np.diff(freqs))
+    print(df)
+    t = np.arange(0, len(y_td)*df, df)
+    #t = np.linspace(0, len(y_td)*df, len(y_td))
     # t += 885
 
-    # y_td = np.roll(y_td, -350)
     y_td = np.flip(y_td)
+    #y_td = np.roll(y_td, 1)
 
     return array([t, y_td]).T
 

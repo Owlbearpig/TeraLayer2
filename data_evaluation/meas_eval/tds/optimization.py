@@ -33,7 +33,7 @@ def optimize_thicknesses(d0, p0, freq_idx_range, bounds):
 
 
 def main():
-    f0_idx = int(0.850 / 0.014275517487508922)
+    f0_idx = int(0.400 / 0.014275517487508922)
     f1_idx = int(3.000 / 0.014275517487508922)
     freq_idx_range = f0_idx, f1_idx
 

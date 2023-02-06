@@ -30,6 +30,7 @@ class Cost:
 
         self.freqs = self.ref_fd[:, 0].real
         self.t = self.ref_td[:, 0].real
+
         self.r_exp = array([self.freqs, self.sam_fd[:, 1] / self.ref_fd[:, 1]]).T
 
         self.k = np.array([np.linspace(0, 0.00, len(self.freqs)),
@@ -49,7 +50,7 @@ class Cost:
         r_tmm[1] = r_tmm[1] * -1
         r_exp = self.sam_fd[freq_idx, 1] / self.ref_fd[freq_idx, 1]
 
-        amp_loss = (np.abs(r_exp) - np.abs(r_tmm[1])) ** 2
+        amp_loss = (np.log10(np.abs(r_exp)) - np.log10(np.abs(r_tmm[1]))) ** 2
         phi_loss = (np.angle(r_tmm[1]) - np.angle(self.r_exp[freq_idx, 1])) ** 2
 
         loss = amp_loss + phi_loss
