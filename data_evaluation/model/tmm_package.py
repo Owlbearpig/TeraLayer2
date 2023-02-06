@@ -37,7 +37,6 @@ def check_ri(n_lst):
 def tmm_package_wrapper(freqs, d_list, n):
     # freq should be in THz ("between 0 and 10 THz"), d in um (wl in um)
     # n[freq_idx, n_idx]
-
     if d_list[0] != inf:
         d_list = [inf, *d_list]
     if d_list[-1] != inf:
