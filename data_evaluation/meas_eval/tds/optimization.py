@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import pearsonr
-from scipy.optimize import minimize, shgo
+from scipy.optimize import minimize, shgo, basinhopping
 from functools import partial
 from cost import Cost
 from consts import *
@@ -33,8 +33,9 @@ def optimize_thicknesses(d0, p0, freq_idx_range, bounds):
 
 
 def main():
-    f0_idx = int(0.400 / 0.014275517487508922)
-    f1_idx = int(3.000 / 0.014275517487508922)
+    df = 0.014275517487508922
+    f0_idx = int(0.150 / df)
+    f1_idx = int(3.000 / df)
     freq_idx_range = f0_idx, f1_idx
 
     bounds = [(1.45, 1.55), (2.85, 2.95), (1.45, 1.55)]
@@ -47,7 +48,8 @@ def main():
     for freq_idx in range(*freq_idx_range):
         cost = partial(cost_inst.cost, freq_idx=freq_idx)
         #res = minimize(cost, x0=p0, bounds=bounds)
-        res = shgo(cost, bounds=bounds)
+        res = shgo(cost, bounds=bounds, iters=3)
+        #res = basinhopping(cost, x0=p0)
 
         # print(cost_inst.freqs[freq_idx], res.x, res.fun)
         n_opt.append(res.x)

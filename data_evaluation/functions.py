@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import numpy as np
+
 from model.initial_tests.multir_numba import multir_numba
 import pandas as pd
 from numpy import nan_to_num
@@ -190,7 +192,7 @@ def do_fft(data_td):
     f = np.fft.fftfreq(len(t), dt)
 
     idx_range = (f >= 0)
-
+    #return array([f, Y]).T
     return array([f[idx_range], Y[idx_range]]).T
 
 
@@ -200,7 +202,7 @@ def do_ifft(data_fd, hermitian=True):
     y_fd = nan_to_num(y_fd)
 
     if hermitian:
-        y_fd = np.concatenate((y_fd, np.flip(np.conj(y_fd[1:]))))
+        y_fd = np.concatenate((np.conj(y_fd), np.flip(y_fd[1:])))
         """
         * ``a[0]`` should contain the zero frequency term,
         * ``a[1:n//2]`` should contain the positive-frequency terms,
@@ -210,12 +212,13 @@ def do_ifft(data_fd, hermitian=True):
 
     y_td = ifft(y_fd)
     df = np.mean(np.diff(freqs))
-    print(df)
-    t = np.arange(0, len(y_td)*df, df)
+    n = len(y_td)
+    t = np.arange(0, n) / (n * df)
+
     #t = np.linspace(0, len(y_td)*df, len(y_td))
     # t += 885
 
-    y_td = np.flip(y_td)
+    #y_td = np.flip(y_td)
     #y_td = np.roll(y_td, 1)
 
     return array([t, y_td]).T
