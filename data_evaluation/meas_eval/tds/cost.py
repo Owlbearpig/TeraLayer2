@@ -12,12 +12,12 @@ from consts import *
 class Cost:
     def __init__(self, sam_idx=None, p0=None, d_lst=None, freq_idx_range=None):
         self.sam_idx = sam_idx
-        self.p0 = p0
+        self.p0 = array(p0)
 
         if d_lst is None:
-            self.d_list = [42.0, 641.0, 74.0]
+            self.d_list = array([42.0, 641.0, 74.0])
         else:
-            self.d_list = d_lst
+            self.d_list = array(d_lst)
 
         self.ref_td, self.sam_td = load_data(sam_idx=self.sam_idx, signal_shift=-5)
 
@@ -41,10 +41,17 @@ class Cost:
             self.freq_idx_range = (0, len(self.freqs))
         else:
             self.freq_idx_range = freq_idx_range
-        self.freq_range = self.freqs[freq_idx_range[0]:freq_idx_range[1]]
+
+        self.freq_range = self.freqs[self.freq_idx_range[0]:self.freq_idx_range[1]]
 
     def cost(self, p, freq_idx, return_both=False):
-        n = array(p) + 1j * self.k[freq_idx]
+        p = array(p)
+        if len(p) == 3:
+            n = array(p) + 1j * self.k[freq_idx]
+        elif len(p) == 4:
+            n = array(p[:3]) + 1j * array(p[3]) * array([0, 1, 0])
+        else:
+            n = array(p[:3]) + 1j * array(p[3:])
 
         r_tmm = tmm_package_wrapper(self.freqs[freq_idx], self.d_list, n)
         r_tmm[1] = r_tmm[1] * -1
@@ -62,13 +69,20 @@ class Cost:
 
     def pad_n(self, p, freq_idx_range):
         if self.p0 is not None:
-            pad = self.p0
+            pad = self.p0[:3]
         else:
-            pad = [1.5, 2.8, 1.5]
+            pad = array([1.5, 2.8, 1.5])
 
         f0_i, f1_i = freq_idx_range
         pre_pad, post_pad = np.vstack(f0_i * [pad]), np.vstack((len(self.freqs) - f1_i) * [pad])
-        n = np.concatenate((pre_pad, p, post_pad)) + 1j * self.k
+
+        k = self.k.copy()
+        if p.shape[1] == 4:
+            k[f0_i:f1_i, 1] = np.array(p[:, 3])
+        elif p.shape[1] == 6:
+            k[f0_i:f1_i, :] = np.array(p[:, 3:])
+
+        n = np.concatenate((pre_pad, p[:, :3], post_pad)) + 1j * k
 
         return n
 
@@ -99,6 +113,8 @@ class Cost:
         plt.plot(self.freqs, n[:, 2].real, label="Re($n_2$)")
         plt.axvline(self.freqs[f0_i], color="red", label="Opt. range", linewidth=5.0)
         plt.axvline(self.freqs[f1_i], color="red", linewidth=5.0)
+        plt.xlabel("Frequency (THz)")
+        plt.ylabel("Re(n)")
         plt.legend()
 
         plt.figure("Refractive index imag")
@@ -108,6 +124,8 @@ class Cost:
         plt.plot(self.freqs, n[:, 2].imag, label="Img($n_2$)")
         plt.axvline(self.freqs[f0_i], color="red", label="Opt. range", linewidth=5.0)
         plt.axvline(self.freqs[f1_i], color="red", linewidth=5.0)
+        plt.xlabel("Frequency (THz)")
+        plt.ylabel("Im(n)")
         plt.legend()
 
     def plot_model(self, p):
@@ -160,12 +178,16 @@ class Cost:
 def main():
     from functools import partial
 
-    cost_inst = Cost()
-    f_idx = int(1.68 / 0.014275517487508922)
-    print(f"frequency: {cost_inst.freqs[f_idx]} THz (idx: {f_idx})")
+    d0 = array([44.0, 650.0, 71.0])
+    cost_inst = Cost(d_lst=d0)
+
+    # f_idx = int(1.68 / 0.014275517487508922)
+    f_idx = 80
+    print(f"Freq: {cost_inst.freqs[f_idx]} THz (idx: {f_idx})")
+
     cost = partial(cost_inst.cost, freq_idx=f_idx)
 
-    p0 = [1.5, 2.8, 1.5]
+    p0 = array([1.50120065, 2.86606279, 1.55, 0.01142857])
     res = cost(p=p0)
 
     print(res)

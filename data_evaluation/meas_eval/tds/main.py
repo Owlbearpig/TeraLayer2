@@ -20,7 +20,7 @@ def pp(data_td):
     return
 
 
-def load_data(sam_idx=None, signal_shift=0):
+def load_data(sam_idx=None, signal_shift=0, ret_bk_gnd=False):
     data_dir = Path(ROOT_DIR / "data" / "T-Sweeper_and_TeraFlash" / "Lackierte Keramik" / "Puls (TeraFlash)")
 
     bk_gnd_file = data_dir / "2020_01_30_Background_1000pulses.csv"
@@ -31,22 +31,37 @@ def load_data(sam_idx=None, signal_shift=0):
     ref_td = pd.read_csv(ref_file).values
     sam_td = pd.read_csv(data_file).values
 
+    sam_cnt = sam_td.shape[0]
+    remove_dc = True
+
+    if remove_dc:
+        ref_td[:, 2] -= np.mean(ref_td[:, 2])
+
     t = ref_td[:, 0] - ref_td[0, 0]
 
     ref_td = np.array([t, ref_td[:, 2]]).T
+
+    if remove_dc:
+        for i in range(sam_cnt):
+            sam_td[:, 1] -= np.mean(sam_td[:, 1])
 
     if sam_idx is not None:
         sam_td[sam_idx, :] = np.roll(sam_td[sam_idx, :], signal_shift)
 
         return ref_td, np.array([t, sam_td[sam_idx, :]]).T
 
-    sam_cnt = sam_td.shape[0]
     sam_td_avg = np.zeros_like(sam_td[0, :])
     for sam_idx in range(sam_cnt):
         sam_td_avg += np.roll(sam_td[sam_idx, :], signal_shift)
     sam_td_avg /= sam_cnt
 
-    return ref_td, np.array([t, sam_td_avg]).T
+    if remove_dc:
+        sam_td_avg -= np.mean(sam_td_avg)
+
+    if ret_bk_gnd:
+        return ref_td, np.array([t, sam_td_avg]).T, np.array([t, bk_gnd_td[:, 1]]).T
+    else:
+        return ref_td, np.array([t, sam_td_avg]).T
 
 
 def unwrap(data_fd, is_ref=True):
@@ -71,12 +86,12 @@ def cost():
 def main():
     samples = [None]
     for sam_idx in samples:
-        ref_td, sam_td = load_data(sam_idx=sam_idx, signal_shift=-5)
+        ref_td, sam_td, bk_gnd_td = load_data(sam_idx=sam_idx, signal_shift=-5, ret_bk_gnd=True)
 
-        #ref_td = filtering(ref_td, filt_type="hp", wn=2.3)
-        #sam_td = filtering(sam_td, filt_type="hp", wn=2.3)
+        # ref_td = filtering(ref_td, filt_type="hp", wn=2.3)
+        # sam_td = filtering(sam_td, filt_type="hp", wn=2.3)
 
-        sam_fd, ref_fd = do_fft(sam_td), do_fft(ref_td)
+        sam_fd, ref_fd, bk_gnd_fd = do_fft(sam_td), do_fft(ref_td), do_fft(bk_gnd_td)
 
         freqs = sam_fd[:, 0].real
 
@@ -101,6 +116,7 @@ def main():
         plt.figure("Time domain")
         plt.plot(ref_td[:, 0], ref_td[:, 1], label=f"Reference {sam_idx}")
         plt.plot(sam_td[:, 0], sam_td[:, 1], label=f"Sample {sam_idx}")
+        plt.plot(bk_gnd_td[:, 0], bk_gnd_td[:, 1], label=f"Background")
         plt.plot(tmm_td[:, 0], tmm_td[:, 1], label=f"TMM * Reference")
         plt.xlabel("Time (ps)")
         plt.ylabel("Amplitude (nA)")
@@ -109,6 +125,7 @@ def main():
         plt.figure("Spectrum")
         plt.plot(ref_fd[:, 0], 20 * np.log10(np.abs(ref_fd[:, 1])), label=f"Reference {sam_idx}")
         plt.plot(sam_fd[:, 0], 20 * np.log10(np.abs(sam_fd[:, 1])), label=f"Sample {sam_idx}")
+        plt.plot(sam_fd[:, 0], 20 * np.log10(np.abs(bk_gnd_fd[:, 1])), label=f"Background")
         plt.plot(ref_fd[:, 0], 20 * np.log10(np.abs(r_tmm[:, 1] * ref_fd[:, 1])), label=f"TMM * Reference")
         plt.xlabel("Frequency (THz)")
         plt.ylabel("Amplitude (dB)")
@@ -117,8 +134,9 @@ def main():
         plt.figure("Phase")
         # plt.plot(sam_fd[:, 0], np.angle(sam_fd[:, 1]), label="$\phi_{sam}$")
         # plt.plot(sam_fd[:, 0], np.angle(ref_fd[:, 1]), label="$\phi_{ref}$")
-        plt.plot(sam_fd[:, 0], np.angle(r_exp), label="$\phi_{sam} - \phi_{ref}$" + f"{sam_idx}")
-        plt.plot(sam_fd[:, 0], phase_tmm, label="$\phi_{TMM}$")
+        plt.plot(sam_fd[:, 0], np.angle(r_exp), label=r"$\phi_{sam} - \phi_{ref}$ " + f"{sam_idx}")
+        plt.plot(sam_fd[:, 0], np.angle(bk_gnd_fd[:, 1]), label=r"$\phi_{bkgnd}$")
+        plt.plot(sam_fd[:, 0], phase_tmm, label=r"$\phi_{TMM}$")
         plt.xlabel("Frequency (THz)")
         plt.ylabel("Phase (Rad)")
         plt.legend()
