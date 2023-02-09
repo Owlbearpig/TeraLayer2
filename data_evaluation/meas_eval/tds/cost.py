@@ -89,16 +89,13 @@ class Cost:
     def n_sm(self, p):
         l = self.lam ** 2
 
-        B1, B2, B3, C1, C2, C3 = p[:6]
-        n1 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2) + B3 * l / (l - C3))
+        B1, B2, C1, C2 = p[:4]
+        n1 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2))
 
-        B1, B2, B3, C1, C2, C3 = p[6:12]
-        n2 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2) + B3 * l / (l - C3))
+        B1, B2, C1, C2 = p[4:8]
+        n2 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2))
 
-        B1, B2, B3, C1, C2, C3 = p[12:18]
-        n3 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2) + B3 * l / (l - C3))
-
-        n = array([n1, n2, n3]).T + 1j * self.k
+        n = array([n1, n2, n1]).T + 1j * self.k
 
         n = np.nan_to_num(n)
 
@@ -243,10 +240,13 @@ def main():
     p0 = array([0.4, 0.06, 0.4, 2.50e-3, 0.8e-3, 40,
                 1.4, 0.55, 5.0, 5.5e-3, 1.3e-2, 310,
                 0.4, 0.06, 0.4, 2.50e-3, 0.8e-3, 40])
+    p0 = array([0.7, 0.55, 4.50e-3, 2.3e-2,
+                3.8, 3.8, 5.50e-3, 7.8e-3,])
 
     res = cost(p=p0)
     cost_inst.plot_n(p0, sm=True)
-    #cost_inst.plot_model(p0, sm=True)
+    cost_inst.plot_model(p0, sm=True)
+
     print(res)
 
 

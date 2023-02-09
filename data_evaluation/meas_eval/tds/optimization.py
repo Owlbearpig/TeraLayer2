@@ -49,7 +49,7 @@ def optimize_sm(d0, p0, freq_idx_range, bounds):
     cost = cost_inst.cost_sm
 
     res = shgo(cost, bounds=bounds)
-    print(f"res.x: {res.x}, res.fun: {res.fun}")
+    print(res)
     print(cost_inst.gof(p=res.x, sm=True))
 
     cost_inst.plot_model(p=res.x, sm=True)
@@ -70,9 +70,8 @@ def main():
            1.4, 0.55, 5.0, 5.5e-3, 1.3e-2, 310,
            0.4, 0.06, 0.4, 2.50e-3, 0.8e-3, 40])
 
-    bounds = array([(0.3, 0.5), (0.04, 0.06), (0.3, 0.5), (1.50e-3, 3.50e-3), (0.4e-3, 1.2e-3), (30, 50),
-                    (1.3, 1.5), (0.45, 0.65), (4.0, 6.0), (4.50e-3, 6.50e-3), (1.0e-2, 1.6e-2), (210, 410),
-                    (0.3, 0.5), (0.04, 0.06), (0.3, 0.5), (1.50e-3, 3.50e-3), (0.4e-3, 1.2e-3), (30, 50),])
+    bounds = array([(0.5, 0.9), (0.45, 0.65), (3.50e-3, 5.50e-3), (1.3e-2, 3.3e-2),
+                (2.8, 4.8), (2.8, 4.8), (4.50e-3, 6.50e-3), (6.8e-3, 8.8e-3),])
 
     p0 = array([1.5, 2.9, 1.5, 0.00, 0.05, 0.00])
 
@@ -84,7 +83,7 @@ def main():
     cost_inst = Cost(p0=p0, d_lst=d0, freq_idx_range=freq_idx_range)
 
     m = freq_idx_range[1] - freq_idx_range[0]  # freq_cnt
-    f_opt_amp, f_opt_phi, n_opt = np.zeros(m), np.zeros(m), np.zeros((m, len(bounds)))
+    f_opt_amp, f_opt_phi, n_res = np.zeros(m), np.zeros(m), np.zeros((m, len(bounds)))
     for loop_idx, freq_idx in enumerate(range(*freq_idx_range)):
         #cost = partial(cost_inst.cost, freq_idx=freq_idx)
         cost = cost_inst.cost_sm
@@ -93,19 +92,19 @@ def main():
         # res = basinhopping(cost, x0=p0)
 
         print(f"Freq: {cost_inst.freqs[freq_idx]} (Idx: {freq_idx}), res.x: {res.x}, res.fun: {res.fun}")
-        n_opt[loop_idx] = res.x
+        n_res[loop_idx] = res.x
         amp_loss, phi_loss = cost(res.x, return_both=True)
         f_opt_amp[loop_idx] = amp_loss
         f_opt_phi[loop_idx] = phi_loss
 
-    cost_inst.plot_model(p=n_opt)
+    cost_inst.plot_model(p=n_res)
 
     f_opt = f_opt_amp + f_opt_phi
     avg_min_cost = np.mean(f_opt)
     print(f"avg_min_cost: {avg_min_cost}")
-    print(cost_inst.gof(p=n_opt))
+    print(cost_inst.gof(p=n_res))
 
-    cost_inst.plot_n(p=n_opt)
+    cost_inst.plot_n(p=n_res)
 
     plt.figure("Fun val")
     plt.plot(cost_inst.freq_range, np.log10(f_opt), label="f_opt")
