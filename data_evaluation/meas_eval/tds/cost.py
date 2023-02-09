@@ -29,6 +29,7 @@ class Cost:
         self.sam_fd, self.ref_fd = do_fft(self.sam_td), do_fft(self.ref_td)
 
         self.freqs = self.ref_fd[:, 0].real
+        self.lam = c_thz / self.freqs
         self.t = self.ref_td[:, 0].real
 
         self.r_exp = array([self.freqs, self.sam_fd[:, 1] / self.ref_fd[:, 1]]).T
@@ -67,6 +68,42 @@ class Cost:
         else:
             return loss
 
+    def cost_sm(self, p, return_both=False):
+        n = self.n_sm(p)
+        f0_i, f1_i = self.freq_idx_range
+
+        r_tmm = tmm_package_wrapper(self.freq_range, self.d_list, n[f0_i:f1_i])
+        r_tmm[:, 1] = r_tmm[:, 1] * -1
+        r_exp = self.r_exp[f0_i:f1_i, 1]
+
+        amp_loss = (np.log10(np.abs(r_tmm[:, 1])) - np.log10(np.abs(r_exp))) ** 2
+        phi_loss = (np.angle(r_tmm[:, 1]) - np.angle(r_exp)) ** 2
+
+        loss = amp_loss + phi_loss
+
+        if return_both:
+            return amp_loss, phi_loss
+        else:
+            return np.sum(loss) / len(loss)
+
+    def n_sm(self, p):
+        l = self.lam ** 2
+
+        B1, B2, B3, C1, C2, C3 = p[:6]
+        n1 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2) + B3 * l / (l - C3))
+
+        B1, B2, B3, C1, C2, C3 = p[6:12]
+        n2 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2) + B3 * l / (l - C3))
+
+        B1, B2, B3, C1, C2, C3 = p[12:18]
+        n3 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2) + B3 * l / (l - C3))
+
+        n = array([n1, n2, n3]).T + 1j * self.k
+
+        n = np.nan_to_num(n)
+
+        return n
+
     def pad_n(self, p, freq_idx_range):
         if self.p0 is not None:
             pad = self.p0[:3]
@@ -86,26 +123,37 @@ class Cost:
 
         return n
 
-    def calc_model(self, p):
-        n = self.pad_n(p, self.freq_idx_range)
+    def calc_model(self, p, ret_td=True, sm=False):
+        if sm:
+            n = self.n_sm(p)
+        else:
+            n = self.pad_n(p, self.freq_idx_range)
         r_tmm_fd = tmm_package_wrapper(self.freqs, self.d_list, n)
         r_tmm_fd[:, 1] *= -1
 
         tmm_fd = array([self.freqs, r_tmm_fd[:, 1] * self.ref_fd[:, 1]]).T
-        tmm_td = do_ifft(tmm_fd)
 
-        return tmm_fd, tmm_td
+        if ret_td:
+            tmm_td = do_ifft(tmm_fd)
 
-    def gof(self, p):
+            return tmm_fd, tmm_td
+        else:
+            return tmm_fd
+
+    def gof(self, p, sm=False):
         res = {}
-        tmm_fd, tmm_td = self.calc_model(p)
+        tmm_fd, tmm_td = self.calc_model(p, sm=sm)
         res["peas_corr_coeff"] = pearsonr(self.sam_td[:, 1].real, tmm_td[:, 1].real)
 
         return res
 
-    def plot_padded_n(self, p):
+    def plot_n(self, p, sm=False):
         f0_i, f1_i = self.freq_idx_range
-        n = self.pad_n(p, self.freq_idx_range)
+        if sm:
+            n = self.n_sm(p)
+        else:
+            n = self.pad_n(p, self.freq_idx_range)
+
         plt.figure("Refractive index real")
         plt.title(f"{self.d_list}")
         plt.plot(self.freqs, n[:, 0].real, label="Re($n_0$)")
@@ -128,9 +176,9 @@ class Cost:
         plt.ylabel("Im(n)")
         plt.legend()
 
-    def plot_model(self, p):
+    def plot_model(self, p, sm=False):
         f0_i, f1_i = self.freq_idx_range
-        tmm_fd, tmm_td = self.calc_model(p)
+        tmm_fd, tmm_td = self.calc_model(p, sm=sm)
 
         plt.figure("Spectrum")
         plt.title(f"{self.d_list}")
@@ -147,7 +195,6 @@ class Cost:
         plt.figure("Time domain")
         plt.title(f"{self.d_list}")
         plt.plot(tmm_td[:, 0].real, tmm_td[:, 1], label=f"TMM * Reference")
-
         self.plot_sam()
 
     def plot_sam(self):
@@ -178,20 +225,31 @@ class Cost:
 def main():
     from functools import partial
 
+    df = 0.014275517487508922
+    f0_idx = int(0.150 / df)
+    f1_idx = int(4.000 / df)
+
     d0 = array([44.0, 650.0, 71.0])
-    cost_inst = Cost(d_lst=d0)
+    cost_inst = Cost(d_lst=d0, freq_idx_range=(f0_idx, f1_idx))
 
     # f_idx = int(1.68 / 0.014275517487508922)
     f_idx = 80
     print(f"Freq: {cost_inst.freqs[f_idx]} THz (idx: {f_idx})")
 
-    cost = partial(cost_inst.cost, freq_idx=f_idx)
+    #cost = partial(cost_inst.cost, freq_idx=f_idx)
+    cost = cost_inst.cost_sm
 
     p0 = array([1.50120065, 2.86606279, 1.55, 0.01142857])
-    res = cost(p=p0)
+    p0 = array([0.4, 0.06, 0.4, 2.50e-3, 0.8e-3, 40,
+                1.4, 0.55, 5.0, 5.5e-3, 1.3e-2, 310,
+                0.4, 0.06, 0.4, 2.50e-3, 0.8e-3, 40])
 
+    res = cost(p=p0)
+    cost_inst.plot_n(p0, sm=True)
+    #cost_inst.plot_model(p0, sm=True)
     print(res)
 
 
 if __name__ == '__main__':
     main()
+    plt.show()

@@ -49,7 +49,7 @@ def tmm_package_wrapper(freqs, d_list, n):
         n_list = n
         n_list = check_ri(n_list)
         r = coh_tmm("s", n_list, d_list, angle_in, lambda_vac)["r"]
-        return array([freqs, r])
+        ret = array([freqs, r])
     else:
         lambda_vacs = (c0 / freqs) * 10 ** -6
         r_list = []
@@ -58,5 +58,8 @@ def tmm_package_wrapper(freqs, d_list, n):
             n_list = check_ri(n_list)
             r_list.append(coh_tmm("s", n_list, d_list, angle_in, lambda_vac)["r"])
         r_arr = array(r_list)
+        ret = array([freqs, r_arr]).T
 
-    return array([freqs, r_arr]).T
+    ret = np.nan_to_num(ret)
+
+    return ret

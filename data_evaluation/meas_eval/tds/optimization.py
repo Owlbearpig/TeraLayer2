@@ -43,6 +43,19 @@ def optimize_thicknesses(d0, p0, freq_idx_range, bounds):
         return best_fit_pcc, best_fit_loss
 
 
+def optimize_sm(d0, p0, freq_idx_range, bounds):
+    cost_inst = Cost(p0=p0, d_lst=d0, freq_idx_range=freq_idx_range)
+
+    cost = cost_inst.cost_sm
+
+    res = shgo(cost, bounds=bounds)
+    print(f"res.x: {res.x}, res.fun: {res.fun}")
+    print(cost_inst.gof(p=res.x, sm=True))
+
+    cost_inst.plot_model(p=res.x, sm=True)
+    cost_inst.plot_n(p=res.x, sm=True)
+
+
 def main():
     df = 0.014275517487508922
     f0_idx = int(0.150 / df)
@@ -52,20 +65,31 @@ def main():
 
     bounds = array([(1.45, 1.55), (2.85, 2.95), (1.45, 1.55)])
     bounds = array([(1.40, 1.60), (2.80, 3.00), (1.40, 1.60), (0.00, 0.05)])
+
+    array([0.4, 0.06, 0.4, 2.50e-3, 0.8e-3, 40,
+           1.4, 0.55, 5.0, 5.5e-3, 1.3e-2, 310,
+           0.4, 0.06, 0.4, 2.50e-3, 0.8e-3, 40])
+
+    bounds = array([(0.3, 0.5), (0.04, 0.06), (0.3, 0.5), (1.50e-3, 3.50e-3), (0.4e-3, 1.2e-3), (30, 50),
+                    (1.3, 1.5), (0.45, 0.65), (4.0, 6.0), (4.50e-3, 6.50e-3), (1.0e-2, 1.6e-2), (210, 410),
+                    (0.3, 0.5), (0.04, 0.06), (0.3, 0.5), (1.50e-3, 3.50e-3), (0.4e-3, 1.2e-3), (30, 50),])
+
     p0 = array([1.5, 2.9, 1.5, 0.00, 0.05, 0.00])
 
     d0 = array([44.0, 650.0, 71.0])
 
     #optimize_thicknesses(d0, p0, freq_idx_range, bounds)
-
+    optimize_sm(d0, p0, freq_idx_range, bounds)
+    plt.show()
     cost_inst = Cost(p0=p0, d_lst=d0, freq_idx_range=freq_idx_range)
 
     m = freq_idx_range[1] - freq_idx_range[0]  # freq_cnt
     f_opt_amp, f_opt_phi, n_opt = np.zeros(m), np.zeros(m), np.zeros((m, len(bounds)))
     for loop_idx, freq_idx in enumerate(range(*freq_idx_range)):
-        cost = partial(cost_inst.cost, freq_idx=freq_idx)
+        #cost = partial(cost_inst.cost, freq_idx=freq_idx)
+        cost = cost_inst.cost_sm
 
-        res = shgo(cost, bounds=bounds, iters=3)
+        res = shgo(cost, bounds=bounds, iters=1)
         # res = basinhopping(cost, x0=p0)
 
         print(f"Freq: {cost_inst.freqs[freq_idx]} (Idx: {freq_idx}), res.x: {res.x}, res.fun: {res.fun}")
@@ -81,7 +105,7 @@ def main():
     print(f"avg_min_cost: {avg_min_cost}")
     print(cost_inst.gof(p=n_opt))
 
-    cost_inst.plot_padded_n(p=n_opt)
+    cost_inst.plot_n(p=n_opt)
 
     plt.figure("Fun val")
     plt.plot(cost_inst.freq_range, np.log10(f_opt), label="f_opt")
