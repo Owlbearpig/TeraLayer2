@@ -32,7 +32,7 @@ def load_data(sam_idx=None, signal_shift=0, ret_bk_gnd=False):
     sam_td = pd.read_csv(data_file).values
 
     sam_cnt = sam_td.shape[0]
-    remove_dc = True
+    remove_dc = False
 
     if remove_dc:
         ref_td[:, 2] -= np.mean(ref_td[:, 2])
@@ -79,10 +79,6 @@ def unwrap(data_fd, is_ref=True):
     return np.unwrap(np.angle(data_fd[:, 1]))
 
 
-def cost():
-    return 0
-
-
 def main():
     samples = [None]
     for sam_idx in samples:
@@ -101,7 +97,6 @@ def main():
         n = get_n(freqs, n_min=2.80, n_max=2.80)
 
         r_tmm = tmm_package_wrapper(freqs, d_list, n)
-        r_tmm[:, 1] = r_tmm[:, 1] * -1
 
         phase_tmm = np.angle(r_tmm[:, 1])
         # phase_tmm = np.angle(r_tmm[:, 1])

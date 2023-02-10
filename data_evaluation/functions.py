@@ -291,7 +291,7 @@ def gen_p_sols(cnt=100, seed=421):
 def filtering(data_td, wn=(0.001, 9.999), filt_type="bandpass", order=9):
     dt = np.mean(np.diff(data_td[:, 0].real))
     df = 1 / dt
-    #sos = signal.butter(9, (0.0001, 9.9999), 'bandpass', fs=df, output='sos')
+
     sos = signal.butter(N=order, Wn=wn, btype=filt_type, fs=df, output='sos')
     data_td_filtered = signal.sosfilt(sos, data_td[:, 1])
     data_td_filtered = array([data_td[:, 0], data_td_filtered]).T

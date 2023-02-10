@@ -14,9 +14,11 @@ def map_plot(error_func=None, img_data=None, settings=None, representation="", t
         # ub = array([0.000100, 0.000700, 0.000100])
         lb = array([0.000001, 0.000001, 0.000001])
         ub = array([0.001, 0.001, 0.001])
+        unit_lbl = "$(\mu m)$"
     else:
         rez_x, rez_y, rez_z = settings["rez"]
         lb, ub = settings["lb"], settings["ub"]
+        unit_lbl = settings["unit_lbl"]
 
     # initial 'full' grid matching bounds
     grd_x = np.linspace(lb[0], ub[0], rez_x)
@@ -61,8 +63,8 @@ def map_plot(error_func=None, img_data=None, settings=None, representation="", t
                     cmap=plt.get_cmap('jet'),
                     extent=extent)
 
-    ax.set_xlabel('$d_1$ $(\mu m)$')
-    ax.set_ylabel('$d_2$ $(\mu m)$')
+    ax.set_xlabel(f'$p_1$ {unit_lbl}')
+    ax.set_ylabel(f'$p_2$ {unit_lbl}')
 
     g_min_idx = np.argmin(grid_vals_og)
     min_x, min_y, min_z = np.unravel_index(g_min_idx, grid_vals_og.shape)
@@ -75,7 +77,7 @@ def map_plot(error_func=None, img_data=None, settings=None, representation="", t
     axmax = fig.add_axes([0.05, 0.1, 0.02, 0.8])
     amp_slider = Slider(
         ax=axmax,
-        label='$d_3$ $(\mu m)$',
+        label=f'$p_3$ {unit_lbl}',
         valstep=grd_z * um,
         valmin=grd_z[0] * um,
         valmax=grd_z[-1] * um,
