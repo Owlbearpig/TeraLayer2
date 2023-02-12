@@ -189,6 +189,7 @@ def do_fft(data_td):
     n = len(y)
     dt = np.float(np.mean(np.diff(t)))
     Y = np.conj(np.fft.fft(y, n))
+    #Y = np.fft.fft(y, n)
     f = np.fft.fftfreq(len(t), dt)
 
     idx_range = (f >= 0)
@@ -196,13 +197,14 @@ def do_fft(data_td):
     return array([f[idx_range], Y[idx_range]]).T
 
 
-def do_ifft(data_fd, hermitian=True):
+def do_ifft(data_fd, hermitian=True, shift=0):
     freqs, y_fd = data_fd[:, 0].real, data_fd[:, 1]
 
     y_fd = nan_to_num(y_fd)
 
     if hermitian:
         y_fd = np.concatenate((np.conj(y_fd), np.flip(y_fd[1:])))
+        #y_fd = np.concatenate((y_fd, np.flip(np.conj(y_fd[1:]))))
         """
         * ``a[0]`` should contain the zero frequency term,
         * ``a[1:n//2]`` should contain the positive-frequency terms,
@@ -219,9 +221,26 @@ def do_ifft(data_fd, hermitian=True):
     # t += 885
 
     #y_td = np.flip(y_td)
-    #y_td = np.roll(y_td, 1)
+    dt = np.mean(np.diff(t))
+    shift = int(shift / dt)
+
+    y_td = np.roll(y_td, shift)
 
     return array([t, y_td]).T
+
+def filtering(data_td, wn=(0.001, 9.999), filt_type="bandpass", order=9):
+    dt = np.mean(np.diff(data_td[:, 0].real))
+    fs = 1 / dt
+
+    #sos = signal.butter(N=order, Wn=wn, btype=filt_type, fs=fs, output='sos')
+    ba = signal.butter(N=order, Wn=wn, btype=filt_type, fs=fs, output='ba')
+    #sos = signal.bessel(N=order, Wn=wn, btype=filt_type, fs=fs, output='ba')
+    #data_td_filtered = signal.sosfilt(sos, data_td[:, 1])
+    data_td_filtered = signal.filtfilt(*ba, data_td[:, 1])
+
+    data_td_filtered = array([data_td[:, 0], data_td_filtered]).T
+
+    return data_td_filtered
 
 
 def mult_2x2_matrix_chain(arr_in):
@@ -287,16 +306,15 @@ def gen_p_sols(cnt=100, seed=421):
 
     return array(p_sols, dtype=float)
 
+def sell_meier(l, *args):
+    l_sqrd = l**2
+    p = array([*args])
+    s = ones(len(l_sqrd))
+    for i in range(0, len(p), 2):
+        s += p[i]*l_sqrd/(l_sqrd-p[i+1])
+    s = nan_to_num(s)
 
-def filtering(data_td, wn=(0.001, 9.999), filt_type="bandpass", order=9):
-    dt = np.mean(np.diff(data_td[:, 0].real))
-    df = 1 / dt
-
-    sos = signal.butter(N=order, Wn=wn, btype=filt_type, fs=df, output='sos')
-    data_td_filtered = signal.sosfilt(sos, data_td[:, 1])
-    data_td_filtered = array([data_td[:, 0], data_td_filtered]).T
-
-    return data_td_filtered
+    return np.sqrt(s)
 
 
 if __name__ == '__main__':

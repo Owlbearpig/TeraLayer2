@@ -15,9 +15,23 @@ but without reference measurement that's probably not possible.
 """
 
 
-def pp(data_td):
-    # TODO
-    return
+def pp(data_td, remove_dc=False):
+    if remove_dc:
+        data_td[:, 1] -= np.mean(data_td[:, 1])
+
+    zero_pad = 0*data_td.shape[0]
+
+    y = np.concatenate((data_td[:, 1], np.zeros(zero_pad)))
+
+    dt = np.mean(np.diff(data_td[:, 0]))
+    tf = data_td[-1, 0]
+    t = np.linspace(tf+dt, tf + dt*zero_pad, zero_pad)
+
+    t = np.append(data_td[:, 0], t)
+
+    data_td = array([t, y]).T
+
+    return data_td
 
 
 def load_data(sam_idx=None, signal_shift=0, ret_bk_gnd=False):
@@ -32,18 +46,12 @@ def load_data(sam_idx=None, signal_shift=0, ret_bk_gnd=False):
     sam_td = pd.read_csv(data_file).values
 
     sam_cnt = sam_td.shape[0]
-    remove_dc = False
-
-    if remove_dc:
-        ref_td[:, 2] -= np.mean(ref_td[:, 2])
 
     t = ref_td[:, 0] - ref_td[0, 0]
 
     ref_td = np.array([t, ref_td[:, 2]]).T
 
-    if remove_dc:
-        for i in range(sam_cnt):
-            sam_td[:, 1] -= np.mean(sam_td[:, 1])
+    ref_td = pp(ref_td)
 
     if sam_idx is not None:
         sam_td[sam_idx, :] = np.roll(sam_td[sam_idx, :], signal_shift)
@@ -55,13 +63,18 @@ def load_data(sam_idx=None, signal_shift=0, ret_bk_gnd=False):
         sam_td_avg += np.roll(sam_td[sam_idx, :], signal_shift)
     sam_td_avg /= sam_cnt
 
-    if remove_dc:
-        sam_td_avg -= np.mean(sam_td_avg)
+    sam_td = np.array([t, sam_td_avg]).T
+
+    sam_td = pp(sam_td)
+
+    bk_gnd_td = np.array([t, bk_gnd_td[:, 1]]).T
+
+    bk_gnd_td = pp(bk_gnd_td)
 
     if ret_bk_gnd:
-        return ref_td, np.array([t, sam_td_avg]).T, np.array([t, bk_gnd_td[:, 1]]).T
+        return ref_td, sam_td, bk_gnd_td
     else:
-        return ref_td, np.array([t, sam_td_avg]).T
+        return ref_td, sam_td
 
 
 def unwrap(data_fd, is_ref=True):
@@ -90,7 +103,8 @@ def main():
         sam_fd, ref_fd, bk_gnd_fd = do_fft(sam_td), do_fft(ref_td), do_fft(bk_gnd_td)
 
         freqs = sam_fd[:, 0].real
-
+        df = np.mean(np.diff(freqs.real))
+        print(df)
         d_list = [43.0, 641.0, 74.0]
         # d_list = [46.1, 619.4, 72.0]
 
@@ -130,7 +144,7 @@ def main():
         # plt.plot(sam_fd[:, 0], np.angle(sam_fd[:, 1]), label="$\phi_{sam}$")
         # plt.plot(sam_fd[:, 0], np.angle(ref_fd[:, 1]), label="$\phi_{ref}$")
         plt.plot(sam_fd[:, 0], np.angle(r_exp), label=r"$\phi_{sam} - \phi_{ref}$ " + f"{sam_idx}")
-        plt.plot(sam_fd[:, 0], np.angle(bk_gnd_fd[:, 1]), label=r"$\phi_{bkgnd}$")
+        #plt.plot(sam_fd[:, 0], np.angle(bk_gnd_fd[:, 1]), label=r"$\phi_{bkgnd}$")
         plt.plot(sam_fd[:, 0], phase_tmm, label=r"$\phi_{TMM}$")
         plt.xlabel("Frequency (THz)")
         plt.ylabel("Phase (Rad)")

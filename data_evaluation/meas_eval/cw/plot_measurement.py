@@ -6,7 +6,7 @@ from consts import *
 import pandas as pd
 from model.tmm_package import tmm_package_wrapper
 from model.refractive_index import get_n
-from RTL_sim.twos_compl_OF_v2 import real_data
+from RTL_sim.twos_compl_OF_v2 import real_data_cw
 
 
 def load_data():
@@ -75,7 +75,7 @@ def main():
 if __name__ == '__main__':
     selected_measurements = [37, 62, 0, 10, 20, 30, 55, 60, 75]
     for sam_idx in selected_measurements:
-        r_exp_meas = real_data(sam_idx=sam_idx)
+        r_exp_meas = real_data_cw(sam_idx=sam_idx)
 
         plt.figure("r real part")
         plt.plot(r_exp_meas.real, label=f"{sam_idx:04}")

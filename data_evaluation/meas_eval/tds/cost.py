@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import pearsonr
 from main import load_data
-from functions import filtering, do_fft, do_ifft
+from functions import filtering, do_fft, do_ifft, sell_meier
 from functools import partial
 from visualizing.simplecolormap import map_plot
 from model.refractive_index import get_n
@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from mpl_settings import *
 from model.tmm_package import tmm_package_wrapper
 from consts import *
+
 
 
 class Cost:
@@ -45,6 +46,9 @@ class Cost:
                            np.linspace(0, 0.10, len(self.freqs)),
                            np.linspace(0, 0.00, len(self.freqs))]).T
 
+        sell_coeffs = [4.05155733, 269.42406653, 3.15838357, 408.52892054]
+        self.n_sell = sell_meier(self.lam, *sell_coeffs)
+
         if freq_idx_range is None:
             self.freq_idx_range = (0, len(self.freqs))
         else:
@@ -57,6 +61,8 @@ class Cost:
         kwargs["return_both"] = return_both
         if self.model == "sell":
             return self.cost_sm(p, **kwargs)
+        elif self.model == "n_pnt":
+            return self.cost_n_point(p, **kwargs)
         else:
             return self.cost_reg(p, **kwargs)
 
@@ -65,7 +71,8 @@ class Cost:
         return_both = kwargs["return_both"]
 
         if len(p) == 1:
-            n = array([1.5, p[0], 1.5]) + 1j * self.k[freq_idx]
+            #n = array([p[0], self.n_sell[freq_idx], p[0]]) + 1j * self.k[freq_idx]
+            n = array([self.n_pad[0], p[0], self.n_pad[0]]) + 1j * self.k[freq_idx]
         elif len(p) == 2:
             n = array([p[0], p[1], p[0]]) + 1j * self.k[freq_idx]
         elif len(p) == 3:
@@ -90,12 +97,23 @@ class Cost:
 
         return self.loss(r_tmm[:, 1], r_exp, return_both)
 
+    def cost_n_point(self, p, **kwargs):
+        idx_0 = kwargs["freq_idx"]
+        n = 5
+        cumm_l = 0
+        for i in range(-n, n+1):
+            kwargs["freq_idx"] = idx_0 + i
+            cumm_l += self.cost_reg(p, **kwargs)
+
+        return cumm_l / (2*n)
+
+
     def loss(self, r_model, r_exp, return_both=False):
         amp_loss = (np.log10(np.abs(r_model)) - np.log10(np.abs(r_exp))) ** 2
         phi_loss = (np.angle(r_model) - np.angle(r_exp)) ** 2
 
         if return_both:
-            return amp_loss, phi_loss
+            return array([amp_loss, phi_loss])
         else:
             loss = amp_loss + phi_loss
 
@@ -122,12 +140,12 @@ class Cost:
         n2 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2))
         """
 
-        B1, C1 = p[:2]
-        n1 = np.sqrt(1 + B1 * l / (l - C1))
+        B1, C1, B2, C2 = p[:4]
+        n1 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2))
 
-        B1, C1 = p[2:4]
-        n2 = np.sqrt(1 + B1 * l / (l - C1))
-
+        #B1, C1, B2, C2 = p[4:8]
+        #n2 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2))
+        n2 = 1.5*ones(len(l))
         n = array([n1, n2, n1]).T + 1j * self.k
 
         n = np.nan_to_num(n)
@@ -140,13 +158,11 @@ class Cost:
         post_pad = np.vstack((len(self.freqs) - f1_i) * [self.n_pad])
 
         p_dim = p.shape[1]
-
         if p_dim == 1:
-            one = np.ones(len(p))
-            p = array([self.n_pad[0]*one, p[:, 0], self.n_pad[2]*one]).T
+            n2 = self.n_sell
+            p = array([p[:, 0], n2[f0_i:f1_i], p[:, 0]]).T
         elif p_dim == 2:
             p = array([p[:, 0], p[:, 1], p[:, 0]]).T
-
         k = self.k.copy()
 
         if p_dim == 4:
@@ -253,8 +269,9 @@ class Cost:
 
 def plot_cost(d0, df):
     cost_inst = Cost(d_lst=d0)
-    freq = 1.800
+    freq = 0.615
     freq_idx = int(freq / df)
+    print(freq_idx)
 
     cost = partial(cost_inst.cost, freq_idx=freq_idx)
     print(cost_inst.freqs[freq_idx])
@@ -266,25 +283,34 @@ def plot_cost(d0, df):
 
     lb = array([1.3, 2.7, 1.3])
     ub = array([1.6, 3.1, 1.6])
-    settings = {"rez": (100, 100, 100), "ub": ub, "lb": lb, "unit_lbl": ""}
-    map_plot(error_func=cost, settings=settings, representation="log")
+    settings = {"rez": (100, 100, 100), "ub": ub, "lb": lb, "unit_lbl": "", "unit": 1}
 
-    ps = np.array([1.5*one, n2_arr, 1.5*one]).T
+    try:
+        grid_vals = np.load(f"cache_{freq_idx}.npy")
+        grid_vals = map_plot(error_func=cost, settings=settings, representation="log", img_data=grid_vals)
+    except FileNotFoundError:
+        grid_vals = map_plot(error_func=cost, settings=settings, representation="log")
+
+    np.save(f"cache_{freq_idx}.npy", grid_vals)
+
+    grid_vals = np.log10(grid_vals)
+
+    print(grid_vals[grid_vals < -8])
+    ps = np.array([1.45*one, n2_arr, 1.5*one]).T
     vals = []
     for p in ps:
         val = cost(p)
         vals.append(val)
 
     plt.figure()
-    plt.plot(n2, vals)
+    plt.plot(n2_arr, vals)
 
     plt.figure()
-    plt.plot(n2, np.log10(vals))
+    plt.plot(n2_arr, np.log10(vals))
     plt.show()
 
 
 def main():
-    from functools import partial
 
     df = 0.014275517487508922
     f0_idx = int(0.150 / df)
@@ -293,7 +319,7 @@ def main():
     d0 = array([44.0, 650.0, 71.0])
     cost_inst = Cost(d_lst=d0, freq_idx_range=(f0_idx, f1_idx), model="sell")
 
-    plot_cost(d0, df)
+    #plot_cost(d0, df)
 
     # f_idx = int(1.68 / 0.014275517487508922)
     f_idx = 80
@@ -301,11 +327,12 @@ def main():
 
     cost = cost_inst.cost
 
-    p0 = array([1.1, 400, 7.6, 300])
+    # p0 = array([1.36009896e-01, -3.69424065e+05, 7.15838357e+00, 5.08528919e+02])
+    p0 = array([3.6009896, 3.69424065e+02,  4.15838357e+00,  5.08528919e+02])
 
     res = cost(p=p0)
     cost_inst.plot_n(p0)
-    cost_inst.plot_model(p0)
+    #cost_inst.plot_model(p0)
 
     print(res)
 

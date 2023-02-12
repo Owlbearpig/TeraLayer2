@@ -15,10 +15,12 @@ def map_plot(error_func=None, img_data=None, settings=None, representation="", t
         lb = array([0.000001, 0.000001, 0.000001])
         ub = array([0.001, 0.001, 0.001])
         unit_lbl = "$(\mu m)$"
+        unit = um
     else:
         rez_x, rez_y, rez_z = settings["rez"]
         lb, ub = settings["lb"], settings["ub"]
         unit_lbl = settings["unit_lbl"]
+        unit = settings["unit"]
 
     # initial 'full' grid matching bounds
     grd_x = np.linspace(lb[0], ub[0], rez_x)
@@ -58,7 +60,7 @@ def map_plot(error_func=None, img_data=None, settings=None, representation="", t
     else:
         ax.set_title(title)
     fig.subplots_adjust(left=0.2)
-    extent = [grd_x[0] * um, grd_x[-1] * um, grd_y[0] * um, grd_y[-1] * um]
+    extent = [grd_x[0] * unit, grd_x[-1] * unit, grd_y[0] * unit, grd_y[-1] * unit]
     img = ax.imshow(grid_vals[:, :, 0].transpose((1, 0)), vmin=np.min(grid_vals), vmax=np.max(grid_vals), origin='lower',
                     cmap=plt.get_cmap('jet'),
                     extent=extent)
@@ -68,7 +70,7 @@ def map_plot(error_func=None, img_data=None, settings=None, representation="", t
 
     g_min_idx = np.argmin(grid_vals_og)
     min_x, min_y, min_z = np.unravel_index(g_min_idx, grid_vals_og.shape)
-    print(grd_x[min_x] * um, grd_y[min_y] * um, grd_z[min_z] * um)
+    print(grd_x[min_x] * unit, grd_y[min_y] * unit, grd_z[min_z] * unit)
     print(np.min(grid_vals_og))
 
     cbar = fig.colorbar(img)
@@ -78,16 +80,16 @@ def map_plot(error_func=None, img_data=None, settings=None, representation="", t
     amp_slider = Slider(
         ax=axmax,
         label=f'$p_3$ {unit_lbl}',
-        valstep=grd_z * um,
-        valmin=grd_z[0] * um,
-        valmax=grd_z[-1] * um,
-        valinit=grd_z[0] * um,
+        valstep=grd_z * unit,
+        valmin=grd_z[0] * unit,
+        valmax=grd_z[-1] * unit,
+        valinit=grd_z[0] * unit,
         orientation='vertical'
     )
 
 
     def update(val):
-        idx, = np.where(grd_z * um == val)
+        idx, = np.where(grd_z * unit == val)
         img.set_data(grid_vals[:, :, idx].transpose((1, 0, 2)))
         fig.canvas.draw()
 

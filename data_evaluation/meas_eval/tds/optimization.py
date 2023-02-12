@@ -5,7 +5,8 @@ from scipy.optimize import minimize, shgo, basinhopping
 from functools import partial
 from cost import Cost
 from consts import *
-
+from scipy.optimize import curve_fit
+from functions import sell_meier
 
 def optimize_thicknesses(d0, freq_idx_range, bounds):
     best_fit_pcc, max_val_pcc = None, 0
@@ -54,15 +55,15 @@ def optimize_sell(d0, freq_idx_range, bounds):
     cost_inst.plot_n(p=res.x)
 
 
-def optimize_direct(d0, freq_idx_range, bounds, plot_fun=False):
-    cost_inst = Cost(d_lst=d0, freq_idx_range=freq_idx_range)
+def optimize_direct(d0, freq_idx_range, bounds, plot_fun=False, model=""):
+    cost_inst = Cost(d_lst=d0, freq_idx_range=freq_idx_range, model=model)
 
-    m = freq_idx_range[1] - freq_idx_range[0]  # freq_cnt
+    m = freq_idx_range[1] - freq_idx_range[0] # freq_cnt
     f_opt_amp, f_opt_phi, n_res = np.zeros(m), np.zeros(m), np.zeros((m, len(bounds)))
     for loop_idx, freq_idx in enumerate(range(*freq_idx_range)):
         cost = partial(cost_inst.cost, freq_idx=freq_idx)
 
-        res = shgo(cost, bounds=bounds, iters=2)
+        res = shgo(cost, bounds=bounds, iters=4)
         #print(res)
         print(f"Freq: {cost_inst.freqs[freq_idx]} (Idx: {freq_idx}), res.x: {res.x}, res.fun: {res.fun}")
         n_res[loop_idx] = res.x
@@ -91,25 +92,61 @@ def optimize_direct(d0, freq_idx_range, bounds, plot_fun=False):
     return n_res
 
 
+def fit_sell(n, freq_idx_range):
+    n = n.flatten()
+
+    cost_inst = Cost(freq_idx_range=freq_idx_range)
+    l = c_thz / cost_inst.freq_range
+
+    p0 = array([0.8, 200, 5, 200])
+    p0 = array([3.6009896, 3.69424065e+02,  4.15838357e+00,  5.08528919e+02])
+
+    lb = array([2.6009896, 0.69424065e+02,  3.15838357e+00,  4.08528919e+02])
+    ub = array([4.6009896, 4.69424065e+02, 6.15838357e+00, 6.08528919e+02])
+
+    popt, pcov = curve_fit(sell_meier, l, n, p0=p0, bounds=(lb, ub))
+    print(popt)
+    y = sell_meier(l, *popt)
+
+    plt.figure("Refractive index real")
+    plt.plot(cost_inst.freq_range, n)
+    plt.plot(cost_inst.freq_range, y, label="Sell fit")
+    plt.show()
+
+    return popt, pcov
+
+
+def optimize_n_point(d0, freq_idx_range, bounds, plot_fun=False):
+    n_res = optimize_direct(d0, freq_idx_range, bounds, plot_fun=plot_fun, model="n_pnt")
+
+    return n_res
+
 def main():
     df = 0.014275517487508922
+    df = 0.0047585058291696415
     # f0_idx = int(0.150 / df)
     # f1_idx = int(4.000 / df)
-    f0_idx = int(0.350 / df)
-    f1_idx = int(3.500 / df)
+    f0_idx = int(0.150 / df)
+    f1_idx = int(2.500 / df)
 
     freq_idx_range = f0_idx, f1_idx
 
     d0 = array([44.0, 650.0, 71.0])
     bounds_reg = array([(1.49, 1.51), (2.86, 2.90), (1.49, 1.51), (0.00, 0.035)])
-    bounds_reg = array([(1.45, 1.55), (2.70, 3.00), (1.45, 1.55)])
-    bounds_reg = array([(2.70, 3.00)])
+    bounds_reg = array([(1.4, 1.5), (2.78, 2.95), (1.4, 1.5)])
+    #bounds_reg = array([(1.49, 1.51), (2.80, 3.00), (1.49, 1.51)])
+    #bounds_reg = array([(1.30, 1.70)])
+    #bounds_reg = array([(2.80, 2.95)])
     #bounds_sell = array([(0.8, 1.4), (200, 600), (5, 8), (200, 500)])
     #bounds_simple = array([(1.1, 2.0), (3.5, 4.0), (1.1, 2.0)])
 
     # optimize_thicknesses(d0, freq_idx_range, bounds_reg)
     # optimize_sell(d0, freq_idx_range, bounds_simple)
-    optimize_direct(d0, freq_idx_range, bounds_reg)
+    # n_res = optimize_direct(d0, freq_idx_range, bounds_reg)
+    n_res = optimize_n_point(d0, freq_idx_range, bounds_reg)
+
+    # popt, pcov = fit_sell(n_res, freq_idx_range)
+
 
     plt.show()
 
