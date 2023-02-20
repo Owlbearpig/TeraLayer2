@@ -6,7 +6,7 @@ import numpy as np
 import os
 from scipy.constants import c as c0
 
-c_thz = c0 * 10**-6 # um / ps
+c_thz = c0 * 10**-6  # um / ps
 
 cur_os = os.name
 

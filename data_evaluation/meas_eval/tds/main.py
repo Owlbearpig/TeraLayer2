@@ -103,8 +103,11 @@ def main():
         sam_fd, ref_fd, bk_gnd_fd = do_fft(sam_td), do_fft(ref_td), do_fft(bk_gnd_td)
 
         freqs = sam_fd[:, 0].real
+
         df = np.mean(np.diff(freqs.real))
-        print(df)
+        dt = np.mean(np.diff(ref_td[:, 0].real))
+        print(f"(TDS) Frequency spacing: {df} THz, Sample period: {dt} ps")
+
         d_list = [43.0, 641.0, 74.0]
         # d_list = [46.1, 619.4, 72.0]
 
@@ -122,10 +125,13 @@ def main():
 
         r_exp = sam_fd[:, 1] / ref_fd[:, 1]
 
+        if sam_idx is None:
+            sam_idx = "Avg. 100 traces"
+
         plt.figure("Time domain")
         plt.plot(ref_td[:, 0], ref_td[:, 1], label=f"Reference {sam_idx}")
         plt.plot(sam_td[:, 0], sam_td[:, 1], label=f"Sample {sam_idx}")
-        plt.plot(bk_gnd_td[:, 0], bk_gnd_td[:, 1], label=f"Background")
+        #plt.plot(bk_gnd_td[:, 0], bk_gnd_td[:, 1], label=f"Background")
         plt.plot(tmm_td[:, 0], tmm_td[:, 1], label=f"TMM * Reference")
         plt.xlabel("Time (ps)")
         plt.ylabel("Amplitude (nA)")
@@ -134,7 +140,8 @@ def main():
         plt.figure("Spectrum")
         plt.plot(ref_fd[:, 0], 20 * np.log10(np.abs(ref_fd[:, 1])), label=f"Reference {sam_idx}")
         plt.plot(sam_fd[:, 0], 20 * np.log10(np.abs(sam_fd[:, 1])), label=f"Sample {sam_idx}")
-        plt.plot(sam_fd[:, 0], 20 * np.log10(np.abs(bk_gnd_fd[:, 1])), label=f"Background")
+        plt.plot(ref_fd[:, 0], 20 * np.log10(np.abs(r_exp)), label=f"Transfer function {sam_idx}")
+        #plt.plot(sam_fd[:, 0], 20 * np.log10(np.abs(bk_gnd_fd[:, 1])), label=f"Background")
         plt.plot(ref_fd[:, 0], 20 * np.log10(np.abs(r_tmm[:, 1] * ref_fd[:, 1])), label=f"TMM * Reference")
         plt.xlabel("Frequency (THz)")
         plt.ylabel("Amplitude (dB)")

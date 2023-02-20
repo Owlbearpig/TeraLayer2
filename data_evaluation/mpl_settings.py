@@ -6,7 +6,7 @@ from consts import cur_os, Path
 #mpl.rcParams['legend.fontsize'] = 'large' #'x-large'
 mpl.rcParams['legend.shadow'] = False
 mpl.rcParams['lines.marker'] = 'o'
-mpl.rcParams['lines.markersize'] = 5
+mpl.rcParams['lines.markersize'] = 2
 mpl.rcParams['lines.linewidth'] = 1.5
 mpl.rcParams['ytick.major.width'] = 2.5
 mpl.rcParams['xtick.major.width'] = 2.5

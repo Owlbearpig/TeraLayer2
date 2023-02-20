@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import pearsonr
-from main import load_data
+from tds.main import load_data
 from functions import filtering, do_fft, do_ifft, sell_meier
 from functools import partial
 from visualizing.simplecolormap import map_plot
@@ -9,13 +9,14 @@ import matplotlib.pyplot as plt
 from mpl_settings import *
 from model.tmm_package import tmm_package_wrapper
 from consts import *
-
+from measurement import Measurement
 
 
 class Cost:
-    def __init__(self, sam_idx=None, n_pad=None, d_lst=None, freq_idx_range=None, model=None):
+    def __init__(self, sam_idx=None, n_pad=None, d_lst=None, freq_idx_range=None, model=None, tds_data=False):
         self.sam_idx = sam_idx
         self.model = model
+        self.tds_data = tds_data
 
         if d_lst is None:
             self.d_list = array([42.0, 641.0, 74.0])
@@ -27,20 +28,19 @@ class Cost:
         else:
             self.n_pad = array(n_pad)[:3]
 
-        self.ref_td, self.sam_td = load_data(sam_idx=self.sam_idx, signal_shift=-5)
+        measurement = Measurement(self.sam_idx)
 
-        en_filter = False
-        if en_filter:
-            self.ref_td = filtering(self.ref_td, filt_type="bp", wn=(1.0, 2.3))
-            self.sam_td = filtering(self.sam_td, filt_type="bp", wn=(1.0, 2.3))
-
-        self.sam_fd, self.ref_fd = do_fft(self.sam_td), do_fft(self.ref_td)
+        self.ref_td, self.sam_td, self.ref_fd, self.sam_fd = measurement.load_measurement(tds_data=self.tds_data)
 
         self.freqs = self.ref_fd[:, 0].real
         self.lam = c_thz / self.freqs
         self.t = self.ref_td[:, 0].real
 
         self.r_exp = array([self.freqs, self.sam_fd[:, 1] / self.ref_fd[:, 1]]).T
+
+        self.r_exp_td = do_ifft(self.r_exp, shift=10)
+        self.r_exp_td = filtering(self.r_exp_td, filt_type="hp", wn=0.22, order=1)
+        self.r_exp_td = filtering(self.r_exp_td, filt_type="lp", wn=1.72, order=4)
 
         self.k = np.array([np.linspace(0, 0.00, len(self.freqs)),
                            np.linspace(0, 0.10, len(self.freqs)),
@@ -71,7 +71,7 @@ class Cost:
         return_both = kwargs["return_both"]
 
         if len(p) == 1:
-            #n = array([p[0], self.n_sell[freq_idx], p[0]]) + 1j * self.k[freq_idx]
+            # n = array([p[0], self.n_sell[freq_idx], p[0]]) + 1j * self.k[freq_idx]
             n = array([self.n_pad[0], p[0], self.n_pad[0]]) + 1j * self.k[freq_idx]
         elif len(p) == 2:
             n = array([p[0], p[1], p[0]]) + 1j * self.k[freq_idx]
@@ -101,12 +101,11 @@ class Cost:
         idx_0 = kwargs["freq_idx"]
         n = 5
         cumm_l = 0
-        for i in range(-n, n+1):
+        for i in range(-n, n + 1):
             kwargs["freq_idx"] = idx_0 + i
             cumm_l += self.cost_reg(p, **kwargs)
 
-        return cumm_l / (2*n)
-
+        return cumm_l / (2 * n)
 
     def loss(self, r_model, r_exp, return_both=False):
         amp_loss = (np.log10(np.abs(r_model)) - np.log10(np.abs(r_exp))) ** 2
@@ -143,9 +142,9 @@ class Cost:
         B1, C1, B2, C2 = p[:4]
         n1 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2))
 
-        #B1, C1, B2, C2 = p[4:8]
-        #n2 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2))
-        n2 = 1.5*ones(len(l))
+        # B1, C1, B2, C2 = p[4:8]
+        # n2 = np.sqrt(1 + B1 * l / (l - C1) + B2 * l / (l - C2))
+        n2 = 1.5 * ones(len(l))
         n = array([n1, n2, n1]).T + 1j * self.k
 
         n = np.nan_to_num(n)
@@ -179,10 +178,10 @@ class Cost:
 
         r_tmm_fd = tmm_package_wrapper(self.freqs, self.d_list, n)
 
-        tmm_fd = array([self.freqs, r_tmm_fd[:, 1] * self.ref_fd[:, 1]]).T
+        tmm_fd = array([self.freqs, r_tmm_fd[:, 1]]).T
 
         if ret_td:
-            tmm_td = do_ifft(tmm_fd)
+            tmm_td = do_ifft(tmm_fd, shift=10)
 
             return tmm_fd, tmm_td
         else:
@@ -233,26 +232,37 @@ class Cost:
 
         plt.figure("Phase")
         plt.title(f"{self.d_list}")
-        plt.plot(self.freqs, np.angle(tmm_fd[:, 1] / self.ref_fd[:, 1]), label="tmm")
+        plt.plot(self.freqs, np.angle(tmm_fd[:, 1]), label="r_tmm")
         plt.axvline(self.freqs[f0_i], color="red", label="Fit range", linewidth=5.0)
         plt.axvline(self.freqs[f1_i], color="red", linewidth=5.0)
 
         plt.figure("Time domain")
         plt.title(f"{self.d_list}")
-        plt.plot(tmm_td[:, 0].real, tmm_td[:, 1], label=f"TMM * Reference")
+        if self.tds_data:
+            plt.plot(tmm_td[:, 0].real, tmm_td[:, 1], label=f"TMM")
+        else:
+            tmm_td = filtering(tmm_td, filt_type="hp", wn=0.22, order=1)
+            tmm_td = filtering(tmm_td, filt_type="lp", wn=1.72, order=4)
+            plt.plot(tmm_td[:, 0].real, tmm_td[:, 1], label=f"TMM")
+
         self.plot_sam()
 
     def plot_sam(self):
         plt.figure("Time domain")
         plt.plot(self.t, self.ref_td[:, 1], label=f"Ref. (Meas. idx: {self.sam_idx})")
-        plt.plot(self.t, self.sam_td[:, 1], label=f"Sam. (Meas. idx: {self.sam_idx})")
+        if self.tds_data:
+            plt.plot(self.t, self.sam_td[:, 1], label=f"Sam. (Meas. idx: {self.sam_idx})")
+        else:
+            plt.plot(self.t, self.r_exp_td[:, 1], label=f"Sam. (Meas. idx: {self.sam_idx})")
+
         plt.xlabel("Time (ps)")
         plt.ylabel("Amplitude (nA)")
         plt.legend()
 
         plt.figure("Spectrum")
-        plt.plot(self.freqs, 20 * np.log10(np.abs(self.ref_fd[:, 1])), label=f"Ref. (Meas. idx: {self.sam_idx})")
-        plt.plot(self.freqs, 20 * np.log10(np.abs(self.sam_fd[:, 1])), label=f"Sam. (Meas. idx: {self.sam_idx})")
+        #plt.plot(self.freqs, 20 * np.log10(np.abs(self.ref_fd[:, 1])), label=f"Ref. (Meas. idx: {self.sam_idx})")
+        #plt.plot(self.freqs, 20 * np.log10(np.abs(self.sam_fd[:, 1])), label=f"Sam. (Meas. idx: {self.sam_idx})")
+        plt.plot(self.freqs, 20 * np.log10(np.abs(self.r_exp[:, 1])), label=f"Refl. (Meas. idx: {self.sam_idx})")
         plt.xlabel("Frequency (THz)")
         plt.ylabel("Amplitude (dB)")
         plt.legend()
@@ -296,7 +306,7 @@ def plot_cost(d0, df):
     grid_vals = np.log10(grid_vals)
 
     print(grid_vals[grid_vals < -8])
-    ps = np.array([1.45*one, n2_arr, 1.5*one]).T
+    ps = np.array([1.45 * one, n2_arr, 1.5 * one]).T
     vals = []
     for p in ps:
         val = cost(p)
@@ -311,7 +321,6 @@ def plot_cost(d0, df):
 
 
 def main():
-
     df = 0.014275517487508922
     f0_idx = int(0.150 / df)
     f1_idx = int(4.000 / df)
@@ -319,7 +328,7 @@ def main():
     d0 = array([44.0, 650.0, 71.0])
     cost_inst = Cost(d_lst=d0, freq_idx_range=(f0_idx, f1_idx), model="sell")
 
-    #plot_cost(d0, df)
+    # plot_cost(d0, df)
 
     # f_idx = int(1.68 / 0.014275517487508922)
     f_idx = 80
@@ -328,11 +337,11 @@ def main():
     cost = cost_inst.cost
 
     # p0 = array([1.36009896e-01, -3.69424065e+05, 7.15838357e+00, 5.08528919e+02])
-    p0 = array([3.6009896, 3.69424065e+02,  4.15838357e+00,  5.08528919e+02])
+    p0 = array([3.6009896, 3.69424065e+02, 4.15838357e+00, 5.08528919e+02])
 
     res = cost(p=p0)
     cost_inst.plot_n(p0)
-    #cost_inst.plot_model(p0)
+    # cost_inst.plot_model(p0)
 
     print(res)
 
