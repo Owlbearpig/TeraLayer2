@@ -32,7 +32,7 @@ def unwrap(phi):
 
 def to_cartesian(arr):
     phi_unwrap = np.unwrap(arr[:, 2])
-    phi = np.linspace(0, phi_unwrap[-1], len(arr[:, 2]))
+    # phi = np.linspace(0, phi_unwrap[-1], len(arr[:, 2]))
     phi = arr[:, 2]
 
     data_cart = arr[:, 1] * np.exp(-1j * phi)
@@ -92,7 +92,7 @@ def load_data(sam_idx=None, ret_bk_gnd=False, shift=0):
     sam_fd[:, 1] -= bk_gnd_fd[:, 1]
     ref_fd[:, 1] -= bk_gnd_fd[:, 1]
 
-    sam_fd[:, 1] *= np.exp(-1j*2*pi*sam_fd[:, 0].real*shift)  # probably not correct.
+    sam_fd[:, 1] *= np.exp(-1j*2*pi*sam_fd[:, 0].real*0.05*shift)  # probably not correct.
 
     if ret_bk_gnd:
         return ref_fd, sam_fd, bk_gnd_fd
