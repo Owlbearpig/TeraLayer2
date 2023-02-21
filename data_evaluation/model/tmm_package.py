@@ -24,17 +24,19 @@ for lam in lams:
 """
 
 
-def check_ri(n_lst):
+def check_ri(n_lst, bound_n):
+    if bound_n is None:
+        bound_n = [1, 1]
     n_lst = np.array(n_lst)
-    if not np.isclose(n_lst[0], 1):
-        n_lst = array([1, *n_lst])
-    if not np.isclose(n_lst[-1], 1):
-        n_lst = array([*n_lst, 1])
+    if not np.isclose(n_lst[0], bound_n[0]):
+        n_lst = array([bound_n[0], *n_lst])
+    if not np.isclose(n_lst[-1], bound_n[-1]):
+        n_lst = array([*n_lst, bound_n[-1]])
 
     return n_lst
 
 
-def tmm_package_wrapper(freqs, d_list, n, geom="r"):
+def tmm_package_wrapper(freqs, d_list, n, geom="r", bound_n=None):
     # freq should be in THz ("between 0 and 10 THz"), d in um (wl in um)
     # n[freq_idx, n_idx]
     if d_list[0] != inf:
@@ -47,7 +49,7 @@ def tmm_package_wrapper(freqs, d_list, n, geom="r"):
     if n.ndim == 1:
         lambda_vac = (c0 / freqs) * 10 ** -6
         n_list = n
-        n_list = check_ri(n_list)
+        n_list = check_ri(n_list, bound_n)
         r = coh_tmm("s", n_list, d_list, angle_in, lambda_vac)[geom] * -(geom == "r")
         ret = array([freqs, r])
     else:
@@ -55,7 +57,7 @@ def tmm_package_wrapper(freqs, d_list, n, geom="r"):
         r_list = []
         for i, lambda_vac in enumerate(lambda_vacs):
             n_list = n[i]
-            n_list = check_ri(n_list)
+            n_list = check_ri(n_list, bound_n)
             r_list.append(coh_tmm("s", n_list, d_list, angle_in, lambda_vac)[geom])
         r_arr = array(r_list) * -(geom == "r")
         ret = array([freqs, r_arr]).T

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-
+from scipy.signal.windows import tukey
 from model.initial_tests.multir_numba import multir_numba
 import pandas as pd
 from numpy import nan_to_num
@@ -189,11 +189,11 @@ def do_fft(data_td):
     n = len(y)
     dt = np.float(np.mean(np.diff(t)))
     Y = np.conj(np.fft.fft(y, n))
-    #Y = np.fft.fft(y, n)
+    # Y = np.fft.fft(y, n)
     f = np.fft.fftfreq(len(t), dt)
 
     idx_range = (f >= 0)
-    #return array([f, Y]).T
+    # return array([f, Y]).T
     return array([f[idx_range], Y[idx_range]]).T
 
 
@@ -204,7 +204,7 @@ def do_ifft(data_fd, hermitian=True, shift=0):
 
     if hermitian:
         y_fd = np.concatenate((np.conj(y_fd), np.flip(y_fd[1:])))
-        #y_fd = np.concatenate((y_fd, np.flip(np.conj(y_fd[1:]))))
+        # y_fd = np.concatenate((y_fd, np.flip(np.conj(y_fd[1:]))))
         """
         * ``a[0]`` should contain the zero frequency term,
         * ``a[1:n//2]`` should contain the positive-frequency terms,
@@ -217,10 +217,10 @@ def do_ifft(data_fd, hermitian=True, shift=0):
     n = len(y_td)
     t = np.arange(0, n) / (n * df)
 
-    #t = np.linspace(0, len(y_td)*df, len(y_td))
+    # t = np.linspace(0, len(y_td)*df, len(y_td))
     # t += 885
 
-    #y_td = np.flip(y_td)
+    # y_td = np.flip(y_td)
     dt = np.mean(np.diff(t))
     shift = int(shift / dt)
 
@@ -228,14 +228,15 @@ def do_ifft(data_fd, hermitian=True, shift=0):
 
     return array([t, y_td]).T
 
+
 def filtering(data_td, wn=(0.001, 9.999), filt_type="bandpass", order=9):
     dt = np.mean(np.diff(data_td[:, 0].real))
     fs = 1 / dt
 
-    #sos = signal.butter(N=order, Wn=wn, btype=filt_type, fs=fs, output='sos')
+    # sos = signal.butter(N=order, Wn=wn, btype=filt_type, fs=fs, output='sos')
     ba = signal.butter(N=order, Wn=wn, btype=filt_type, fs=fs, output='ba')
-    #sos = signal.bessel(N=order, Wn=wn, btype=filt_type, fs=fs, output='ba')
-    #data_td_filtered = signal.sosfilt(sos, data_td[:, 1])
+    # sos = signal.bessel(N=order, Wn=wn, btype=filt_type, fs=fs, output='ba')
+    # data_td_filtered = signal.sosfilt(sos, data_td[:, 1])
     data_td_filtered = signal.filtfilt(*ba, data_td[:, 1])
 
     data_td_filtered = array([data_td[:, 0], data_td_filtered]).T
@@ -306,15 +307,59 @@ def gen_p_sols(cnt=100, seed=421):
 
     return array(p_sols, dtype=float)
 
+
 def sell_meier(l, *args):
-    l_sqrd = l**2
+    l_sqrd = l ** 2
     p = array([*args])
     s = ones(len(l_sqrd))
     for i in range(0, len(p), 2):
-        s += p[i]*l_sqrd/(l_sqrd-p[i+1])
+        s += p[i] * l_sqrd / (l_sqrd - p[i + 1])
     s = nan_to_num(s)
 
     return np.sqrt(s)
+
+
+def window(data_td, win_len=None, win_start=None, first_pulse=True):
+    t, y = data_td[:, 0], data_td[:, 1]
+    pulse_width = 10  # ps
+    dt = np.mean(np.diff(t))
+
+    if win_len is None:
+        win_len = int(pulse_width / dt)
+
+    if win_len > len(y):
+        win_len = len(y)
+
+    if win_start is None:
+        if first_pulse:
+            win_center = np.argmax(np.abs(y))
+        else:
+            win_center = np.argmax(np.abs(y[300:])) + 300
+        win_start = win_center - int(win_len / 2)
+
+    if win_start < 0:
+        win_start = 0
+
+    pre_pad = np.zeros(win_start)
+    window_arr = tukey(win_len)
+    post_pad = np.zeros(len(y) - win_len - win_start)
+
+    window_arr = np.concatenate((pre_pad, window_arr, post_pad))
+
+    plt.figure("Windowing")
+    plt.plot(t, y, label="y before windowing")
+
+    y = y * window_arr
+    if not first_pulse:
+        print("Not implemented...")
+        y = np.roll(y, -2*int(2.9*0.650/(0.05*0.3)))
+
+    plt.plot(t, y, label="y after windowing")
+    plt.xlabel("Time (ps)")
+    plt.ylabel("Amplitude (nA)")
+    plt.legend()
+
+    return np.array([t, y]).T
 
 
 if __name__ == '__main__':

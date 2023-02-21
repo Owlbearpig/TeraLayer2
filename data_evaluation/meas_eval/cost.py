@@ -13,7 +13,7 @@ from measurement import Measurement
 
 
 class Cost:
-    def __init__(self, sam_idx=None, n_pad=None, d_lst=None, freq_idx_range=None, model=None, tds_data=False):
+    def __init__(self, sam_idx=None, n_pad=None, d_lst=None, freq_idx_range=None, model=None, tds_data=True):
         self.sam_idx = sam_idx
         self.model = model
         self.tds_data = tds_data
@@ -30,7 +30,13 @@ class Cost:
 
         measurement = Measurement(self.sam_idx)
 
-        self.ref_td, self.sam_td, self.ref_fd, self.sam_fd = measurement.load_measurement(tds_data=self.tds_data)
+        if self.model == "windowed":
+            en_window = True
+        else:
+            en_window = False
+
+        data = measurement.load_measurement(tds_data=self.tds_data, en_window=en_window)
+        self.ref_td, self.sam_td, self.ref_fd, self.sam_fd = data
 
         self.freqs = self.ref_fd[:, 0].real
         self.lam = c_thz / self.freqs
@@ -63,8 +69,21 @@ class Cost:
             return self.cost_sm(p, **kwargs)
         elif self.model == "n_pnt":
             return self.cost_n_point(p, **kwargs)
+        elif self.model == "windowed":
+            return self.cost_windowed(p, **kwargs)
         else:
             return self.cost_reg(p, **kwargs)
+
+    def cost_windowed(self, p, **kwargs):
+        freq_idx = kwargs["freq_idx"]
+        return_both = kwargs["return_both"]
+        d = array([self.d_list[0]])
+        n = p
+        bound_n = [1, 2.9]
+        r_tmm = tmm_package_wrapper(self.freqs[freq_idx], d, n, bound_n=bound_n)
+        r_exp = self.sam_fd[freq_idx, 1] / self.ref_fd[freq_idx, 1]
+
+        return self.loss(r_tmm[1], r_exp, return_both)
 
     def cost_reg(self, p, **kwargs):
         freq_idx = kwargs["freq_idx"]
@@ -178,10 +197,18 @@ class Cost:
 
         r_tmm_fd = tmm_package_wrapper(self.freqs, self.d_list, n)
 
-        tmm_fd = array([self.freqs, r_tmm_fd[:, 1]]).T
+        if self.tds_data:
+            tmm_fd = array([self.freqs, r_tmm_fd[:, 1] * self.ref_fd[:, 1]]).T
+        else:
+            tmm_fd = array([self.freqs, r_tmm_fd[:, 1]]).T
+
+        if self.tds_data:
+            shift = 0
+        else:
+            shift = 10
 
         if ret_td:
-            tmm_td = do_ifft(tmm_fd, shift=10)
+            tmm_td = do_ifft(tmm_fd, shift=shift)
 
             return tmm_fd, tmm_td
         else:
@@ -232,7 +259,10 @@ class Cost:
 
         plt.figure("Phase")
         plt.title(f"{self.d_list}")
-        plt.plot(self.freqs, np.angle(tmm_fd[:, 1]), label="r_tmm")
+        if self.tds_data:
+            plt.plot(self.freqs, np.angle(tmm_fd[:, 1] / self.ref_fd[:, 1]), label="r_tmm")
+        else:
+            plt.plot(self.freqs, np.angle(tmm_fd[:, 1]), label="r_tmm")
         plt.axvline(self.freqs[f0_i], color="red", label="Fit range", linewidth=5.0)
         plt.axvline(self.freqs[f1_i], color="red", linewidth=5.0)
 
@@ -262,7 +292,11 @@ class Cost:
         plt.figure("Spectrum")
         #plt.plot(self.freqs, 20 * np.log10(np.abs(self.ref_fd[:, 1])), label=f"Ref. (Meas. idx: {self.sam_idx})")
         #plt.plot(self.freqs, 20 * np.log10(np.abs(self.sam_fd[:, 1])), label=f"Sam. (Meas. idx: {self.sam_idx})")
-        plt.plot(self.freqs, 20 * np.log10(np.abs(self.r_exp[:, 1])), label=f"Refl. (Meas. idx: {self.sam_idx})")
+        if self.tds_data:
+            plt.plot(self.freqs, 20 * np.log10(np.abs(self.ref_fd[:, 1])), label=f"Ref. (Meas. idx: {self.sam_idx})")
+            plt.plot(self.freqs, 20 * np.log10(np.abs(self.sam_fd[:, 1])), label=f"Sam. (Meas. idx: {self.sam_idx})")
+        else:
+            plt.plot(self.freqs, 20 * np.log10(np.abs(self.r_exp[:, 1])), label=f"Refl. (Meas. idx: {self.sam_idx})")
         plt.xlabel("Frequency (THz)")
         plt.ylabel("Amplitude (dB)")
         plt.legend()

@@ -122,19 +122,20 @@ def optimize_n_point(d0, freq_idx_range, bounds, plot_fun=False):
 
 def main():
     df = 0.014275517487508922  # tds
-    df = 0.001  # cw
+    # df = 0.001  # cw
     # f0_idx = int(0.150 / df)
     # f1_idx = int(4.000 / df)
     f0_idx = int(0.150 / df)
-    f1_idx = int(1.500 / df)
+    f1_idx = int(3.500 / df)
 
     freq_idx_range = f0_idx, f1_idx
 
-    #d0 = array([44.0, 650.0, 71.0])
-    d0 = array([44.0, 640.0, 71.0])
-    bounds_reg = array([(1.49, 1.51), (2.86, 2.90), (1.49, 1.51), (0.00, 0.035)])
-    bounds_reg = array([(1.4, 1.5), (2.78, 2.95), (1.4, 1.5)])
-    # bounds_reg = array([(1.49, 1.51), (2.80, 3.00), (1.49, 1.51)])
+    d0 = array([44.0, 650.0, 71.0])
+    #d0 = array([44.0, 640.0, 71.0])
+    bounds_reg = array([(1.4, 1.5), (2.78, 3.00), (1.4, 1.5), (0.00, 0.035)])
+    #bounds_reg = array([(1.4, 1.5), (2.78, 3.00), (1.4, 1.5)])
+    #bounds_reg = array([(1.4, 1.5)])
+    #bounds_reg = array([(1.49, 1.51), (2.80, 3.00), (1.49, 1.51)])
     # bounds_reg = array([(1.30, 1.70)])
     # bounds_reg = array([(2.80, 2.95)])
     # bounds_sell = array([(0.8, 1.4), (200, 600), (5, 8), (200, 500)])
