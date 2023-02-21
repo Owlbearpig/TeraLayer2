@@ -102,16 +102,19 @@ def full_fit(n_outer, freq_idx_range):
     r_exp = sam_fd[:, 1] / ref_fd[:, 1]
 
     #d_list = array([np.inf, 41.0, 642.0, 64.0, np.inf])
-    d_list = array([np.inf, 41.0, 641.0, 64.0, np.inf])
+    #d_list = array([np.inf, 41.0, 641.0, 64.0, np.inf]) # best
+    d_list = array([np.inf, 41.0, 646.0, 62.0, np.inf])
     # d_list = array([np.inf, 71.0, np.inf])
     angle_in = 8 * pi / 180
 
     m = freq_idx_range[1] - freq_idx_range[0]  # freq_cnt
     f_opt_amp, f_opt_phi, n_res = np.zeros(m), np.zeros(m), np.zeros(m)
+
     for loop_idx, freq_idx in enumerate(range(*freq_idx_range)):
         best_n, min_val = None, np.inf
         all_losses = np.zeros(1000)
-        n_arr = np.linspace(2.55, 2.9, 1000)
+        phi_losses, amp_losses = np.zeros(1000), np.zeros(1000)
+        n_arr = np.linspace(2.7, 2.95, 1000)
         for i, n1 in enumerate(n_arr):
             freq = ref_fd[freq_idx, 0].real
 
@@ -119,19 +122,23 @@ def full_fit(n_outer, freq_idx_range):
             n = [1.0, n_outer[loop_idx], n1, n_outer[loop_idx], 1]
             r_tmm = coh_tmm("s", n, d_list, angle_in, lambda_vac)["r"] * -1
 
-            amp_loss = (np.log10(np.abs(r_tmm)) - np.log10(np.abs(r_exp[freq_idx]))) ** 2
+            amp_loss = ((np.abs(r_tmm)) - (np.abs(r_exp[freq_idx]))) ** 2
             phi_loss = (np.angle(r_tmm) - np.angle(r_exp[freq_idx])) ** 2
 
             loss = amp_loss + phi_loss
             all_losses[i] = loss
+            phi_losses[i] = phi_loss
+            amp_losses[i] = amp_loss
             if loss < min_val:
                 min_val = loss
                 best_n = n1
 
-        if freq_idx in [37, 42, 43, 80, 81]:
+        if freq_idx in [37, 54, 51]:
             plt.figure("loss")
             plt.title(f"{d_list}")
-            plt.plot(n_arr, all_losses, label=f"full model {ref_fd[freq_idx, 0].real}")
+            plt.plot(n_arr, all_losses, label=f"sum {ref_fd[freq_idx, 0].real}")
+            plt.plot(n_arr, phi_losses, label=f"phi loss {ref_fd[freq_idx, 0].real}")
+            plt.plot(n_arr, amp_losses, label=f"amp loss {ref_fd[freq_idx, 0].real}")
             plt.legend()
 
         n_res[loop_idx] = best_n
@@ -197,7 +204,7 @@ def main():
     #f0_idx = int(0.800 / df)
     #f1_idx = int(1.300 / df)
     f0_idx = int(0.400 / df)
-    f1_idx = int(1.500 / df)
+    f1_idx = int(1.100 / df)
 
     freq_idx_range = f0_idx, f1_idx
 
