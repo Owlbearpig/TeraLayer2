@@ -319,7 +319,7 @@ def sell_meier(l, *args):
     return np.sqrt(s)
 
 
-def window(data_td, win_len=None, win_start=None, first_pulse=True):
+def window(data_td, win_len=None, win_start=None, first_pulse=True, en_plot=False):
     t, y = data_td[:, 0], data_td[:, 1]
     pulse_width = 10  # ps
     dt = np.mean(np.diff(t))
@@ -348,20 +348,22 @@ def window(data_td, win_len=None, win_start=None, first_pulse=True):
 
     window_arr = np.concatenate((pre_pad, window_arr, post_pad))
 
-    plt.figure("Windowing")
-    plt.plot(t, y, label="y before windowing")
+    y_win = y * window_arr
 
-    y = y * window_arr
     if not first_pulse:
         print("Not implemented...")
-        y = np.roll(y, -win_center+170)
 
-    plt.plot(t, y, label="y after windowing")
-    plt.xlabel("Time (ps)")
-    plt.ylabel("Amplitude (nA)")
-    plt.legend()
+    if en_plot:
+        plt.figure("Windowing")
+        plt.plot(t, y, label="Sam. before windowing")
+        plt.plot(t, np.max(np.abs(y)) * window_arr, label="Window")
+        plt.plot(t, y_win, label="Sam. after windowing")
+        plt.xlabel("Time (ps)")
+        plt.ylabel("Amplitude (nA)")
+        plt.legend()
+        plt.show()
 
-    return np.array([t, y]).T
+    return np.array([t, y_win]).T
 
 
 if __name__ == '__main__':

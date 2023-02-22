@@ -226,7 +226,7 @@ class Cost:
         n = self.calc_n(p)
 
         plt.figure("Refractive index real")
-        plt.title(f"{self.d_list}")
+        plt.title(f"Layers: {self.d_list} $(\mu m)$")
         plt.plot(self.freqs, n[:, 0].real, label="Re($n_0$)")
         plt.plot(self.freqs, n[:, 1].real, label="Re($n_1$)")
         plt.plot(self.freqs, n[:, 2].real, label="Re($n_2$)")
@@ -237,7 +237,7 @@ class Cost:
         plt.legend()
 
         plt.figure("Refractive index imag")
-        plt.title(f"{self.d_list}")
+        plt.title(f"Layers: {self.d_list} $(\mu m)$")
         plt.plot(self.freqs, n[:, 0].imag, label="Img($n_0$)")
         plt.plot(self.freqs, n[:, 1].imag, label="Img($n_1$)")
         plt.plot(self.freqs, n[:, 2].imag, label="Img($n_2$)")
@@ -252,22 +252,22 @@ class Cost:
         tmm_fd, tmm_td = self.calc_model(p)
 
         plt.figure("Spectrum")
-        plt.title(f"{self.d_list}")
-        plt.plot(self.freqs, 20 * np.log10(np.abs(tmm_fd[:, 1])), label="r_tmm")
+        plt.title(f"Layers: {self.d_list} $(\mu m)$")
+        plt.plot(self.freqs, 20 * np.log10(np.abs(tmm_fd[:, 1])), label="TMM")
         plt.axvline(self.freqs[f0_i], color="red", label="Fit range", linewidth=5.0)
         plt.axvline(self.freqs[f1_i], color="red", linewidth=5.0)
 
         plt.figure("Phase")
-        plt.title(f"{self.d_list}")
+        plt.title(f"Layers: {self.d_list} $(\mu m)$")
         if self.tds_data:
-            plt.plot(self.freqs, np.angle(tmm_fd[:, 1] / self.ref_fd[:, 1]), label="r_tmm")
+            plt.plot(self.freqs, np.angle(tmm_fd[:, 1] / self.ref_fd[:, 1]), label="TMM")
         else:
-            plt.plot(self.freqs, np.angle(tmm_fd[:, 1]), label="r_tmm")
+            plt.plot(self.freqs, np.angle(tmm_fd[:, 1]), label="TMM")
         plt.axvline(self.freqs[f0_i], color="red", label="Fit range", linewidth=5.0)
         plt.axvline(self.freqs[f1_i], color="red", linewidth=5.0)
 
         plt.figure("Time domain")
-        plt.title(f"{self.d_list}")
+        plt.title(f"Layers: {self.d_list} $(\mu m)$")
         if self.tds_data:
             plt.plot(tmm_td[:, 0].real, tmm_td[:, 1], label=f"TMM")
         else:
@@ -278,12 +278,17 @@ class Cost:
         self.plot_sam()
 
     def plot_sam(self):
-        plt.figure("Time domain")
-        plt.plot(self.t, self.ref_td[:, 1], label=f"Ref. (Meas. idx: {self.sam_idx})")
-        if self.tds_data:
-            plt.plot(self.t, self.sam_td[:, 1], label=f"Sam. (Meas. idx: {self.sam_idx})")
+        if self.sam_idx is None:
+            name = "Avg."
         else:
-            plt.plot(self.t, self.r_exp_td[:, 1], label=f"Sam. (Meas. idx: {self.sam_idx})")
+            name = self.sam_idx
+
+        plt.figure("Time domain")
+        plt.plot(self.t, self.ref_td[:, 1], label=f"Ref. (Meas. idx: {name})")
+        if self.tds_data:
+            plt.plot(self.t, self.sam_td[:, 1], label=f"Sam. (Meas. idx: {name})")
+        else:
+            plt.plot(self.t, self.r_exp_td[:, 1], label=f"Sam. (Meas. idx: {name})")
 
         plt.xlabel("Time (ps)")
         plt.ylabel("Amplitude (nA)")
@@ -293,10 +298,10 @@ class Cost:
         #plt.plot(self.freqs, 20 * np.log10(np.abs(self.ref_fd[:, 1])), label=f"Ref. (Meas. idx: {self.sam_idx})")
         #plt.plot(self.freqs, 20 * np.log10(np.abs(self.sam_fd[:, 1])), label=f"Sam. (Meas. idx: {self.sam_idx})")
         if self.tds_data:
-            plt.plot(self.freqs, 20 * np.log10(np.abs(self.ref_fd[:, 1])), label=f"Ref. (Meas. idx: {self.sam_idx})")
-            plt.plot(self.freqs, 20 * np.log10(np.abs(self.sam_fd[:, 1])), label=f"Sam. (Meas. idx: {self.sam_idx})")
+            plt.plot(self.freqs, 20 * np.log10(np.abs(self.ref_fd[:, 1])), label=f"Ref. (Meas. idx: {name})")
+            plt.plot(self.freqs, 20 * np.log10(np.abs(self.sam_fd[:, 1])), label=f"Sam. (Meas. idx: {name})")
         else:
-            plt.plot(self.freqs, 20 * np.log10(np.abs(self.r_exp[:, 1])), label=f"Refl. (Meas. idx: {self.sam_idx})")
+            plt.plot(self.freqs, 20 * np.log10(np.abs(self.r_exp[:, 1])), label=f"Refl. (Meas. idx: {name})")
         plt.xlabel("Frequency (THz)")
         plt.ylabel("Amplitude (dB)")
         plt.legend()
@@ -304,7 +309,7 @@ class Cost:
         plt.figure("Phase")
         # plt.plot(self.sam_fd[:, 0], np.angle(self.sam_fd[:, 1]), label="$\phi_{sam}$")
         # plt.plot(self.sam_fd[:, 0], np.angle(self.ref_fd[:, 1]), label="$\phi_{ref}$")
-        plt.plot(self.sam_fd[:, 0], np.angle(self.r_exp[:, 1]), label=f"(Sam idx: {self.sam_idx}) "
+        plt.plot(self.sam_fd[:, 0], np.angle(self.r_exp[:, 1]), label=f"(Sam idx: {name}) "
                                                                       + "$\phi_{sam} - \phi_{ref}$")
         plt.xlabel("Frequency (THz)")
         plt.ylabel("Phase (Rad)")
