@@ -336,6 +336,8 @@ def window(data_td, win_len=None, win_start=None, first_pulse=True):
         else:
             win_center = np.argmax(np.abs(y[300:])) + 300
         win_start = win_center - int(win_len / 2)
+    else:
+        win_center = win_start + win_len // 2
 
     if win_start < 0:
         win_start = 0
@@ -352,7 +354,7 @@ def window(data_td, win_len=None, win_start=None, first_pulse=True):
     y = y * window_arr
     if not first_pulse:
         print("Not implemented...")
-        y = np.roll(y, -2*int(2.9*0.650/(0.05*0.3)))
+        y = np.roll(y, -win_center+170)
 
     plt.plot(t, y, label="y after windowing")
     plt.xlabel("Time (ps)")

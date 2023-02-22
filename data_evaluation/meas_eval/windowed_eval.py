@@ -18,7 +18,7 @@ def simple_fit(freq_idx_range):
 
     #d_list = array([np.inf, 41.0, np.inf])
     d_list = array([np.inf, 41.0, np.inf])
-    #d_list = array([np.inf, 71.0, np.inf])
+    #d_list = array([np.inf, 65.0, np.inf])
     angle_in = 8 * pi / 180
 
     m = freq_idx_range[1] - freq_idx_range[0]  # freq_cnt
@@ -31,10 +31,11 @@ def simple_fit(freq_idx_range):
 
             lambda_vac = (c0 / freq) * 10 ** -6
             n = [1.0, n1, 2.9]
+            #n = [2.9, n1, 1]
             r_tmm = coh_tmm("s", n, d_list, angle_in, lambda_vac)["r"] * -1
 
             amp_loss = (np.log10(np.abs(r_tmm)) - np.log10(np.abs(r_exp[freq_idx]))) ** 2
-            phi_loss = (np.angle(r_tmm) - np.angle(r_exp[freq_idx])) ** 2
+            phi_loss = 0*(np.angle(r_tmm) - np.angle(r_exp[freq_idx])) ** 2
 
             loss = amp_loss + phi_loss
             all_losses[i] = loss
