@@ -229,7 +229,7 @@ def do_ifft(data_fd, hermitian=True, shift=0):
     return array([t, y_td]).T
 
 
-def filtering(data_td, wn=(0.001, 9.999), filt_type="bandpass", order=9):
+def filtering(data_td, wn=(0.001, 9.999), filt_type="bandpass", order=5):
     dt = np.mean(np.diff(data_td[:, 0].real))
     fs = 1 / dt
 
@@ -326,6 +326,8 @@ def window(data_td, win_len=None, win_start=None, first_pulse=True, en_plot=Fals
 
     if win_len is None:
         win_len = int(pulse_width / dt)
+    else:
+        win_len = int(win_len / dt)
 
     if win_len > len(y):
         win_len = len(y)
@@ -337,13 +339,13 @@ def window(data_td, win_len=None, win_start=None, first_pulse=True, en_plot=Fals
             win_center = np.argmax(np.abs(y[300:])) + 300
         win_start = win_center - int(win_len / 2)
     else:
-        win_center = win_start + win_len // 2
+        win_start = int(win_start / dt)
 
     if win_start < 0:
         win_start = 0
 
     pre_pad = np.zeros(win_start)
-    window_arr = tukey(win_len)
+    window_arr = tukey(win_len, 0.50)
     post_pad = np.zeros(len(y) - win_len - win_start)
 
     window_arr = np.concatenate((pre_pad, window_arr, post_pad))

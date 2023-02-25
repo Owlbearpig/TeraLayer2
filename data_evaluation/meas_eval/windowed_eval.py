@@ -9,6 +9,147 @@ from measurement import Measurement
 from tmm import coh_tmm
 
 
+
+def middle_fit(n_outer, freq_idx_range, measurement):
+    sam_idx = measurement.sam_idx
+    ref_td, sam_td, ref_fd, sam_fd = measurement.load_measurement(tds_data=True, en_window=False, full_window=True)
+    r_exp = sam_fd[:, 1] / ref_fd[:, 1]
+
+    angle_in = 8 * pi / 180
+    # d_list = array([np.inf, 41.0, 642.0, 64.0, np.inf])
+    # d_list = array([np.inf, 41.0, 641.0, 64.0, np.inf]) # best
+    d_list_ = array([np.inf, 41.0, 646.0, 62.0, np.inf])
+
+    std0_min, std1_min = None, None
+    std0_min_val, std1_min_val = np.inf, np.inf
+    for d1 in range(-10, 11):
+        for d2 in range(-10, 11):
+            #if (d1, d2) != (-4, 5):
+            if (d1, d2) != (-2, 5):
+                continue
+
+            print("Progress: ", d1, d2)
+            d_list = d_list_.copy() + array([0, 0, d1, d2, 0])
+
+            m = freq_idx_range[1] - freq_idx_range[0]  # freq_cnt
+            f_opt_amp, f_opt_phi, n_res = np.zeros(m), np.zeros(m), np.zeros(m)
+
+            for loop_idx, freq_idx in enumerate(range(*freq_idx_range)):
+                best_n, min_val = None, np.inf
+                all_losses = np.zeros(1000)
+                phi_losses, amp_losses = np.zeros(1000), np.zeros(1000)
+
+                n_arr = np.linspace(2.7, 2.95, 1000)
+                for i, n1 in enumerate(n_arr):
+                    freq = ref_fd[freq_idx, 0].real
+
+                    lambda_vac = (c0 / freq) * 10 ** -6
+                    n = [1.0, n_outer[loop_idx], n1, n_outer[loop_idx], 1.0]
+                    r_tmm = coh_tmm("s", n, d_list, angle_in, lambda_vac)["r"] * -1
+
+                    amp_loss = ((np.abs(r_tmm)) - (np.abs(r_exp[freq_idx]))) ** 2
+                    phi_loss = (np.angle(r_tmm) - np.angle(r_exp[freq_idx])) ** 2
+
+                    loss = amp_loss + phi_loss
+                    all_losses[i] = loss
+                    phi_losses[i] = phi_loss
+                    amp_losses[i] = amp_loss
+                    if loss < min_val:
+                        min_val = loss
+                        best_n = n1
+
+                if freq_idx in [41, 42, 43]:
+                    plt.figure("loss")
+                    plt.title(f"{d_list}")
+                    plt.plot(n_arr, all_losses, label=f"sum {ref_fd[freq_idx, 0].real}")
+                    plt.plot(n_arr, phi_losses, label=f"phi loss {ref_fd[freq_idx, 0].real}")
+                    plt.plot(n_arr, amp_losses, label=f"amp loss {ref_fd[freq_idx, 0].real}")
+                    plt.legend()
+
+                n_res[loop_idx] = best_n
+                print(f"Freq: {ref_fd[freq_idx, 0].real} (Idx: {freq_idx}), res.x: {best_n}, res.fun: {min_val}")
+
+            # std0, std1 = sum(np.abs(np.diff(n_res[:, 0]))), sum(np.abs(np.diff(n_res[:, 1])))
+            std0 = np.std(n_res)
+
+            print(f"STDs p=(n0): {std0}")
+            if std0 < std0_min_val:
+                std0_min = [d1, d2]
+                std0_min_val = std0
+                print(f"std0 best fit: {std0_min}, ({std0_min_val})")
+
+    print(f"std0 best fit: {std0_min}, ({std0_min_val})")
+
+    en_plotts_ = True
+    if en_plotts_:
+        t = ref_td[:, 0].real
+        freqs = ref_fd[:, 0].real
+        f_idx0, f_idx1 = freq_idx_range
+
+        r_tmm_fd = []
+        for freq_idx in range(len(ref_fd[:, 0].real)):
+            lambda_vac = (c0 / ref_fd[freq_idx, 0].real) * 10 ** -6
+            if freq_idx < f_idx0:
+                n = [1.0, n_outer[0], n_res[0], n_outer[0], 1.0]
+            elif (freq_idx >= f_idx0) and (freq_idx < f_idx1):
+                n = [1.0, n_outer[freq_idx - f_idx0], n_res[freq_idx - f_idx0], n_outer[freq_idx - f_idx0], 1.0]
+            else:
+                n = [1.0, n_outer[-1], n_res[-1], n_outer[-1], 1.0]
+
+            r_tmm = coh_tmm("s", n, d_list, angle_in, lambda_vac)["r"] * -1
+            r_tmm_fd.append(r_tmm)
+
+        r_tmm_fd = np.array(r_tmm_fd)
+
+        r_sam = r_tmm_fd * ref_fd[:, 1]
+        r_sam = array([freqs, r_sam]).T
+        tmm_td = do_ifft(r_sam, shift=0)
+
+        r_tmm_fd = array([freqs, r_tmm_fd]).T
+
+        plt.figure("Time domain")
+        plt.title(f"Layers: {d_list} $(\mu m)$")
+        plt.plot(t, ref_td[:, 1], label=f"Ref. (Meas. idx: {sam_idx})")
+        plt.plot(t, sam_td[:, 1], label=f"Sam. (Meas. idx: {sam_idx})")
+        plt.plot(tmm_td[:, 0].real, tmm_td[:, 1], label=f"TMM")
+        plt.xlabel("Time (ps)")
+        plt.ylabel("Amplitude (nA)")
+        plt.legend()
+
+        plt.figure("Spectrum")
+        plt.title(f"Layers: {d_list} $(\mu m)$")
+        # plt.plot(self.freqs, 20 * np.log10(np.abs(self.ref_fd[:, 1])), label=f"Ref. (Meas. idx: {self.sam_idx})")
+        # plt.plot(self.freqs, 20 * np.log10(np.abs(self.sam_fd[:, 1])), label=f"Sam. (Meas. idx: {self.sam_idx})")
+        plt.plot(freqs, 20 * np.log10(np.abs(ref_fd[:, 1])), label=f"Ref. (Meas. idx: {sam_idx})")
+        plt.plot(freqs, 20 * np.log10(np.abs(sam_fd[:, 1])), label=f"Sam. (Meas. idx: {sam_idx})")
+        plt.plot(freqs[f_idx0:f_idx1], 20 * np.log10(np.abs(r_tmm_fd[f_idx0:f_idx1, 1] * ref_fd[f_idx0:f_idx1, 1])),
+                 label="TMM")
+        plt.xlabel("Frequency (THz)")
+        plt.ylabel("Amplitude (dB)")
+        plt.legend()
+
+        plt.figure("Phase")
+        plt.title(f"Layers: {d_list} $(\mu m)$")
+        # plt.plot(self.sam_fd[:, 0], np.angle(self.sam_fd[:, 1]), label="$\phi_{sam}$")
+        # plt.plot(self.sam_fd[:, 0], np.angle(self.ref_fd[:, 1]), label="$\phi_{ref}$")
+        plt.plot(sam_fd[:, 0], np.angle(r_exp), label=f"(Sam idx: {sam_idx}) " + "$\phi_{sam} - \phi_{ref}$")
+        plt.plot(freqs[f_idx0:f_idx1], np.angle(r_tmm_fd[f_idx0:f_idx1, 1]), label="TMM")
+        plt.xlabel("Frequency (THz)")
+        plt.ylabel("Phase (Rad)")
+        plt.legend(loc='upper right')
+
+        plt.figure("Refractive index")
+        plt.title(f"Layers: {d_list} $(\mu m)$")
+        plt.plot(freqs[f_idx0:f_idx1], n_outer, label="RI first layer")
+        plt.plot(freqs[f_idx0:f_idx1], n_res, label="RI second layer")
+        plt.plot(freqs[f_idx0:f_idx1], n_outer, label="RI third layer")
+        plt.legend()
+        plt.xlabel("Frequency (THz)")
+        plt.ylabel("Refractive index (Real)")
+
+    return n_res, d_list
+
+
 def simple_fit(freq_idx_range, measurement):
     sam_idx = measurement.sam_idx
     ref_td, sam_td, ref_fd, sam_fd = measurement.load_measurement(tds_data=True, en_window=True)
@@ -322,7 +463,8 @@ def main():
     measurement = Measurement(sam_idx)
 
     n_res = simple_fit(freq_idx_range, measurement)
-    n_full, d_list = full_fit(n_res, freq_idx_range, measurement)
+    n_middle, d_list = middle_fit(n_res, freq_idx_range, measurement)
+    #n_full, d_list = full_fit(n_res, freq_idx_range, measurement)
 
     """
     n_avg = np.zeros((f1_idx - f0_idx, 2))

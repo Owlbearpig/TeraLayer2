@@ -9,18 +9,22 @@ class Measurement:
         self.ref_td, self.sam_td = None, None
         self.ref_fd, self.sam_fd = None, None
 
-    def load_measurement(self, tds_data=True, en_window=False):
+    def load_measurement(self, tds_data=True, en_window=False, full_window=False):
         if tds_data:
             self.ref_td, self.sam_td = load_data_tds(sam_idx=self.sam_idx, signal_shift=-5)
 
             en_filter = False
             if en_filter:
-                self.ref_td = filtering(self.ref_td, filt_type="bp", wn=(1.0, 2.3))
-                self.sam_td = filtering(self.sam_td, filt_type="bp", wn=(1.0, 2.3))
+                self.ref_td = filtering(self.ref_td, filt_type="bp", wn=(0.35, 1.2))
+                self.sam_td = filtering(self.sam_td, filt_type="bp", wn=(0.35, 1.2))
 
             if en_window:
                 self.ref_td = window(self.ref_td, win_len=None, win_start=None, first_pulse=True, en_plot=False)
-                self.sam_td = window(self.sam_td, win_len=None, win_start=None, first_pulse=True, en_plot=False)
+                if full_window:
+                    win_start, win_len = 4.5, 23.5
+                    self.sam_td = window(self.sam_td, win_len=win_len, win_start=win_start, first_pulse=True, en_plot=True)
+                else:
+                    self.sam_td = window(self.sam_td, win_len=None, win_start=None, first_pulse=True, en_plot=True)
 
             self.ref_fd, self.sam_fd = do_fft(self.ref_td), do_fft(self.sam_td)
         else:
