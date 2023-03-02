@@ -1,13 +1,12 @@
-import pandas as pd
 from consts import *
 import numpy as np
 import matplotlib.pyplot as plt
-
 
 files = ["2023-02-17_Probe_blau_hinten_corrected.tim.csv",
          "2023-17-02_Referenz_n1.csv",
          "2023-17-02_Referenz_n1000.csv",
          "2023-22-02_Probe_blau_Metall_Lack_corrected.tim.csv"]
+
 
 def save_as_npy():
     for file in files:
@@ -16,6 +15,7 @@ def save_as_npy():
         except Exception:
             arr = np.loadtxt(op_besteck_dir / file, skiprows=3, delimiter=",")
         np.save(file.replace(".csv", ".npy"), arr)
+
 
 class OPMeasurement:
     files = ["2023-02-17_Probe_blau_hinten_corrected.tim.npy",
@@ -37,7 +37,6 @@ class OPMeasurement:
         else:
             self.info = self.set2_info
             self.arr = np.load(self.files[3]).reshape((self.info["w"], self.info["h"], self.info["samples"]))
-
 
     def image(self, type_="p2p"):
         info = self.info
@@ -63,23 +62,24 @@ class OPMeasurement:
         cbar = fig.colorbar(img)
         cbar.set_label(f"{type_}", rotation=270, labelpad=10)
 
-
     def plot_point(self, x, y):
         dx, dy, dt = self.info["dx"], self.info["dy"], self.info["dt"]
-        print(int(x/dx), int(3/dy))
-        y_td = self.arr[int(x/dx), int(y/dy)]
-        t = np.arange(0, dt*len(y_td), dt)
+        h = self.info["h"]
+        y_td = self.arr[int(x / dx), h - int(y / dy)]
+        t = np.arange(0, dt * len(y_td), dt)
 
         plt.figure("Single point")
-        #plt.plot(t, y_td, label=f"{x}, {y}")
-        plt.plot(y_td, label=f"{x}, {y}")
+        # plt.plot(t, y_td, label=f"{x}, {y}")
+        plt.plot(y_td, label=f"x={x} (mm), y={y} (mm)")
         plt.xlabel("Time (ps)")
         plt.ylabel("Amplitude (Arb. u.)")
         plt.legend()
 
 
 if __name__ == '__main__':
-    measurement = OPMeasurement(area_idx=0)
-    measurement.image(type_="p2p")
-    measurement.plot_point(x=6.0, y=5.0)
+
+    measurement = OPMeasurement(area_idx=1)
+    measurement.image(type_="tof")
+    measurement.plot_point(x=7.0, y=5.0)
+    measurement.plot_point(x=2.0, y=5.0)
     plt.show()

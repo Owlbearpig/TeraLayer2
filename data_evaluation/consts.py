@@ -21,8 +21,11 @@ data_dir = Path(ROOT_DIR / 'matlab_enrique' / 'Data')
 optimization_results_dir = Path(ROOT_DIR / 'measurementComparisonResults')
 hhi_data_dir = Path(ROOT_DIR / "data" / "T-Sweeper_and_TeraFlash" /
                     "Lackierte Keramik" / "CW (T-Sweeper)" / "Kopf_Ahmad_3")
-if os.name != "unix":
+
+if os.name != "posix":
     op_besteck_dir = Path(r"E:\measurementdata\TeraLayer2\OP-Besteck\Blaues Teil")
+else:
+    op_besteck_dir = Path(r"/home/alex/Data/TeraLayer2/OP-Besteck/Blaues Teil")
 
 data_file_cnt = 100
 
