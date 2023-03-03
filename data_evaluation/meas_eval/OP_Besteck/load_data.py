@@ -50,12 +50,12 @@ class OPMeasurement:
             grid_vals = np.max(np.abs(self.arr), axis=2)
         else:
             grid_vals = np.argmax(np.abs(self.arr), axis=2)
-
+        #"""
         grid_vals = grid_vals[
                     int(0 / self.info["dx"]):int(8 / self.info["dx"]),
                     int(2 / self.info["dy"]):int(8 / self.info["dy"])
                     ]
-
+        #"""
         fig = plt.figure("Image")
         ax = fig.add_subplot(111)
         ax.set_title(f"Area {self.area_idx}")

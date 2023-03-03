@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.linalg import toeplitz, norm
 from scipy.fftpack import rfft
 from consts import c_thz
-from mpl_settings import *
+# from mpl_settings import *
 
 
 def deconvolve(ref_td, sam_td):
@@ -20,7 +20,7 @@ def deconvolve(ref_td, sam_td):
 
     lambda_ = 2
     eps = 1e-14
-    max_iteration_count = 200 #2000
+    max_iteration_count = 200  # 2000
     step_scale = 0.3
     # tau = tau_scale / norm(a, 2)
 
@@ -72,32 +72,25 @@ def deconvolve(ref_td, sam_td):
     return opt_sol[0]
 
 
-if __name__ == '__main__':
+def deconvolve_eval():
     measurement = OPMeasurement(area_idx=1)
 
     ref_td = measurement.get_ref(normalize=True, sub_offset=True)
     sam_metal_td = measurement.get_point(x=1.0, y=5.0, normalize=True, sub_offset=True)
-    #sam_ceramic_td = measurement.get_point(x=3.5, y=5.0, normalize=True, sub_offset=True)
     sam_coating_td = measurement.get_point(x=7.0, y=5.0, normalize=True, sub_offset=True)
 
     f_metal = deconvolve(ref_td, sam_metal_td)
-    #f_ceramic = deconvolve(ref_td, sam_ceramic_td)
     f_coating = deconvolve(ref_td, sam_coating_td)
 
     dt = measurement.info["dt"]
-    #t_metal, t_ceramic, t_coating = np.argmax(f_metal)*dt, np.argmax(f_ceramic)*dt, np.argmax(f_coating)*dt
     t_metal, t_coating = np.argmax(f_metal) * dt, np.argmax(f_coating) * dt
 
-    #peak_pos = f"Peak positions: ({t_metal}, {t_ceramic}, {t_coating}) ps"
-    #thicknesses = "$d_{ceramic} = $" + f"{round((t_ceramic - t_metal) * c_thz / 2, 1)} um \n"
     peak_pos = f"Peak positions: ({t_metal}, {t_coating}) ps"
-    #thicknesses += "$d_{ceramic} + d_{coating} = $" + f"{round((t_coating - t_metal) * c_thz / 2, 1)} um \n"
     thicknesses = "$d_{coating} = $" + f"{round((t_coating - t_metal) * c_thz / 2, 1)} um"
 
     fig, axs = plt.subplots(2, 1, constrained_layout=True)
 
     axs[0].plot(sam_metal_td[:, 0], sam_metal_td[:, 1], label="Metal x=1.0, y=5.0")
-    #axs[0].plot(sam_ceramic_td[:, 0], sam_ceramic_td[:, 1], label="Ceramic x=3.5, y=5.0")
     axs[0].plot(sam_coating_td[:, 0], sam_coating_td[:, 1], label="Coating x=7.0, y=5.0")
     axs[0].set_xlim((0, 31))
     axs[0].set_xlabel("Time (ps)")
@@ -107,7 +100,6 @@ if __name__ == '__main__':
     axs[1].text(12, 0.15, peak_pos)
     axs[1].text(12, 0.05, thicknesses)
     axs[1].plot(ref_td[:, 0], f_metal, label="Metal impulse response")
-    #axs[1].plot(ref_td[:, 0], f_ceramic, label="Ceramic impulse response")
     axs[1].plot(ref_td[:, 0], f_coating, label="Coating impulse response")
     axs[1].set_xlim((0, 31))
     axs[1].set_xlabel("Delay (ps)")
@@ -116,4 +108,53 @@ if __name__ == '__main__':
 
     # plt.savefig(plot_file_name, dpi=300)
 
+
+def plane_fit(measurement):
+    dx, dy = measurement.info["dx"], measurement.info["dy"]
+    image = measurement.arr
+
+    area_bounds = [[0, 2.5], [2, 8]]
+    x_idx0, x_idx1 = int(area_bounds[0][0] / dx), int(area_bounds[0][1] / dx)
+    y_idx0, y_idx1 = int(area_bounds[1][0] / dy), int(area_bounds[1][1] / dy)
+
+    area = image[x_idx0:x_idx1, y_idx0:y_idx1]
+
+    tof_data = np.argmax(np.abs(area), axis=2)
+
+    min_tof, max_tof = np.min(tof_data), np.max(tof_data)
+    Y = (tof_data - min_tof) / (max_tof - min_tof)
+    print(tof_data.shape)
+    m, n = tof_data.shape  # size of the matrix
+
+    X1, X2 = np.mgrid[:m, :n]
+
+    # Regression
+    X = np.hstack((np.reshape(X1, (m * n, 1)), np.reshape(X2, (m * n, 1))))
+    X = np.hstack((np.ones((m * n, 1)), X))
+    YY = np.reshape(Y, (m * n, 1))
+
+    theta = np.dot(np.dot(np.linalg.pinv(np.dot(X.transpose(), X)), X.transpose()), YY)
+    print(theta)
+    plane = np.reshape(np.dot(X, theta), (m, n))
+    print(plane[40, 80])
+    fig = plt.figure()
+    jet = plt.get_cmap('jet')
+    ax = fig.add_subplot(1, 1, 1, projection='3d')
+    ax.plot_surface(X1, X2, plane)
+    ax.plot_surface(X1, X2, Y, rstride=1, cstride=1, cmap=jet, linewidth=0)
+
+    print(min_tof, max_tof)
+
+    """
+    # Subtraction
+    Y_sub = Y - plane
+    ax = fig.add_subplot(3, 1, 3, projection='3d')
+    ax.plot_surface(X1, X2, Y_sub, rstride=1, cstride=1, cmap=jet, linewidth=0)
+    """
+
+
+if __name__ == '__main__':
+    # deconvolve_eval()
+    measurement = OPMeasurement(area_idx=1)
+    plane_fit(measurement)
     plt.show()
