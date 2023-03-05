@@ -198,13 +198,24 @@ if __name__ == '__main__':
     # freqs = array([0.400, 0.480, 0.560, 0.640, 0.720, 0.800]) * THz
     all_freqs = np.arange(0.001, 1.400 + 0.001, 0.001) * THz
     freqs = array([0.040, 0.080, 0.150, 0.550, 0.640, 0.760]) * THz
-    freqs = all_freqs.copy()
+    freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
+    # freqs = all_freqs.copy()
     n = get_n(freqs, 2.80, 2.80)
 
+    one = np.ones(6)
+    n0 = array([1.56, 1.57, 1.60, 1.61, 1.62, 1.62])
+    n1 = array([2.88, 2.89, 2.89, 2.90, 2.88, 2.89])
+    n2 = array([1.56, 1.57, 1.60, 1.61, 1.62, 1.62])
+
+    n = array([one, n0, n1, n2, one]).T
     # n = get_n_no_dispersion(freqs, 2.70)
 
     p_opt = np.array([42.5, 641.3, 74.4]) * um_to_m
+    p_opt = np.array([43.0, 641.0, 74.0]) * um_to_m
 
+    r = get_r_cart(freqs, p_opt, n)
+    print(r)
+    exit()
     sam_idx = 28
     phase_measured = get_measured_phase(freqs, sam_idx)
     amplitude_measured = get_measured_amplitude(freqs, sam_idx)

@@ -92,6 +92,7 @@ def explicit_reflectance(p):
         f0 = f[i] * p[0]
         f1 = g[i] * p[1]
         f2 = f[i] * p[2]
+        #print(f0, f1, f2)
 
         s0, s1, s2, s3 = f2 + f1 + f0, f2 - f1 - f0, f2 + f1 - f0, - f2 + f1 - f0
         # s0, s1, s2 = f0, f1, f2
@@ -238,6 +239,8 @@ if __name__ == '__main__':
     # p0 = np.array([10, 750, 400]) * um_to_m
     # p0 = np.array([31.162230968475342, 630.244384765625,  31.162230968475342], dtype=np.float32) * um_to_m
     p0 = np.array([193.0, 544.0, 168.0]) * um_to_m
+    # p0 = np.array([43.0, 641.0, 74.0]) * um_to_m
+
     # R_numba = multir_numba(lam, p0)
     explicit_reflectance(p0)
     r_explicit = explicit_reflectance_complex(p0)

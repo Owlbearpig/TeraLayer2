@@ -44,23 +44,30 @@ class OPMeasurement:
 
         self.ref_td = np.load(self.files[1])[0:self.info["samples"], :]
 
-    def image(self, type_="p2p"):
+    def image(self, type_="p2p", extent=None):
         info = self.info
         if type_ == "p2p":
             grid_vals = np.max(np.abs(self.arr), axis=2)
         else:
-            grid_vals = np.argmax(np.abs(self.arr), axis=2)
-        #"""
+            # grid_vals = np.argmax(np.abs(self.arr[:, :, int(17 / info["dt"]):int(20 / info["dt"])]), axis=2)
+            grid_vals = np.argmax(np.abs(self.arr[:, :, int(17/info["dt"]):int(20/info["dt"])]), axis=2)
+
+        if extent is None:
+            extent = [0, info["w"] * info["dx"], 0, info["h"] * info["dy"]]
+
+        w0, w1 = extent[:2]
+        h0, h1 = extent[2:]
+
         grid_vals = grid_vals[
-                    int(0 / self.info["dx"]):int(8 / self.info["dx"]),
-                    int(2 / self.info["dy"]):int(8 / self.info["dy"])
+                    int(w0 / self.info["dx"]):int(w1 / self.info["dx"]),
+                    int(h0 / self.info["dy"]):int(h1 / self.info["dy"])
                     ]
-        #"""
+
         fig = plt.figure("Image")
         ax = fig.add_subplot(111)
         ax.set_title(f"Area {self.area_idx}")
         fig.subplots_adjust(left=0.2)
-        extent = [0, info["w"] * info["dx"], 0, info["h"] * info["dy"]]
+
         img = ax.imshow(grid_vals.transpose((1, 0)),
                         vmin=np.min(grid_vals), vmax=np.max(grid_vals),
                         origin="upper",
@@ -73,7 +80,7 @@ class OPMeasurement:
         cbar = fig.colorbar(img)
         cbar.set_label(f"{type_}", rotation=270, labelpad=10)
 
-    def get_ref(self, normalize=False, sub_offset=False):
+    def get_ref(self, normalize=False, sub_offset=False, both=False):
         ref = self.ref_td.copy()
 
         if sub_offset:
@@ -84,9 +91,15 @@ class OPMeasurement:
 
         t = np.arange(0, self.info["dt"] * len(ref[:, 0]), self.info["dt"])
 
-        return array([t, ref[:, 1]]).T
+        ref_td = array([t, ref[:, 1]]).T
 
-    def get_point(self, x, y, normalize=False, sub_offset=False):
+        if not both:
+            return ref_td
+        else:
+            ref_fd = do_fft(ref_td)
+            return ref_td, ref_fd
+
+    def get_point(self, x, y, normalize=False, sub_offset=False, both=False):
         dx, dy, dt = self.info["dx"], self.info["dy"], self.info["dt"]
         h = self.info["h"]
 
@@ -100,7 +113,11 @@ class OPMeasurement:
 
         y_td = np.array([np.arange(0, dt * len(y_), dt), y_]).T
 
-        return y_td
+        if not both:
+            return y_td
+        else:
+            return y_td, do_fft(y_td)
+
 
     def plot_point(self, x, y):
         y_td = self.get_point(x, y)
@@ -137,7 +154,7 @@ class OPMeasurement:
 
 if __name__ == '__main__':
     measurement = OPMeasurement(area_idx=1)
-    measurement.image(type_="tof")
+    measurement.image(type_="p2p")
 
     # area 0
     #measurement.plot_point(x=1.8, y=2.85)
@@ -145,7 +162,7 @@ if __name__ == '__main__':
     #measurement.plot_point(x=8.0, y=2.00)
 
     # area 1
-    measurement.plot_point(x=1.0, y=5.0)
+    measurement.plot_point(x=1.0, y=4.0)
     #measurement.plot_point(x=3.5, y=5.0)
-    measurement.plot_point(x=7.0, y=8.0)
+    measurement.plot_point(x=7.0, y=4.0)
     plt.show()

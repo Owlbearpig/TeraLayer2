@@ -1,4 +1,5 @@
-from numpy import pi, array, round, sqrt, sign, cos, sin, exp, array, arcsin, conj, sum, outer, ones
+from numpy import (pi, array, round, sqrt, sign, cos, sin, exp, array,
+                   arcsin, conj, sum, outer, ones, inf, zeros)
 from numpy.random import uniform
 from scipy.special import factorial
 from pathlib import Path

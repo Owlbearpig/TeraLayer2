@@ -1,5 +1,5 @@
 from __future__ import division, print_function, absolute_import
-
+from helpers import is_iterable
 import numpy as np
 
 from consts import *
@@ -27,6 +27,10 @@ for lam in lams:
 def check_ri(n_lst, bound_n):
     if bound_n is None:
         bound_n = [1, 1]
+
+    if not is_iterable(n_lst):
+        return array([1, n_lst, 1])
+
     n_lst = np.array(n_lst)
     if not np.isclose(n_lst[0], bound_n[0]):
         n_lst = array([bound_n[0], *n_lst])
@@ -36,7 +40,7 @@ def check_ri(n_lst, bound_n):
     return n_lst
 
 
-def tmm_package_wrapper(freqs, d_list, n, geom="r", bound_n=None):
+def tmm_package_wrapper(freqs, d_list, n, geom="r", bound_n=None, angle=8):
     # freq should be in THz ("between 0 and 10 THz"), d in um (wl in um)
     # n[freq_idx, n_idx]
     if d_list[0] != inf:
@@ -44,9 +48,9 @@ def tmm_package_wrapper(freqs, d_list, n, geom="r", bound_n=None):
     if d_list[-1] != inf:
         d_list = [*d_list, inf]
 
-    angle_in = 8 * pi / 180
+    angle_in = angle * pi / 180
 
-    if n.ndim == 1:
+    if (n.ndim == 1) and not is_iterable(freqs):
         lambda_vac = (c0 / freqs) * 10 ** -6
         n_list = n
         n_list = check_ri(n_list, bound_n)
