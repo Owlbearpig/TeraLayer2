@@ -6,6 +6,7 @@ from functions import do_ifft, do_fft
 from load_data import OPMeasurement
 from scipy.optimize import shgo
 
+
 class SamplePoint:
     def __init__(self, x, y):
         self.x = x
@@ -36,9 +37,9 @@ def analytical_eval(r_exp):
     # Non-Perpendicular Incidence: Experiment and Simulation
     freqs = r_exp[:, 0]
 
-    angle = 8*np.pi / 180
-    n_enum = 1 - np.abs(r_exp[:, 1])**2
-    n_denum = 1 + np.abs(r_exp[:, 1])**2 - 2*np.abs(r_exp[:, 1])*np.cos(angle)
+    angle = 8 * np.pi / 180
+    n_enum = 1 - np.abs(r_exp[:, 1]) ** 2
+    n_denum = 1 + np.abs(r_exp[:, 1]) ** 2 - 2 * np.abs(r_exp[:, 1]) * np.cos(angle)
 
     n = n_enum / n_denum
 
@@ -47,6 +48,7 @@ def analytical_eval(r_exp):
     plt.legend()
 
     return n
+
 
 def fitting(ref_fd, sam_fd):
     freqs = sam_fd[:, 0].real
@@ -72,7 +74,7 @@ def fitting(ref_fd, sam_fd):
         return loss
 
     def cost_absorption(k, freq_idx, n, absorp=True):
-        n = np.array([n+1j*k, 500])
+        n = np.array([n + 1j * k, 500])
 
         r_tmm = tmm_package_wrapper(freqs[freq_idx], d, n)
 
@@ -89,7 +91,7 @@ def fitting(ref_fd, sam_fd):
 
         return loss
 
-    #"""
+    # """
     # simple fit, only phase no absorption
     bounds = array([1.8, 2.1])
     ret = []
@@ -103,7 +105,7 @@ def fitting(ref_fd, sam_fd):
                 min_n = n
         print(freq, freq_idx, min_n)
         ret.append(min_n)
-    #"""
+    # """
     ret = array(ret)
 
     bounds = array([0.001, 0.100])
@@ -137,7 +139,7 @@ def fitting(ref_fd, sam_fd):
     plt.plot(freqs, ret_k, label="Imag part")
     plt.legend()
 
-    return ret + 1j*ret_k
+    return ret + 1j * ret_k
 
 
 def main():
@@ -159,7 +161,7 @@ def main():
 
     n = fitting(ref_fd, sam_fd)
 
-    #n = np.array([1.99 * ones, 500 * ones]).T
+    # n = np.array([1.99 * ones, 500 * ones]).T
     n = np.array([n, 500 * ones]).T
     d = array([260, 1e10])
 
@@ -167,11 +169,11 @@ def main():
     sam_tmm_fd = array([freqs, ref_fd[:, 1] * r_tmm_fd[:, 1]]).T
 
     plt.figure("Spectrum")
-    plt.plot(freqs, 20*np.log10(np.abs(ref_fd[:, 1])), label=f"Reference {point_metal} (shifted)")
-    plt.plot(freqs, 20*np.log10(np.abs(sam_fd[:, 1])), label=f"Sample {point}")
-    plt.plot(freqs, 20*np.log10(np.abs(ref_fd[:, 1] * r_tmm_fd[:, 1])), label=f"Ref * r_TMM")
-    plt.plot(freqs, 20*np.log10(np.abs(r_exp_fd[:, 1])), label="r_exp")
-    plt.plot(freqs, 20*np.log10(np.abs(r_tmm_fd[:, 1])), label="r_TMM")
+    plt.plot(freqs, 20 * np.log10(np.abs(ref_fd[:, 1])), label=f"Reference {point_metal} (shifted)")
+    plt.plot(freqs, 20 * np.log10(np.abs(sam_fd[:, 1])), label=f"Sample {point}")
+    plt.plot(freqs, 20 * np.log10(np.abs(ref_fd[:, 1] * r_tmm_fd[:, 1])), label=f"Ref * r_TMM")
+    plt.plot(freqs, 20 * np.log10(np.abs(r_exp_fd[:, 1])), label="r_exp")
+    plt.plot(freqs, 20 * np.log10(np.abs(r_tmm_fd[:, 1])), label="r_TMM")
     plt.legend()
     plt.xlabel("Frequency (THz)")
     plt.ylabel("Amplitude (dB)")
@@ -195,7 +197,7 @@ def main():
     plt.ylabel("Phase (Rad)")
     plt.legend()
 
+
 if __name__ == '__main__':
     main()
     plt.show()
-

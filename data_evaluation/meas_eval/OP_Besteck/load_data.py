@@ -78,7 +78,7 @@ class OPMeasurement:
         ax.set_ylabel("y (mm)")
 
         cbar = fig.colorbar(img)
-        cbar.set_label(f"{type_}", rotation=270, labelpad=10)
+        cbar.set_label(f"{type_} (Arb. u.)", rotation=270, labelpad=10)
 
     def get_ref(self, normalize=False, sub_offset=False, both=False):
         ref = self.ref_td.copy()
@@ -117,7 +117,6 @@ class OPMeasurement:
             return y_td
         else:
             return y_td, do_fft(y_td)
-
 
     def plot_point(self, x, y):
         y_td = self.get_point(x, y)
