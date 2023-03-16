@@ -24,7 +24,7 @@ def deconvolve(ref_td, sam_td):
 
     lambda_ = 2
     eps = 1e-14
-    max_iteration_count = 200  # 2000
+    max_iteration_count = 20  # 2000
     step_scale = 0.3
     # tau = tau_scale / norm(a, 2)
 
@@ -76,7 +76,9 @@ def deconvolve(ref_td, sam_td):
     return opt_sol[0]
 
 
-def deconvolve_eval(point):
+def deconvolve_eval(point=None):
+    if point is None:
+        point = (7.5, 8.5)
     measurement = OPMeasurement(area_idx=1)
     #measurement.image()
     #plt.show()
@@ -93,26 +95,27 @@ def deconvolve_eval(point):
 
     #peak_pos = f"Peak positions: (metal: {t_metal}, {t_coating}) ps"
     #thicknesses = "$d_{coating} = $" + f"{round((t_coating - t_metal) * c_thz / 2, 1)} um"
+    en_plot = True
+    if en_plot:
+        fig, axs = plt.subplots(2, 1, constrained_layout=True)
 
-    fig, axs = plt.subplots(2, 1, constrained_layout=True)
+        axs[0].plot(sam_metal_td[:, 0], sam_metal_td[:, 1], label=f"Metal x=1.0, y={point[1]}")
+        axs[0].plot(sam_coating_td[:, 0], sam_coating_td[:, 1], label=f"Coating x={point[0]}, y={point[1]}")
+        axs[0].set_xlim((0, 31))
+        axs[0].set_xlabel("Time (ps)")
+        axs[0].set_ylabel("Normalized amplitude")
+        axs[0].legend()
 
-    axs[0].plot(sam_metal_td[:, 0], sam_metal_td[:, 1], label=f"Metal x=1.0, y={point[1]}")
-    axs[0].plot(sam_coating_td[:, 0], sam_coating_td[:, 1], label=f"Coating x={point[0]}, y={point[1]}")
-    axs[0].set_xlim((0, 31))
-    axs[0].set_xlabel("Time (ps)")
-    axs[0].set_ylabel("Normalized amplitude")
-    axs[0].legend()
-
-    #axs[1].text(12, 0.15, peak_pos)
-    #axs[1].text(12, 0.05, thicknesses)
-    axs[1].plot(ref_td[:, 0], f_metal, label="Metal impulse response")
-    axs[1].plot(ref_td[:, 0], f_coating, label="Coating impulse response")
-    axs[1].set_xlim((0, 31))
-    axs[1].set_xlabel("Delay (ps)")
-    axs[1].set_ylabel("IRF")
-    axs[1].legend()
-
-    # plt.savefig(plot_file_name, dpi=300)
+        #axs[1].text(12, 0.15, peak_pos)
+        #axs[1].text(12, 0.05, thicknesses)
+        axs[1].plot(ref_td[:, 0], f_metal, label="Metal impulse response")
+        axs[1].plot(ref_td[:, 0], f_coating, label="Coating impulse response")
+        axs[1].set_xlim((0, 31))
+        axs[1].set_xlabel("Delay (ps)")
+        axs[1].set_ylabel("IRF")
+        axs[1].legend()
+    plt.show()
+        # plt.savefig(plot_file_name, dpi=300)
 
     peaks, _ = find_peaks(f_coating)
 
@@ -179,31 +182,62 @@ def plane_fit(measurement):
 
 
 def corrected_tof_eval(measurement):
-
+    plane_eq = plane_fit(measurement)
+    """
     point = (6.0, 4.0)
+    
+    area_bounds = [[6, 8], [2, 8]]
+    x_idx0, x_idx1 = int(area_bounds[0][0] / dx), int(area_bounds[0][1] / dx)
+    y_idx0, y_idx1 = int(area_bounds[1][0] / dy), int(area_bounds[1][1] / dy)
 
-    x_range, y_range = np.arange(6, 8, 0.50), np.arange(3, 6, 0.50)
+    area = image[x_idx0:x_idx1, y_idx0:y_idx1]
+    t0_idx, t1_idx = int(15 / dt), int(20 / dt)
+
+    x_range, y_range = np.arange(6, 8, dx), np.arange(2, 8, dy)
     thicknesses = np.zeros((len(x_range), len(y_range)))
     x_min, y_min = x_range[0], y_range[0]
     points = list(itertools.product(x_range, y_range))
     for point in points:
         dx, dy, dt = measurement.info["dx"], measurement.info["dy"], measurement.info["dt"]
-        interfaces = deconvolve_eval(point)
+        #interfaces = deconvolve_eval(point)
 
-        plane_eq = plane_fit(measurement)
-        x_idx, y_idx = int(point[0] / dx), int((point[1] - 2) / dy)
-        metal_tof_fix = plane_eq(x_idx, y_idx)
+        x_idx, y_idx = int(point[0] / dx), int(abs(point[1] - 10) / dy)
+        metal_tof_fix = plane_eq(y_idx, x_idx)
 
-        d = (metal_tof_fix - interfaces[0]) * dt * c_thz
-        thicknesses[int((point[0] - x_min) / 0.50), int((point[1] - y_min) / 0.50)] = d
+        print("TOF", point, metal_tof_fix, interfaces[0])
+        #d = (metal_tof_fix - interfaces[0]) * dt * c_thz
+        metal_tof_fix - tof_data[x_idx, y_idx]
+        thicknesses[int((point[0] - x_min) / dx), int((point[1] - y_min) / dy)] = d
         n = 0.5 * (interfaces[1] - interfaces[0]) * dt * c_thz / d
         print(f"Deconvolve peaks: {interfaces*dt} ps")
         print(f"Metal ToF: {metal_tof_fix*dt} ps, Refractive index: {n}, thickness: {d} um")
+    """
+    image = measurement.arr
+    image[image < 0] = 0
+    dx, dy, dt = measurement.info["dx"], measurement.info["dy"], measurement.info["dt"]
+    t0_p1_idx, t1_p1_idx = int(10 / dt), int(20 / dt)
+    tof_p1_data = np.array(t0_p1_idx + np.argmax(np.abs(image[:, ::-1, t0_p1_idx:t1_p1_idx]), axis=2), dtype=float)
+    t0_p2_idx, t1_p2_idx = int(20 / dt), int(30 / dt)
+    tof_p2_data = t0_p2_idx + np.argmax(np.abs(image[:, :, t0_p2_idx:t1_p2_idx]), axis=2)
+
+    # tof_p1_data = tof_p1_data.transpose((1, 0))
+    # deconvolve_eval(point=None)
+    w, h = measurement.info["w"], measurement.info["h"]
+    metal_tof = np.zeros_like(tof_p1_data, dtype=float)
+    x_range, y_range = np.arange(0, w*dx, dx), np.arange(0, h*dy, dy)
+    for x_idx in range(len(x_range)):
+        for y_idx in range(len(y_range)):
+            val = plane_eq(abs(y_idx - int(10 / dy)), x_idx)
+            metal_tof[x_idx, y_idx] = val
+
+    thicknesses = (0.5*(metal_tof - tof_p1_data) * dt * c_thz)[int(5/dx):, int(2/dy):int(8/dy)]
+
+    #n = 0.5 * (tof_p2_data - interfaces[0]) * dt * c_thz / thicknesses
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
     fig.subplots_adjust(left=0.2)
-    img_extent = [x_range[0], x_range[1], y_range[0], y_range[1]]
+    img_extent = [5, x_range[-1], 2, 8]
     img = ax.imshow(thicknesses.transpose((1, 0)),
                     vmin=np.min(thicknesses), vmax=np.max(thicknesses),
                     origin="lower",
@@ -220,16 +254,17 @@ def corrected_tof_eval(measurement):
 
     #cbar = fig.colorbar(img, format=ticker.FuncFormatter(fmt))
     cbar = fig.colorbar(img)
-    cbar.set_label(f"Thickness", rotation=270, labelpad=30)
+    cbar.set_label(f"Thickness (um)", rotation=270, labelpad=30)
 
-    np.mean(thicknesses)
+    print(np.mean(thicknesses))
 
     #return d, n
 
 
 if __name__ == '__main__':
-    # deconvolve_eval()
+    deconvolve_eval()
     measurement = OPMeasurement(area_idx=1)
+    measurement.image(type_="tof")
     corrected_tof_eval(measurement)
 
     plt.show()

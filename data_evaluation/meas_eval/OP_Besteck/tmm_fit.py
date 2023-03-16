@@ -53,7 +53,7 @@ def analytical_eval(r_exp):
 def fitting(ref_fd, sam_fd):
     freqs = sam_fd[:, 0].real
 
-    d = array([260, 1e10])
+    d = array([140, 1e10])
 
     def cost(n, freq_idx, absorp=False):
         n = np.array([n, 500])
@@ -93,7 +93,7 @@ def fitting(ref_fd, sam_fd):
 
     # """
     # simple fit, only phase no absorption
-    bounds = array([1.8, 2.1])
+    bounds = array([1.5, 3.5])
     ret = []
     for freq_idx, freq in enumerate(freqs):
         print(freq, freq_idx)
@@ -163,7 +163,7 @@ def main():
 
     # n = np.array([1.99 * ones, 500 * ones]).T
     n = np.array([n, 500 * ones]).T
-    d = array([260, 1e10])
+    d = array([140, 1e10])
 
     r_tmm_fd = tmm_package_wrapper(freqs, d, n)
     sam_tmm_fd = array([freqs, ref_fd[:, 1] * r_tmm_fd[:, 1]]).T

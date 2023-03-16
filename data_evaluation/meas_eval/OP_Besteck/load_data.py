@@ -50,7 +50,7 @@ class OPMeasurement:
             grid_vals = np.max(np.abs(self.arr), axis=2)
         else:
             # grid_vals = np.argmax(np.abs(self.arr[:, :, int(17 / info["dt"]):int(20 / info["dt"])]), axis=2)
-            grid_vals = np.argmax(np.abs(self.arr[:, :, int(17/info["dt"]):int(20/info["dt"])]), axis=2)
+            grid_vals = int(17/info["dt"]) + np.argmax(np.abs(self.arr[:, :, int(17/info["dt"]):int(20/info["dt"])]), axis=2)
 
         if extent is None:
             extent = [0, info["w"] * info["dx"], 0, info["h"] * info["dy"]]
