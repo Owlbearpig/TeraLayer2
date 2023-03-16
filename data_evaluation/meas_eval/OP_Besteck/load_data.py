@@ -50,8 +50,10 @@ class OPMeasurement:
             grid_vals = np.max(np.abs(self.arr), axis=2)
         else:
             # grid_vals = np.argmax(np.abs(self.arr[:, :, int(17 / info["dt"]):int(20 / info["dt"])]), axis=2)
-            grid_vals = int(17/info["dt"]) + np.argmax(np.abs(self.arr[:, :, int(17/info["dt"]):int(20/info["dt"])]), axis=2)
-
+            arr = self.arr.copy()
+            #arr[self.arr < 0] = 0
+            grid_vals = array(int(17/info["dt"]) + np.argmax((arr[:, :, int(17/info["dt"]):int(20/info["dt"])]), axis=2), dtype=float)
+            grid_vals *= info["dt"]
         if extent is None:
             extent = [0, info["w"] * info["dx"], 0, info["h"] * info["dy"]]
 
@@ -63,7 +65,7 @@ class OPMeasurement:
                     int(h0 / self.info["dy"]):int(h1 / self.info["dy"])
                     ]
 
-        fig = plt.figure("Image")
+        fig = plt.figure(f"Image {type_}")
         ax = fig.add_subplot(111)
         ax.set_title(f"Area {self.area_idx}")
         fig.subplots_adjust(left=0.2)
@@ -78,7 +80,7 @@ class OPMeasurement:
         ax.set_ylabel("y (mm)")
 
         cbar = fig.colorbar(img)
-        cbar.set_label(f"{type_} (Arb. u.)", rotation=270, labelpad=10)
+        cbar.set_label(r"ToF$_{p1}$ (ps)", rotation=270, labelpad=20)
 
     def get_ref(self, normalize=False, sub_offset=False, both=False):
         ref = self.ref_td.copy()
