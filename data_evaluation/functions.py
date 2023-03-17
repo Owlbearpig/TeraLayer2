@@ -318,8 +318,31 @@ def sell_meier(l, *args):
 
     return np.sqrt(s)
 
+def unwrap(data_fd, only_ang=False):
 
-def window(data_td, win_len=None, win_start=None, first_pulse=True, en_plot=False):
+
+    if data_fd.ndim == 2:
+        data = nan_to_num(data_fd[:, 1])
+    else:
+        data = nan_to_num(data_fd)
+    if only_ang:
+        ret = np.angle(data)
+    else:
+        ret = np.unwrap(np.angle(data))
+
+    if data_fd.ndim == 2:
+        return array([data_fd[:, 0].real, ret]).T
+    else:
+        return ret
+
+def to_db(data_fd):
+    if data_fd.ndim == 2:
+        return 20 * np.log10(np.abs(data_fd[:, 1]))
+    else:
+        return 20 * np.log10(np.abs(data_fd))
+
+
+def window(data_td, win_len=None, win_start=None, shift=None, en_plot=False, slope=0.15):
     t, y = data_td[:, 0], data_td[:, 1]
     pulse_width = 10  # ps
     dt = np.mean(np.diff(t))
@@ -333,10 +356,7 @@ def window(data_td, win_len=None, win_start=None, first_pulse=True, en_plot=Fals
         win_len = len(y)
 
     if win_start is None:
-        if first_pulse:
-            win_center = np.argmax(np.abs(y))
-        else:
-            win_center = np.argmax(np.abs(y[300:])) + 300
+        win_center = np.argmax(np.abs(y))
         win_start = win_center - int(win_len / 2)
     else:
         win_start = int(win_start / dt)
@@ -345,15 +365,15 @@ def window(data_td, win_len=None, win_start=None, first_pulse=True, en_plot=Fals
         win_start = 0
 
     pre_pad = np.zeros(win_start)
-    window_arr = tukey(win_len, 0.50)
+    window_arr = signal.windows.tukey(win_len, slope)
     post_pad = np.zeros(len(y) - win_len - win_start)
 
     window_arr = np.concatenate((pre_pad, window_arr, post_pad))
 
-    y_win = y * window_arr
+    if shift is not None:
+        window_arr = np.roll(window_arr, int(shift / dt))
 
-    if not first_pulse:
-        print("Not implemented...")
+    y_win = y * window_arr
 
     if en_plot:
         plt.figure("Windowing")
@@ -363,9 +383,50 @@ def window(data_td, win_len=None, win_start=None, first_pulse=True, en_plot=Fals
         plt.xlabel("Time (ps)")
         plt.ylabel("Amplitude (nA)")
         plt.legend()
-        plt.show()
 
     return np.array([t, y_win]).T
+
+def phase_correction(data_fd, disable=False, fit_range=None, en_plot=False, extrapolate=False, rewrap=False,
+                     ret_fd=False, both=False):
+    freqs = data_fd[:, 0].real
+
+    if disable:
+        return array([freqs, np.unwrap(np.angle(data_fd[:, 1]))]).T
+
+    phase_unwrapped = unwrap(data_fd)
+
+    if fit_range is None:
+        fit_range = [0.40, 0.75]
+
+    fit_slice = (freqs >= fit_range[0]) * (freqs <= fit_range[1])
+    p = np.polyfit(freqs[fit_slice], phase_unwrapped[fit_slice, 1], 1)
+
+    phase_corrected = phase_unwrapped[:, 1] - p[1].real
+
+    if en_plot:
+        plt.figure("phase_correction")
+        plt.plot(freqs, phase_unwrapped[:, 1], label="Unwrapped phase")
+        plt.plot(freqs, phase_corrected, label="Shifted phase")
+        plt.plot(freqs, freqs * p[0].real, label="Lin. fit (slope*freq)")
+        plt.xlabel("Frequency (THz)")
+        plt.ylabel("Phase (rad)")
+        plt.legend()
+
+    if extrapolate:
+        phase_corrected = p[0].real * freqs
+
+    if rewrap:
+        phase_corrected = np.angle(np.exp(1j * phase_corrected))
+
+    y = np.abs(data_fd[:, 1]) * np.exp(1j * phase_corrected)
+    if both:
+        return do_ifft(array([freqs, y]).T), array([freqs, y]).T
+
+    if ret_fd:
+        return array([freqs, y]).T
+    else:
+        return array([freqs, phase_corrected]).T
+
 
 
 if __name__ == '__main__':

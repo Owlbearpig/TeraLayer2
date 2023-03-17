@@ -73,3 +73,13 @@ high_freq_mask = np.arange(250, 600, 1)
 high_freq_mask_low_rez = np.arange(760, 1000, 40)
 high_freq_mask_low_rez2 = np.arange(640, 920, 40)
 new_mask = array([299, 350, 499, 599, 799, 950])
+
+plot_range = slice(25, 200)
+# plot_range = slice(25, 1000)
+plot_range1 = slice(1, 500)
+# plot_range1 = slice(1, 1000)
+plot_range_OP = slice(25, 350)
+# plot_range_sub = slice(25, 1000)
+# eval_point = (10, 10)#(20, 9)
+
+shgo_iters = 6

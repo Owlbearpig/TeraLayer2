@@ -2,7 +2,7 @@ import pandas as pd
 from consts import *
 import numpy as np
 import matplotlib.pyplot as plt
-from functions import filtering, do_fft
+from functions import filtering, do_fft, window, unwrap
 
 files = ["2023-02-17_Probe_blau_hinten_corrected.tim.csv",
          "2023-17-02_Referenz_n1.csv",
@@ -31,6 +31,8 @@ class OPMeasurement:
     # set2_info = "160, 201, 0.05, 0.05, 1, 1400, 0.050, 34000"
     set2_info = {"w": 160, "h": 201, "dx": 0.05, "dy": 0.05, "dt": 0.05, "samples": 1400}
     plotted_ref = False
+
+    geom = "r"
 
     def __init__(self, area_idx=0):
         self.area_idx = area_idx
@@ -120,37 +122,57 @@ class OPMeasurement:
         else:
             return y_td, do_fft(y_td)
 
-    def plot_point(self, x, y):
-        y_td = self.get_point(x, y)
-
+    def plot_point(self, x, y, sam_td=None, sub_noise_floor=False, label="", td_scale=1):
+        if sam_td is None:
+            sam_td = self.get_point(x, y, sub_offset=True)
+        ref_td = self.get_ref(sub_offset=True)
         # y_td = filtering(y_td, wn=(2.000, 3.000), filt_type="bandpass", order=5)
 
-        """
-        plt.figure("Single point")
+        sam_td = window(sam_td, win_len=14, shift=0, en_plot=False, slope=0.15)
+        ref_td = window(ref_td, win_len=14, shift=0, en_plot=False, slope=0.15)
+
+        ref_fd, sam_fd = do_fft(ref_td), do_fft(sam_td)
+
+        # sam_td, sam_fd = phase_correction(sam_fd, fit_range=(0.55, 1.00), extrapolate=True, both=True)
+        # ref_td, ref_fd = phase_correction(ref_fd, fit_range=(0.55, 1.00), extrapolate=True, both=True)
+
+        if self.geom == "t":
+            phi_ref, phi_sam = unwrap(ref_fd), unwrap(sam_fd)
+        else:
+            phi_ref, phi_sam = unwrap(ref_fd, only_ang=True), unwrap(sam_fd, only_ang=True)
+
+        noise_floor = np.mean(20 * np.log10(np.abs(ref_fd[ref_fd[:, 0] > 6.0, 1]))) * sub_noise_floor
+
         if not self.plotted_ref:
-            ref_td = self.get_ref()
-            #plt.plot(ref_td[:, 0], ref_td[:, 1], label="Reference")
+            plt.figure("Spectrum")
+            plt.plot(ref_fd[plot_range1, 0], 20 * np.log10(np.abs(ref_fd[plot_range1, 1])) - noise_floor,
+                     label="Reference")
+            plt.xlabel("Frequency (THz)")
+            plt.ylabel("Amplitude (dB)")
+
+            plt.figure("Phase")
+            plt.plot(ref_fd[plot_range1, 0], phi_ref[plot_range1, 1], label="Reference")
+            plt.xlabel("Frequency (THz)")
+            plt.ylabel("Phase (rad)")
+
+            plt.figure("Time domain")
+            plt.plot(ref_td[:, 0], ref_td[:, 1], label="Reference")
+            plt.xlabel("Time (ps)")
+            plt.ylabel("Amplitude (Arb. u.)")
+
             self.plotted_ref = True
-        """
-        y_fd = do_fft(y_td)
+
+        label += f" (x={x} (mm), y={y} (mm))"
+        noise_floor = np.mean(20 * np.log10(np.abs(sam_fd[sam_fd[:, 0] > 6.0, 1]))) * sub_noise_floor
 
         plt.figure("Spectrum")
-        if not self.plotted_ref:
-            ref_td = self.get_ref()
-            ref_fd = do_fft(ref_td)
-            plt.plot(ref_fd[:, 0], 20 * np.log10(np.abs(ref_fd[:, 1])), label="Reference")
-            self.plotted_ref = True
+        plt.plot(sam_fd[plot_range1, 0], 20 * np.log10(np.abs(sam_fd[plot_range1, 1])) - noise_floor, label=label)
 
-        #plt.plot(y_td[:, 0], 20*np.log10(np.abs(y_fd[:, 1])), label=f"x={x} (mm), y={y} (mm)")
-        plt.xlabel("Frequency (THz)")
-        plt.ylabel("Amplitude (dB)")
-        plt.legend()
+        plt.figure("Phase")
+        plt.plot(sam_fd[plot_range1, 0], phi_sam[plot_range1, 1], label=label)
 
         plt.figure("Time domain")
-        plt.plot(y_td[:, 0], y_td[:, 1], label=f"x={x} (mm), y={y} (mm)")
-        plt.xlabel("Time (ps)")
-        plt.ylabel("Amplitude (Arb. u.)")
-        plt.legend()
+        plt.plot(sam_td[:, 0], td_scale * sam_td[:, 1], label=label + f" (Amplitude x {td_scale})")
 
 
 if __name__ == '__main__':
