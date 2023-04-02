@@ -19,12 +19,12 @@ class Measurement:
                 self.sam_td = filtering(self.sam_td, filt_type="bp", wn=(0.35, 1.2))
 
             if en_window:
-                self.ref_td = window(self.ref_td, win_len=None, win_start=None, first_pulse=True, en_plot=False)
+                self.ref_td = window(self.ref_td, win_width=None, win_start=None, first_pulse=True, en_plot=False)
                 if full_window:
                     win_start, win_len = 4.5, 23.5
-                    self.sam_td = window(self.sam_td, win_len=win_len, win_start=win_start, first_pulse=True, en_plot=True)
+                    self.sam_td = window(self.sam_td, win_width=win_len, win_start=win_start, first_pulse=True, en_plot=True)
                 else:
-                    self.sam_td = window(self.sam_td, win_len=None, win_start=None, first_pulse=True, en_plot=True)
+                    self.sam_td = window(self.sam_td, win_width=None, win_start=None, first_pulse=True, en_plot=True)
 
             self.ref_fd, self.sam_fd = do_fft(self.ref_td), do_fft(self.sam_td)
         else:

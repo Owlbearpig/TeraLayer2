@@ -184,13 +184,18 @@ def get_freq_idx(freqs):
     return res
 
 
-def do_fft(data_td):
+def do_fft(data_td, shift=None):
     t, y = data_td[:, 0], data_td[:, 1]
     n = len(y)
     dt = np.float(np.mean(np.diff(t)))
     Y = np.conj(np.fft.fft(y, n))
+
     # Y = np.fft.fft(y, n)
     f = np.fft.fftfreq(len(t), dt)
+
+    if shift is not None:
+        shift = int(shift / dt) * dt
+        Y = Y * np.exp(1j*shift*2*pi*f)
 
     idx_range = (f >= 0)
     # return array([f, Y]).T
@@ -199,7 +204,6 @@ def do_fft(data_td):
 
 def do_ifft(data_fd, hermitian=True, shift=0):
     freqs, y_fd = data_fd[:, 0].real, data_fd[:, 1]
-
     y_fd = nan_to_num(y_fd)
 
     if hermitian:
@@ -223,7 +227,6 @@ def do_ifft(data_fd, hermitian=True, shift=0):
     # y_td = np.flip(y_td)
     dt = np.mean(np.diff(t))
     shift = int(shift / dt)
-
     y_td = np.roll(y_td, shift)
 
     return array([t, y_td]).T
@@ -342,22 +345,22 @@ def to_db(data_fd):
         return 20 * np.log10(np.abs(data_fd))
 
 
-def window(data_td, win_len=None, win_start=None, shift=None, en_plot=False, slope=0.15):
+def window(data_td, win_width=None, win_start=None, shift=None, en_plot=False, slope=0.15):
     t, y = data_td[:, 0], data_td[:, 1]
     pulse_width = 10  # ps
     dt = np.mean(np.diff(t))
 
-    if win_len is None:
-        win_len = int(pulse_width / dt)
+    if win_width is None:
+        win_width = int(pulse_width / dt)
     else:
-        win_len = int(win_len / dt)
+        win_width = int(win_width / dt)
 
-    if win_len > len(y):
-        win_len = len(y)
+    if win_width > len(y):
+        win_width = len(y)
 
     if win_start is None:
         win_center = np.argmax(np.abs(y))
-        win_start = win_center - int(win_len / 2)
+        win_start = win_center - int(win_width / 2)
     else:
         win_start = int(win_start / dt)
 
@@ -365,8 +368,8 @@ def window(data_td, win_len=None, win_start=None, shift=None, en_plot=False, slo
         win_start = 0
 
     pre_pad = np.zeros(win_start)
-    window_arr = signal.windows.tukey(win_len, slope)
-    post_pad = np.zeros(len(y) - win_len - win_start)
+    window_arr = signal.windows.tukey(win_width, slope)
+    post_pad = np.zeros(len(y) - win_width - win_start)
 
     window_arr = np.concatenate((pre_pad, window_arr, post_pad))
 

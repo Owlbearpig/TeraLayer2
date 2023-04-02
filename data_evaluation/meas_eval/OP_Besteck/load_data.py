@@ -128,8 +128,8 @@ class OPMeasurement:
         ref_td = self.get_ref(sub_offset=True)
         # y_td = filtering(y_td, wn=(2.000, 3.000), filt_type="bandpass", order=5)
 
-        sam_td = window(sam_td, win_len=14, shift=0, en_plot=False, slope=0.15)
-        ref_td = window(ref_td, win_len=14, shift=0, en_plot=False, slope=0.15)
+        sam_td = window(sam_td, win_width=14, shift=0, en_plot=False, slope=0.15)
+        ref_td = window(ref_td, win_width=14, shift=0, en_plot=False, slope=0.15)
 
         ref_fd, sam_fd = do_fft(ref_td), do_fft(sam_td)
 

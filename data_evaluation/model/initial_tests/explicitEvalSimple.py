@@ -162,7 +162,8 @@ def explicit_reflectance_complex(p, freqs=None):
     #print(m01)
     """
     s0, s1, s2, s3 = f0 + f1 + f2, f1, f2 - f0, f1 - f0 - f2
-
+    print(s0, s1, s2, s3)
+    exit()
     s0, s1, s2, s3 = c_mod(s0), c_mod(s1), c_mod(s2), c_mod(s3)
 
     # print(c_mod(s0), c_mod(s1), c_mod(s2), c_mod(s3))

@@ -65,15 +65,20 @@ class CostFuncFixedPoint:
         self.p_sol = array(p_sol)
         self.prec_int, self.prec = pd, p
         self.numfi = partial(numfi_, s=1, w=self.prec_int + self.prec, f=self.prec, fixed=True, rounding='floor')
+        # self.numfi = lambda x: x
 
         self.freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
 
+
         if sam_idx is not None:
-            #r_exp = real_data_cw(sam_idx)
-            r_exp = read_data_tds(sam_idx)
-            print("Using experimental data")
+            r_exp = real_data_cw(sam_idx)
+            # r_exp = read_data_tds(sam_idx)
+            # print("r_experimental:\n", r_real)
+            print("!!! Using experimental data !!!")
         else:
             r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=noise, plt_mod=plt_mod).r_exp
+
+        # print("r_model:\n", r_exp)
 
         self.r_exp_real = self.numfi(r_exp.real)
         self.r_exp_imag = self.numfi(r_exp.imag)
@@ -81,26 +86,28 @@ class CostFuncFixedPoint:
         # old working vals
         a, b = 0.300922921527581, 0.19737935744311108
 
+        """
         a = array([0.2985850843731809, 0.29723349994112047, 0.2885141169419409,
                    0.2872230174589835, 0.2811676766529977, 0.2827667100113409])
         b = array([0.22150193517531785, 0.22456210755125822, 0.23359906762293864,
                    0.23656447616946638, 0.2395068881899639, 0.2395068881899639])
-
+        """
         self.a = self.numfi(a)
         self.b = self.numfi(b)
 
         # [420. 520. 650. 800. 850. 950.] GHz:
-        # old working vals
+        #""" # old working vals
         f = array([0.0132038236383, 0.016347591171219998, 0.02043448896403,
-                   0.02515014026342, 0.02672202402988, 0.02986579156281]) * 2**3
+                   0.02515014026342, 0.02672202402988, 0.02986579156281]) * 2 ** 3
         g = array([0.024647137458149997, 0.03051550351962, 0.03814437939952,
                    0.04694692849172, 0.04988111152245, 0.055749477583909995]) * 2 ** 3
-
+        #"""
+        """
         f = array([0.013677220648274348, 0.017043119211226317, 0.021714173597089076,
                    0.026893438266979167, 0.02875309017444406, 0.03213580666555513]) * 2 ** 3
         g = array([0.025321723752706075, 0.031459816571280115, 0.03932477071410015,
                    0.0485675794867236, 0.051246345690000396, 0.05747466488983867]) * 2 ** 3
-
+        """
         self.f, self.g = self.numfi(f), self.numfi(g)
 
         self.pi = self.numfi(pi64)
@@ -143,7 +150,7 @@ class CostFuncFixedPoint:
 
             s_fp_long = numfi_(s_fp, s=1, w=7 + self.prec, f=self.prec, fixed=True, rounding='floor')
 
-            s_interm = (s_fp_long << 3) - (s_fp_long << 3).astype(int) # 3 = 6 - 3
+            s_interm = (s_fp_long << 3) - (s_fp_long << 3).astype(int)  # 3 = 6 - 3
 
             res = self.pi2 * self.numfi(s_interm)
 
@@ -177,9 +184,11 @@ class CostFuncFixedPoint:
             s0, s1, s2, s3 = f0 + f1 + f2, f1, f2 - f0, f1 - f0 - f2
 
             s0, s1, s2, s3 = c_mod(s0), c_mod(s1), c_mod(s2), c_mod(s3)
-
             ss0, ss1, ss2, ss3 = sine(s0), sine(s1), sine(s2), sine(s3)
             cs0, cs1, cs2, cs3 = cose(s0), cose(s1), cose(s2), cose(s3)
+
+            # ss0, ss1, ss2, ss3 = [np.sin(s) for s in [s0, s1, s2, s3]]
+            # cs0, cs1, cs2, cs3 = [np.cos(s) for s in [s0, s1, s2, s3]]
 
             d0 = ss1 * cs2
 
@@ -192,7 +201,8 @@ class CostFuncFixedPoint:
             r_mod_enum_r = m01_r * m11_r + m01_i * m11_i
             r_mod_enum_i = m01_i * m11_r - m01_r * m11_i
             r_mod_denum = m11_r * m11_r + m11_i * m11_i
-            print((array(r_mod_enum_r) + 1j * array(r_mod_enum_i)) / array(r_mod_denum))
+
+            # print("r_twos_compl:\n", (array(r_mod_enum_r) + 1j * array(r_mod_enum_i)) / array(r_mod_denum))
             amp_diff = (r_mod_enum_r - self.r_exp_real * r_mod_denum)
             phi_diff = (r_mod_enum_i - self.r_exp_imag * r_mod_denum)
 
@@ -240,7 +250,7 @@ if __name__ == '__main__':
     // p = [999, 999, 999]
     // => f(p_sol, p) = 0.5715376463789499 (python) 
     """
-    pd, p = 4, 14
+    pd, p = 4, 11
     noise_factor = 0.00
     seed = 420
     from model.cost_function import Cost
@@ -248,15 +258,15 @@ if __name__ == '__main__':
 
     # p_sol = array([241., 661., 237.])
     p_sol = array([43.0, 641.0, 74.0])
+    p_test = p_sol / (2 * pi * 2 ** 6)
+    print("test_point: ", p_test)
 
-    cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p, noise=noise_factor, sam_idx=None).cost
-
-    p_test = p_sol  / (2 * pi * 2 ** 6)
-
+    cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p, noise=noise_factor, sam_idx=10).cost
     start = time.process_time()
-    print(p_test)
-    loss = cost_func(p_test) # 0.138671875
+    loss = cost_func(p_test)
     print(loss)
+
+    plt.show()
     """
     sols = gen_p_sols(1000, seed=seed)
     for i, p_sol in enumerate(sols):

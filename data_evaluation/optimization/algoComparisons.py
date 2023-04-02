@@ -37,14 +37,15 @@ if __name__ == '__main__':
     simplex_spread = 40
     iterations = 15
     # noise options
-    noise_factor = 0.25
+    noise_factor = 0.00
 
-    pd, p = 4, 13
+    pd, p = 4, 11
     dir_ = Path("results") / Path(f"FP_pd{pd}_p{p}_mod")
     dir_.mkdir(exist_ok=True)
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
-    test_values = gen_p_sols(cnt=100, seed=seed)
+    cnt = 100
+    test_values = gen_p_sols(cnt=cnt, seed=seed)
     deviations, failures, fevals_all = [], 0, []
     with open(dir_ / f"FP_results_nm_grid_{noise_factor}noise_v2.txt", "a") as file:
         description = f"FP_p0_Gridsearch noisy, "
@@ -53,7 +54,8 @@ if __name__ == '__main__':
         header = description + "\ntruth __ found __ fx __ p0 __ success? __ fevals __ opt_p0"
         file.write(header + "\n")
 
-        for p_sol in test_values:
+        for test_idx, p_sol in enumerate(test_values):
+            print(f"Test point {p_sol} ({test_idx}/{cnt})")
             #cost_func = Cost(p_sol, 0.00).cost
             cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_factor).cost
 

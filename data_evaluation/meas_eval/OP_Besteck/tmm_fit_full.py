@@ -28,14 +28,14 @@ def tmm_eval(image, eval_point, en_plot=True):
 
     ref_td = shift_ref(ref_td, sam_td)
 
-    sam_td = window(sam_td, win_len=14, shift=0, en_plot=False, slope=0.15)
+    #sam_td = window(sam_td, win_len=14, shift=0, en_plot=False, slope=0.15)
     #plt.show()
-    ref_td = window(ref_td, win_len=14, shift=0, en_plot=False, slope=0.15)
+    #ref_td = window(ref_td, win_len=14, shift=0, en_plot=False, slope=0.15)
     #plt.show()
 
     """
-    plt.plot(ref_td[:, 0], ref_td[:, 1], label="ref")
-    plt.plot(sam_td[:, 0], sam_td[:, 1], label="sam")
+    plt.plot(ref_td[:, 0], ref_td[:, 1], label="Reference")
+    plt.plot(sam_td[:, 0], sam_td[:, 1], label="Sample")
     plt.xlabel("Time (ps)")
     plt.ylabel("Amplitude (Arb. u.)")
     plt.legend()
@@ -79,9 +79,11 @@ def tmm_eval(image, eval_point, en_plot=True):
 
         return amp_loss + phi_loss
 
+    save_file = f"n_coat_{d_list[1]}_v2.npy"
+
     shgo_iters = 7
     try:
-        n_coat = np.load(f"n_coat_{d_list[1]}.npy")
+        n_coat = np.load(save_file)
     except FileNotFoundError:
         n_coat = np.zeros(len(freqs), dtype=complex)
         for f_idx, freq in enumerate(freqs):
@@ -96,7 +98,7 @@ def tmm_eval(image, eval_point, en_plot=True):
                     while res.fun > 1e-5:
                         iters += 1
                         res = shgo(cost, bounds=bounds, args=(f_idx,), iters=iters)
-                        if iters >= 6:
+                        if iters >= 7:
                             break
 
                 n_coat[f_idx] = res.x[0] + 1j * res.x[1]
@@ -104,7 +106,7 @@ def tmm_eval(image, eval_point, en_plot=True):
             else:
                 n_coat[f_idx] = n_coat[f_idx-1]
 
-        np.save(f"n_coat_{d_list[1]}.npy", n_coat)
+        np.save(save_file, n_coat)
 
     n_shgo = array([one, n_coat, n_metal, one]).T
 

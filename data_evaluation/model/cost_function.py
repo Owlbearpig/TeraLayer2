@@ -1,5 +1,5 @@
 import numpy as np
-from consts import um_to_m, THz, GHz, um, array
+from consts import um_to_m, THz, GHz, um, array, n0, n1, n2
 from model.tmm_reduced import get_amplitude, get_phase, thickest_layer_approximation, get_r_cart, tmm_matrix_elems
 from model.initial_tests.explicitEvalSimple import explicit_reflectance_complex
 from model.refractive_index import get_n
@@ -7,6 +7,8 @@ from optimization.nelder_mead_nD import Point
 import matplotlib.pyplot as plt
 from functions import noise_gen
 from functools import partial
+from tmm_package import coh_tmm_slim
+from scipy.constants import c as c0
 
 
 class Cost:
@@ -15,13 +17,23 @@ class Cost:
             self.freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz  # GHz; freqs. set on fpga
         else:
             self.freqs = freqs
+            if self.freqs[-1] < 1e3:
+                self.freqs = self.freqs * THz
 
         self.p_solution = array(p_solution)
 
         self.all_freqs = np.arange(0.000, 1500 + 1, 1) * GHz
+        selected_freqs_idx = array([np.argwhere(np.isclose(freq, self.all_freqs))[0][0] for freq in self.freqs])
 
-        self.n = get_n(self.freqs, n_min=2.8, n_max=2.8)
+        # self.n = get_n(self.freqs, n_min=2.8, n_max=2.8)
+        f0 = array([0.000, 0.520, 0.650, 0.800, 0.850, 1.500]) * THz
+        n0_ = np.interp(self.freqs, f0, n0)
+        n1_ = np.interp(self.freqs, f0, n1)
+        n2_ = np.interp(self.freqs, f0, n2)
 
+        self.n = array([np.ones_like(self.freqs), n0_, n1_, n2_, np.ones_like(self.freqs)]).T
+
+        """
         approximate_model = False
         if not approximate_model:
             self.R0_amplitude = get_amplitude(self.freqs, self.p_solution * um_to_m, self.n)
@@ -31,17 +43,46 @@ class Cost:
             r = m01 / m11
             self.R0_amplitude = np.real(r * np.conj(r))
             self.R0_phase = np.angle(r)
+        
+        self.R0_amplitude *= self.noise_amp[selected_freqs_idx] ** 2
+        self.R0_phase += (1 - self.noise_phase[selected_freqs_idx])
+
+        self.r_exp = np.sqrt(self.R0_amplitude) * np.exp(1j * self.R0_phase)
+        """
+
+        d_list = array([np.inf, *self.p_solution, np.inf])
+        angle_in = 8 * np.pi / 180
+        wavelengths = 10**6 * c0 / self.freqs
+        r_slim = np.zeros_like(self.freqs)
+        for i, lambda_vac in enumerate(wavelengths):
+            r = coh_tmm_slim("s", self.n[i], d_list, angle_in, lambda_vac)
+            r_slim[i] = -r
+
+        R0 = np.real(r_slim * np.conj(r_slim))
+        phi0 = np.angle(r_slim)
 
         self.noise_std_scale = noise_std_scale
         self.noise_amp = noise_gen(self.all_freqs, True, scale=0.15 * noise_std_scale, seed=seed)
         self.noise_phase = noise_gen(self.all_freqs, True, scale=0.20 * noise_std_scale, seed=seed)
 
-        selected_freqs_idx = array([np.argwhere(np.isclose(freq, self.all_freqs))[0][0] for freq in self.freqs])
+        R = R0 * self.noise_amp[selected_freqs_idx] ** 2
+        phi = phi0 + (1 - self.noise_phase[selected_freqs_idx])
 
-        self.R0_amplitude *= self.noise_amp[selected_freqs_idx] ** 2
-        self.R0_phase += (1 - self.noise_phase[selected_freqs_idx])
+        plt.figure("noise R")
+        plt.plot(self.freqs/THz, R0, label="R no noise")
+        plt.plot(self.freqs/THz, R, label=f"R with noise {noise_std_scale}")
+        plt.xlabel("Frequency (THz)")
+        plt.ylabel("Magnitude (arb. u.)")
+        plt.legend()
 
-        self.r_exp = np.sqrt(self.R0_amplitude) * np.exp(1j * self.R0_phase)
+        plt.figure("noise phi")
+        plt.plot(self.freqs/THz, phi0, label="phi no noise")
+        plt.plot(self.freqs/THz, phi, label=f"phi with noise {noise_std_scale}")
+        plt.xlabel("Frequency (THz)")
+        plt.ylabel("Phase (rad)")
+        plt.legend()
+
+        self.r_exp = np.sqrt(R) * np.exp(1j * phi)
 
         if plt_mod:
             self.plot_model()

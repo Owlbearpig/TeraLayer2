@@ -33,12 +33,15 @@ if __name__ == '__main__':
     # noise options
     noise_factor = 0.0
 
-    pd, p = 4, 15
+    # number of test points
+    cnt = 2
+
+    pd, p = 4, 11
     dir_ = Path("results") / Path(f"FP_pd{pd}_p{p}_cw")
     dir_.mkdir(exist_ok=True)
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
-    test_values = np.arange(0, 101, 1)
+    test_values = np.arange(0, cnt, 1)
     sols, fevals_all = [], []
     with open(dir_ / f"FP_results_nm_grid_cw_v1.txt", "a") as file:
         description = f"FP_p0_Gridsearch cw, "
@@ -47,7 +50,8 @@ if __name__ == '__main__':
         header = description + "\nsam_idx __ found __ fx __ p0 __ fevals __ opt_p0"
         file.write(header + "\n")
 
-        for sam_idx in test_values:
+        for test_idx, sam_idx in enumerate(test_values):
+            print(f"Sample idx {sam_idx} ({test_idx}/{cnt})")
             cost_func = CostFuncFixedPoint(pd=pd, p=p, sam_idx=sam_idx).cost
 
             p0 = array([150, 600, 150])
