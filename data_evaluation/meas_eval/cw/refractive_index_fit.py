@@ -40,12 +40,29 @@ t_func_td = window(t_func_td, win_start=78, win_width=36, en_plot=False, slope=0
 
 t_func_fd = do_fft(t_func_td, shift=-100)
 
+f0, f1 = 0.25, 1.75
+f0_idx, f1_idx = np.argmin(np.abs(freqs - f0)), np.argmin(np.abs(freqs - f1))
+
+np.random.seed(420)
+
+bounds = ((1.45, 1.55), (2.75, 2.85))
 p_sol = array([np.inf, 43.0, 641.0, 74.0, np.inf])
-
 one = np.ones_like(freqs)
-def freq_fit():
-    f0, f1 = 0.25, 1.75
 
+#n0_truth = np.random.uniform(*bounds[0], len(freqs))
+#n1_truth = np.random.uniform(*bounds[1], len(freqs))
+n0_truth = 1.7*one
+n1_truth = 2.8*one
+n_truth = array([one, n0_truth, n1_truth, n0_truth, one]).T
+#n_truth = array([one, 1.692027738932626*one, 2.884941014415432*one, 1.692027738932626*one, one]).T
+#n_truth = array([one, 1.7*one, 2.8*one, 1.7*one, one]).T
+
+for f_idx in range(len(freqs)):
+    lam_vac = 10 ** 6 * c0 / (freqs[f_idx] * 10 ** 12)
+    # t_func_fd[f_idx, 1] = -1 * coh_tmm_slim("s", n_truth[f_idx], p_sol, 8 * pi / 180, lam_vac)
+
+
+def freq_fit():
     def cost(p, f_idx):
         n_list = array([1, p[0], p[1], p[0], 1])
         #n_list = array([1, 1.5, p[0], 1.5, 1])
@@ -58,19 +75,52 @@ def freq_fit():
 
         return loss_phi + loss_amp
 
-    bounds = ((1.5, 1.6), (2.75, 2.85))
-    #bounds = ((2.60, 2.90), )
+    #x, y = np.linspace(1.69201, 1.69203, 200), np.linspace(2.88493, 2.88495, 200)
+    x, y = np.linspace(1.5, 2, 200), np.linspace(2.5, 3.5, 200)
+    x_long, y_long = np.linspace(1.5, 3, 1000), np.linspace(2.5, 3.5, 1000)
+
+    plt.figure()
+    """
+    Frequency 1.4629999999999999 (1697/4500)
+    Result: [1.6875,    2.8852679] (3.2237342661786996e-05)
+    truth: [1.692027738932626, 2.884941014415432]
+    """
+    f_idx_ = 1697 - 600
+    print(freqs[f_idx_])
+    plt.plot(x_long, [cost([x_, 2.91], f_idx_) for x_ in x_long])
+    plt.plot(x_long, [cost([x_, 2.9], f_idx_) for x_ in x_long])
+    plt.plot(y_long, [cost([1.7, y_], f_idx_) for y_ in y_long])
+    plt.plot(y_long, [cost([1.6, y_], f_idx_) for y_ in y_long])
+
+    plt.figure()
+    grid = np.zeros((len(x), len(y)))
+    for i, p0 in enumerate(x):
+        for j, p1 in enumerate(y):
+            grid[i, j] = (cost([p0, p1], 1697))
+    plt.imshow(grid, extent=[x[0], x[-1], y[0], y[-1]], origin="lower")
+    #plt.show()
+    print(cost([1.692,    2.884941014415432], 1697))
 
     n = array([one, 1.5 * one, 2.80 * one, 1.5 * one, one]).T
     for f_idx, freq in enumerate(freqs):
         if (freq < f0) or (freq > f1):
             continue
         print(f"Frequency {freq} ({f_idx}/{len(freqs)})")
-        res = shgo(cost, args=(f_idx,), bounds=bounds, iters=7)
+        iters = 3
+        res = shgo(cost, args=(f_idx,), bounds=bounds, iters=iters, n=2**8)
+        while res.fun > 1e-10:
+            iters += 1
+            if iters == 5:
+                break
+            res = shgo(cost, args=(f_idx,), bounds=bounds, iters=iters, n=2**12)
+
         print(f"Result: {res.x} ({res.fun})")
-        # if res.fun < 1e-15:
-        #n[f_idx, 1], n[f_idx, 2], n[f_idx, 3] = res.x[0], res.x[1], res.x[0],
-        n[f_idx, 1], n[f_idx, 2], n[f_idx, 3] = 1.5, res.x[0], 1.5,
+        print(f"truth: [{n0_truth[f_idx]}, {n1_truth[f_idx]}]")
+        if res.fun < 1e-10:
+            n[f_idx, 1], n[f_idx, 2], n[f_idx, 3] = res.x[0], res.x[1], res.x[0],
+        else:
+            n[f_idx, 1], n[f_idx, 2], n[f_idx, 3] = 0, 0, 0
+        # n[f_idx, 1], n[f_idx, 2], n[f_idx, 3] = 1.5, res.x[0], 1.5,
 
     plt.figure("Refractive index fitted")
     plt.plot(freqs, n[:, 1], label="n0")
@@ -86,8 +136,6 @@ def freq_fit():
 
 
 def fit():
-    f0, f1 = 1.25, 1.75
-    f0_idx, f1_idx = np.argmin(np.abs(freqs - f0)), np.argmin(np.abs(freqs - f1))
     dx = freqs[f1_idx] - freqs[f0_idx]
 
     def linear_n(p):
@@ -142,8 +190,18 @@ def fit():
 
     return n
 
-# n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one]).T
-n = freq_fit()
+n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one]).T
+# n = freq_fit()
+
+fails0 = np.sum(np.abs(n0_truth[f0_idx:f1_idx] - n[f0_idx:f1_idx, 1]) > 0.01)
+fails1 = np.sum(np.abs(n1_truth[f0_idx:f1_idx] - n[f0_idx:f1_idx, 2]) > 0.01)
+
+print(f"fails n0: {fails0}, fails n1: {fails1}")
+
+plt.figure("Refractive index fitted")
+plt.plot(freqs, n0_truth, label="n0 truth")
+plt.plot(freqs, n1_truth, label="n1 truth")
+plt.legend()
 
 r_mod_fd, mod_fd = np.zeros_like(ref_fd, dtype=complex), np.zeros_like(ref_fd, dtype=complex)
 r_mod_fd[:, 0], mod_fd[:, 0] = freqs, freqs
