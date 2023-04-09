@@ -202,7 +202,18 @@ def do_fft(data_td, shift=None):
     return array([f[idx_range], Y[idx_range]]).T
 
 
-def do_ifft(data_fd, hermitian=True, shift=0):
+def shift(data_td, shift=0):
+    t = data_td[:, 0]
+    dt = np.mean(np.diff(t))
+
+    shift = int(shift / dt)
+
+    ret = data_td.copy()
+    ret[:, 1] = np.roll(ret[:, 1], shift)
+
+    return ret
+
+def do_ifft(data_fd, hermitian=True, shift=0, flip=False):
     freqs, y_fd = data_fd[:, 0].real, data_fd[:, 1]
     y_fd = nan_to_num(y_fd)
 
@@ -217,6 +228,7 @@ def do_ifft(data_fd, hermitian=True, shift=0):
         """
 
     y_td = ifft(y_fd)
+
     df = np.mean(np.diff(freqs))
     n = len(y_td)
     t = np.arange(0, n) / (n * df)
@@ -224,12 +236,26 @@ def do_ifft(data_fd, hermitian=True, shift=0):
     # t = np.linspace(0, len(y_td)*df, len(y_td))
     # t += 885
 
-    # y_td = np.flip(y_td)
+    if flip:
+        y_td = np.flip(y_td)
+
     dt = np.mean(np.diff(t))
     shift = int(shift / dt)
     y_td = np.roll(y_td, shift)
 
     return array([t, y_td]).T
+
+def zero_pad(data_fd, mult=6):
+    df = np.mean(np.diff(data_fd[:, 0])).real
+    f_max = data_fd[-1, 0].real
+    eps = 1e-15
+    freq_extension = np.arange(f_max, f_max + mult * f_max, df)
+    freqs_long = np.concatenate((data_fd[:, 0], freq_extension))
+    value_axis_long = np.concatenate((mult*data_fd[:, 1], eps+np.zeros_like(freq_extension)))
+
+    ret = np.array([freqs_long, value_axis_long]).T
+
+    return ret
 
 
 def filtering(data_td, wn=(0.001, 9.999), filt_type="bandpass", order=5):
@@ -345,10 +371,15 @@ def to_db(data_fd):
         return 20 * np.log10(np.abs(data_fd))
 
 
-def window(data_td, win_width=None, win_start=None, shift=None, en_plot=False, slope=0.15):
+def window(data_td, win_width=None, win_start=None, en_plot=False, slope=0.15, label=""):
     t, y = data_td[:, 0], data_td[:, 1]
+
     pulse_width = 10  # ps
     dt = np.mean(np.diff(t))
+
+    #shift = int(100 / dt)
+
+    #y = np.roll(y, shift)
 
     if win_width is None:
         win_width = int(pulse_width / dt)
@@ -368,24 +399,26 @@ def window(data_td, win_width=None, win_start=None, shift=None, en_plot=False, s
         win_start = 0
 
     pre_pad = np.zeros(win_start)
-    window_arr = signal.windows.tukey(win_width, slope)
+    # window_arr = signal.windows.hamming(win_width)
+    window_arr = signal.windows.hanning(win_width)
+    # window_arr = signal.windows.tukey(win_width, slope)
+
     post_pad = np.zeros(len(y) - win_width - win_start)
 
     window_arr = np.concatenate((pre_pad, window_arr, post_pad))
-
-    if shift is not None:
-        window_arr = np.roll(window_arr, int(shift / dt))
 
     y_win = y * window_arr
 
     if en_plot:
         plt.figure("Windowing")
-        plt.plot(t, y, label="Sam. before windowing")
+        plt.plot(t, y, label=f"{label} before windowing")
         plt.plot(t, np.max(np.abs(y)) * window_arr, label="Window")
-        plt.plot(t, y_win, label="Sam. after windowing")
+        plt.plot(t, y_win, label=f"{label} after windowing")
         plt.xlabel("Time (ps)")
         plt.ylabel("Amplitude (nA)")
         plt.legend()
+
+    # y_win = np.roll(y_win, -shift)
 
     return np.array([t, y_win]).T
 
