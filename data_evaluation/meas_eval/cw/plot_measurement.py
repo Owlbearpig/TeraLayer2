@@ -46,9 +46,12 @@ def load_data(sam_idx_=None, bk_gnd=False, polar=False):
     if polar:
         return ref_fd, sam_fd
 
-    ref_fd[:, 1] = np.abs(ref_fd[:, 1]) * np.exp(-1j * (ref_fd[:, 2] - bk_gnd_fd[:, 2]))
-    sam_fd[:, 1] = np.abs(sam_fd[:, 1]) * np.exp(-1j * (sam_fd[:, 2] - bk_gnd_fd[:, 2]))
-    bk_gnd_fd[:, 1] = np.abs(bk_gnd_fd[:, 1]) * np.exp(-1j * bk_gnd_fd[:, 2])
+    # ref_fd[:, 1] = np.abs(ref_fd[:, 1]) * np.exp(1j * (ref_fd[:, 2] - bk_gnd_fd[:, 2]))
+    # sam_fd[:, 1] = np.abs(sam_fd[:, 1]) * np.exp(1j * (sam_fd[:, 2] - bk_gnd_fd[:, 2]))
+    ref_fd[:, 1] = np.abs(ref_fd[:, 1]) * np.exp(1j * ref_fd[:, 2])
+    sam_fd[:, 1] = np.abs(sam_fd[:, 1]) * np.exp(1j * sam_fd[:, 2])
+
+    bk_gnd_fd[:, 1] = np.abs(bk_gnd_fd[:, 1]) * np.exp(1j * bk_gnd_fd[:, 2])
 
     sam_fd = sam_fd[:, :2]
     ref_fd = ref_fd[:, :2]

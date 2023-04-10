@@ -218,8 +218,8 @@ def do_ifft(data_fd, hermitian=True, shift=0, flip=False):
     y_fd = nan_to_num(y_fd)
 
     if hermitian:
-        y_fd = np.concatenate((np.conj(y_fd), np.flip(y_fd[1:])))
-        # y_fd = np.concatenate((y_fd, np.flip(np.conj(y_fd[1:]))))
+        # y_fd = np.concatenate((np.conj(y_fd), np.flip(y_fd[1:])))
+        y_fd = np.concatenate((y_fd, np.flip(np.conj(y_fd[1:]))))
         """
         * ``a[0]`` should contain the zero frequency term,
         * ``a[1:n//2]`` should contain the positive-frequency terms,
@@ -251,7 +251,7 @@ def zero_pad(data_fd, mult=6):
     eps = 1e-15
     freq_extension = np.arange(f_max, f_max + mult * f_max, df)
     freqs_long = np.concatenate((data_fd[:, 0], freq_extension))
-    value_axis_long = np.concatenate((mult*data_fd[:, 1], eps+np.zeros_like(freq_extension)))
+    value_axis_long = np.concatenate((data_fd[:, 1], eps+np.zeros_like(freq_extension)))
 
     ret = np.array([freqs_long, value_axis_long]).T
 
@@ -400,8 +400,8 @@ def window(data_td, win_width=None, win_start=None, en_plot=False, slope=0.15, l
 
     pre_pad = np.zeros(win_start)
     # window_arr = signal.windows.hamming(win_width)
-    window_arr = signal.windows.hanning(win_width)
-    # window_arr = signal.windows.tukey(win_width, slope)
+    # window_arr = signal.windows.hanning(win_width)
+    window_arr = signal.windows.tukey(win_width, slope)
 
     post_pad = np.zeros(len(y) - win_width - win_start)
 

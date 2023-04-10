@@ -14,12 +14,12 @@ def filter(data_td, en=True):
 
     data_td = filtering(data_td, filt_type="hp", wn=0.22, order=1)
     #data_td = filtering(data_td, filt_type="lp", wn=1.76, order=4)
-    data_td = filtering(data_td, filt_type="lp", wn=1.86, order=4)
+    data_td = filtering(data_td, filt_type="lp", wn=1.75, order=7)
 
     return data_td
 
 
-sam_idx = 28
+sam_idx = 45
 ref_fd, sam_fd = load_data(sam_idx_=sam_idx)
 freqs = ref_fd[:, 0].real
 R_meas = np.abs(sam_fd[:, 1])
@@ -28,8 +28,8 @@ shift_ = 0
 
 # offset = 0.111
 # offset = 0.03
-offset = 0.00
-pad = 1
+offset = 0# 0.80
+pad = 8
 
 ref_td, sam_td = do_ifft(ref_fd), do_ifft(sam_fd)
 
@@ -37,19 +37,25 @@ ref_td, sam_td = do_ifft(ref_fd), do_ifft(sam_fd)
 
 ref_td, sam_td = shift(ref_td, 100 - offset), shift(sam_td, 100)
 
-#ref_td = window(ref_td, win_width=100, win_start=50, en_plot=True, slope=0.01, label="Ref")
-#sam_td = window(sam_td, win_width=100, win_start=50, en_plot=True, slope=0.01, label="Sam")
+ref_td = window(ref_td, win_width=250, win_start=0, en_plot=True, slope=0.03, label="Ref")
+sam_td = window(sam_td, win_width=250, win_start=0, en_plot=True, slope=0.03, label="Sam")
 
 ref_fd, sam_fd = do_fft(ref_td), do_fft(sam_td)
 
 t_func_fd = np.zeros_like(ref_fd, dtype=complex)
 t_func_fd[:, 0] = freqs
 t_func_fd[:, 1] = sam_fd[:, 1] / ref_fd[:, 1]
-t_func_fd_short = t_func_fd.copy()
 
 t_func_fd = zero_pad(t_func_fd, mult=pad)
 
 freqs = ref_fd[:, 0].real
+
+"""
+plt.figure("test")
+plt.plot(np.angle(t_func_fd), label="angle before")
+plt.figure("test2")
+plt.plot(np.abs(t_func_fd), label="magn before")
+"""
 
 t_func_td = do_ifft(t_func_fd, flip=False)
 t_func_td = shift(t_func_td, -100)
@@ -58,52 +64,80 @@ t_func_td = shift(t_func_td, 100)
 # t_func_td = window(t_func_td, win_start=shift-5, win_width=25, en_plot=False, slope=0.3)
 dt = np.mean(np.diff(t_func_td[:, 0]))
 
-t_func_td[:, 1] /= np.max(np.abs(t_func_td[:, 1]))
-
 t_func_fd = do_fft(t_func_td)
 t_func_td = shift(t_func_td, 100)
 
-f0, f1 = 0.25, 1.75
+"""
+plt.figure("test")
+plt.plot(np.angle(t_func_fd), label="angle after")
+plt.legend()
+plt.figure("test2")
+plt.plot(np.abs(t_func_fd), label="magn after")
+plt.legend()
+plt.show()
+"""
+
+f0, f1 = 0.35, 1.20
 f0_idx, f1_idx = np.argmin(np.abs(freqs - f0)), np.argmin(np.abs(freqs - f1))
 
 np.random.seed(420)
 
-bounds = ((2.75, 2.85), (1.50, 1.60))
-# bounds = ((2.75, 2.85), )
+bounds = ((2.75, 2.90), (1.50, 1.60))
+bounds = ((2.70, 2.90), (1.50, 1.70))
+#bounds = ((3.00, 3.10), )
 # bounds = ((1.55, 1.65), )
 
-p_sol = array([np.inf, 47.0, 641.0, 75.0, np.inf])
+p_sol = array([np.inf, 46.0, 641.0, 79.0, np.inf])
 one = np.ones_like(freqs)
 
 #n0_truth = np.random.uniform(*bounds[0], len(freqs))
 #n1_truth = np.random.uniform(*bounds[1], len(freqs))
-n0_truth = 1.6*one
-n1_truth = 2.8*one
+n0_truth = 1.65*one
+n1_truth = 2.86*one
 n_truth = array([one, n0_truth, n1_truth, n0_truth, one]).T
 #n_truth = array([one, 1.692027738932626*one, 2.884941014415432*one, 1.692027738932626*one, one]).T
 #n_truth = array([one, 1.7*one, 2.8*one, 1.7*one, one]).T
 
 for f_idx in range(len(freqs)):
     lam_vac = 10 ** 6 * c0 / (freqs[f_idx] * 10 ** 12)
-    # t_func_fd[f_idx, 1] = -1 * coh_tmm_slim("s", n_truth[f_idx], p_sol, 8 * pi / 180, lam_vac)
+    t_func_fd[f_idx, 1] = -1 * coh_tmm_slim("s", n_truth[f_idx], p_sol, 8 * pi / 180, lam_vac)
 
-#t_func_td = do_ifft(t_func_fd, shift=100, flip=True)
-#t_func_td = window(t_func_td, win_width=4, en_plot=True, slope=0.3, win_start=98)
-#t_func_fd = do_fft(t_func_td, shift=-100)
+"""
+plt.figure("test")
+plt.plot(np.angle(t_func_fd), label="angle before")
+plt.figure("test2")
+plt.plot(np.abs(t_func_fd), label="magn before")
 
+t_func_td = do_ifft(t_func_fd, flip=False)
+t_func_td = filter(t_func_td)
+t_func_fd = do_fft(t_func_td)
+t_func_td = shift(t_func_td, 100)
 
-def freq_fit():
+plt.figure("test")
+plt.plot(np.angle(t_func_fd), label="angle after")
+plt.legend()
+plt.figure("test2")
+plt.plot(np.abs(t_func_fd), label="magn after")
+plt.legend()
+plt.show()
+"""
+
+t_func_td[:, 1] /= np.max(np.abs(t_func_td[:, 1]))
+
+def freq_fit(thicknesses):
     def cost(p, f_idx):
+        # p_sol_ = array([np.inf, 46.0, 637.0, 79.0, np.inf])
+        # p_sol_ = p_sol.copy()
         # n_list = array([1, p[0], p[1], p[0], 1])
+        n_list = array([1, 1.65, p[0], p[1], 1])
         #n_list = array([1, 1.6, p[0], p[1], 1])
-        n_list = array([1, 1.6, p[0], p[1], 1])
         # n_list = array([1, p[0], 2.8])
 
         lam_vac = 10 ** 6 * c0 / (freqs[f_idx] * 10 ** 12)
-        mod_fd = -1 * coh_tmm_slim("s", n_list, p_sol, 8 * pi / 180, lam_vac)
+        mod_fd = -1 * coh_tmm_slim("s", n_list, thicknesses, 8 * pi / 180, lam_vac)
 
-        loss_phi = (np.angle(t_func_fd_short[f_idx, 1]) - np.angle(mod_fd)) ** 2
-        loss_amp = (np.abs(t_func_fd_short[f_idx, 1]) - np.abs(mod_fd)) ** 2
+        loss_phi = (np.angle(t_func_fd[f_idx, 1]) - np.angle(mod_fd)) ** 2
+        loss_amp = (np.abs(t_func_fd[f_idx, 1]) - np.abs(mod_fd)) ** 2
 
         return loss_phi + loss_amp
 
@@ -136,29 +170,37 @@ def freq_fit():
     #plt.show()
     print(cost([1.692,    2.884941014415432], 1697))
     """
+    n1_res, n2_res = [], []
     n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one]).T
     for f_idx, freq in enumerate(freqs):
-        if (freq < f0) or (freq > f1):
+        if (freq < f0) or (freq > f1) or (f_idx % 10 != 0):
+        #if (freq < f0) or (freq > f1):
             continue
         print(f"Frequency {freq} ({f_idx}/{len(freqs)})")
-        iters = 3
+        iters = 5
         res = shgo(cost, args=(f_idx,), bounds=bounds, iters=iters, n=2**8)
         while res.fun > 1e-10:
             iters += 1
-            if iters == 5:
+            if iters == 7:
                 break
             res = shgo(cost, args=(f_idx,), bounds=bounds, iters=iters, n=2**12)
 
         print(f"Result: {res.x} ({res.fun})")
-        print(f"truth: [{n0_truth[f_idx]}, {n1_truth[f_idx]}]")
-        if res.fun < 1e-10:
+        #print(f"truth: [{n0_truth[f_idx]}, {n1_truth[f_idx]}]")
+        n[f_idx, 2], n[f_idx, 3] = res.x[0], res.x[1]
+        n1_res.append(res.x[0]), n2_res.append(res.x[1])
+
+        # n[f_idx, 2] = res.x[0]
+        """
+        if res.fun < 1e-3:
             #n[f_idx, 1], n[f_idx, 2], n[f_idx, 3] = res.x[0], res.x[0], res.x[0],
             n[f_idx, 2], n[f_idx, 3] = res.x[0], res.x[1]
         else:
             continue
+        """
         #n[f_idx, 1], n[f_idx, 2], n[f_idx, 3] = 0, 0, 0
         # n[f_idx, 1], n[f_idx, 2], n[f_idx, 3] = 1.5, res.x[0], 1.5,
-
+    """
     plt.figure("Refractive index fitted")
     plt.plot(freqs, n[:, 1], label="n0")
     plt.plot(freqs, n[:, 2], label="n1")
@@ -168,67 +210,42 @@ def freq_fit():
     plt.legend()
     plt.xlabel("Frequency (THz)")
     plt.ylabel("Refractive index")
+    """
+    """
+    plt.figure("test")
+    plt.plot(np.abs(np.fft.rfft(n1_res))[1:])
+    plt.show()
+    """
+    n1_res = np.convolve(n1_res, np.ones(5)/5, mode='valid')
+    gof = np.max(np.abs(np.fft.rfft(n1_res))[1:])
+    # gof = np.std(n1_res) + np.std(n2_res)
 
-    return n
+    return gof
 
 
-def fit():
-    dx = freqs[f1_idx] - freqs[f0_idx]
 
-    def linear_n(p):
-        # y0, y1 -> a = (y1 - y0) / dx, y0 - a * x0 = b, n = a * x + b
-        # (x0, x1 = 1.25 THz - 1.75 THz)
-
-        """
-        a0, a1, a2 = (p[1] - p[0]) / dx, (p[3] - p[2]) / dx, (p[5] - p[4]) / dx
-        b0, b1, b2 = p[0] - a0 * f0, p[2] - a0 * f0, p[4] - a0 * f0
-        n0, n1, n2 = a0 * freqs + b0, a1 * freqs + b1, a2 * freqs + b2
-        """
-
-        a0, a1, a2 = (p[1] - p[0]) / dx, (p[3] - p[2]) / dx, (p[1] - p[0]) / dx
-        b0, b1, b2 = p[0] - a0 * f0, p[2] - a1 * f0, p[0] - a2 * f0
-        n0, n1, n2 = a0 * freqs + b0, a1 * freqs + b1, a2 * freqs + b2
-
-        n = array([one, n0, n1, n2, one]).T
-
-        return n
-
-    def cost(p):
-        n = linear_n(p)
-
-        mod_fd = np.zeros_like(freqs, dtype=complex)
-        for f_idx, freq in enumerate(freqs):
-            n_list = n[f_idx]
-            lam_vac = 10 ** 6 * c0 / (freq * 10 ** 12)
-            mod_fd[f_idx] = -1 * coh_tmm_slim("s", n_list, p_sol, 8 * pi / 180, lam_vac) * ref_fd[f_idx, 1]
-
-        loss = np.sum((np.angle(sam_fd[f0_idx:f1_idx, 1]) - np.angle(mod_fd[f0_idx:f1_idx])) ** 2)
-
-        return loss / (f1_idx - f0_idx)
-
-    bounds = ((1.5, 1.55), (1.55, 1.6),
-              (2.7, 2.8), (2.8, 2.9))
-
-    # res = shgo(cost, bounds, iters=1)
-    # print(res)
-
-    p = [1.55, 1.6, 2.7, 2.9]
-    n = linear_n(p)
-
-    plt.figure("Refractive index fitted")
-    plt.plot(freqs, n[:, 1], label="n0")
-    plt.plot(freqs, n[:, 2], label="n1")
-    plt.plot(freqs, n[:, 3], label="n2")
-    plt.axvline(x=f0, color="b")
-    plt.axvline(x=f1, color="b", label="Fit range")
-    plt.legend()
-    plt.xlabel("Frequency (THz)")
-    plt.ylabel("Refractive index")
-
-    return n
 
 n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one]).T
-# n = freq_fit()
+
+best_fit, min_val = None, np.inf
+p0 = array([np.inf, 46.0, 631.0, 69.0, np.inf]) # array([np.inf, 46.0, 641.0, 79.0, np.inf])
+qs_vals = []
+for i in range(20):
+    for j in range(20):
+        print(i, j)
+        put = p0 + array([0, 0, i, j, 0])
+        gof = freq_fit(put)
+        qs_vals.append(gof)
+        print(f"goodness of fit: {gof}")
+        if gof < min_val:
+            print(f"new min val: {put} ({gof})")
+            min_val = gof
+            best_fit = put
+
+print(best_fit, min_val)
+plt.figure("QS")
+plt.plot(qs_vals)
+plt.show()
 
 fails0 = np.sum(np.abs(n0_truth[f0_idx:f1_idx] - n[f0_idx:f1_idx, 1]) > 0.01)
 fails1 = np.sum(np.abs(n1_truth[f0_idx:f1_idx] - n[f0_idx:f1_idx, 2]) > 0.01)
@@ -269,14 +286,20 @@ plt.ylabel("Amplitude")
 plt.legend()
 
 plt.figure("Amplitude transfer function")
-plt.plot(t_func_fd[:, 0], 20 * np.log10(np.abs(t_func_fd[:, 1])), label=f"Transfer function {sam_idx}")
-plt.plot(r_mod_fd[:, 0], 20 * np.log10(np.abs(r_mod_fd[:, 1])), label=f"r model")
+plt.plot(t_func_fd[:, 0], 20*np.log10(np.abs(t_func_fd[:, 1])), label=f"Transfer function {sam_idx}")
+plt.plot(r_mod_fd[:, 0], 20*np.log10(np.abs(r_mod_fd[:, 1])), label=f"r model")
 plt.xlabel("Frequency (THz)")
 plt.ylabel("Amplitude (dB)")
 plt.legend()
 
+ref_fd, sam_fd = load_data(sam_idx_=sam_idx, polar=True)
+phase = sam_fd[:, 2] - ref_fd[:, 2]
+limited_slice = np.abs(phase) <= pi
+
+
 plt.figure("Phase transfer function")
 plt.plot(t_func_fd[:, 0], np.angle(t_func_fd[:, 1]), label=f"Transfer function {sam_idx:04}")
+plt.plot(ref_fd[limited_slice, 0], phase[limited_slice], label=f"Polar form {sam_idx:04}")
 plt.plot(r_mod_fd[:, 0], np.angle(r_mod_fd[:, 1]), label=f"r model")
 plt.xlabel("Frequency (THz)")
 plt.ylabel("Phase (rad)")
