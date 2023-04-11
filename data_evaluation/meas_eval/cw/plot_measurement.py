@@ -20,7 +20,7 @@ def load_data(sam_idx_=None, bk_gnd=False, polar=False):
     # ref_file = data_dir / "ref_1000x.csv"
 
     f0_idx = 234
-    f1_idx = 2000 + 500
+    f1_idx = 2436
 
     bk_gnd_fd = array(pd.read_csv(bk_gnd_file).values, dtype=complex)[f0_idx:f1_idx, ]
     ref_fd = array(pd.read_csv(ref_file).values, dtype=complex)[f0_idx:f1_idx, ]

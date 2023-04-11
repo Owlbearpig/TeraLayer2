@@ -185,7 +185,7 @@ def get_freq_idx(freqs):
 
 
 def do_fft(data_td, shift=None):
-    t, y = data_td[:, 0], data_td[:, 1]
+    t, y = data_td[:, 0].real, data_td[:, 1].real
     n = len(y)
     dt = np.float(np.mean(np.diff(t)))
     Y = np.conj(np.fft.fft(y, n))
