@@ -39,8 +39,8 @@ for sam_idx in range(101):
 
     ref_td, sam_td = shift(ref_td, 100 - offset), shift(sam_td, 100)
 
-    ref_td = window(ref_td, win_width=250, win_start=0, en_plot=False, slope=0.03, label="Ref")
-    sam_td = window(sam_td, win_width=250, win_start=0, en_plot=False, slope=0.03, label="Sam")
+    ref_td = window(ref_td, win_width=200, win_start=0, en_plot=False, slope=0.03, label="Ref")
+    sam_td = window(sam_td, win_width=200, win_start=0, en_plot=False, slope=0.03, label="Sam")
 
     ref_fd, sam_fd = do_fft(ref_td), do_fft(sam_td)
 
@@ -75,14 +75,19 @@ for sam_idx in range(101):
 angle_meas_all = array(angle_meas)
 amp_meas_all = array(amp_meas)
 
-angle_meas_avg = np.mean(array(angle_meas), axis=0)
-amp_meas_avg = np.mean(array(amp_meas), axis=0)
-
+angle_meas_avg = np.mean(array(angle_meas_all), axis=0)
+amp_meas_avg = np.mean(array(amp_meas_all), axis=0)
+"""
 plt.figure()
-plt.plot(freqs, angle_meas)
-plt.plot(freqs, amp_meas)
-plt.show()
+for i in range(101):
+    plt.plot(freqs, angle_meas_all[i])
 
+plt.plot(freqs, angle_meas_avg, label="average", color="black")
+plt.legend()
+plt.plot(freqs, amp_meas_all[0])
+plt.plot(freqs, amp_meas_avg)
+plt.show()
+"""
 """
 plt.figure("test")
 plt.plot(np.angle(t_func_fd), label="angle after")
@@ -153,8 +158,8 @@ def freq_fit(thicknesses):
         lam_vac = 10 ** 6 * c0 / (freqs[f_idx] * 10 ** 12)
         mod_fd = -1 * coh_tmm_slim("s", n_list, thicknesses, 8 * pi / 180, lam_vac)
 
-        loss_phi = (angle_meas[f_idx] - np.angle(mod_fd)) ** 2
-        loss_amp = (amp_meas[f_idx] - np.abs(mod_fd)) ** 2
+        loss_phi = (angle_meas_avg[f_idx] - np.angle(mod_fd)) ** 2
+        loss_amp = (amp_meas_avg[f_idx] - np.abs(mod_fd)) ** 2
 
         return loss_phi + loss_amp
 
@@ -252,13 +257,13 @@ n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one]).T
 
 best_fit, min_val = None, np.inf
 p0 = array([np.inf, 46.0, 651.0, 69.0, np.inf])  # truth: array([np.inf, 46.0, 641.0, 79.0, np.inf])
-p0 = array([np.inf, 46.0, 641.0, 79.0, np.inf])
+p0 = array([np.inf, 46.0, 641.0, 50.0, np.inf])
 qs_vals = []
 for i in range(1):
-    for j in range(20):
+    for j in range(36):
         print(i, j)
         put = p0 + array([0, 0, i, j, 0])
-        gof = 0 # freq_fit(put)
+        gof = freq_fit(put)
         qs_vals.append(gof)
         print(f"goodness of fit: {gof}")
         if gof < min_val:
