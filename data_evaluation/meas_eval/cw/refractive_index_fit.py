@@ -27,7 +27,7 @@ offset = 0.0  # 0.80
 pad = 8
 sam_idx = 1
 
-ref_fd, sam_fd = load_data(sam_idx_=sam_idx)
+ref_fd, sam_fd, bk_fd = load_data(sam_idx_=sam_idx, bk_gnd=True)
 freqs = ref_fd[:, 0].real
 
 try:
@@ -365,8 +365,9 @@ plt.ylabel("Amplitude (nA)")
 plt.legend()
 
 plt.figure("Amplitude")
-plt.plot(freqs, 20 * np.log10(np.abs(ref_fd[:, 1])), label=f"reference {sam_idx:04}")
-plt.plot(freqs, 20 * np.log10(np.abs(sam_fd[:, 1])), label=f"sample {sam_idx:04}")
+plt.plot(freqs, 20 * np.log10(np.abs(ref_fd[:, 1] - bk_fd[:, 1])), label=f"reference {sam_idx:04}")
+plt.plot(freqs, 20 * np.log10(np.abs(sam_fd[:, 1] - bk_fd[:, 1])), label=f"sample {sam_idx:04}")
+plt.plot(freqs, 20 * np.log10(np.abs(bk_fd[:, 1])), label=f"background")
 plt.plot(freqs, 20 * np.log10(np.abs(mod_fd[:, 1])), label=f"model")
 plt.xlabel("Frequency (THz)")
 plt.ylabel("Amplitude (dB)")
