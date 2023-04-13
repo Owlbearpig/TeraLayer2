@@ -203,7 +203,7 @@ def do_fft(data_td, shift=None):
 
 
 def shift(data_td, shift=0):
-    t = data_td[:, 0]
+    t = data_td[:, 0].real
     dt = np.mean(np.diff(t))
 
     shift = int(shift / dt)
@@ -401,8 +401,8 @@ def window(data_td, win_width=None, win_start=None, en_plot=False, slope=0.15, l
     pre_pad = np.zeros(win_start)
     # window_arr = signal.windows.hamming(win_width)
     # window_arr = signal.windows.hanning(win_width)
-    window_arr = signal.windows.triang(win_width)
-    # window_arr = signal.windows.tukey(win_width, slope)
+    # window_arr = signal.windows.triang(win_width)
+    window_arr = signal.windows.tukey(win_width, slope)
 
     post_pad = np.zeros(len(y) - win_width - win_start)
 

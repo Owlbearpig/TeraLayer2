@@ -23,71 +23,83 @@ shift_ = 0
 
 # offset = 0.111
 # offset = 0.03
-offset = 0  # 0.80
+offset = 0.0  # 0.80
 pad = 8
+sam_idx = 1
 
-angle_meas, amp_meas = [], []
-for sam_idx in range(101):
-    # sam_idx = 23
-    ref_fd, sam_fd = load_data(sam_idx_=sam_idx)
-    freqs = ref_fd[:, 0].real
-    R_meas = np.abs(sam_fd[:, 1])
+ref_fd, sam_fd = load_data(sam_idx_=sam_idx)
+freqs = ref_fd[:, 0].real
 
-    ref_td, sam_td = do_ifft(ref_fd), do_ifft(sam_fd)
+try:
+    angle_meas_all = np.load("angle_meas_all.npy")
+    amp_meas_all = np.load("amp_meas_all.npy")
+except FileNotFoundError:
+    angle_meas, amp_meas = [], []
+    for sam_idx in range(101):
+        # sam_idx = 23
+        ref_fd, sam_fd = load_data(sam_idx_=sam_idx)
+        freqs = ref_fd[:, 0].real
+        R_meas = np.abs(sam_fd[:, 1])
 
-    # ref_td, sam_td = filter(ref_td), filter(sam_td)
+        ref_td, sam_td = do_ifft(ref_fd), do_ifft(sam_fd)
 
-    ref_td, sam_td = shift(ref_td, 100 - offset), shift(sam_td, 100)
+        # ref_td, sam_td = filter(ref_td), filter(sam_td)
 
-    ref_td = window(ref_td, win_width=200, win_start=0, en_plot=False, slope=0.03, label="Ref")
-    sam_td = window(sam_td, win_width=200, win_start=0, en_plot=False, slope=0.03, label="Sam")
+        ref_td, sam_td = shift(ref_td, 100 - offset), shift(sam_td, 100)
 
-    ref_fd, sam_fd = do_fft(ref_td), do_fft(sam_td)
+        ref_td = window(ref_td, win_width=800, win_start=0, en_plot=False, slope=0.2, label="Ref")
+        sam_td = window(sam_td, win_width=800, win_start=0, en_plot=False, slope=0.2, label="Sam")
 
-    t_func_fd = np.zeros_like(ref_fd, dtype=complex)
-    t_func_fd[:, 0] = freqs
-    t_func_fd[:, 1] = sam_fd[:, 1] / ref_fd[:, 1]
+        ref_fd, sam_fd = do_fft(ref_td), do_fft(sam_td)
 
-    # t_func_fd = zero_pad(t_func_fd, mult=pad)
+        t_func_fd = np.zeros_like(ref_fd, dtype=complex)
+        t_func_fd[:, 0] = freqs
+        t_func_fd[:, 1] = sam_fd[:, 1] / ref_fd[:, 1]
 
-    freqs = ref_fd[:, 0].real
+        # t_func_fd = zero_pad(t_func_fd, mult=pad)
 
-    """
-    plt.figure("test")
-    plt.plot(np.angle(t_func_fd), label="angle before")
-    plt.figure("test2")
-    plt.plot(np.abs(t_func_fd), label="magn before")
-    """
+        """
+        plt.figure("test")
+        plt.plot(np.angle(t_func_fd), label="angle before")
+        plt.figure("test2")
+        plt.plot(np.abs(t_func_fd), label="magn before")
+        """
 
-    t_func_td = do_ifft(t_func_fd, flip=False)
-    t_func_td = shift(t_func_td, -100)
-    t_func_td = filter(t_func_td)
-    t_func_td = shift(t_func_td, 100)
-    # t_func_td = window(t_func_td, win_start=shift-5, win_width=25, en_plot=False, slope=0.3)
-    dt = np.mean(np.diff(t_func_td[:, 0]))
+        angle_meas.append(np.angle(t_func_fd[:, 1]))
+        amp_meas.append(np.abs(t_func_fd[:, 1]))
 
-    t_func_fd = do_fft(t_func_td)
-    t_func_td = shift(t_func_td, 100)
+    angle_meas_all = array(angle_meas)
+    amp_meas_all = array(amp_meas)
 
-    angle_meas.append(np.angle(t_func_fd[:, 1]))
-    amp_meas.append(np.abs(t_func_fd[:, 1]))
-
-angle_meas_all = array(angle_meas)
-amp_meas_all = array(amp_meas)
+    np.save("angle_meas_all.npy", angle_meas_all)
+    np.save("amp_meas_all.npy", amp_meas_all)
 
 angle_meas_avg = np.mean(array(angle_meas_all), axis=0)
 amp_meas_avg = np.mean(array(amp_meas_all), axis=0)
-"""
+
+t_func_fd = array([freqs, amp_meas_avg * np.exp(1j * angle_meas_avg)]).T
+
+freqs = ref_fd[:, 0].real
+t_func_td = do_ifft(t_func_fd, flip=False)
+t_func_td = shift(t_func_td, -100)
+t_func_td = filter(t_func_td)
+t_func_td = shift(t_func_td, 100)
+# t_func_td = window(t_func_td, win_start=shift-5, win_width=25, en_plot=False, slope=0.3)
+dt = np.mean(np.diff(t_func_td[:, 0]))
+
+# t_func_fd = do_fft(t_func_td)
+t_func_td = shift(t_func_td, 100)
+
 plt.figure()
 for i in range(101):
+    continue
     plt.plot(freqs, angle_meas_all[i])
+    plt.plot(freqs, amp_meas_all[i])
 
 plt.plot(freqs, angle_meas_avg, label="average", color="black")
+plt.plot(freqs, amp_meas_avg, label="average", color="black")
 plt.legend()
-plt.plot(freqs, amp_meas_all[0])
-plt.plot(freqs, amp_meas_avg)
-plt.show()
-"""
+
 """
 plt.figure("test")
 plt.plot(np.angle(t_func_fd), label="angle after")
@@ -194,7 +206,7 @@ def freq_fit(thicknesses):
     n1_res, n2_res = [], []
     n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one]).T
     for f_idx, freq in enumerate(freqs):
-        if (freq < f0) or (freq > f1) or (f_idx % 4 != 0):
+        if (freq < f0) or (freq > f1) or (f_idx % 10 != 0):
         #if (freq < f0) or (freq > f1):
             continue
         print(f"Frequency {freq} ({f_idx}/{len(freqs)})")
@@ -250,17 +262,24 @@ def freq_fit(thicknesses):
 
     # gof = np.std(n1_res) + np.std(n2_res)
 
-    return gof
+    return n
 
 
 n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one]).T
 
+fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.150)), np.argmin(np.abs(freqs - 0.5))
+n[fa_idx:fe_idx, 2] = np.linspace(2.2, 2.7, fe_idx-fa_idx)
+
+fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.5)), np.argmin(np.abs(freqs - 1.75))
+n[fa_idx:fe_idx, 2] = np.linspace(2.7, 2.8, fe_idx-fa_idx)
+
 best_fit, min_val = None, np.inf
 p0 = array([np.inf, 46.0, 651.0, 69.0, np.inf])  # truth: array([np.inf, 46.0, 641.0, 79.0, np.inf])
-p0 = array([np.inf, 46.0, 641.0, 50.0, np.inf])
+p0 = array([np.inf, 46.0, 635.0, 74.0, np.inf])
+"""
 qs_vals = []
 for i in range(1):
-    for j in range(36):
+    for j in range(1):
         print(i, j)
         put = p0 + array([0, 0, i, j, 0])
         gof = freq_fit(put)
@@ -275,6 +294,9 @@ print(best_fit, min_val)
 plt.figure("QS")
 plt.plot(qs_vals)
 plt.show()
+"""
+p = p0 + array([0, 0, 0, 0, 0])
+# n = freq_fit(p)
 
 fails0 = np.sum(np.abs(n0_truth[f0_idx:f1_idx] - n[f0_idx:f1_idx, 1]) > 0.01)
 fails1 = np.sum(np.abs(n1_truth[f0_idx:f1_idx] - n[f0_idx:f1_idx, 2]) > 0.01)
@@ -291,13 +313,13 @@ r_mod_fd[:, 0], mod_fd[:, 0] = freqs, freqs
 for f_idx, freq in enumerate(freqs):
     n_list = n[f_idx]
     lam_vac = 10 ** 6 * c0 / (freq * 10 ** 12)
-    r_mod_fd[f_idx, 1] = -1 * coh_tmm_slim("s", n_list, p_sol, 8 * pi / 180, lam_vac)
+    r_mod_fd[f_idx, 1] = -1 * coh_tmm_slim("s", n_list, p, 8 * pi / 180, lam_vac)
     mod_fd[f_idx, 1] = r_mod_fd[f_idx, 1] * ref_fd[f_idx, 1]
 
 mod_td = do_ifft(mod_fd, shift=0, flip=False)
 
 r_mod_fd = zero_pad(r_mod_fd, mult=pad)
-r_mod_td = do_ifft(r_mod_fd, flip=True)
+r_mod_td = do_ifft(r_mod_fd, flip=False)
 r_mod_td = shift(r_mod_td, -100)
 r_mod_td = filter(r_mod_td)
 r_mod_td = shift(r_mod_td, 200)
@@ -315,7 +337,7 @@ plt.ylabel("Amplitude")
 plt.legend()
 
 plt.figure("Amplitude transfer function")
-plt.plot(t_func_fd[:, 0], 20 * np.log10(amp_meas), label=f"Transfer function {sam_idx}")
+plt.plot(t_func_fd[:, 0], 20 * np.log10(amp_meas_avg), label=f"Transfer function {sam_idx}")
 plt.plot(r_mod_fd[:, 0], 20 * np.log10(np.abs(r_mod_fd[:, 1])), label=f"r model")
 plt.xlabel("Frequency (THz)")
 plt.ylabel("Amplitude (dB)")
@@ -326,7 +348,7 @@ phase = sam_fd[:, 2] - ref_fd[:, 2]
 limited_slice = np.abs(phase) <= pi
 
 plt.figure("Phase transfer function")
-plt.plot(t_func_fd[:, 0], angle_meas, label=f"Transfer function {sam_idx:04}")
+plt.plot(t_func_fd[:, 0], angle_meas_avg, label=f"Transfer function {sam_idx:04}")
 plt.plot(ref_fd[limited_slice, 0], phase[limited_slice], label=f"Polar form {sam_idx:04}")
 plt.plot(r_mod_fd[:, 0], np.angle(r_mod_fd[:, 1]), label=f"r model")
 plt.xlabel("Frequency (THz)")
@@ -334,8 +356,8 @@ plt.ylabel("Phase (rad)")
 plt.legend()
 
 plt.figure("Time domain")
-plt.plot(ref_td[:, 0], ref_td[:, 1], label=f"Reference {sam_idx}")
-plt.plot(sam_td[:, 0], sam_td[:, 1], label=f"Sample {sam_idx}")
+# plt.plot(ref_td[:, 0], ref_td[:, 1], label=f"Reference {sam_idx}")
+# plt.plot(sam_td[:, 0], sam_td[:, 1], label=f"Sample {sam_idx}")
 # plt.plot(bk_gnd_td[:, 0], bk_gnd_td[:, 1], label=f"Background")
 plt.plot(mod_td[:, 0], mod_td[:, 1], label=f"model")
 plt.xlabel("Time (ps)")
