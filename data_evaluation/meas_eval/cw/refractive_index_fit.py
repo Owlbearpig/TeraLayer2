@@ -268,14 +268,14 @@ def freq_fit(thicknesses):
 n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one]).T
 
 fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.150)), np.argmin(np.abs(freqs - 0.5))
-n[fa_idx:fe_idx, 2] = np.linspace(2.2, 2.7, fe_idx-fa_idx)
+n[fa_idx:fe_idx, 2] = np.linspace(2.8, 2.8, fe_idx-fa_idx)
 
 fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.5)), np.argmin(np.abs(freqs - 1.75))
-n[fa_idx:fe_idx, 2] = np.linspace(2.7, 2.8, fe_idx-fa_idx)
+n[fa_idx:fe_idx, 2] = np.linspace(2.8, 2.9, fe_idx-fa_idx)
 
 best_fit, min_val = None, np.inf
 p0 = array([np.inf, 46.0, 651.0, 69.0, np.inf])  # truth: array([np.inf, 46.0, 641.0, 79.0, np.inf])
-p0 = array([np.inf, 46.0, 635.0, 74.0, np.inf])
+p0 = array([np.inf, 42.0, 641.0, 64.0, np.inf])
 """
 qs_vals = []
 for i in range(1):
