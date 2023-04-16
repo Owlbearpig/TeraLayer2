@@ -76,7 +76,7 @@ from tmm import *
 
 def coh_tmm_slim(pol, n_list, d_list, th_0, lam_vac):
     """
-    see coh_tmm of tmm package. This is slimmed down version.
+    see coh_tmm of tmm package. This is a slimmed down version.
 
     """
     # Convert lists to numpy arrays if they're not already.
@@ -156,6 +156,58 @@ def coh_tmm_slim(pol, n_list, d_list, th_0, lam_vac):
 
     # Net complex transmission and reflection amplitudes
     # r = Mtilde[1, 0] / Mtilde[0, 0]
+    r = Mtilde[0, 1] / Mtilde[1, 1]
+
+    return r
+
+
+def coh_tmm_slim_unsafe(pol, n_list, d_list, th_0, lam_vac):
+    """
+    see coh_tmm of tmm package. This is a slimmed down version without input checks.
+    removed transmission coefficient calculation
+    """
+    # Convert lists to numpy arrays if they're not already.
+    n_list = array(n_list)
+    d_list = array(d_list, dtype=float)
+    num_layers = n_list.size
+
+    # th_list is a list with, for each layer, the angle that the light travels
+    # through the layer. Computed with Snell's law. Note that the "angles" may be
+    # complex!
+    th_list = list_snell(n_list, th_0)
+
+    # kz is the z-component of (complex) angular wavevector for forward-moving
+    # wave. Positive imaginary part means decaying.
+    kz_list = 2 * np.pi * n_list * cos(th_list) / lam_vac
+
+    # delta is the total phase accrued by traveling through a given layer.
+    # Ignore warning about inf multiplication
+    olderr = seterr(invalid='ignore')
+    delta = kz_list * d_list
+    seterr(**olderr)
+
+    r_list = zeros((num_layers, num_layers), dtype=complex)
+    for i in range(num_layers - 1):
+        r_list[i, i + 1] = interface_r(pol, n_list[i], n_list[i + 1],
+                                       th_list[i], th_list[i + 1])
+    # At the interface between the (n-1)st and nth material, let v_n be the
+    # amplitude of the wave on the nth side heading forwards (away from the
+    # boundary), and let w_n be the amplitude on the nth side heading backwards
+    # (towards the boundary). Then (v_n,w_n) = M_n (v_{n+1},w_{n+1}). M_n is
+    # M_list[n]. M_0 and M_{num_layers-1} are not defined.
+    # My M is a bit different than Snelius's, but Mtilde is the same.
+    M_list = zeros((num_layers, 2, 2), dtype=complex)
+    for i in range(1, num_layers - 1):
+        M_list[i] = np.dot(
+            make_2x2_array(exp(-1j * delta[i]), 0, 0, exp(1j * delta[i]),
+                           dtype=complex),
+            make_2x2_array(1, r_list[i, i + 1], r_list[i, i + 1], 1, dtype=complex))
+    Mtilde = make_2x2_array(1, 0, 0, 1, dtype=complex)
+    for i in range(1, num_layers - 1):
+        Mtilde = np.dot(Mtilde, M_list[i])
+    Mtilde = np.dot(make_2x2_array(1, r_list[0, 1], r_list[0, 1], 1, dtype=complex), Mtilde)
+
+    # Net complex transmission and reflection amplitudes
     r = Mtilde[0, 1] / Mtilde[1, 1]
 
     return r
