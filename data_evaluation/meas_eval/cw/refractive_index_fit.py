@@ -7,7 +7,7 @@ from tmm_package import coh_tmm_slim, coh_tmm_slim_unsafe
 from functions import do_ifft, filtering, window, do_fft, zero_pad, shift
 from scipy.optimize import shgo
 from scipy.optimize import minimize
-from matplotlib.widgets import Slider, Button, RangeSlider
+from matplotlib.widgets import Slider, Button, RangeSlider, TextBox
 
 
 def filter(data_td, en=True):
@@ -95,6 +95,7 @@ dt = np.mean(np.diff(t_func_td[:, 0]))
 # t_func_fd = do_fft(t_func_td)
 t_func_td = shift(t_func_td, 100)
 
+"""
 plt.figure()
 for i in range(101):
     continue
@@ -104,7 +105,7 @@ for i in range(101):
 plt.plot(freqs, angle_meas_avg, label="average", color="black")
 plt.plot(freqs, amp_meas_avg, label="average", color="black")
 plt.legend()
-
+"""
 """
 plt.figure("test")
 plt.plot(np.angle(t_func_fd), label="angle after")
@@ -371,9 +372,11 @@ def calc_model_long(p_):
     return r_mod_fd_
 
 
+res = 4
+
+
 def calc_model(p_, n_, fast=False):
     if fast:
-        res = 4
         r_mod_fd_ = np.zeros_like(ref_fd[::res], dtype=complex)
         r_mod_fd_[:, 0] = freqs[::res]
         n_ = n_[::res]
@@ -485,18 +488,18 @@ d2_slider = Slider(
     valinit=d2,
 )
 
-fig1, ax0 = plt.subplots(nrows=1, ncols=1)
-fig1.subplots_adjust(left=0.25, bottom=0.50)
+fig1, (ax0, ax1) = plt.subplots(nrows=2, ncols=1)
+fig1.subplots_adjust(left=0.25, bottom=0.25)
 
 ax0.set_ylim((1.2, 3.2))
 ax0.set_ylabel("Refractive index")
-ax0.set_xlabel("Frequency (THz)")
+ax1.set_xlabel("Frequency (THz)")
 
 n0_line, = ax0.plot(freqs, n[:, 1].real, lw=2, label="Refractive index n0")
 n1_line, = ax0.plot(freqs, n[:, 2].real, lw=2, label="Refractive index n1")
 n2_line, = ax0.plot(freqs, n[:, 3].real, lw=2, label="Refractive index n2")
 
-n0_slider_ax = fig1.add_axes([0.25, 0.05, 0.40, 0.03])
+n0_slider_ax = fig1.add_axes([0.15, 0.15, 0.25, 0.03])
 n0_slider = RangeSlider(ax=n0_slider_ax,
                         label="n0",
                         valmin=1.4,
@@ -504,7 +507,7 @@ n0_slider = RangeSlider(ax=n0_slider_ax,
                         valinit=(1.59, 1.6),
                         )
 
-n1_slider_ax = fig1.add_axes([0.25, 0.10, 0.40, 0.03])
+n1_slider_ax = fig1.add_axes([0.15, 0.10, 0.25, 0.03])
 n1_slider = RangeSlider(ax=n1_slider_ax,
                         label="n1",
                         valmin=2.7,
@@ -512,7 +515,7 @@ n1_slider = RangeSlider(ax=n1_slider_ax,
                         valinit=(2.79, 2.8),
                         )
 
-n2_slider_ax = fig1.add_axes([0.25, 0.15, 0.40, 0.03])
+n2_slider_ax = fig1.add_axes([0.15, 0.05, 0.25, 0.03])
 n2_slider = RangeSlider(ax=n2_slider_ax,
                         label="n2",
                         valmin=1.4,
@@ -524,7 +527,7 @@ k0_line, = ax0.plot(freqs, n[:, 1].imag, lw=2, label="Extinction coefficient k0"
 k1_line, = ax0.plot(freqs, n[:, 2].imag, lw=2, label="Extinction coefficient k1")
 k2_line, = ax0.plot(freqs, n[:, 3].imag, lw=2, label="Extinction coefficient k2")
 
-k0_slider_ax = fig1.add_axes([0.25, 0.20, 0.40, 0.03])
+k0_slider_ax = fig1.add_axes([0.60, 0.15, 0.20, 0.03])
 k0_slider = RangeSlider(ax=k0_slider_ax,
                         label="k0",
                         valmin=0.000,
@@ -532,7 +535,7 @@ k0_slider = RangeSlider(ax=k0_slider_ax,
                         valinit=(0.000, 0.001),
                         )
 
-k1_slider_ax = fig1.add_axes([0.25, 0.25, 0.40, 0.03])
+k1_slider_ax = fig1.add_axes([0.60, 0.10, 0.20, 0.03])
 k1_slider = RangeSlider(ax=k1_slider_ax,
                         label="k1",
                         valmin=0.000,
@@ -540,7 +543,7 @@ k1_slider = RangeSlider(ax=k1_slider_ax,
                         valinit=(0.000, 0.025),
                         )
 
-k2_slider_ax = fig1.add_axes([0.25, 0.30, 0.40, 0.03])
+k2_slider_ax = fig1.add_axes([0.60, 0.05, 0.20, 0.03])
 k2_slider = RangeSlider(ax=k2_slider_ax,
                         label="k2",
                         valmin=0.000,
@@ -548,8 +551,18 @@ k2_slider = RangeSlider(ax=k2_slider_ax,
                         valinit=(0.000, 0.001),
                         )
 
+loss_amp = (np.abs(r_mod_fd_[:, 1]) - amp_meas_avg[::res]) ** 2
+loss_angle = (np.angle(r_mod_fd_[:, 1]) - angle_meas_avg[::res]) ** 2
 
+loss_amp_text = ax1.text(-1.25, 1.00, f"Amp. loss: {np.round(np.sum(loss_amp), 3)}")
+loss_angle_text = ax1.text(-1.25, 2.50, f"Phi loss: {np.round(np.sum(loss_angle), 3)}")
+loss_total_text = ax1.text(-1.25, 4.00, f"Total loss: {np.round(np.sum(loss_angle) + np.sum(loss_amp), 3)}")
+ax1.set_ylim((-10, 2.5))
 
+loss_amp_line, = ax1.plot(r_mod_fd_[:, 0].real, np.log10(loss_amp), label="Amplitude residuals")
+loss_phase_line, = ax1.plot(r_mod_fd_[:, 0].real, np.log10(loss_angle), label="Phase residuals")
+
+ax1.legend()
 
 def update(val):
     n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one], dtype=complex).T
@@ -580,8 +593,19 @@ def update(val):
     amp_line.set_ydata(y_data_amp)
     phase_line.set_ydata(y_data_phase)
 
+    loss_amp = (np.abs(r_mod_fd[:, 1]) - amp_meas_avg[::res]) ** 2
+    loss_angle = (np.angle(r_mod_fd[:, 1]) - angle_meas_avg[::res]) ** 2
+
+    loss_amp_text.set_text(f"Amp. loss: {np.round(np.sum(loss_amp), 3)}")
+    loss_angle_text.set_text(f"Phi loss: {np.round(np.sum(loss_angle), 3)}")
+    loss_total_text.set_text(f"Total loss: {np.round(np.sum(loss_angle) + np.sum(loss_amp), 3)}")
+
+    loss_amp_line.set_ydata(np.log10(loss_amp))
+    loss_phase_line.set_ydata(np.log10(loss_angle))
+
     fig0.canvas.draw_idle()
     fig1.canvas.draw_idle()
+
 
 k0_slider.on_changed(update)
 k1_slider.on_changed(update)
