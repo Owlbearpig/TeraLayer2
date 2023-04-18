@@ -130,6 +130,13 @@ one = np.ones_like(freqs)
 
 n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one]).T
 
+k0 = np.linspace(0.000, 0.050, len(one))
+k1 = np.linspace(0.000, 0.050, len(one))
+k2 = np.linspace(0.000, 0.050, len(one))
+
+n = n - 1j * np.array([np.zeros_like(one), k0, k1, k2, np.zeros_like(one)]).T
+
+"""
 fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.050)), np.argmin(np.abs(freqs - 0.5))
 n[fa_idx:fe_idx, 2] = np.linspace(2.80, 2.80, fe_idx - fa_idx)
 
@@ -148,7 +155,8 @@ n[fa_idx:fe_idx, 1] = np.linspace(1.60, 1.60, fe_idx - fa_idx)
 fa_idx, fe_idx = np.argmin(np.abs(freqs - 1.0)), np.argmin(np.abs(freqs - 2.00))
 n[fa_idx:fe_idx, 3] = np.linspace(1.60, 1.60, fe_idx - fa_idx)
 
-k = np.linspace(0, 0.000, len(one))
+k = np.linspace(0, 0.150, len(one))
+"""
 
 # n0_truth = np.random.uniform(*bounds[0], len(freqs))
 # n1_truth = np.random.uniform(*bounds[1], len(freqs))
@@ -478,15 +486,15 @@ d2_slider = Slider(
 )
 
 fig1, ax0 = plt.subplots(nrows=1, ncols=1)
-fig1.subplots_adjust(left=0.25, bottom=0.25)
+fig1.subplots_adjust(left=0.25, bottom=0.50)
 
 ax0.set_ylim((1.2, 3.2))
 ax0.set_ylabel("Refractive index")
 ax0.set_xlabel("Frequency (THz)")
 
-n0_line, = ax0.plot(freqs, n[:, 1], lw=2, label="Refractive index n0")
-n1_line, = ax0.plot(freqs, n[:, 2], lw=2, label="Refractive index n1")
-n2_line, = ax0.plot(freqs, n[:, 3], lw=2, label="Refractive index n2")
+n0_line, = ax0.plot(freqs, n[:, 1].real, lw=2, label="Refractive index n0")
+n1_line, = ax0.plot(freqs, n[:, 2].real, lw=2, label="Refractive index n1")
+n2_line, = ax0.plot(freqs, n[:, 3].real, lw=2, label="Refractive index n2")
 
 n0_slider_ax = fig1.add_axes([0.25, 0.05, 0.40, 0.03])
 n0_slider = RangeSlider(ax=n0_slider_ax,
@@ -512,16 +520,58 @@ n2_slider = RangeSlider(ax=n2_slider_ax,
                         valinit=(1.59, 1.6),
                         )
 
+k0_line, = ax0.plot(freqs, n[:, 1].imag, lw=2, label="Extinction coefficient k0")
+k1_line, = ax0.plot(freqs, n[:, 2].imag, lw=2, label="Extinction coefficient k1")
+k2_line, = ax0.plot(freqs, n[:, 3].imag, lw=2, label="Extinction coefficient k2")
+
+k0_slider_ax = fig1.add_axes([0.25, 0.20, 0.40, 0.03])
+k0_slider = RangeSlider(ax=k0_slider_ax,
+                        label="k0",
+                        valmin=0.000,
+                        valmax=0.100,
+                        valinit=(0.000, 0.001),
+                        )
+
+k1_slider_ax = fig1.add_axes([0.25, 0.25, 0.40, 0.03])
+k1_slider = RangeSlider(ax=k1_slider_ax,
+                        label="k1",
+                        valmin=0.000,
+                        valmax=0.10,
+                        valinit=(0.000, 0.025),
+                        )
+
+k2_slider_ax = fig1.add_axes([0.25, 0.30, 0.40, 0.03])
+k2_slider = RangeSlider(ax=k2_slider_ax,
+                        label="k2",
+                        valmin=0.000,
+                        valmax=0.10,
+                        valinit=(0.000, 0.001),
+                        )
+
+
+
 
 def update(val):
-    fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.050)), np.argmin(np.abs(freqs - 2.000))
+    n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one], dtype=complex).T
+
+    fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.001)), np.argmin(np.abs(freqs - 2.000))
     n[fa_idx:fe_idx, 1] = np.linspace(n0_slider.val[0], n0_slider.val[1], fe_idx - fa_idx)
     n[fa_idx:fe_idx, 2] = np.linspace(n1_slider.val[0], n1_slider.val[1], fe_idx - fa_idx)
     n[fa_idx:fe_idx, 3] = np.linspace(n2_slider.val[0], n2_slider.val[1], fe_idx - fa_idx)
 
-    n0_line.set_ydata(n[:, 1])
-    n1_line.set_ydata(n[:, 2])
-    n2_line.set_ydata(n[:, 3])
+    k0 = np.linspace(k0_slider.val[0], k0_slider.val[1], len(one))
+    k1 = np.linspace(k1_slider.val[0], k1_slider.val[1], len(one))
+    k2 = np.linspace(k2_slider.val[0], k2_slider.val[1], len(one))
+
+    n = n - 1j * np.array([np.zeros_like(one), k0, k1, k2, np.zeros_like(one)]).T
+
+    k0_line.set_ydata(n[:, 1].imag)
+    k1_line.set_ydata(n[:, 2].imag)
+    k2_line.set_ydata(n[:, 3].imag)
+
+    n0_line.set_ydata(n[:, 1].real)
+    n1_line.set_ydata(n[:, 2].real)
+    n2_line.set_ydata(n[:, 3].real)
 
     r_mod_fd = calc_model(array([0, d0_slider.val, d1_slider.val, d2_slider.val, 0]), n, fast=True)
     y_data_amp = 20 * np.log10(np.abs(r_mod_fd[:, 1]))
@@ -533,6 +583,9 @@ def update(val):
     fig0.canvas.draw_idle()
     fig1.canvas.draw_idle()
 
+k0_slider.on_changed(update)
+k1_slider.on_changed(update)
+k2_slider.on_changed(update)
 
 n0_slider.on_changed(update)
 n1_slider.on_changed(update)
@@ -562,6 +615,10 @@ def reset1(event):
     n0_slider.reset()
     n1_slider.reset()
     n2_slider.reset()
+
+    k0_slider.reset()
+    k1_slider.reset()
+    k2_slider.reset()
 
 
 button1.on_clicked(reset1)
