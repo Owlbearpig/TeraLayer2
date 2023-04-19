@@ -10,9 +10,11 @@ from functools import partial
 import numpy as np
 import pandas as pan
 from meas_eval.tds.main import load_data
+from meas_eval.cw.refractive_index_fit import load_sam
 
 
 def read_data_tds(sam_idx=10):
+    # don't use this...
     ref_td, sam_td = load_data(sam_idx=sam_idx)
 
     sam_fd = do_fft(sam_td)
@@ -37,27 +39,17 @@ def read_data_tds(sam_idx=10):
 
     return r_exp_meas
 
+
 def real_data_cw(sam_idx=10):
     # [0.420, 0.520, 0.650, 0.800, 0.850, 0.950] * THz
-    data_path = hhi_data_dir / f"Kopf_Ahmad_10x_{sam_idx:04}"
-    data = pan.read_csv(data_path).values
-    """
-    data = array([[4.200000E+5, 6.753868E-1, 2.498841E+0, 2.477866E+0, -2.443436E+0],
-            [5.200000E+5, 8.466208E-1, -2.519751E-1, 2.037450E+0, 2.335961E-1],
-            [6.500000E+5, 5.518637E-1, -2.902159E+0, 1.405569E+0, -1.542453E+0],
-            [8.000000E+5, 3.595836E-1, 1.486186E+0, 8.696910E-1, -2.870370E+0],
-            [8.500000E+5, 5.520981E-2, -1.030329E+0, 8.055706E-1, -7.391148E-2],
-            [9.500000E+5, 2.224908E-1, -2.468189E+0, 7.108020E-1, -1.361529E+0]])
-    """
-    freq_idx = array([656, 756, 886, 1036, 1086, 1186]) - 2
+    t_func_fd = load_sam(sam_idx)
+    freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950], dtype=float)
+    freq_idx_lst = []
+    for freq in freqs:
+        f_idx = np.argmin(np.abs(freq - t_func_fd[:, 0].real))
+        freq_idx_lst.append(f_idx)
 
-    s, r = data[freq_idx, 1], data[freq_idx, 3]
-    R = (s / r)**2
-    phase_diff = data[freq_idx, 2] - data[freq_idx, 4]
-
-    r_exp_meas = np.sqrt(R) * np.exp(1j * phase_diff)
-
-    return r_exp_meas
+    return t_func_fd[freq_idx_lst, 1]
 
 
 class CostFuncFixedPoint:
@@ -68,7 +60,6 @@ class CostFuncFixedPoint:
         # self.numfi = lambda x: x
 
         self.freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
-
 
         if sam_idx is not None:
             r_exp = real_data_cw(sam_idx)
@@ -84,30 +75,26 @@ class CostFuncFixedPoint:
         self.r_exp_imag = self.numfi(r_exp.imag)
 
         # old working vals
-        a, b = 0.300922921527581, 0.19737935744311108
+        # a, b = 0.300922921527581, 0.19737935744311108
 
-        """
-        a = array([0.2985850843731809, 0.29723349994112047, 0.2885141169419409,
-                   0.2872230174589835, 0.2811676766529977, 0.2827667100113409])
-        b = array([0.22150193517531785, 0.22456210755125822, 0.23359906762293864,
-                   0.23656447616946638, 0.2395068881899639, 0.2395068881899639])
-        """
+        # """
+        a = array([0.29682634, 0.29621877, 0.29503129, 0.29489288, 0.2947546, 0.29431419], dtype=float)
+        b = array([0.20678723, 0.20742479, 0.20901418, 0.20933128, 0.20964814, 0.21028107], dtype=float)
+        # """
         self.a = self.numfi(a)
         self.b = self.numfi(b)
 
         # [420. 520. 650. 800. 850. 950.] GHz:
-        #""" # old working vals
+        """ # old working vals
         f = array([0.0132038236383, 0.016347591171219998, 0.02043448896403,
                    0.02515014026342, 0.02672202402988, 0.02986579156281]) * 2 ** 3
         g = array([0.024647137458149997, 0.03051550351962, 0.03814437939952,
                    0.04694692849172, 0.04988111152245, 0.055749477583909995]) * 2 ** 3
+        """
         #"""
-        """
-        f = array([0.013677220648274348, 0.017043119211226317, 0.021714173597089076,
-                   0.026893438266979167, 0.02875309017444406, 0.03213580666555513]) * 2 ** 3
-        g = array([0.025321723752706075, 0.031459816571280115, 0.03932477071410015,
-                   0.0485675794867236, 0.051246345690000396, 0.05747466488983867]) * 2 ** 3
-        """
+        f = array([0.01326179, 0.01644125, 0.02061997, 0.02539526, 0.02700035, 0.03021685], dtype=float) * 2 ** 3
+        g = array([0.02445803, 0.03028137, 0.03787899, 0.04663709, 0.04956974, 0.05542141], dtype=float) * 2 ** 3
+        #"""
         self.f, self.g = self.numfi(f), self.numfi(g)
 
         self.pi = self.numfi(pi64)

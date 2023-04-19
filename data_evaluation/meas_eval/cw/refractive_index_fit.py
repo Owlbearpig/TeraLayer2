@@ -2,12 +2,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy import array, pi
 from scipy.constants import c as c0
-from plot_measurement import load_data
+from meas_eval.cw.load_data import transfer_function
 from tmm_package import coh_tmm_slim, coh_tmm_slim_unsafe
 from functions import do_ifft, filtering, window, do_fft, zero_pad, shift
 from scipy.optimize import shgo
 from scipy.optimize import minimize
 from matplotlib.widgets import Slider, Button, RangeSlider, TextBox
+
 
 
 def filter(data_td, en=True):
@@ -20,71 +21,53 @@ def filter(data_td, en=True):
 
     return data_td
 
+sam_idx = None
 
-shift_ = 0
+if sam_idx is None:
+    try:
+        t_func_fd = np.load("t_func_mean.npy")
+        freqs = t_func_fd[:, 0].real
+        amp_meas_mean = np.abs(t_func_fd[:, 1])
+        phi_meas_mean = np.angle(t_func_fd[:, 1])
+    except FileNotFoundError:
+        amp_meas_all, angle_meas_all = [], []
+        for sam_idx in range(101):
+            # sam_idx = 23
 
-# offset = 0.111
-# offset = 0.03
-offset = 0.0  # 0.80
-pad = 8
-sam_idx = 1
+            t_func_fd = transfer_function(sam_idx)
+            # t_func_fd = zero_pad(t_func_fd, mult=pad)
 
-ref_fd, sam_fd, bk_fd = load_data(sam_idx_=sam_idx, bk_gnd=True)
-freqs = ref_fd[:, 0].real
+            """
+            plt.figure("test")
+            plt.plot(np.angle(t_func_fd), label="angle before")
+            plt.figure("test2")
+            plt.plot(np.abs(t_func_fd), label="magn before")
+            """
 
-try:
-    angle_meas_all = np.load("angle_meas_all.npy")
-    amp_meas_all = np.load("amp_meas_all.npy")
-except FileNotFoundError:
-    angle_meas, amp_meas = [], []
-    for sam_idx in range(101):
-        # sam_idx = 23
-        ref_fd, sam_fd = load_data(sam_idx_=sam_idx)
-        freqs = ref_fd[:, 0].real
-        R_meas = np.abs(sam_fd[:, 1])
+            amp_meas_all.append(np.abs(t_func_fd[:, 1]))
+            angle_meas_all.append(np.angle(t_func_fd[:, 1]))
 
-        ref_td, sam_td = do_ifft(ref_fd), do_ifft(sam_fd)
+        amp_meas_all = array(amp_meas_all)
+        angle_meas_all = array(angle_meas_all)
 
-        # ref_td, sam_td = filter(ref_td), filter(sam_td)
+        amp_meas_ = np.mean(amp_meas_all, axis=0)
+        angle_meas_ = np.mean(angle_meas_all, axis=0)
 
-        ref_td, sam_td = shift(ref_td, 100 - offset), shift(sam_td, 100)
+        t_func_fd = transfer_function(0)
+        t_func_all_fd = array([t_func_fd[:, 0].real, amp_meas_mean * np.exp(1j * angle_meas_mean)]).T
 
-        ref_td = window(ref_td, win_width=800, win_start=0, en_plot=False, slope=0.2, label="Ref")
-        sam_td = window(sam_td, win_width=800, win_start=0, en_plot=False, slope=0.2, label="Sam")
+        np.save(f"t_func_mean.npy", t_func_all_fd)
 
-        ref_fd, sam_fd = do_fft(ref_td), do_fft(sam_td)
 
-        t_func_fd = np.zeros_like(ref_fd, dtype=complex)
-        t_func_fd[:, 0] = freqs
-        t_func_fd[:, 1] = sam_fd[:, 1] / ref_fd[:, 1]
+else:
+    t_func_fd = transfer_function(sam_idx)
+    angle_meas_ = np.angle(t_func_fd[:, 1])
+    amp_meas_ = np.abs(t_func_fd[:, 1])
 
-        # t_func_fd = zero_pad(t_func_fd, mult=pad)
+freqs = t_func_fd[:, 0].real
+# amp_meas_ = np.convolve(amp_meas_, np.ones(7)/7, mode='same')
+# angle_meas_ = np.convolve(angle_meas_, np.ones(3)/3, mode='same')
 
-        """
-        plt.figure("test")
-        plt.plot(np.angle(t_func_fd), label="angle before")
-        plt.figure("test2")
-        plt.plot(np.abs(t_func_fd), label="magn before")
-        """
-
-        angle_meas.append(np.angle(t_func_fd[:, 1]))
-        amp_meas.append(np.abs(t_func_fd[:, 1]))
-
-    angle_meas_all = array(angle_meas)
-    amp_meas_all = array(amp_meas)
-
-    np.save("angle_meas_all.npy", angle_meas_all)
-    np.save("amp_meas_all.npy", amp_meas_all)
-
-angle_meas_avg = np.mean(array(angle_meas_all), axis=0)
-amp_meas_avg = np.mean(array(amp_meas_all), axis=0)
-
-# amp_meas_avg = np.convolve(amp_meas_avg, np.ones(7)/7, mode='same')
-# angle_meas_avg = np.convolve(angle_meas_avg, np.ones(3)/3, mode='same')
-
-t_func_fd = array([freqs, amp_meas_avg * np.exp(1j * angle_meas_avg)]).T
-
-freqs = ref_fd[:, 0].real
 t_func_td = do_ifft(t_func_fd, flip=False)
 t_func_td = shift(t_func_td, -100)
 t_func_td = filter(t_func_td)
@@ -200,7 +183,7 @@ def freq_fit(thicknesses):
         # p_sol_ = array([np.inf, 46.0, 637.0, 79.0, np.inf])
         # p_sol_ = p_sol.copy()
         # n_list = array([1, p[0], p[1], p[0], 1])
-        n_list = array([1, p[0], p[1], p[0], 1]) + 1j * array([0, k[f_idx], k[f_idx], k[f_idx], 0])
+        n_list = array([1, p[0], p[1], p[0], 1])
         # n_list = array([1, p[0], p[1], p[0], 1])
         # n_list = array([1, 1.6, p[0], p[1], 1])
         # n_list = array([1, p[0], 2.8])
@@ -210,8 +193,8 @@ def freq_fit(thicknesses):
             lam_vac = 10 ** 6 * c0 / (freqs[f_idx + i] * 10 ** 12)
             mod_fd = -1 * coh_tmm_slim_unsafe("s", n_list, thicknesses, 8 * pi / 180, lam_vac)
 
-            loss_phi += (angle_meas_avg[f_idx + i] - np.angle(mod_fd)) ** 2
-            loss_amp += (amp_meas_avg[f_idx + i] - np.abs(mod_fd)) ** 2
+            loss_phi += (angle_meas_[f_idx + i] - np.angle(mod_fd)) ** 2
+            loss_amp += (amp_meas_[f_idx + i] - np.abs(mod_fd)) ** 2
 
         """
         lam_vac = 10 ** 6 * c0 / (freqs[f_idx] * 10 ** 12)
@@ -317,7 +300,7 @@ def freq_fit(thicknesses):
     return n
 
 
-p0 = array([np.inf, 40, 660, 70, np.inf])  # truth: array([np.inf, 46.0, 641.0, 79.0, np.inf])
+p0 = array([np.inf, 44.62, 660, 75.9, np.inf])  # truth: array([np.inf, 46.0, 641.0, 79.0, np.inf])
 # p0 = array([np.inf, 0.0, 0.0, 0.0, np.inf])
 
 p = p0 + array([0, 0, 0, 0, 0])
@@ -403,7 +386,7 @@ for i in range(-10, 20):
         f0_idx, f1_idx = np.argmin(np.abs(freqs - f0)), np.argmin(np.abs(freqs - f1))
 
         print(i, j)
-        func_val = np.sum((np.abs(r_mod_fd[f0_idx:f1_idx, 1]) - amp_meas_avg[f0_idx:f1_idx]) ** 2)
+        func_val = np.sum((np.abs(r_mod_fd[f0_idx:f1_idx, 1]) - amp_meas_[f0_idx:f1_idx]) ** 2)
         print(func_val)
         if func_val < min_val:
             best_fit = (i, j)
@@ -448,10 +431,10 @@ d0, d1, d2 = p0[1], p0[2], p0[3]
 r_mod_fd_ = calc_model(p0, n, fast=True)
 fig0, (ax0, ax1) = plt.subplots(nrows=2, ncols=1)
 
-ax0.plot(t_func_fd[:, 0], 20 * np.log10(amp_meas_avg), label=f"Transfer function {sam_idx}")
+ax0.plot(t_func_fd[:, 0], 20 * np.log10(amp_meas_), label=f"Transfer function {sam_idx}")
 amp_line, = ax0.plot(r_mod_fd_[:, 0], 20 * np.log10(np.abs(r_mod_fd_[:, 1])), lw=2, label="Model")
 
-ax1.plot(t_func_fd[:, 0], angle_meas_avg, label=f"Transfer function {sam_idx}")
+ax1.plot(t_func_fd[:, 0], angle_meas_, label=f"Transfer function {sam_idx}")
 phase_line, = ax1.plot(r_mod_fd_[:, 0], np.angle(r_mod_fd_[:, 1]), lw=2, label="Model")
 
 ax0.set_ylabel("Amplitude (dB)")
@@ -504,7 +487,7 @@ n0_slider = RangeSlider(ax=n0_slider_ax,
                         label="n0",
                         valmin=1.4,
                         valmax=2.0,
-                        valinit=(1.59, 1.6),
+                        valinit=(1.5038, 1.5438),
                         )
 
 n1_slider_ax = fig1.add_axes([0.15, 0.10, 0.25, 0.03])
@@ -512,7 +495,7 @@ n1_slider = RangeSlider(ax=n1_slider_ax,
                         label="n1",
                         valmin=2.7,
                         valmax=3.1,
-                        valinit=(2.79, 2.8),
+                        valinit=(2.7725, 2.8000),
                         )
 
 n2_slider_ax = fig1.add_axes([0.15, 0.05, 0.25, 0.03])
@@ -520,7 +503,7 @@ n2_slider = RangeSlider(ax=n2_slider_ax,
                         label="n2",
                         valmin=1.4,
                         valmax=2.0,
-                        valinit=(1.59, 1.6),
+                        valinit=(1.5038, 1.5513),
                         )
 
 k0_line, = ax0.plot(freqs, n[:, 1].imag, lw=2, label="Extinction coefficient k0")
@@ -540,7 +523,7 @@ k1_slider = RangeSlider(ax=k1_slider_ax,
                         label="k1",
                         valmin=0.000,
                         valmax=0.10,
-                        valinit=(0.000, 0.025),
+                        valinit=(0.000, 0.0245),
                         )
 
 k2_slider_ax = fig1.add_axes([0.60, 0.05, 0.20, 0.03])
@@ -548,19 +531,22 @@ k2_slider = RangeSlider(ax=k2_slider_ax,
                         label="k2",
                         valmin=0.000,
                         valmax=0.10,
-                        valinit=(0.000, 0.001),
+                        valinit=(0.000, 0.0018),
                         )
+f0_i = np.argmin(np.abs(r_mod_fd_[:, 0].real - 0.100))
+f1_i = np.argmin(np.abs(r_mod_fd_[:, 0].real - 1.600))
+f_loss = r_mod_fd_[f0_i:f1_i, 0].real
 
-loss_amp = (np.abs(r_mod_fd_[:, 1]) - amp_meas_avg[::res]) ** 2
-loss_angle = (np.angle(r_mod_fd_[:, 1]) - angle_meas_avg[::res]) ** 2
+loss_amp = ((np.abs(r_mod_fd_[:, 1]) - amp_meas_[::res]) ** 2)[f0_i:f1_i]
+loss_angle = ((np.angle(r_mod_fd_[:, 1]) - angle_meas_[::res]) ** 2)[f0_i:f1_i]
 
-loss_amp_text = ax1.text(-1.25, 1.00, f"Amp. loss: {np.round(np.sum(loss_amp), 3)}")
-loss_angle_text = ax1.text(-1.25, 2.50, f"Phi loss: {np.round(np.sum(loss_angle), 3)}")
-loss_total_text = ax1.text(-1.25, 4.00, f"Total loss: {np.round(np.sum(loss_angle) + np.sum(loss_amp), 3)}")
+loss_amp_text = ax1.text(-0.5, 1.00, f"Amp. loss: {np.round(np.sum(loss_amp), 3)}")
+loss_angle_text = ax1.text(-0.5, 2.50, f"Phi loss: {np.round(np.sum(loss_angle), 3)}")
+loss_total_text = ax1.text(-0.5, 4.00, f"Total loss: {np.round(np.sum(loss_angle) + np.sum(loss_amp), 3)}")
 ax1.set_ylim((-10, 2.5))
 
-loss_amp_line, = ax1.plot(r_mod_fd_[:, 0].real, np.log10(loss_amp), label="Amplitude residuals")
-loss_phase_line, = ax1.plot(r_mod_fd_[:, 0].real, np.log10(loss_angle), label="Phase residuals")
+loss_amp_line, = ax1.plot(f_loss, np.log10(loss_amp), label="Amplitude residuals")
+loss_phase_line, = ax1.plot(f_loss, np.log10(loss_angle), label="Phase residuals")
 
 ax1.legend()
 
@@ -593,8 +579,8 @@ def update(val):
     amp_line.set_ydata(y_data_amp)
     phase_line.set_ydata(y_data_phase)
 
-    loss_amp = (np.abs(r_mod_fd[:, 1]) - amp_meas_avg[::res]) ** 2
-    loss_angle = (np.angle(r_mod_fd[:, 1]) - angle_meas_avg[::res]) ** 2
+    loss_amp = ((np.abs(r_mod_fd[:, 1]) - amp_meas_[::res]) ** 2)[f0_i:f1_i]
+    loss_angle = ((np.angle(r_mod_fd[:, 1]) - angle_meas_[::res]) ** 2)[f0_i:f1_i]
 
     loss_amp_text.set_text(f"Amp. loss: {np.round(np.sum(loss_amp), 3)}")
     loss_angle_text.set_text(f"Phi loss: {np.round(np.sum(loss_angle), 3)}")

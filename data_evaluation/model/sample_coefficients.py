@@ -1,9 +1,10 @@
 import numpy as np
 from tmm import (is_forward_angle, list_snell, seterr, interface_t, interface_r,
-                make_2x2_array)
+                 make_2x2_array)
 import sys
 from consts import *
-EPSILON = sys.float_info.epsilon # typical floating-point calculation error
+
+EPSILON = sys.float_info.epsilon  # typical floating-point calculation error
 
 """ notes
 1. snell(n, th)
@@ -90,6 +91,7 @@ Ri
 
 """
 
+
 # TODO structured output of a,b and f,g coeffs.
 
 # Thanks TMM package !
@@ -108,8 +110,8 @@ def sample_coefficients(pol, n, th_0, freqs):
         kz_list = 2 * np.pi * n_list * cos(th_list) / lambda_vac
         f[f_idx], g[f_idx] = kz_list.real[1], kz_list.real[2]
 
-        for i in range(num_layers-1):
-            fresnel_r = interface_r(pol, n_list[i], n_list[i+1], th_list[i], th_list[i+1])
+        for i in range(num_layers - 1):
+            fresnel_r = interface_r(pol, n_list[i], n_list[i + 1], th_list[i], th_list[i + 1])
             if i == 0:
                 b[f_idx] = np.abs(fresnel_r)
             if i == 1:
@@ -123,16 +125,14 @@ freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950])
 
 one = np.ones_like(freqs)
 
-n0 = array([1.56, 1.57, 1.60, 1.61, 1.62, 1.62])
-n1 = array([2.88, 2.89, 2.89, 2.90, 2.88, 2.89])
-n2 = array([1.56, 1.57, 1.60, 1.61, 1.62, 1.62])
-
-n0 = 1.5*one
-n1 = 2.8*one
-n2 = 1.5*one
+n0 = array([1.513, 1.515, 1.520, 1.521, 1.522, 1.524], dtype=float)
+n1 = array([2.782, 2.782, 2.784, 2.785, 2.786, 2.787], dtype=float)
+n2 = array([1.513, 1.515, 1.520, 1.521, 1.522, 1.524], dtype=float)
 
 n = array([one, n0, n1, n2, one]).T
-
+np.set_printoptions(floatmode="fixed")
 coeffs = sample_coefficients("s", n, angle_in, freqs)
+a_s, b_s = str(coeffs[0]).replace(" ", ", "), str(coeffs[1]).replace(" ", ", ")
+f_s, g_s = str(coeffs[2]).replace(" ", ", "), str(coeffs[3]).replace(" ", ", ")
 
-print(f"a: {coeffs[0]}\nb: {coeffs[1]}\nf: {coeffs[2]}\ng: {coeffs[3]}")
+print(f"a: {a_s}\nb: {b_s}\nf: {f_s}\ng: {g_s}")
