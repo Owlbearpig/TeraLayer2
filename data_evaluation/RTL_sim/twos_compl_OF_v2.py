@@ -4,13 +4,14 @@ from functions import do_fft
 from scratches.snippets.base_converters import dec_to_twoscompl
 from numba import jit
 from model.cost_function import Cost
-from consts import *
+from consts import selected_freqs, array, THz, pi
 from numfi import numfi as numfi_
 from functools import partial
 import numpy as np
 import pandas as pan
 from meas_eval.tds.main import load_data
-from meas_eval.cw.refractive_index_fit import load_sam
+from meas_eval.cw.load_data import mean_data
+from sample_coefficients import coeffs
 
 
 def read_data_tds(sam_idx=10):
@@ -22,14 +23,13 @@ def read_data_tds(sam_idx=10):
 
     freqs = ref_fd[:, 0].real
 
-    selected_freqs = [0.420, 0.520, 0.650, 0.800, 0.850, 0.950]
     closest_freqs = array([np.argmin(abs(freqs - freq)) for freq in selected_freqs])
 
-    #plt.plot(ref_fd[:, 0], np.log10(np.abs(ref_fd[:, 1])))
-    #plt.plot(ref_fd[closest_freqs, 0], np.log10(np.abs(ref_fd[closest_freqs, 1])))
-    #plt.plot(sam_fd[:, 0], np.log10(np.abs(sam_fd[:, 1])))
-    #plt.plot(sam_fd[closest_freqs, 0], np.log10(np.abs(sam_fd[closest_freqs, 1])))
-    #plt.show()
+    # plt.plot(ref_fd[:, 0], np.log10(np.abs(ref_fd[:, 1])))
+    # plt.plot(ref_fd[closest_freqs, 0], np.log10(np.abs(ref_fd[closest_freqs, 1])))
+    # plt.plot(sam_fd[:, 0], np.log10(np.abs(sam_fd[:, 1])))
+    # plt.plot(sam_fd[closest_freqs, 0], np.log10(np.abs(sam_fd[closest_freqs, 1])))
+    # plt.show()
 
     s, r = sam_fd[closest_freqs, 1], ref_fd[closest_freqs, 1]
     R = (s / r) ** 2
@@ -42,10 +42,9 @@ def read_data_tds(sam_idx=10):
 
 def real_data_cw(sam_idx=10):
     # [0.420, 0.520, 0.650, 0.800, 0.850, 0.950] * THz
-    t_func_fd = load_sam(sam_idx)
-    freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950], dtype=float)
+    t_func_fd = mean_data(sam_idx, ret_t_func=True)
     freq_idx_lst = []
-    for freq in freqs:
+    for freq in selected_freqs:
         f_idx = np.argmin(np.abs(freq - t_func_fd[:, 0].real))
         freq_idx_lst.append(f_idx)
 
@@ -53,33 +52,39 @@ def real_data_cw(sam_idx=10):
 
 
 class CostFuncFixedPoint:
-    def __init__(self, pd, p, p_sol = array([168., 609., 98.]), sam_idx=None, noise=0.0, plt_mod=False):
+    def __init__(self, pd, p, p_sol=array([168., 609., 98.]), sam_idx=None, noise=0.0, plt_mod=False):
         self.p_sol = array(p_sol)
         self.prec_int, self.prec = pd, p
         self.numfi = partial(numfi_, s=1, w=self.prec_int + self.prec, f=self.prec, fixed=True, rounding='floor')
         # self.numfi = lambda x: x
 
-        self.freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950]) * THz
+        self.freqs = selected_freqs * THz
 
-        if sam_idx is not None:
+        if sam_idx == -1:
+            r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=noise, plt_mod=plt_mod).r_exp
+        else:
             r_exp = real_data_cw(sam_idx)
             # r_exp = read_data_tds(sam_idx)
             # print("r_experimental:\n", r_real)
             print("!!! Using experimental data !!!")
-        else:
-            r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=noise, plt_mod=plt_mod).r_exp
 
         # print("r_model:\n", r_exp)
 
         self.r_exp_real = self.numfi(r_exp.real)
         self.r_exp_imag = self.numfi(r_exp.imag)
 
+        plt.figure("Measurement")
+        plt.plot(selected_freqs, np.abs(r_exp), label=f"meas amplitude {sam_idx}")
+        plt.plot(selected_freqs, np.angle(r_exp), label=f"meas phase {sam_idx}")
+
+        a, b, f, g = coeffs
+
         # old working vals
         # a, b = 0.300922921527581, 0.19737935744311108
 
         # """
-        a = array([0.29682634, 0.29621877, 0.29503129, 0.29489288, 0.2947546, 0.29431419], dtype=float)
-        b = array([0.20678723, 0.20742479, 0.20901418, 0.20933128, 0.20964814, 0.21028107], dtype=float)
+        # a = array([0.29682634, 0.29621877, 0.29503129, 0.29489288, 0.2947546, 0.29431419], dtype=float)
+        # b = array([0.20678723, 0.20742479, 0.20901418, 0.20933128, 0.20964814, 0.21028107], dtype=float)
         # """
         self.a = self.numfi(a)
         self.b = self.numfi(b)
@@ -91,14 +96,14 @@ class CostFuncFixedPoint:
         g = array([0.024647137458149997, 0.03051550351962, 0.03814437939952,
                    0.04694692849172, 0.04988111152245, 0.055749477583909995]) * 2 ** 3
         """
-        #"""
-        f = array([0.01326179, 0.01644125, 0.02061997, 0.02539526, 0.02700035, 0.03021685], dtype=float) * 2 ** 3
-        g = array([0.02445803, 0.03028137, 0.03787899, 0.04663709, 0.04956974, 0.05542141], dtype=float) * 2 ** 3
-        #"""
-        self.f, self.g = self.numfi(f), self.numfi(g)
+        # """
+        # f = array([0.01326179, 0.01644125, 0.02061997, 0.02539526, 0.02700035, 0.03021685], dtype=float) * 2 ** 3
+        # g = array([0.02445803, 0.03028137, 0.03787899, 0.04663709, 0.04956974, 0.05542141], dtype=float) * 2 ** 3
+        # """
+        self.f, self.g = self.numfi(f * 2 ** 3), self.numfi(g * 2 ** 3)
 
         self.pi = self.numfi(pi64)
-        self.pi2 = self.numfi(2*pi64)
+        self.pi2 = self.numfi(2 * pi64)
         self.pi2_inv = self.numfi(1 / (2 * pi64))
 
         # sine consts:
@@ -121,7 +126,7 @@ class CostFuncFixedPoint:
         self.wide_zero = numfi_(0.0, s=1, w=10 + self.prec, f=self.prec, fixed=True, rounding='floor')
         self.max_loss = 0
 
-    def cost(self, point):
+    def cost(self, point, ret_mod=False):
         def c_mod(s):
             """
             should do (s % 2pi) and if res is > pi subtract 2pi
@@ -130,10 +135,10 @@ class CostFuncFixedPoint:
             max out = \pm pi
             """
 
-            #s_scaled = s / (2 * pi64 * 2 ** 5)
-            #
+            # s_scaled = s / (2 * pi64 * 2 ** 5)
 
-            s_fp = numfi_(array(s), s=1, w=4 + self.prec, f=self.prec, fixed=True, rounding='floor') # we can store the points as 3 + p
+            s_fp = numfi_(array(s), s=1, w=4 + self.prec, f=self.prec, fixed=True,
+                          rounding='floor')  # we can store the points as 3 + p
 
             s_fp_long = numfi_(s_fp, s=1, w=7 + self.prec, f=self.prec, fixed=True, rounding='floor')
 
@@ -193,6 +198,9 @@ class CostFuncFixedPoint:
             amp_diff = (r_mod_enum_r - self.r_exp_real * r_mod_denum)
             phi_diff = (r_mod_enum_i - self.r_exp_imag * r_mod_denum)
 
+            if ret_mod:
+                return array(r_mod_enum_r / r_mod_denum) + 1j * array(r_mod_enum_i / r_mod_denum)
+
             amp_error = 0.5 * amp_diff * amp_diff
             phi_error = 0.5 * phi_diff * phi_diff
 
@@ -228,8 +236,10 @@ class CostFuncFixedPoint:
             point.fx = calc_cost(p)
         """
 
+
 if __name__ == '__main__':
     import time
+
     """
     // model data (r_exp) for p_sol = [168. 609.  98.], 
     // p = [239.777814149857 476.259423971176 235.382882833481] 
@@ -237,18 +247,20 @@ if __name__ == '__main__':
     // p = [999, 999, 999]
     // => f(p_sol, p) = 0.5715376463789499 (python) 
     """
-    pd, p = 4, 11
+    pd, p = 4, 17
     noise_factor = 0.00
     seed = 420
     from model.cost_function import Cost
     from functions import gen_p_sols
 
     # p_sol = array([241., 661., 237.])
-    p_sol = array([43.0, 641.0, 74.0])
+    # p_sol = array([43.0, 641.0, 74.0])
+    p_sol = array([45.77, 660.0, 72.6])
+
     p_test = p_sol / (2 * pi * 2 ** 6)
     print("test_point: ", p_test)
 
-    cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p, noise=noise_factor, sam_idx=10).cost
+    cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p, noise=noise_factor, sam_idx=None).cost
     start = time.process_time()
     loss = cost_func(p_test)
     print(loss)

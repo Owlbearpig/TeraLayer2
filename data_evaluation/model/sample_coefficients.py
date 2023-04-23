@@ -4,6 +4,9 @@ from tmm import (is_forward_angle, list_snell, seterr, interface_t, interface_r,
 import sys
 from consts import *
 
+from meas_eval.cw.refractive_index_fit import n
+from meas_eval.cw.refractive_index_fit import freqs as all_freqs
+
 EPSILON = sys.float_info.epsilon  # typical floating-point calculation error
 
 """ notes
@@ -92,12 +95,12 @@ Ri
 """
 
 
-# TODO structured output of a,b and f,g coeffs.
+# TODO structured output of a,b and f,g coeffs. Done; lgtm
 
 # Thanks TMM package !
 def sample_coefficients(pol, n, th_0, freqs):
-    a, b = np.zeros_like(freqs), np.zeros_like(freqs)
-    f, g = np.zeros_like(freqs), np.zeros_like(freqs)
+    a, b = np.zeros_like(freqs, dtype=float), np.zeros_like(freqs, dtype=float)
+    f, g = np.zeros_like(freqs, dtype=float), np.zeros_like(freqs, dtype=float)
 
     lambda_vacs = (c0 / freqs) * 10 ** -6
     for f_idx, lambda_vac in enumerate(lambda_vacs):
@@ -121,17 +124,19 @@ def sample_coefficients(pol, n, th_0, freqs):
 
 
 angle_in = 8 * pi / 180
-freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950])
+freq_idx = [np.argmin(np.abs(f - all_freqs)) for f in selected_freqs]
+one = np.ones_like(selected_freqs)
 
-one = np.ones_like(freqs)
+n0, n1, n2 = np.transpose(n[freq_idx, 1:4].real)
 
-n0 = array([1.513, 1.515, 1.520, 1.521, 1.522, 1.524], dtype=float)
-n1 = array([2.782, 2.782, 2.784, 2.785, 2.786, 2.787], dtype=float)
-n2 = array([1.513, 1.515, 1.520, 1.521, 1.522, 1.524], dtype=float)
+# n0 = array([1.513, 1.515, 1.520, 1.521, 1.522, 1.524], dtype=float)
+# n1 = array([2.782, 2.782, 2.784, 2.785, 2.786, 2.787], dtype=float)
+# n2 = array([1.513, 1.515, 1.520, 1.521, 1.522, 1.524], dtype=float)
 
 n = array([one, n0, n1, n2, one]).T
+print(n)
 np.set_printoptions(floatmode="fixed")
-coeffs = sample_coefficients("s", n, angle_in, freqs)
+coeffs = sample_coefficients("s", n, angle_in, selected_freqs)
 a_s, b_s = str(coeffs[0]).replace(" ", ", "), str(coeffs[1]).replace(" ", ", ")
 f_s, g_s = str(coeffs[2]).replace(" ", ", "), str(coeffs[3]).replace(" ", ", ")
 

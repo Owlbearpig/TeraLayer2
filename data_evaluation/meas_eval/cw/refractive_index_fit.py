@@ -1,14 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy import array, pi
+from consts import selected_freqs
 from scipy.constants import c as c0
-from meas_eval.cw.load_data import transfer_function
+from meas_eval.cw.load_data import mean_data
 from tmm_package import coh_tmm_slim, coh_tmm_slim_unsafe
 from functions import do_ifft, filtering, window, do_fft, zero_pad, shift
 from scipy.optimize import shgo
 from scipy.optimize import minimize
-from matplotlib.widgets import Slider, Button, RangeSlider, TextBox
-
+from matplotlib.widgets import Slider, Button, RangeSlider
+from mpl_settings import *
 
 
 def filter(data_td, en=True):
@@ -21,52 +22,14 @@ def filter(data_td, en=True):
 
     return data_td
 
-sam_idx = None
 
-if sam_idx is None:
-    try:
-        t_func_fd = np.load("t_func_mean.npy")
-        freqs = t_func_fd[:, 0].real
-        amp_meas_mean = np.abs(t_func_fd[:, 1])
-        phi_meas_mean = np.angle(t_func_fd[:, 1])
-    except FileNotFoundError:
-        amp_meas_all, angle_meas_all = [], []
-        for sam_idx in range(101):
-            # sam_idx = 23
-
-            t_func_fd = transfer_function(sam_idx)
-            # t_func_fd = zero_pad(t_func_fd, mult=pad)
-
-            """
-            plt.figure("test")
-            plt.plot(np.angle(t_func_fd), label="angle before")
-            plt.figure("test2")
-            plt.plot(np.abs(t_func_fd), label="magn before")
-            """
-
-            amp_meas_all.append(np.abs(t_func_fd[:, 1]))
-            angle_meas_all.append(np.angle(t_func_fd[:, 1]))
-
-        amp_meas_all = array(amp_meas_all)
-        angle_meas_all = array(angle_meas_all)
-
-        amp_meas_ = np.mean(amp_meas_all, axis=0)
-        angle_meas_ = np.mean(angle_meas_all, axis=0)
-
-        t_func_fd = transfer_function(0)
-        t_func_all_fd = array([t_func_fd[:, 0].real, amp_meas_mean * np.exp(1j * angle_meas_mean)]).T
-
-        np.save(f"t_func_mean.npy", t_func_all_fd)
-
-
-else:
-    t_func_fd = transfer_function(sam_idx)
-    angle_meas_ = np.angle(t_func_fd[:, 1])
-    amp_meas_ = np.abs(t_func_fd[:, 1])
+sam_idx = 10
+t_func_fd, ref_fd, sam_fd, amp_meas, angle_meas = mean_data(sam_idx_=sam_idx)
 
 freqs = t_func_fd[:, 0].real
-# amp_meas_ = np.convolve(amp_meas_, np.ones(7)/7, mode='same')
-# angle_meas_ = np.convolve(angle_meas_, np.ones(3)/3, mode='same')
+
+# amp_meas = np.convolve(amp_meas, np.ones(7)/7, mode='same')
+# angle_meas = np.convolve(angle_meas, np.ones(3)/3, mode='same')
 
 t_func_td = do_ifft(t_func_fd, flip=False)
 t_func_td = shift(t_func_td, -100)
@@ -85,8 +48,8 @@ for i in range(101):
     plt.plot(freqs, angle_meas_all[i])
     plt.plot(freqs, amp_meas_all[i])
 
-plt.plot(freqs, angle_meas_avg, label="average", color="black")
-plt.plot(freqs, amp_meas_avg, label="average", color="black")
+plt.plot(freqs, angle_meas, label="average", color="black")
+plt.plot(freqs, amp_meas, label="average", color="black")
 plt.legend()
 """
 """
@@ -104,7 +67,7 @@ f0_idx, f1_idx = np.argmin(np.abs(freqs - f0)), np.argmin(np.abs(freqs - f1))
 
 np.random.seed(420)
 
-bounds = ((1.50, 1.65), (2.75, 2.85),)
+bounds = ((1.50, 1.65), (2.75, 2.85), )
 bounds = ((1.58, 1.62), (2.75, 2.85), (1.58, 1.62))
 # bounds = ((3.00, 3.10), )
 # bounds = ((1.55, 1.65), )
@@ -114,33 +77,18 @@ one = np.ones_like(freqs)
 
 n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one]).T
 
+fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.001)), np.argmin(np.abs(freqs - 2.000))
+n[fa_idx:fe_idx, 1] = np.linspace(1.5038, 1.5438, fe_idx - fa_idx)
+n[fa_idx:fe_idx, 2] = np.linspace(2.7725, 2.8000, fe_idx - fa_idx)
+n[fa_idx:fe_idx, 3] = np.linspace(1.5038, 1.5438, fe_idx - fa_idx)
+
 k0 = np.linspace(0.000, 0.050, len(one))
 k1 = np.linspace(0.000, 0.050, len(one))
 k2 = np.linspace(0.000, 0.050, len(one))
 
-n = n - 1j * np.array([np.zeros_like(one), k0, k1, k2, np.zeros_like(one)]).T
+n = n # - 1j * np.array([np.zeros_like(one), k0, k1, k2, np.zeros_like(one)]).T
 
-"""
-fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.050)), np.argmin(np.abs(freqs - 0.5))
-n[fa_idx:fe_idx, 2] = np.linspace(2.80, 2.80, fe_idx - fa_idx)
-
-fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.5)), np.argmin(np.abs(freqs - 2.00))
-n[fa_idx:fe_idx, 2] = np.linspace(2.80, 2.80, fe_idx - fa_idx)
-
-fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.050)), np.argmin(np.abs(freqs - 1.00))
-n[fa_idx:fe_idx, 1] = np.linspace(1.60, 1.60, fe_idx - fa_idx)
-
-fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.050)), np.argmin(np.abs(freqs - 1.00))
-n[fa_idx:fe_idx, 3] = np.linspace(1.60, 1.60, fe_idx - fa_idx)
-
-fa_idx, fe_idx = np.argmin(np.abs(freqs - 1.0)), np.argmin(np.abs(freqs - 2.00))
-n[fa_idx:fe_idx, 1] = np.linspace(1.60, 1.60, fe_idx - fa_idx)
-
-fa_idx, fe_idx = np.argmin(np.abs(freqs - 1.0)), np.argmin(np.abs(freqs - 2.00))
-n[fa_idx:fe_idx, 3] = np.linspace(1.60, 1.60, fe_idx - fa_idx)
-
-k = np.linspace(0, 0.150, len(one))
-"""
+# k = np.linspace(0, 0.150, len(one))
 
 # n0_truth = np.random.uniform(*bounds[0], len(freqs))
 # n1_truth = np.random.uniform(*bounds[1], len(freqs))
@@ -175,7 +123,7 @@ plt.legend()
 plt.show()
 """
 
-t_func_td[:, 1] /= np.max(np.abs(t_func_td[:, 1]))
+# t_func_td[:, 1] /= np.max(np.abs(t_func_td[:, 1]))
 
 
 def freq_fit(thicknesses):
@@ -193,8 +141,8 @@ def freq_fit(thicknesses):
             lam_vac = 10 ** 6 * c0 / (freqs[f_idx + i] * 10 ** 12)
             mod_fd = -1 * coh_tmm_slim_unsafe("s", n_list, thicknesses, 8 * pi / 180, lam_vac)
 
-            loss_phi += (angle_meas_[f_idx + i] - np.angle(mod_fd)) ** 2
-            loss_amp += (amp_meas_[f_idx + i] - np.abs(mod_fd)) ** 2
+            loss_phi += (angle_meas[f_idx + i] - np.angle(mod_fd)) ** 2
+            loss_amp += (amp_meas[f_idx + i] - np.abs(mod_fd)) ** 2
 
         """
         lam_vac = 10 ** 6 * c0 / (freqs[f_idx] * 10 ** 12)
@@ -300,7 +248,7 @@ def freq_fit(thicknesses):
     return n
 
 
-p0 = array([np.inf, 44.62, 660, 75.9, np.inf])  # truth: array([np.inf, 46.0, 641.0, 79.0, np.inf])
+p0 = array([np.inf, 45.77, 660.0, 72.6, np.inf])  # truth: array([np.inf, 46.0, 641.0, 79.0, np.inf])
 # p0 = array([np.inf, 0.0, 0.0, 0.0, np.inf])
 
 p = p0 + array([0, 0, 0, 0, 0])
@@ -360,11 +308,11 @@ res = 4
 
 def calc_model(p_, n_, fast=False):
     if fast:
-        r_mod_fd_ = np.zeros_like(ref_fd[::res], dtype=complex)
+        r_mod_fd_ = np.zeros_like(t_func_fd[::res, :], dtype=complex)
         r_mod_fd_[:, 0] = freqs[::res]
         n_ = n_[::res]
     else:
-        r_mod_fd_ = np.zeros_like(ref_fd, dtype=complex)
+        r_mod_fd_ = np.zeros_like(t_func_fd, dtype=complex)
         r_mod_fd_[:, 0] = freqs
 
     for f_idx, freq in enumerate(r_mod_fd_[:, 0].real):
@@ -376,9 +324,9 @@ def calc_model(p_, n_, fast=False):
 
 
 best_fit, min_val = (0, 0), np.inf
+"""
 for i in range(-10, 20):
     for j in range(-10, 20):
-        continue
         put = p0 + array([0, 0, i, j, 0])
         r_mod_fd = calc_model(put, n)
 
@@ -393,6 +341,7 @@ for i in range(-10, 20):
             min_val = func_val
 
 print(best_fit, min_val)
+"""
 
 mod_fd = np.zeros_like(ref_fd, dtype=complex)
 mod_fd[:, 0] = freqs
@@ -425,263 +374,268 @@ plt.ylabel("Amplitude")
 plt.legend()
 """
 
-# d0, d1, d2 = 0, 16, -13 array([np.inf, 42.0, 641.0, 79.0, np.inf]) good fit but not at higher f
-d0, d1, d2 = p0[1], p0[2], p0[3]
+if __name__ == '__main__':
+    # d0, d1, d2 = 0, 16, -13 array([np.inf, 42.0, 641.0, 79.0, np.inf]) good fit but not at higher f
+    d0, d1, d2 = p0[1], p0[2], p0[3]
 
-r_mod_fd_ = calc_model(p0, n, fast=True)
-fig0, (ax0, ax1) = plt.subplots(nrows=2, ncols=1)
+    r_mod_fd_ = calc_model(p0, n, fast=True)
+    fig0, (ax0, ax1) = plt.subplots(nrows=2, ncols=1)
+    ax0.set_title(f"Sample index: {sam_idx}")
 
-ax0.plot(t_func_fd[:, 0], 20 * np.log10(amp_meas_), label=f"Transfer function {sam_idx}")
-amp_line, = ax0.plot(r_mod_fd_[:, 0], 20 * np.log10(np.abs(r_mod_fd_[:, 1])), lw=2, label="Model")
+    ax0.plot(t_func_fd[:, 0], 20 * np.log10(amp_meas), label=f"Transfer function {sam_idx}")
+    amp_line, = ax0.plot(r_mod_fd_[:, 0], 20 * np.log10(np.abs(r_mod_fd_[:, 1])), lw=2, label="Model")
 
-ax1.plot(t_func_fd[:, 0], angle_meas_, label=f"Transfer function {sam_idx}")
-phase_line, = ax1.plot(r_mod_fd_[:, 0], np.angle(r_mod_fd_[:, 1]), lw=2, label="Model")
+    ax0.vlines(selected_freqs, 0, 1, transform=ax0.get_xaxis_transform(), colors='r')
+    ax1.vlines(selected_freqs, 0, 1, transform=ax1.get_xaxis_transform(), colors='r')
 
-ax0.set_ylabel("Amplitude (dB)")
-ax1.set_ylabel("Phase (Rad)")
-ax1.set_xlabel("Frequency (THz)")
+    ax1.plot(t_func_fd[:, 0], angle_meas, label=f"Transfer function {sam_idx}")
+    phase_line, = ax1.plot(r_mod_fd_[:, 0], np.angle(r_mod_fd_[:, 1]), lw=2, label="Model")
 
-# adjust the main plot to make room for the sliders
-fig0.subplots_adjust(left=0.25, bottom=0.25)
+    ax0.set_ylabel("Amplitude (dB)")
+    ax1.set_ylabel("Phase (Rad)")
+    ax1.set_xlabel("Frequency (THz)")
 
-axd0 = fig0.add_axes([0.25, 0.15, 0.65, 0.03])
-d0_slider = Slider(
-    ax=axd0,
-    label='d0 (um)',
-    valmin=20,
-    valmax=100,
-    valinit=d0,
-)
+    # adjust the main plot to make room for the sliders
+    fig0.subplots_adjust(left=0.25, bottom=0.25)
 
-axd1 = fig0.add_axes([0.25, 0.1, 0.65, 0.03])
-d1_slider = Slider(
-    ax=axd1,
-    label='d1 (um)',
-    valmin=600,
-    valmax=680,
-    valinit=d1,
-)
+    axd0 = fig0.add_axes([0.25, 0.15, 0.65, 0.03])
+    d0_slider = Slider(
+        ax=axd0,
+        label='d0 (um)',
+        valmin=20,
+        valmax=100,
+        valinit=d0,
+    )
 
-axd2 = fig0.add_axes([0.25, 0.05, 0.65, 0.03])
-d2_slider = Slider(
-    ax=axd2,
-    label='d2 (um)',
-    valmin=20,
-    valmax=100,
-    valinit=d2,
-)
+    axd1 = fig0.add_axes([0.25, 0.1, 0.65, 0.03])
+    d1_slider = Slider(
+        ax=axd1,
+        label='d1 (um)',
+        valmin=600,
+        valmax=680,
+        valinit=d1,
+    )
 
-fig1, (ax0, ax1) = plt.subplots(nrows=2, ncols=1)
-fig1.subplots_adjust(left=0.25, bottom=0.25)
+    axd2 = fig0.add_axes([0.25, 0.05, 0.65, 0.03])
+    d2_slider = Slider(
+        ax=axd2,
+        label='d2 (um)',
+        valmin=20,
+        valmax=100,
+        valinit=d2,
+    )
 
-ax0.set_ylim((1.2, 3.2))
-ax0.set_ylabel("Refractive index")
-ax1.set_xlabel("Frequency (THz)")
+    fig1, (ax0, ax1) = plt.subplots(nrows=2, ncols=1)
+    fig1.subplots_adjust(left=0.25, bottom=0.25)
 
-n0_line, = ax0.plot(freqs, n[:, 1].real, lw=2, label="Refractive index n0")
-n1_line, = ax0.plot(freqs, n[:, 2].real, lw=2, label="Refractive index n1")
-n2_line, = ax0.plot(freqs, n[:, 3].real, lw=2, label="Refractive index n2")
+    ax0.set_ylim((1.2, 3.2))
+    ax0.set_ylabel("Refractive index")
+    ax1.set_xlabel("Frequency (THz)")
 
-n0_slider_ax = fig1.add_axes([0.15, 0.15, 0.25, 0.03])
-n0_slider = RangeSlider(ax=n0_slider_ax,
-                        label="n0",
-                        valmin=1.4,
-                        valmax=2.0,
-                        valinit=(1.5038, 1.5438),
-                        )
+    n0_line, = ax0.plot(freqs, n[:, 1].real, lw=2, label="Refractive index n0")
+    n1_line, = ax0.plot(freqs, n[:, 2].real, lw=2, label="Refractive index n1")
+    n2_line, = ax0.plot(freqs, n[:, 3].real, lw=2, label="Refractive index n2")
 
-n1_slider_ax = fig1.add_axes([0.15, 0.10, 0.25, 0.03])
-n1_slider = RangeSlider(ax=n1_slider_ax,
-                        label="n1",
-                        valmin=2.7,
-                        valmax=3.1,
-                        valinit=(2.7725, 2.8000),
-                        )
+    n0_slider_ax = fig1.add_axes([0.15, 0.15, 0.25, 0.03])
+    n0_slider = RangeSlider(ax=n0_slider_ax,
+                            label="n0",
+                            valmin=1.4,
+                            valmax=2.0,
+                            valinit=(1.5038, 1.5438),
+                            )
 
-n2_slider_ax = fig1.add_axes([0.15, 0.05, 0.25, 0.03])
-n2_slider = RangeSlider(ax=n2_slider_ax,
-                        label="n2",
-                        valmin=1.4,
-                        valmax=2.0,
-                        valinit=(1.5038, 1.5513),
-                        )
+    n1_slider_ax = fig1.add_axes([0.15, 0.10, 0.25, 0.03])
+    n1_slider = RangeSlider(ax=n1_slider_ax,
+                            label="n1",
+                            valmin=2.7,
+                            valmax=3.1,
+                            valinit=(2.7725, 2.8000),
+                            )
 
-k0_line, = ax0.plot(freqs, n[:, 1].imag, lw=2, label="Extinction coefficient k0")
-k1_line, = ax0.plot(freqs, n[:, 2].imag, lw=2, label="Extinction coefficient k1")
-k2_line, = ax0.plot(freqs, n[:, 3].imag, lw=2, label="Extinction coefficient k2")
+    n2_slider_ax = fig1.add_axes([0.15, 0.05, 0.25, 0.03])
+    n2_slider = RangeSlider(ax=n2_slider_ax,
+                            label="n2",
+                            valmin=1.4,
+                            valmax=2.0,
+                            valinit=(1.5038, 1.5513),
+                            )
 
-k0_slider_ax = fig1.add_axes([0.60, 0.15, 0.20, 0.03])
-k0_slider = RangeSlider(ax=k0_slider_ax,
-                        label="k0",
-                        valmin=0.000,
-                        valmax=0.100,
-                        valinit=(0.000, 0.001),
-                        )
+    k0_line, = ax0.plot(freqs, n[:, 1].imag, lw=2, label="Extinction coefficient k0")
+    k1_line, = ax0.plot(freqs, n[:, 2].imag, lw=2, label="Extinction coefficient k1")
+    k2_line, = ax0.plot(freqs, n[:, 3].imag, lw=2, label="Extinction coefficient k2")
 
-k1_slider_ax = fig1.add_axes([0.60, 0.10, 0.20, 0.03])
-k1_slider = RangeSlider(ax=k1_slider_ax,
-                        label="k1",
-                        valmin=0.000,
-                        valmax=0.10,
-                        valinit=(0.000, 0.0245),
-                        )
+    k0_slider_ax = fig1.add_axes([0.60, 0.15, 0.20, 0.03])
+    k0_slider = RangeSlider(ax=k0_slider_ax,
+                            label="k0",
+                            valmin=0.000,
+                            valmax=0.100,
+                            valinit=(0.000, 0.001),
+                            )
 
-k2_slider_ax = fig1.add_axes([0.60, 0.05, 0.20, 0.03])
-k2_slider = RangeSlider(ax=k2_slider_ax,
-                        label="k2",
-                        valmin=0.000,
-                        valmax=0.10,
-                        valinit=(0.000, 0.0018),
-                        )
-f0_i = np.argmin(np.abs(r_mod_fd_[:, 0].real - 0.100))
-f1_i = np.argmin(np.abs(r_mod_fd_[:, 0].real - 1.600))
-f_loss = r_mod_fd_[f0_i:f1_i, 0].real
+    k1_slider_ax = fig1.add_axes([0.60, 0.10, 0.20, 0.03])
+    k1_slider = RangeSlider(ax=k1_slider_ax,
+                            label="k1",
+                            valmin=0.000,
+                            valmax=0.10,
+                            valinit=(0.000, 0.0245),
+                            )
 
-loss_amp = ((np.abs(r_mod_fd_[:, 1]) - amp_meas_[::res]) ** 2)[f0_i:f1_i]
-loss_angle = ((np.angle(r_mod_fd_[:, 1]) - angle_meas_[::res]) ** 2)[f0_i:f1_i]
+    k2_slider_ax = fig1.add_axes([0.60, 0.05, 0.20, 0.03])
+    k2_slider = RangeSlider(ax=k2_slider_ax,
+                            label="k2",
+                            valmin=0.000,
+                            valmax=0.10,
+                            valinit=(0.000, 0.0018),
+                            )
+    f0_i = np.argmin(np.abs(r_mod_fd_[:, 0].real - 0.100))
+    f1_i = np.argmin(np.abs(r_mod_fd_[:, 0].real - 1.600))
+    f_loss = r_mod_fd_[f0_i:f1_i, 0].real
 
-loss_amp_text = ax1.text(-0.5, 1.00, f"Amp. loss: {np.round(np.sum(loss_amp), 3)}")
-loss_angle_text = ax1.text(-0.5, 2.50, f"Phi loss: {np.round(np.sum(loss_angle), 3)}")
-loss_total_text = ax1.text(-0.5, 4.00, f"Total loss: {np.round(np.sum(loss_angle) + np.sum(loss_amp), 3)}")
-ax1.set_ylim((-10, 2.5))
+    loss_amp = ((np.abs(r_mod_fd_[:, 1]) - amp_meas[::res]) ** 2)[f0_i:f1_i]
+    loss_angle = ((np.angle(r_mod_fd_[:, 1]) - angle_meas[::res]) ** 2)[f0_i:f1_i]
 
-loss_amp_line, = ax1.plot(f_loss, np.log10(loss_amp), label="Amplitude residuals")
-loss_phase_line, = ax1.plot(f_loss, np.log10(loss_angle), label="Phase residuals")
+    loss_amp_text = ax1.text(-0.5, 1.00, f"Amp. loss: {np.round(np.sum(loss_amp), 3)}")
+    loss_angle_text = ax1.text(-0.5, 2.50, f"Phi loss: {np.round(np.sum(loss_angle), 3)}")
+    loss_total_text = ax1.text(-0.5, 4.00, f"Total loss: {np.round(np.sum(loss_angle) + np.sum(loss_amp), 3)}")
+    ax1.set_ylim((-10, 2.5))
 
-ax1.legend()
+    loss_amp_line, = ax1.plot(f_loss, np.log10(loss_amp), label="Amplitude residuals")
+    loss_phase_line, = ax1.plot(f_loss, np.log10(loss_angle), label="Phase residuals")
 
-def update(val):
-    n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one], dtype=complex).T
-
-    fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.001)), np.argmin(np.abs(freqs - 2.000))
-    n[fa_idx:fe_idx, 1] = np.linspace(n0_slider.val[0], n0_slider.val[1], fe_idx - fa_idx)
-    n[fa_idx:fe_idx, 2] = np.linspace(n1_slider.val[0], n1_slider.val[1], fe_idx - fa_idx)
-    n[fa_idx:fe_idx, 3] = np.linspace(n2_slider.val[0], n2_slider.val[1], fe_idx - fa_idx)
-
-    k0 = np.linspace(k0_slider.val[0], k0_slider.val[1], len(one))
-    k1 = np.linspace(k1_slider.val[0], k1_slider.val[1], len(one))
-    k2 = np.linspace(k2_slider.val[0], k2_slider.val[1], len(one))
-
-    n = n - 1j * np.array([np.zeros_like(one), k0, k1, k2, np.zeros_like(one)]).T
-
-    k0_line.set_ydata(n[:, 1].imag)
-    k1_line.set_ydata(n[:, 2].imag)
-    k2_line.set_ydata(n[:, 3].imag)
-
-    n0_line.set_ydata(n[:, 1].real)
-    n1_line.set_ydata(n[:, 2].real)
-    n2_line.set_ydata(n[:, 3].real)
-
-    r_mod_fd = calc_model(array([0, d0_slider.val, d1_slider.val, d2_slider.val, 0]), n, fast=True)
-    y_data_amp = 20 * np.log10(np.abs(r_mod_fd[:, 1]))
-    y_data_phase = np.angle(r_mod_fd[:, 1])
-
-    amp_line.set_ydata(y_data_amp)
-    phase_line.set_ydata(y_data_phase)
-
-    loss_amp = ((np.abs(r_mod_fd[:, 1]) - amp_meas_[::res]) ** 2)[f0_i:f1_i]
-    loss_angle = ((np.angle(r_mod_fd[:, 1]) - angle_meas_[::res]) ** 2)[f0_i:f1_i]
-
-    loss_amp_text.set_text(f"Amp. loss: {np.round(np.sum(loss_amp), 3)}")
-    loss_angle_text.set_text(f"Phi loss: {np.round(np.sum(loss_angle), 3)}")
-    loss_total_text.set_text(f"Total loss: {np.round(np.sum(loss_angle) + np.sum(loss_amp), 3)}")
-
-    loss_amp_line.set_ydata(np.log10(loss_amp))
-    loss_phase_line.set_ydata(np.log10(loss_angle))
-
-    fig0.canvas.draw_idle()
-    fig1.canvas.draw_idle()
+    ax1.legend()
 
 
-k0_slider.on_changed(update)
-k1_slider.on_changed(update)
-k2_slider.on_changed(update)
+    def update(val):
+        n = array([one, 1.6 * one, 2.80 * one, 1.6 * one, one], dtype=complex).T
 
-n0_slider.on_changed(update)
-n1_slider.on_changed(update)
-n2_slider.on_changed(update)
+        fa_idx, fe_idx = np.argmin(np.abs(freqs - 0.001)), np.argmin(np.abs(freqs - 2.000))
+        n[fa_idx:fe_idx, 1] = np.linspace(n0_slider.val[0], n0_slider.val[1], fe_idx - fa_idx)
+        n[fa_idx:fe_idx, 2] = np.linspace(n1_slider.val[0], n1_slider.val[1], fe_idx - fa_idx)
+        n[fa_idx:fe_idx, 3] = np.linspace(n2_slider.val[0], n2_slider.val[1], fe_idx - fa_idx)
 
-d0_slider.on_changed(update)
-d1_slider.on_changed(update)
-d2_slider.on_changed(update)
+        k0 = np.linspace(k0_slider.val[0], k0_slider.val[1], len(one))
+        k1 = np.linspace(k1_slider.val[0], k1_slider.val[1], len(one))
+        k2 = np.linspace(k2_slider.val[0], k2_slider.val[1], len(one))
 
-resetax0 = fig0.add_axes([0.8, 0.010, 0.1, 0.04])
-button0 = Button(resetax0, 'Reset', hovercolor='0.975')
+        n = n - 1j * np.array([np.zeros_like(one), k0, k1, k2, np.zeros_like(one)]).T
 
+        k0_line.set_ydata(n[:, 1].imag)
+        k1_line.set_ydata(n[:, 2].imag)
+        k2_line.set_ydata(n[:, 3].imag)
 
-def reset0(event):
-    d0_slider.reset()
-    d1_slider.reset()
-    d2_slider.reset()
+        n0_line.set_ydata(n[:, 1].real)
+        n1_line.set_ydata(n[:, 2].real)
+        n2_line.set_ydata(n[:, 3].real)
 
+        r_mod_fd = calc_model(array([0, d0_slider.val, d1_slider.val, d2_slider.val, 0]), n, fast=True)
+        y_data_amp = 20 * np.log10(np.abs(r_mod_fd[:, 1]))
+        y_data_phase = np.angle(r_mod_fd[:, 1])
 
-button0.on_clicked(reset0)
+        amp_line.set_ydata(y_data_amp)
+        phase_line.set_ydata(y_data_phase)
 
-resetax1 = fig1.add_axes([0.8, 0.010, 0.1, 0.04])
-button1 = Button(resetax1, 'Reset', hovercolor='0.975')
+        loss_amp = ((np.abs(r_mod_fd[:, 1]) - amp_meas[::res]) ** 2)[f0_i:f1_i]
+        loss_angle = ((np.angle(r_mod_fd[:, 1]) - angle_meas[::res]) ** 2)[f0_i:f1_i]
 
+        loss_amp_text.set_text(f"Amp. loss: {np.round(np.sum(loss_amp), 3)}")
+        loss_angle_text.set_text(f"Phi loss: {np.round(np.sum(loss_angle), 3)}")
+        loss_total_text.set_text(f"Total loss: {np.round(np.sum(loss_angle) + np.sum(loss_amp), 3)}")
 
-def reset1(event):
-    n0_slider.reset()
-    n1_slider.reset()
-    n2_slider.reset()
+        loss_amp_line.set_ydata(np.log10(loss_amp))
+        loss_phase_line.set_ydata(np.log10(loss_angle))
 
-    k0_slider.reset()
-    k1_slider.reset()
-    k2_slider.reset()
-
-
-button1.on_clicked(reset1)
-
-"""
-plt.figure("Amplitude transfer function")
-plt.plot(t_func_fd[:, 0], 20 * np.log10(amp_meas_avg), label=f"Transfer function {sam_idx}")
-plt.plot(r_mod_fd[:, 0], 20 * np.log10(np.abs(r_mod_fd[:, 1])), label=f"r model")
-plt.plot(r_mod_fd_long[:, 0], 20 * np.log10(np.abs(r_mod_fd_long[:, 1])), label="r model long")
-plt.xlabel("Frequency (THz)")
-plt.ylabel("Amplitude (dB)")
-plt.legend()
-
-ref_fd, sam_fd = load_data(sam_idx_=sam_idx, polar=True)
-phase = sam_fd[:, 2] - ref_fd[:, 2]
-limited_slice = np.abs(phase) <= pi
+        fig0.canvas.draw_idle()
+        fig1.canvas.draw_idle()
 
 
-plt.figure("Phase transfer function")
-plt.plot(t_func_fd[:, 0], angle_meas_avg, label=f"Transfer function {sam_idx:04}")
-plt.plot(ref_fd[limited_slice, 0], phase[limited_slice], label=f"Polar form {sam_idx:04}")
-plt.plot(r_mod_fd[:, 0], np.angle(r_mod_fd[:, 1]), label=f"r model")
-plt.xlabel("Frequency (THz)")
-plt.ylabel("Phase (rad)")
-plt.legend()
+    k0_slider.on_changed(update)
+    k1_slider.on_changed(update)
+    k2_slider.on_changed(update)
 
-plt.figure("Time domain")
-# plt.plot(ref_td[:, 0], ref_td[:, 1], label=f"Reference {sam_idx}")
-# plt.plot(sam_td[:, 0], sam_td[:, 1], label=f"Sample {sam_idx}")
-# plt.plot(bk_gnd_td[:, 0], bk_gnd_td[:, 1], label=f"Background")
-plt.plot(mod_td[:, 0], mod_td[:, 1], label=f"model")
-plt.xlabel("Time (ps)")
-plt.ylabel("Amplitude (nA)")
-plt.legend()
+    n0_slider.on_changed(update)
+    n1_slider.on_changed(update)
+    n2_slider.on_changed(update)
+
+    d0_slider.on_changed(update)
+    d1_slider.on_changed(update)
+    d2_slider.on_changed(update)
+
+    resetax0 = fig0.add_axes([0.8, 0.010, 0.1, 0.04])
+    button0 = Button(resetax0, 'Reset', hovercolor='0.975')
 
 
-plt.figure("Amplitude")
-plt.plot(freqs, 20 * np.log10(np.abs(ref_fd[:, 1] - bk_fd[:, 1])), label=f"reference {sam_idx:04}")
-plt.plot(freqs, 20 * np.log10(np.abs(sam_fd[:, 1] - bk_fd[:, 1])), label=f"sample {sam_idx:04}")
-plt.plot(freqs, 20 * np.log10(np.abs(bk_fd[:, 1])), label=f"background")
-plt.plot(freqs, 20 * np.log10(np.abs(mod_fd[:, 1])), label=f"model")
-plt.xlabel("Frequency (THz)")
-plt.ylabel("Amplitude (dB)")
-plt.legend()
+    def reset0(event):
+        d0_slider.reset()
+        d1_slider.reset()
+        d2_slider.reset()
 
 
-plt.figure("Phase")
-plt.plot(freqs, (np.angle(ref_fd[:, 1])), label=f"reference {sam_idx:04}")
-plt.plot(freqs, (np.angle(sam_fd[:, 1])), label=f"sample {sam_idx:04}")
-plt.plot(freqs, (np.angle(mod_fd[:, 1])), label=f"model")
-plt.xlabel("Frequency (THz)")
-plt.ylabel("Phase (rad)")
-plt.legend()
-"""
+    button0.on_clicked(reset0)
 
-plt.show()
+    resetax1 = fig1.add_axes([0.8, 0.010, 0.1, 0.04])
+    button1 = Button(resetax1, 'Reset', hovercolor='0.975')
+
+
+    def reset1(event):
+        n0_slider.reset()
+        n1_slider.reset()
+        n2_slider.reset()
+
+        k0_slider.reset()
+        k1_slider.reset()
+        k2_slider.reset()
+
+
+    button1.on_clicked(reset1)
+
+    """
+    plt.figure("Amplitude transfer function")
+    plt.plot(t_func_fd[:, 0], 20 * np.log10(amp_meas), label=f"Transfer function {sam_idx}")
+    plt.plot(r_mod_fd[:, 0], 20 * np.log10(np.abs(r_mod_fd[:, 1])), label=f"r model")
+    plt.plot(r_mod_fd_long[:, 0], 20 * np.log10(np.abs(r_mod_fd_long[:, 1])), label="r model long")
+    plt.xlabel("Frequency (THz)")
+    plt.ylabel("Amplitude (dB)")
+    plt.legend()
+    
+    ref_fd, sam_fd = load_data(sam_idx_=sam_idx, polar=True)
+    phase = sam_fd[:, 2] - ref_fd[:, 2]
+    limited_slice = np.abs(phase) <= pi
+    
+    plt.figure("Phase transfer function")
+    plt.plot(t_func_fd[:, 0], angle_meas, label=f"Transfer function {sam_idx:04}")
+    plt.plot(ref_fd[limited_slice, 0], phase[limited_slice], label=f"Polar form {sam_idx:04}")
+    plt.plot(r_mod_fd[:, 0], np.angle(r_mod_fd[:, 1]), label=f"r model")
+    plt.xlabel("Frequency (THz)")
+    plt.ylabel("Phase (rad)")
+    plt.legend()
+    
+    plt.figure("Time domain")
+    # plt.plot(ref_td[:, 0], ref_td[:, 1], label=f"Reference {sam_idx}")
+    # plt.plot(sam_td[:, 0], sam_td[:, 1], label=f"Sample {sam_idx}")
+    # plt.plot(bk_gnd_td[:, 0], bk_gnd_td[:, 1], label=f"Background")
+    plt.plot(mod_td[:, 0], mod_td[:, 1], label=f"model")
+    plt.xlabel("Time (ps)")
+    plt.ylabel("Amplitude (nA)")
+    plt.legend()
+    
+    
+    plt.figure("Amplitude")
+    plt.plot(freqs, 20 * np.log10(np.abs(ref_fd[:, 1] - bk_fd[:, 1])), label=f"reference {sam_idx:04}")
+    plt.plot(freqs, 20 * np.log10(np.abs(sam_fd[:, 1] - bk_fd[:, 1])), label=f"sample {sam_idx:04}")
+    plt.plot(freqs, 20 * np.log10(np.abs(bk_fd[:, 1])), label=f"background")
+    plt.plot(freqs, 20 * np.log10(np.abs(mod_fd[:, 1])), label=f"model")
+    plt.xlabel("Frequency (THz)")
+    plt.ylabel("Amplitude (dB)")
+    plt.legend()
+    
+    
+    plt.figure("Phase")
+    plt.plot(freqs, (np.angle(ref_fd[:, 1])), label=f"reference {sam_idx:04}")
+    plt.plot(freqs, (np.angle(sam_fd[:, 1])), label=f"sample {sam_idx:04}")
+    plt.plot(freqs, (np.angle(mod_fd[:, 1])), label=f"model")
+    plt.xlabel("Frequency (THz)")
+    plt.ylabel("Phase (rad)")
+    plt.legend()
+    """
+
+    plt.show()

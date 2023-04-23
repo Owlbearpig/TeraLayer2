@@ -87,3 +87,6 @@ plot_range_OP = slice(25, 350)
 # eval_point = (10, 10)#(20, 9)
 
 shgo_iters = 6
+
+# selected_freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950], dtype=float)
+selected_freqs = array([0.100, 0.220, 0.650, 0.800, 0.910, 1.050], dtype=float)

@@ -61,7 +61,7 @@ def raw_data(sam_idx_=None, bk_gnd=False, polar=False):
     return ref_fd, sam_fd
 
 
-def transfer_function(sam_idx_):
+def processed_data(sam_idx_, ret_all=False):
     offset = 0
 
     ref_fd, sam_fd = raw_data(sam_idx_=sam_idx_)
@@ -73,8 +73,8 @@ def transfer_function(sam_idx_):
 
     ref_td, sam_td = shift(ref_td, 100 - offset), shift(sam_td, 100)
 
-    ref_td = window(ref_td, win_width=800, win_start=0, en_plot=False, slope=0.2, label="Ref")
-    sam_td = window(sam_td, win_width=800, win_start=0, en_plot=False, slope=0.2, label="Sam")
+    # ref_td = window(ref_td, win_width=800, win_start=0, en_plot=False, slope=0.2, label="Ref")
+    # sam_td = window(sam_td, win_width=800, win_start=0, en_plot=False, slope=0.2, label="Sam")
 
     ref_fd, sam_fd = do_fft(ref_td), do_fft(sam_td)
 
@@ -82,4 +82,59 @@ def transfer_function(sam_idx_):
     t_func_fd[:, 0] = freqs
     t_func_fd[:, 1] = sam_fd[:, 1] / ref_fd[:, 1]
 
-    return t_func_fd
+    if ret_all:
+        return t_func_fd, ref_fd, sam_fd
+    else:
+        return t_func_fd
+
+
+def mean_data(sam_idx_=None, ret_t_func=False):
+    freqs_ = processed_data(0)[:, 0].real
+    if sam_idx_ is None:
+        try:
+            t_func_fd_, ref_fd_, sam_fd_ = np.load("mean_data.npy")
+            amp_meas_ = np.abs(t_func_fd_[:, 1])
+            angle_meas_ = np.angle(t_func_fd_[:, 1])
+        except FileNotFoundError:
+            amp_meas_all, angle_meas_all, ref_all, sam_all = [], [], [], []
+            for s_idx in range(101):
+                t_func_fd_, ref_fd_, sam_fd_ = processed_data(s_idx, ret_all=True)
+
+                """
+                plt.figure("test")
+                plt.plot(np.angle(t_func_fd), label="angle before")
+                plt.figure("test2")
+                plt.plot(np.abs(t_func_fd), label="magn before")
+                """
+                ref_all.append(ref_fd_[:, 1])
+                sam_all.append(sam_fd_[:, 1])
+                amp_meas_all.append(np.abs(t_func_fd_[:, 1]))
+                angle_meas_all.append(np.angle(t_func_fd_[:, 1]))
+
+            ref_all = array(ref_all, dtype=complex)
+            sam_all = array(sam_all, dtype=complex)
+            amp_meas_all = array(amp_meas_all, dtype=complex)
+            angle_meas_all = array(angle_meas_all, dtype=complex)
+
+            ref_fd_mean = array([freqs_, np.mean(ref_all, axis=0)]).T
+            sam_fd_mean = array([freqs_, np.mean(sam_all, axis=0)]).T
+            amp_meas_mean = np.mean(amp_meas_all, axis=0)
+            angle_meas_mean = np.mean(angle_meas_all, axis=0)
+
+            t_func_mean = array([freqs_, amp_meas_mean * np.exp(1j * angle_meas_mean)]).T
+
+            data = array([t_func_mean, ref_fd_mean, sam_fd_mean], dtype=complex)
+
+            np.save("mean_data.npy", data)
+
+            ref_fd_, sam_fd_ = ref_fd_mean, sam_fd_mean
+            t_func_fd_, amp_meas_, angle_meas_ = t_func_mean, amp_meas_mean, angle_meas_mean
+    else:
+        t_func_fd_, ref_fd_, sam_fd_ = processed_data(sam_idx_, ret_all=True)
+        angle_meas_ = np.angle(t_func_fd_[:, 1])
+        amp_meas_ = np.abs(t_func_fd_[:, 1])
+
+    if ret_t_func:
+        return t_func_fd_
+
+    return t_func_fd_, ref_fd_, sam_fd_, amp_meas_, angle_meas_

@@ -303,7 +303,9 @@ def nm_gridsearch(cost_func, p0, options):
 
     if isinstance(p0, numfi):
         upscale = (2*pi*2**input_scaling)
-        res["x"] = array(res["x"]) * upscale
+        res["upscale"] = upscale
+        res["x_downscaled"] = res["x"]
+        res["x"] = array(res["x_downscaled"]) * upscale
         res["best_start_points"] = [array(x) * upscale for x in res["best_start_points"]]
 
     if options["verbose"]:

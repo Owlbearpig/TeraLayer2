@@ -372,7 +372,7 @@ def to_db(data_fd):
 
 
 def window(data_td, win_width=None, win_start=None, en_plot=False, slope=0.15, label=""):
-    t, y = data_td[:, 0], data_td[:, 1]
+    t, y = data_td[:, 0].real, data_td[:, 1].real
 
     pulse_width = 10  # ps
     dt = np.mean(np.diff(t))
@@ -421,7 +421,7 @@ def window(data_td, win_width=None, win_start=None, en_plot=False, slope=0.15, l
 
     # y_win = np.roll(y_win, -shift)
 
-    return np.array([t, y_win]).T
+    return np.array([t, y_win], dtype=float).T
 
 def phase_correction(data_fd, disable=False, fit_range=None, en_plot=False, extrapolate=False, rewrap=False,
                      ret_fd=False, both=False):
