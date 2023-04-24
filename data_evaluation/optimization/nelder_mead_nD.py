@@ -278,6 +278,7 @@ def nm_algo(start_val, cost_func, res, options):
 
 
 def nm_gridsearch(cost_func, p0, options):
+    p0 = array(p0, dtype=float)
     input_scaling = options["input_scale"]
 
     if not "simplex_spread" in options.keys():

@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
-from twos_compl_OF_v2 import CostFuncFixedPoint
+from model.of_meas_data_tmm_package import CostTMM
 from functools import partial
 from optimization.nelder_mead_nD import nm_gridsearch
-from twos_compl_datatype import Bin2sComp
+
 from numfi import numfi as numfi_
 from numpy import array, pi
 from consts import selected_freqs
@@ -11,35 +11,23 @@ import time
 
 
 if __name__ == '__main__':
-    np.random.seed(420)
-    p_sol = array([241., 661., 237.])
-    noise_factor = 0.00
     sam_idx = 45  # np.random.randint(0, 101)
 
-    pd, p = 4, 11
-    # pd, p = 4, 21
-    cost_inst = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_factor, plt_mod=True, sam_idx=sam_idx)
+    cost_inst = CostTMM(sam_idx)
     cost_func = cost_inst.cost
-
-    numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
     p0 = array([150, 600, 150])  # shouldn't change
     grid_spacing, size = 40, 3
 
-    # p0 = array([50, 660, 70])  # shouldn't change
-    # grid_spacing, size = 10, 3
+    options = {"grid_spacing": grid_spacing, "iterations": 15, "size": size,
+               "verbose": False, "enhance_step": False, "simplex_spread": 40, "input_scale": 6}
 
-    options = {"grid_spacing": grid_spacing, "iterations": 15, "numfi": numfi,
-               "size": size, "verbose": False, "enhance_step": False, "simplex_spread": 40, "input_scale": 6}
     start = time.process_time()
 
     res = nm_gridsearch(cost_func, p0, options)
 
-    r_mod = cost_inst.cost(res["x_downscaled"], ret_mod=True)
-    r_sol = cost_inst.cost(array([45.77, 660.0, 72.6]) / res["upscale"], ret_mod=True)
-
-    if sam_idx == -1:
-        print("Truth: ", p_sol)
+    r_mod = cost_inst.cost(res["x"], ret_mod=True)
+    r_sol = cost_inst.cost(array([45.77, 660.0, 72.6]), ret_mod=True)
 
     print("Found: ", res["x"], res["fun"])
     total_runtime = (750 / 3780) * res["total_iters"]

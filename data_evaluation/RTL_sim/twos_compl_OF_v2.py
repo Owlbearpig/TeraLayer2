@@ -41,7 +41,6 @@ def read_data_tds(sam_idx=10):
 
 
 def real_data_cw(sam_idx=10):
-    # [0.420, 0.520, 0.650, 0.800, 0.850, 0.950] * THz
     t_func_fd = mean_data(sam_idx, ret_t_func=True)
     freq_idx_lst = []
     for freq in selected_freqs:
@@ -68,7 +67,7 @@ class CostFuncFixedPoint:
             # print("r_experimental:\n", r_real)
             print("!!! Using experimental data !!!")
 
-        # print("r_model:\n", r_exp)
+        print(f"r_target: {r_exp}")
 
         self.r_exp_real = self.numfi(r_exp.real)
         self.r_exp_imag = self.numfi(r_exp.imag)

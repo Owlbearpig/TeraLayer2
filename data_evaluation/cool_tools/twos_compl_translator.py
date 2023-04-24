@@ -7,6 +7,7 @@ def translate_string(s, p):
 
     return "\n".join(convert_lines(s, p))
 
+
 def translate_single_string(s, p):
     p = int(p)
     return twos_compl_to_dec(s, p)

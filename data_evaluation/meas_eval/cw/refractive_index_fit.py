@@ -23,7 +23,7 @@ def filter(data_td, en=True):
     return data_td
 
 
-sam_idx = 10
+sam_idx = 45
 t_func_fd, ref_fd, sam_fd, amp_meas, angle_meas = mean_data(sam_idx_=sam_idx)
 
 freqs = t_func_fd[:, 0].real

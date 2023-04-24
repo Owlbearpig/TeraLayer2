@@ -161,7 +161,7 @@ def explicit_reflectance(lam, p=None):
         """
         we optimize F(p) = sum res^2 = sum (R-R0)^2. dF(p0, p1, p2)/di = 2*sum((R-R0)*dRi)
         :return: (2*sum((R-R0)*dR0), 2*sum((R-R0)*dR1), 2*sum((R-R0)*dR2))
-        TODO I think we want gradient wl resolved, so no sum, right? Confused as usual ...
+        TODO Should this be summed over wavelengths?
         """
         dR0, dR1, dR2 = dR()
         return np.array([2*(R-R0)*dR0, 2*(R-R0)*dR1, 2*(R-R0)*dR2]).transpose()

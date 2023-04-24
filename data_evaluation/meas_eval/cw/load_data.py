@@ -26,7 +26,6 @@ def raw_data(sam_idx_=None, bk_gnd=False, polar=False):
         sam_fd[sam_idx, :, :] = array(pd.read_csv(data_file).values)[f0_idx:f1_idx, ]
     # print(ref_td.shape)
 
-    f_offset = 0.0296  # 0.0296 with screenshot works
     ref_fd[:, 0] = (ref_fd[:, 0] / 1e6 - f_offset)
     sam_fd[:, :, 0] = (sam_fd[:, :, 0] / 1e6 - f_offset)
     bk_gnd_fd[:, 0] = (bk_gnd_fd[:, 0] / 1e6 - f_offset)
