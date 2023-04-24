@@ -10,24 +10,20 @@ import numpy as np
 import time
 
 
-if __name__ == '__main__':
+def single_measurement(sam_idx, en_plt=False):
     np.random.seed(420)
     p_sol = array([241., 661., 237.])
     noise_factor = 0.00
-    sam_idx = 45  # np.random.randint(0, 101)
 
     pd, p = 4, 11
     # pd, p = 4, 21
-    cost_inst = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_factor, plt_mod=True, sam_idx=sam_idx)
+    cost_inst = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_factor, en_plt=en_plt, sam_idx=sam_idx)
     cost_func = cost_inst.cost
 
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
     p0 = array([150, 600, 150])  # shouldn't change
     grid_spacing, size = 40, 3
-
-    # p0 = array([50, 660, 70])  # shouldn't change
-    # grid_spacing, size = 10, 3
 
     options = {"grid_spacing": grid_spacing, "iterations": 15, "numfi": numfi,
                "size": size, "verbose": False, "enhance_step": False, "simplex_spread": 40, "input_scale": 6}
@@ -47,11 +43,35 @@ if __name__ == '__main__':
     print("Runtime: ", time.process_time() - start, "(s)")
     print("Total obj. func. calls: ", res["nfev"])
 
-    plt.figure("Measurement")
-    plt.title(f"Found: " + str(res["x"]))
-    plt.plot(selected_freqs, np.abs(r_mod), label=f"model amplitude {sam_idx}")
-    plt.plot(selected_freqs, np.angle(r_mod), label=f"model phase {sam_idx}")
-    plt.plot(selected_freqs, np.abs(r_sol), label=f"solution amplitude {sam_idx}")
-    plt.plot(selected_freqs, np.angle(r_sol), label=f"solution phase {sam_idx}")
-    plt.legend()
+    if en_plt:
+        plt.figure("Measurement")
+        plt.title(f"Found: " + str(res["x"]))
+        plt.plot(selected_freqs, np.abs(r_mod), label=f"model amplitude {sam_idx}")
+        plt.plot(selected_freqs, np.angle(r_mod), label=f"model phase {sam_idx}")
+        plt.plot(selected_freqs, np.abs(r_sol), label=f"solution amplitude {sam_idx}")
+        plt.plot(selected_freqs, np.angle(r_sol), label=f"solution phase {sam_idx}")
+        plt.legend()
+        plt.show()
+
+    return res["x"]
+
+
+def all_measurements():
+    d0, d1, d2 = [], [], []
+    for idx in range(101):
+        res = single_measurement(idx)
+        d0.append(res["x"][0])
+        d1.append(res["x"][1])
+        d2.append(res["x"][2])
+
+    plt.plot(d0)
+    plt.plot(d1)
+    plt.plot(d2)
     plt.show()
+
+def main():
+    all_measurements()
+
+
+if __name__ == '__main__':
+    main()

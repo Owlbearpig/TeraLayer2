@@ -51,7 +51,7 @@ def real_data_cw(sam_idx=10):
 
 
 class CostFuncFixedPoint:
-    def __init__(self, pd, p, p_sol=array([168., 609., 98.]), sam_idx=None, noise=0.0, plt_mod=False):
+    def __init__(self, pd, p, p_sol=array([168., 609., 98.]), sam_idx=None, noise=0.0, en_plt=False):
         self.p_sol = array(p_sol)
         self.prec_int, self.prec = pd, p
         self.numfi = partial(numfi_, s=1, w=self.prec_int + self.prec, f=self.prec, fixed=True, rounding='floor')
@@ -60,7 +60,7 @@ class CostFuncFixedPoint:
         self.freqs = selected_freqs * THz
 
         if sam_idx == -1:
-            r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=noise, plt_mod=plt_mod).r_exp
+            r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=noise, plt_mod=False).r_exp
         else:
             r_exp = real_data_cw(sam_idx)
             # r_exp = read_data_tds(sam_idx)
@@ -72,9 +72,10 @@ class CostFuncFixedPoint:
         self.r_exp_real = self.numfi(r_exp.real)
         self.r_exp_imag = self.numfi(r_exp.imag)
 
-        plt.figure("Measurement")
-        plt.plot(selected_freqs, np.abs(r_exp), label=f"meas amplitude {sam_idx}")
-        plt.plot(selected_freqs, np.angle(r_exp), label=f"meas phase {sam_idx}")
+        if en_plt:
+            plt.figure("Measurement")
+            plt.plot(selected_freqs, np.abs(r_exp), label=f"meas amplitude {sam_idx}")
+            plt.plot(selected_freqs, np.angle(r_exp), label=f"meas phase {sam_idx}")
 
         a, b, f, g = coeffs
 
@@ -246,7 +247,7 @@ if __name__ == '__main__':
     // p = [999, 999, 999]
     // => f(p_sol, p) = 0.5715376463789499 (python) 
     """
-    pd, p = 4, 17
+    pd, p = 4, 11
     noise_factor = 0.00
     seed = 420
     from model.cost_function import Cost
@@ -254,7 +255,9 @@ if __name__ == '__main__':
 
     # p_sol = array([241., 661., 237.])
     # p_sol = array([43.0, 641.0, 74.0])
-    p_sol = array([45.77, 660.0, 72.6])
+    # p_sol = array([46, 660, 73])
+    # p_sol = array([42, 641, 74])
+    p_sol = array([50, 450, 100])
 
     p_test = p_sol / (2 * pi * 2 ** 6)
     print("test_point: ", p_test)
