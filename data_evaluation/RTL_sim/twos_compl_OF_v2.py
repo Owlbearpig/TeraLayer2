@@ -169,15 +169,15 @@ class CostFuncFixedPoint:
             return sine(x)
 
         def calc_cost(p_):
-            f0 = self.f * p_[0]
-            f1 = self.g * p_[1]
-            f2 = self.f * p_[2]
+            f0 = self.f * self.numfi(p_[0])
+            f1 = self.g * self.numfi(p_[1])
+            f2 = self.f * self.numfi(p_[2])
 
             s0, s1, s2, s3 = f0 + f1 + f2, f1, f2 - f0, f1 - f0 - f2
 
-            s0, s1, s2, s3 = c_mod(s0), c_mod(s1), c_mod(s2), c_mod(s3)
-            ss0, ss1, ss2, ss3 = sine(s0), sine(s1), sine(s2), sine(s3)
-            cs0, cs1, cs2, cs3 = cose(s0), cose(s1), cose(s2), cose(s3)
+            s0_, s1_, s2_, s3_ = c_mod(s0), c_mod(s1), c_mod(s2), c_mod(s3)
+            ss0, ss1, ss2, ss3 = sine(s0_), sine(s1_), sine(s2_), sine(s3_)
+            cs0, cs1, cs2, cs3 = cose(s0_), cose(s1_), cose(s2_), cose(s3_)
 
             # ss0, ss1, ss2, ss3 = [np.sin(s) for s in [s0, s1, s2, s3]]
             # cs0, cs1, cs2, cs3 = [np.cos(s) for s in [s0, s1, s2, s3]]
@@ -239,30 +239,20 @@ class CostFuncFixedPoint:
 
 if __name__ == '__main__':
     import time
-
-    """
-    // model data (r_exp) for p_sol = [168. 609.  98.], 
-    // p = [239.777814149857 476.259423971176 235.382882833481] 
-    // => f(p_sol, p) = 8.00341041043292 / 2 = 4.00170520521646 (python)
-    // p = [999, 999, 999]
-    // => f(p_sol, p) = 0.5715376463789499 (python) 
-    """
     pd, p = 4, 11
-    noise_factor = 0.00
-    seed = 420
     from model.cost_function import Cost
-    from functions import gen_p_sols
 
     # p_sol = array([241., 661., 237.])
     # p_sol = array([43.0, 641.0, 74.0])
-    # p_sol = array([46, 660, 73])
+    p_sol = array([46, 660, 73])
     # p_sol = array([42, 641, 74])
-    p_sol = array([50, 450, 100])
+    # p_sol = array([50, 450, 100])
 
     p_test = p_sol / (2 * pi * 2 ** 6)
     print("test_point: ", p_test)
+    sam_idx_ = 45
 
-    cost_func = CostFuncFixedPoint(p_sol=p_sol, pd=pd, p=p, noise=noise_factor, sam_idx=None).cost
+    cost_func = CostFuncFixedPoint(pd=pd, p=p, sam_idx=sam_idx_).cost
     start = time.process_time()
     loss = cost_func(p_test)
     print(loss)
