@@ -127,6 +127,36 @@ class CostFuncFixedPoint:
         self.max_loss = 0
 
     def cost(self, point, ret_mod=False):
+
+        def c_mod_v(s):
+            s_fp = numfi_(array(s), s=1, w=4 + self.prec, f=self.prec, fixed=True,
+                          rounding='floor')  # we can store the points as 3 + p
+
+            s_fp_long = numfi_(s_fp, s=1, w=7 + self.prec, f=self.prec, fixed=True, rounding='floor')
+
+            s_interm = (s_fp_long << 3) - (s_fp_long << 3).astype(int)  # 3 = 6 - 3
+
+            res = self.pi2 * self.numfi(s_interm)
+
+            res = numfi_(res, s=4, w=7 + self.prec, f=self.prec, fixed=True, rounding='floor')
+
+            res_out = np.zeros_like(res)
+            for i in range(len(res_out)):
+                res0 = res[i]
+                res1 = res0 + self.pi2
+                res2 = res0 - self.pi2
+
+                if not (res0 < 0) and (res0 > self.pi):
+                    res_out[i] = res2
+                elif (res0 < 0) and not (res1 > self.pi):
+                    res_out[i] = res1
+                else:
+                    res_out[i] = res0
+
+            res = self.numfi(res_out)
+
+            return res
+
         def c_mod(s):
             """
             should do (s % 2pi) and if res is > pi subtract 2pi
@@ -176,7 +206,7 @@ class CostFuncFixedPoint:
             s0, s1, s2, s3 = f0 + f1 + f2, f1, f2 - f0, f1 - f0 - f2
 
             s0_, s1_, s2_, s3_ = c_mod(s0), c_mod(s1), c_mod(s2), c_mod(s3)
-
+            s0v_, s1v_, s2v_, s3v_ = c_mod_v(s0), c_mod_v(s1), c_mod_v(s2), c_mod_v(s3)
             ss0, ss1, ss2, ss3 = sine(s0_), sine(s1_), sine(s2_), sine(s3_)
             cs0, cs1, cs2, cs3 = cose(s0_), cose(s1_), cose(s2_), cose(s3_)
 
@@ -245,7 +275,7 @@ if __name__ == '__main__':
 
     # p_sol = array([241., 661., 237.])
     # p_sol = array([43.0, 641.0, 74.0])
-    p_sol = array([46, 660, 73])
+    p_sol = array([146, 660, 73])
     # p_sol = array([42, 641, 74])
     # p_sol = array([50, 450, 100])
 
