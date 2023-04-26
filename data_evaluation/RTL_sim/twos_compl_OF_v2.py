@@ -176,6 +176,7 @@ class CostFuncFixedPoint:
             s0, s1, s2, s3 = f0 + f1 + f2, f1, f2 - f0, f1 - f0 - f2
 
             s0_, s1_, s2_, s3_ = c_mod(s0), c_mod(s1), c_mod(s2), c_mod(s3)
+
             ss0, ss1, ss2, ss3 = sine(s0_), sine(s1_), sine(s2_), sine(s3_)
             cs0, cs1, cs2, cs3 = cose(s0_), cose(s1_), cose(s2_), cose(s3_)
 

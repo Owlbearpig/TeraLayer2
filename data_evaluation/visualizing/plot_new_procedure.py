@@ -34,7 +34,7 @@ def fail_cnt(x, y):
     return cnt
 
 
-solutions = ROOT_DIR / "optimization" / "results_nm_grid.txt"
+solutions = ROOT_DIR / "optimization" / "results" / "FP_pd4_p11_real_data" / "FP_results_nm_grid_real_data_v2.txt"
 
 
 # vivado_sim_output_path = r"H:\IPs\eval\proj_eval1\proj_eval1.sim\sim_1\behav\xsim\sim_output.txt"
@@ -50,8 +50,9 @@ def read_optim_result(file_path):
             if (line_idx >= idx_start) * (line_idx <= idx_start + 110):
                 split_line = line.split(" __ ")
                 try:
-                    fevals_lst.append(float(split_line[4]))
-                    sam_idx, found = eval(split_line[0]), eval(split_line[1])
+                    fevals_lst.append(float(split_line[5]))
+                    #sam_idx, found = eval(split_line[0]), eval(split_line[1])
+                    sam_idx, found = line_idx-1, eval(split_line[1])
                 except Exception:
                     continue
                 sam_idx_lst.append(sam_idx)
@@ -66,7 +67,7 @@ def read_result_file(file_path=solutions, vivado_sim=False, p=22):
     results, truths, fevals = [], [], []
     with open(file_path, "r") as file:
         for line_idx, line in enumerate(file.readlines()):
-            idx_start = 109
+            idx_start = 0
             line_idx += 1
             if (line_idx >= idx_start) * (line_idx <= idx_start + 100):
                 split_line = line.split(" __ ")
@@ -136,8 +137,9 @@ if plot_version_2:
 
     plt.show()
 elif plot_optim_res_realdata:
-    res_file_path = ROOT_DIR / "optimization" / "results" / "FP_pd4_p11_cw" / "FP_results_nm_grid_cw_v1.txt"
-    sam_idx_lst, results, fevals = read_optim_result(res_file_path)
+    # res_file_path = ROOT_DIR / "optimization" / "results" / "FP_pd4_p11_cw" / "FP_results_nm_grid_cw_v1.txt"
+
+    sam_idx_lst, results, fevals = read_optim_result(solutions)
 
     f, (ax, ax2) = plt.subplots(2, 1, sharex=True)
     sample_idx_py = range(len(results))
