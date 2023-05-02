@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pan
 from meas_eval.tds.main import load_data
 from meas_eval.cw.load_data import mean_data
-from sample_coefficients import coeffs
+from sample_coefficients import default_coeffs
 
 
 def read_data_tds(sam_idx=10):
@@ -77,7 +77,7 @@ class CostFuncFixedPoint:
             plt.plot(selected_freqs, np.abs(r_exp), label=f"meas amplitude {sam_idx}")
             plt.plot(selected_freqs, np.angle(r_exp), label=f"meas phase {sam_idx}")
 
-        a, b, f, g = coeffs
+        a, b, f, g = default_coeffs()
 
         # old working vals
         # a, b = 0.300922921527581, 0.19737935744311108
@@ -138,7 +138,7 @@ class CostFuncFixedPoint:
 
             res = self.pi2 * self.numfi(s_interm)
 
-            res = numfi_(res, s=4, w=7 + self.prec, f=self.prec, fixed=True, rounding='floor')
+            res = numfi_(res, s=1, w=7 + self.prec, f=self.prec, fixed=True, rounding='floor')
 
             res_out = np.zeros_like(res)
             for i in range(len(res_out)):
