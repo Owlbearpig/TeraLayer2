@@ -1,10 +1,12 @@
 import numpy as np
 from tmm import (is_forward_angle, list_snell, seterr, interface_t, interface_r,
                  make_2x2_array)
+from functools import partial
 import sys
-from consts import *
-
-from meas_eval.cw.refractive_index_fit import n
+from numpy import array, pi, cos
+from scipy.constants import c as c0
+from consts import selected_freqs
+from numfi import numfi as numfi_
 from meas_eval.cw.refractive_index_fit import freqs as all_freqs
 
 EPSILON = sys.float_info.epsilon  # typical floating-point calculation error
@@ -123,21 +125,112 @@ def sample_coefficients(pol, n, th_0, freqs):
     return a, b, f, g
 
 
-angle_in = 8 * pi / 180
-freq_idx = [np.argmin(np.abs(f - all_freqs)) for f in selected_freqs]
-one = np.ones_like(selected_freqs)
+def combine_module_coefficients():
+    coeffs = default_coeffs()
+    a, b = coeffs[0], coeffs[1]
+    """
+    self.c0 = self.two * self.a * (self.b * self.b - self.one)
+    self.c1 = self.two * self.b
+    self.c2 = self.two * self.a * (self.one + self.b * self.b)
+    self.c3 = self.two * self.a * self.a * self.b
+    self.c4 = self.a * self.a
+    self.c5 = self.b * self.b - self.one
+    self.c6 = self.b * self.b + self.one
+    self.c7 = self.four * self.a * self.b
+    """
+    c = np.zeros((8, len(selected_freqs)))
+    c[0] = 2 * a * (b * b - 1)
+    c[1] = 2 * b
+    c[2] = 2 * a * (1 + b * b)
+    c[3] = 2 * a * a * b
+    c[4] = a * a
+    c[5] = b * b - 1
+    c[6] = b * b + 1
+    c[7] = 4 * a * b
 
-n0, n1, n2 = np.transpose(n[freq_idx, 1:4].real)
+    return c
 
-# n0 = array([1.513, 1.515, 1.520, 1.521, 1.522, 1.524], dtype=float)
-# n1 = array([2.782, 2.782, 2.784, 2.785, 2.786, 2.787], dtype=float)
-# n2 = array([1.513, 1.515, 1.520, 1.521, 1.522, 1.524], dtype=float)
 
-n = array([one, n0, n1, n2, one]).T
-print(n)
-np.set_printoptions(floatmode="fixed")
-coeffs = sample_coefficients("s", n, angle_in, selected_freqs)
-a_s, b_s = str(coeffs[0]).replace(" ", ", "), str(coeffs[1]).replace(" ", ", ")
-f_s, g_s = str(coeffs[2]).replace(" ", ", "), str(coeffs[3]).replace(" ", ", ")
+def _verilog_code():
+    print("\nVerilog assign f, g: ")
+    w = pd + p
+    coeffs = default_coeffs()
+    fs, gs = coeffs[2], coeffs[3]
 
-print(f"a: {a_s}\nb: {b_s}\nf: {f_s}\ng: {g_s}")
+    indent = "			"
+
+    for i, f_ in enumerate(fs):
+        f_ = numfi(f_ * scaling)
+        bin_s = numfi_(i + 1, w=cntr_w, f=0).bin[0]
+        if i == 0:
+            print(f"assign f = (cntr == 4'b{bin_s}) ? {w}'b{f_.bin[0]}: // {f_} ({f_.w} / {f_.f})")
+        else:
+            print(indent + f"(cntr == 4'b{bin_s}) ? {w}'b{f_.bin[0]}: // {f_} ({f_.w} / {f_.f})")
+    print(indent + "{(4+p){1'b0}};\n")
+
+    for i, g_ in enumerate(gs):
+        g_ = numfi(g_ * scaling)
+        bin_s = numfi_(i + 1, w=cntr_w, f=0).bin[0]
+        if i == 0:
+            print(f"assign g = (cntr == 4'b{bin_s}) ? {w}'b{g_.bin[0]}: // {g_} ({g_.w} / {g_.f})")
+        else:
+            print(indent + f"(cntr == 4'b{bin_s}) ? {w}'b{g_.bin[0]}: // {g_} ({g_.w} / {g_.f})")
+    print(indent + "{(4+p){1'b0}};\n")
+
+    c = combine_module_coefficients()
+    print("Verilog assign c array: ")
+    w = 3 + p
+    pipe_delay = 0
+    for c_idx in range(8):
+        for i, c_ in enumerate(c[c_idx]):
+            c_ = numfi_(c_, s=1, w=3 + p, f=p, rounding="floor")
+            bin_s = numfi_(i + 1 + pipe_delay, w=cntr_w, f=0).bin[0]
+            if i == 0:
+                print(f"assign c[{c_idx}] = (cntr == 4'b{bin_s}) ? {w}'b{c_.bin[0]}: // {c_} ({c_.w} / {c_.f})")
+            else:
+                print(indent + f"(cntr == 4'b{bin_s}) ? {w}'b{c_.bin[0]}: // {c_} ({c_.w} / {c_.f})")
+        print(indent + "{(4+p){1'b0}};\n")
+
+
+def default_coeffs():
+    from meas_eval.cw.refractive_index_fit import n
+
+    angle_in = 8 * pi / 180
+    freq_idx = [np.argmin(np.abs(f - all_freqs)) for f in selected_freqs]
+    one = np.ones_like(selected_freqs)
+
+    n0, n1, n2 = np.transpose(n[freq_idx, 1:4].real)
+
+    # n0 = array([1.513, 1.515, 1.520, 1.521, 1.522, 1.524], dtype=float)
+    # n1 = array([2.782, 2.782, 2.784, 2.785, 2.786, 2.787], dtype=float)
+    # n2 = array([1.513, 1.515, 1.520, 1.521, 1.522, 1.524], dtype=float)
+
+    n = array([one, n0, n1, n2, one]).T
+
+    return sample_coefficients("s", n, angle_in, selected_freqs)
+
+
+if __name__ == '__main__':
+    np.set_printoptions(floatmode="fixed")
+
+    #### settings #####
+    cntr_w = 5
+    pd, p = 4, 11
+    scaling = 2 ** 3
+    numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding="floor")
+
+    coeffs = default_coeffs()
+
+    from meas_eval.cw.refractive_index_fit import n
+    print(f"Frequencies (THz):\n{selected_freqs}\n")
+    freq_idx = [np.argmin(np.abs(f - all_freqs)) for f in selected_freqs]
+    print("Refractive index:\n", n[freq_idx, 1:4], "\n")
+
+    #### output #####
+
+    a_s, b_s = str(coeffs[0]).replace(" ", ", "), str(coeffs[1]).replace(" ", ", ")
+    f_s, g_s = str(coeffs[2]).replace(" ", ", "), str(coeffs[3]).replace(" ", ", ")
+
+    print(f"a: {a_s}\nb: {b_s}\nf: {f_s}\ng: {g_s}")
+
+    _verilog_code()
