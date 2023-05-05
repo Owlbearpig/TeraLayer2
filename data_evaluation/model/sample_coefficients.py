@@ -180,11 +180,11 @@ def _verilog_code():
     c = combine_module_coefficients()
     print("Verilog assign c array: ")
     w = 3 + p
-    pipe_delay = 0
+
     for c_idx in range(8):
         for i, c_ in enumerate(c[c_idx]):
             c_ = numfi_(c_, s=1, w=3 + p, f=p, rounding="floor")
-            bin_s = numfi_(i + 1 + pipe_delay, w=cntr_w, f=0).bin[0]
+            bin_s = numfi_(i + pipe_delay, w=cntr_w, f=0).bin[0]
             if i == 0:
                 print(f"assign c[{c_idx}] = (cntr == 4'b{bin_s}) ? {w}'b{c_.bin[0]}: // {c_} ({c_.w} / {c_.f})")
             else:
@@ -217,6 +217,7 @@ if __name__ == '__main__':
     cntr_w = 5
     pd, p = 4, 11
     scaling = 2 ** 3
+    pipe_delay = 5
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding="floor")
 
     coeffs = default_coeffs()

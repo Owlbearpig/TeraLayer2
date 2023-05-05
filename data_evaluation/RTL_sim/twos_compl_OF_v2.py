@@ -213,14 +213,29 @@ class CostFuncFixedPoint:
             # ss0, ss1, ss2, ss3 = [np.sin(s) for s in [s0, s1, s2, s3]]
             # cs0, cs1, cs2, cs3 = [np.cos(s) for s in [s0, s1, s2, s3]]
 
+            # sync
             d0 = ss1 * cs2
+            d1 = ss1 * ss2
+            d2 = self.c4 * cs3
+            d3 = self.c4 * ss3
+            d4 = self.c1 * ss0
+            d5 = self.c3 * ss3
 
-            m01_r = self.c0 * ss1 * ss2  # 2
-            m01_i = self.c1 * ss0 + self.c2 * d0 + self.c3 * ss3  # 4
+            # async
+            b0 = d2 - cs0
+            b1 = d3 + ss0
+            b2_ = self.c2 * d0
+            b3_ = self.c0 * d1
+            b4_ = self.c6 * b1
+            b5_ = self.c7 * d0
 
-            m11_r = self.c5 * (self.c4 * cs3 - cs0)  # 2
-            m11_i = self.c6 * (self.c4 * ss3 + ss0) + self.c7 * d0  # 4
+            m01_r = b3_  # 2
+            m01_i = d4 + b2_ + d5  # 4
 
+            m11_r = self.c5 * b0  # 2
+            m11_i = b4_ + b5_  # 4
+
+            # sync
             r_mod_enum_r = m01_r * m11_r + m01_i * m11_i
             r_mod_enum_i = m01_i * m11_r - m01_r * m11_i
             r_mod_denum = m11_r * m11_r + m11_i * m11_i
@@ -276,6 +291,7 @@ if __name__ == '__main__':
     # p_sol = array([241., 661., 237.])
     # p_sol = array([43.0, 641.0, 74.0])
     p_sol = array([146, 660, 73])
+    # p_sol = array([46, 660, 73])
     # p_sol = array([42, 641, 74])
     # p_sol = array([50, 450, 100])
 
