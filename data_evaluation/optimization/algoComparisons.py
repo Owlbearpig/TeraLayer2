@@ -48,7 +48,7 @@ if __name__ == '__main__':
     test_values = gen_p_sols(cnt=cnt, seed=seed)
     test_values = cnt*[[46.0, 660.0, 76.0]]
     deviations, failures, fevals_all = [], 0, []
-    with open(dir_ / f"FP_results_nm_grid_real_data_v2.txt", "a") as file:
+    with open(dir_ / f"FP_results_nm_grid_real_data_v2.1.txt", "a") as file:
         description = f"FP_p0_Gridsearch, "
         description += f"Seed={seed}, iters={iterations}, size={size}, grid_spacing={grid_spacing}, pd={pd}, p={p}"
         description += f", simplex_spread={simplex_spread}, noise_factor={noise_factor}"

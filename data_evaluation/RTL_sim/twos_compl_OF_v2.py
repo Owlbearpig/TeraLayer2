@@ -153,9 +153,7 @@ class CostFuncFixedPoint:
                 else:
                     res_out[i] = res0
 
-            res = self.numfi(res_out)
-
-            return res
+            return self.numfi(res_out)
 
         def c_mod(s):
             """
@@ -176,7 +174,8 @@ class CostFuncFixedPoint:
 
             res = self.pi2 * self.numfi(s_interm)
 
-            res = numfi_(res, s=4, w=7 + self.prec, f=self.prec, fixed=True, rounding='floor')
+            res = numfi_(res, s=1, w=7 + self.prec, f=self.prec, fixed=True, rounding='floor')
+
             res[res < 0] += self.pi2
             res[res > self.pi] -= self.pi2
 
@@ -191,6 +190,11 @@ class CostFuncFixedPoint:
             res = self.P * y * (np.abs(y) - self.one) + y
 
             return res
+
+        def sin_lut(s):
+            # -pi < s < pi
+
+            return
 
         def cose(x):
             x += 0.5 * self.pi
@@ -231,9 +235,9 @@ class CostFuncFixedPoint:
 
             if ret_mod:
                 return array(r_mod_enum_r / r_mod_denum) + 1j * array(r_mod_enum_i / r_mod_denum)
-
-            amp_error = 0.5 * amp_diff * amp_diff
-            phi_error = 0.5 * phi_diff * phi_diff
+            # exit() # TODO !! check if algorithm compare gives same result without /2
+            amp_error = amp_diff * amp_diff
+            phi_error = phi_diff * phi_diff
 
             """
             zero = self.zero.copy()
@@ -241,8 +245,8 @@ class CostFuncFixedPoint:
                 zero += amp_error[m]
                 zero += phi_error[m]
             """
-
-            loss = np.sum(amp_error + phi_error)
+            error = amp_error + phi_error
+            loss = np.sum(error)
 
             """
             if loss > self.max_loss:
