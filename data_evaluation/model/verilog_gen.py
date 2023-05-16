@@ -276,11 +276,32 @@ def _grid_point_gen():
     with open(dir_ / f"_grid_point_gen.txt", "w") as file:
         write_line = lambda line_: file.write(line_ + "\n")
 
-        p0_cnt = len(points)
+        write_line("")
+        write_line("initial begin")
+        p0 = initial_simplex(Point(points[0]), grid_options)
+        for i in range(4):
+            for j in range(3):
+                val = np.abs(p0.p[i].x[j])
+                val_bin = numfi_(val, s=0, w=w_d, f=p, rounding="floor")
+
+                line0 = f"p{i}_d{j}_0 = {w_d}'b{val_bin.bin[0]};"
+                line1 = f"// {val}, ({val_bin.w} / {val_bin.f}) // val*scaling {array(val) * c_}"
+                write_line(indent + line0 + line1)
+            if i != 3:
+                write_line("")
+        write_line("end\n")
+
+        p0_cnt = len(points)-1
+        cntr_w = 8
+        p0_cnt_bin = numfi_(p0_cnt, w=cntr_w, f=0).bin[0]
+        write_line(f"reg [{cntr_w}:0] p0_cnt = {cntr_w}'b{p0_cnt_bin}; // total p0 cnt {p0_cnt_bin} ({p0_cnt})\n")
+        write_line("always @(p0_idx) begin")
+        write_line(indent + "case(p0_idx)")
+
         write_line("/*")
-        write_line(f"total p0 count: {numfi_(p0_cnt, w=8, f=0).bin[0]} ({p0_cnt})")
+        write_line(f"total p0 count: {p0_cnt_bin} ({p0_cnt})")
         line = ""
-        for i, p_ in enumerate(points):
+        for i, p_ in enumerate(points[1:]):
             i += 1
             line += str((array(p_)*c_).astype(int)) + ", "
             if (i % 10) == 0:
@@ -289,7 +310,7 @@ def _grid_point_gen():
         write_line(line[:-2])
         write_line("*/\n")
 
-        for idx, point in enumerate(points):
+        for idx, point in enumerate(points[1:]):
             p0 = initial_simplex(Point(point), grid_options)
 
             write_line(f"// Initial point idx {idx}")
@@ -309,8 +330,8 @@ def _grid_point_gen():
         for i in range(4):
             for j in range(3):
                 write_line(indent + f"p{i}_d{j}_0 = p{i}_d{j}_0")
-                if i != 3:
-                    write_line("")
+            if i != 3:
+                write_line("")
         write_line("end")
         write_line("endcase")
         write_line("end")
