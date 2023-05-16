@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pan
 from meas_eval.tds.main import load_data
 from meas_eval.cw.load_data import mean_data
-from sample_coefficients import default_coeffs
+from verilog_gen import default_coeffs
 
 
 def read_data_tds(sam_idx=10):
@@ -220,14 +220,16 @@ class CostFuncFixedPoint:
             # sync
             d0 = ss1 * cs2
             d1 = ss1 * ss2
-            d2 = self.c4 * cs3
-            d3 = self.c4 * ss3
+            # d2 = self.c4 * cs3
+            # d3 = self.c4 * ss3
             d4 = self.c1 * ss0
             d5 = self.c3 * ss3
 
             # async
-            b0 = d2 - cs0
-            b1 = d3 + ss0
+            b0 = self.c4 * cs3 - cs0
+            b1 = self.c4 * ss3 + ss0
+            # b0 = d2 - cs0
+            # b1 = d3 + ss0
             b2_ = self.c2 * d0
             b3_ = self.c0 * d1
             b4_ = self.c6 * b1
@@ -245,14 +247,14 @@ class CostFuncFixedPoint:
             r_mod_denum = m11_r * m11_r + m11_i * m11_i
 
             # print("r_twos_compl:\n", (array(r_mod_enum_r) + 1j * array(r_mod_enum_i)) / array(r_mod_denum))
-            amp_diff = (r_mod_enum_r - self.r_exp_real * r_mod_denum)
-            phi_diff = (r_mod_enum_i - self.r_exp_imag * r_mod_denum)
+            diff_a0 = (r_mod_enum_r - self.r_exp_real * r_mod_denum)
+            diff_a1 = (r_mod_enum_i - self.r_exp_imag * r_mod_denum)
 
             if ret_mod:
                 return array(r_mod_enum_r / r_mod_denum) + 1j * array(r_mod_enum_i / r_mod_denum)
             # exit() # TODO !! check if algorithm compare gives same result without /2
-            amp_error = amp_diff * amp_diff
-            phi_error = phi_diff * phi_diff
+            b0_error = diff_a0 * diff_a0
+            b1_error = diff_a1 * diff_a1
 
             """
             zero = self.zero.copy()
@@ -260,7 +262,7 @@ class CostFuncFixedPoint:
                 zero += amp_error[m]
                 zero += phi_error[m]
             """
-            error = amp_error + phi_error
+            error = b0_error + b1_error
             loss = np.sum(error)
 
             """
@@ -294,14 +296,14 @@ if __name__ == '__main__':
 
     # p_sol = array([241., 661., 237.])
     # p_sol = array([43.0, 641.0, 74.0])
-    p_sol = array([146, 660, 73])
+    # p_sol = array([146, 660, 73])
     # p_sol = array([46, 660, 73])
     # p_sol = array([42, 641, 74])
-    # p_sol = array([50, 450, 100])
+    p_sol = array([50.5, 450, 100])
 
     p_test = p_sol / (2 * pi * 2 ** 6)
     print("test_point: ", p_test)
-    sam_idx_ = 45
+    sam_idx_ = 42
 
     cost_func = CostFuncFixedPoint(pd=pd, p=p, sam_idx=sam_idx_).cost
     start = time.process_time()

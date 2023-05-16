@@ -2,12 +2,15 @@ import numpy as np
 from tmm import (is_forward_angle, list_snell, seterr, interface_t, interface_r,
                  make_2x2_array)
 from functools import partial
+from pathlib import Path
 import sys
 from numpy import array, pi, cos
 from scipy.constants import c as c0
 from consts import selected_freqs
 from numfi import numfi as numfi_
 from meas_eval.cw.refractive_index_fit import freqs as all_freqs
+from meas_eval.cw.load_data import mean_data
+from optimization.nelder_mead_nD import grid, initial_simplex, Point
 
 EPSILON = sys.float_info.epsilon  # typical floating-point calculation error
 
@@ -79,7 +82,7 @@ Ri
  [ 0.          0.          0.          0.28276671  0.        ]
  [ 0.          0.          0.          0.          0.23950689]
  [ 0.          0.          0.          0.          0.        ]]
- 
+
 0.22150193517531785 0.2985850843731809
 0.22456210755125822 0.29723349994112047
 0.23359906762293864 0.2885141169419409
@@ -160,7 +163,7 @@ def _verilog_code():
     indent = "			"
 
     for i, f_ in enumerate(fs):
-        f_ = numfi(f_ * scaling)
+        f_ = numfi(f_ * 2**3)
         bin_s = numfi_(i + 1, w=cntr_w, f=0).bin[0]
         if i == 0:
             print(f"assign f = (cntr == 4'b{bin_s}) ? {w}'b{f_.bin[0]}: // {f_} ({f_.w} / {f_.f})")
@@ -169,7 +172,7 @@ def _verilog_code():
     print(indent + "{(4+p){1'b0}};\n")
 
     for i, g_ in enumerate(gs):
-        g_ = numfi(g_ * scaling)
+        g_ = numfi(g_ * 2**3)
         bin_s = numfi_(i + 1, w=cntr_w, f=0).bin[0]
         if i == 0:
             print(f"assign g = (cntr == 4'b{bin_s}) ? {w}'b{g_.bin[0]}: // {g_} ({g_.w} / {g_.f})")
@@ -210,24 +213,137 @@ def default_coeffs():
     return sample_coefficients("s", n, angle_in, selected_freqs)
 
 
+def _sample_data(sam_idx=0):
+    def _real_data_cw():
+        t_func_fd = mean_data(sam_idx, ret_t_func=True)
+        freq_idx_lst = []
+        for freq in selected_freqs:
+            f_idx = np.argmin(np.abs(freq - t_func_fd[:, 0].real))
+            freq_idx_lst.append(f_idx)
+
+        return t_func_fd[freq_idx_lst, 1]
+
+    w = 3 + p
+    r_exp = _real_data_cw()
+    print(f"r_target: {r_exp}")
+    _numfi = partial(numfi_, s=1, w=w, f=p, fixed=True, rounding="floor")
+    r_exp_real = _numfi(r_exp.real)
+    r_exp_imag = _numfi(r_exp.imag)
+
+    indent = "    "
+
+    print("cur_data_real = {")
+    for i in range(len(r_exp)):
+        line0 = f"{w}'b{r_exp_real[i].bin[0]}"
+        line1 = f" // {r_exp_real[i]} ({r_exp_real[i].w} / {r_exp_real[i].f})"
+        if i == len(r_exp) - 1:
+            print(indent + line0 + line1)
+        else:
+            print(indent + line0 + "," + line1)
+    print("};\n")
+
+    print("cur_data_imag = {")
+    for i in range(len(r_exp)):
+        line0 = f"{w}'b{r_exp_imag[i].bin[0]}"
+        line1 = f" // {r_exp_imag[i]} ({r_exp_imag[i].w} / {r_exp_imag[i].f})"
+        if i == len(r_exp) - 1:
+            print(indent + line0 + line1)
+        else:
+            print(indent + line0 + "," + line1)
+    print("};\n")
+
+
+def _sim_p(p_):
+    p_test = p_ / (2 * pi * 2**input_scale)
+    p_test = numfi(p_test)
+
+    for i in range(len(p_test)):
+        line = f"i_d{i}_r = {p_test.w}'b{p_test[i].bin[0]}; // {p_test[i]} ({p_test[i].w} / {p_test[i].f}) // {p_[i]}"
+        print(line)
+
+
+def _grid_point_gen():
+    w_d = 3 + p
+    _numfi = partial(numfi_, s=1, w=w_d, f=p, fixed=True, rounding="floor")
+    c_ = 2*pi*2**input_scale
+    p_center_ = _numfi(array(p_center) * (1 / c_))
+    indent = "    "
+
+    points = grid(p_center_, grid_options)
+
+    dir_ = Path("verilog_gen_output")
+    dir_.mkdir(exist_ok=True)
+    with open(dir_ / f"_grid_point_gen.txt", "w") as file:
+        write_line = lambda line_: file.write(line_ + "\n")
+
+        p0_cnt = len(points)
+        write_line("/*")
+        write_line(f"total p0 count: {numfi_(p0_cnt, w=8, f=0).bin[0]} ({p0_cnt})")
+        line = ""
+        for i, p_ in enumerate(points):
+            i += 1
+            line += str((array(p_)*c_).astype(int)) + ", "
+            if (i % 10) == 0:
+                write_line(line)
+                line = ""
+        write_line(line[:-2])
+        write_line("*/\n")
+
+        for idx, point in enumerate(points):
+            p0 = initial_simplex(Point(point), grid_options)
+
+            write_line(f"// Initial point idx {idx}")
+            write_line(f"8\'b{numfi_(idx, w=8, f=0).bin[0]} : begin")
+            for i in range(4):
+                for j in range(3):
+                    val = np.abs(p0.p[i].x[j])
+                    val_bin = numfi_(val, s=0, w=w_d, f=p, rounding="floor")
+
+                    line0 = f"p{i}_d{j}_0 = {w_d}'b{val_bin.bin[0]};"
+                    line1 = f"// {val}, ({val_bin.w} / {val_bin.f}) // val*scaling {array(val)*c_}"
+                    write_line(indent + line0 + line1)
+                if i != 3:
+                    write_line("")
+            write_line("end")
+        write_line("default : begin")
+        for i in range(4):
+            for j in range(3):
+                write_line(indent + f"p{i}_d{j}_0 = p{i}_d{j}_0")
+                if i != 3:
+                    write_line("")
+        write_line("end")
+        write_line("endcase")
+        write_line("end")
+        write_line("endmodule")
+
+
 if __name__ == '__main__':
     np.set_printoptions(floatmode="fixed")
 
     #### settings #####
     cntr_w = 5
     pd, p = 4, 11
-    scaling = 2 ** 3
+    input_scale = 6
     pipe_delay = 5
+
+    ### grid and simplex ####
+    p_center = [150, 600, 150]
+    grid_size = 3
+    grid_spacing = 40
+    grid_options = {"input_scale": input_scale, "grid_spacing": grid_spacing, "size": grid_size,
+                    "simplex_spread": 40}
+
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding="floor")
 
     coeffs = default_coeffs()
 
     from meas_eval.cw.refractive_index_fit import n
+
+    #### output #####
+
     print(f"Frequencies (THz):\n{selected_freqs}\n")
     freq_idx = [np.argmin(np.abs(f - all_freqs)) for f in selected_freqs]
     print("Refractive index:\n", n[freq_idx, 1:4], "\n")
-
-    #### output #####
 
     a_s, b_s = str(coeffs[0]).replace(" ", ", "), str(coeffs[1]).replace(" ", ", ")
     f_s, g_s = str(coeffs[2]).replace(" ", ", "), str(coeffs[3]).replace(" ", ", ")
@@ -235,3 +351,17 @@ if __name__ == '__main__':
     print(f"a: {a_s}\nb: {b_s}\nf: {f_s}\ng: {g_s}")
 
     _verilog_code()
+
+    _sample_data(sam_idx=42)
+
+    # p_sol = array([241., 661., 237.])
+    # p_sol = array([43.0, 641.0, 74.0])
+    # p_sol = array([146, 660, 73])
+    # p_sol = array([46, 660, 73])
+    # p_sol = array([42, 641, 74])
+    # p_sol = array([50, 450, 100])
+    p_sol = array([50, 450, 100])
+
+    _sim_p(p_sol)
+
+    _grid_point_gen()

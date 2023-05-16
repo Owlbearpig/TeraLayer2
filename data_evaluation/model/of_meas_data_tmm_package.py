@@ -5,7 +5,7 @@ from consts import selected_freqs, array, THz, pi, c0, thea
 import numpy as np
 from tmm_package import coh_tmm_slim_unsafe
 from meas_eval.cw.load_data import mean_data
-from sample_coefficients import n
+from verilog_gen import n
 
 
 def real_data_cw(sam_idx=10):
