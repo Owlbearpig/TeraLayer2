@@ -299,7 +299,7 @@ if __name__ == '__main__':
     # p_sol = array([146, 660, 73])
     # p_sol = array([46, 660, 73])
     # p_sol = array([42, 641, 74])
-    p_sol = array([50.5, 450, 100])
+    p_sol = array([50, 450, 100])
 
     p_test = p_sol / (2 * pi * 2 ** 6)
     print("test_point: ", p_test)

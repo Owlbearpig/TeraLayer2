@@ -263,7 +263,7 @@ def _sim_p(p_):
 
 
 def _grid_point_gen():
-    w_d = 3 + p
+    w_d = 4 + p
     _numfi = partial(numfi_, s=1, w=w_d, f=p, fixed=True, rounding="floor")
     c_ = 2*pi*2**input_scale
     p_center_ = _numfi(array(p_center) * (1 / c_))
@@ -274,7 +274,7 @@ def _grid_point_gen():
     dir_ = Path("verilog_gen_output")
     dir_.mkdir(exist_ok=True)
     with open(dir_ / f"_grid_point_gen.txt", "w") as file:
-        write_line = lambda line_: file.write(line_ + "\n")
+        write_line = lambda line_: file.write(indent + line_ + "\n")
 
         write_line("")
         write_line("initial begin")
@@ -294,7 +294,7 @@ def _grid_point_gen():
         p0_cnt = len(points)-1
         cntr_w = 8
         p0_cnt_bin = numfi_(p0_cnt, w=cntr_w, f=0).bin[0]
-        write_line(f"reg [{cntr_w}:0] p0_cnt = {cntr_w}'b{p0_cnt_bin}; // total p0 cnt {p0_cnt_bin} ({p0_cnt})\n")
+        write_line(f"reg [{cntr_w-1}:0] p0_cnt = {cntr_w}'b{p0_cnt_bin}; // total p0 cnt {p0_cnt_bin} ({p0_cnt})\n")
         write_line("always @(p0_idx) begin")
         write_line(indent + "case(p0_idx)")
 
@@ -329,7 +329,7 @@ def _grid_point_gen():
         write_line("default : begin")
         for i in range(4):
             for j in range(3):
-                write_line(indent + f"p{i}_d{j}_0 = p{i}_d{j}_0")
+                write_line(indent + f"p{i}_d{j}_0 = p{i}_d{j}_0;")
             if i != 3:
                 write_line("")
         write_line("end")
@@ -378,10 +378,10 @@ if __name__ == '__main__':
     # p_sol = array([241., 661., 237.])
     # p_sol = array([43.0, 641.0, 74.0])
     # p_sol = array([146, 660, 73])
-    # p_sol = array([46, 660, 73])
+    p_sol = array([46, 660, 73])
     # p_sol = array([42, 641, 74])
     # p_sol = array([50, 450, 100])
-    p_sol = array([50, 450, 100])
+    # p_sol = array([50, 450, 100])
 
     _sim_p(p_sol)
 
