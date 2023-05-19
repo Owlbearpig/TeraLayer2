@@ -23,10 +23,16 @@ def single_measurement(sam_idx, en_plt=False):
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
     p0 = array([150, 600, 150])  # shouldn't change
-    grid_spacing, size = 40, 3
+    grid_spacing = 40
+    size = 3
+    simplex_spread = 40
+    iterations = 15
+    input_scale = 6  # don't change
 
-    options = {"grid_spacing": grid_spacing, "iterations": 15, "numfi": numfi,
-               "size": size, "verbose": False, "enhance_step": False, "simplex_spread": 40, "input_scale": 6}
+    options = {"grid_spacing": grid_spacing, "iterations": iterations, "numfi": numfi, "size": size,
+               "verbose": False, "enhance_step": False, "simplex_spread": simplex_spread, "input_scale": input_scale,
+               "debug": True}
+
     start = time.process_time()
 
     res = nm_gridsearch(cost_func, p0, options)
@@ -38,8 +44,8 @@ def single_measurement(sam_idx, en_plt=False):
         print("Truth: ", p_sol)
 
     print("Found: ", res["x"], res["fun"])
-    total_runtime = (750 / 3780) * res["total_iters"]
-    print("Total iterations:", res["total_iters"], f"Estimated FPGA runtime: {total_runtime} us")
+    est_fpga_runtime = (750 / 3780) * res["total_iters"]
+    print("Total iterations:", res["total_iters"], f"Estimated FPGA runtime: {est_fpga_runtime} us")
     print("Runtime: ", time.process_time() - start, "(s)")
     print("Total obj. func. calls: ", res["nfev"])
 
@@ -69,8 +75,10 @@ def all_measurements():
     plt.plot(d2)
     plt.show()
 
+
 def main():
-    all_measurements()
+    single_measurement(sam_idx=42)
+    # all_measurements()
 
 
 if __name__ == '__main__':

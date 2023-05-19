@@ -254,12 +254,21 @@ def _sample_data(sam_idx=0):
 
 
 def _sim_p(p_):
-    p_test = p_ / (2 * pi * 2**input_scale)
+    p_ = array(p_)
+    scale = (2 * pi * 2 ** input_scale)
+    p_upscaled = p_
+    if all(p_ < 4.0):
+        p_upscaled *= scale
+        scale = 1
+
+    p_test = p_ / scale
     p_test = numfi(p_test)
 
     for i in range(len(p_test)):
         line = f"i_d{i}_r = {p_test.w}'b{p_test[i].bin[0]}; // {p_test[i]} ({p_test[i].w} / {p_test[i].f}) // {p_[i]}"
+        line += f" {p_upscaled[i]}"
         print(line)
+    print()
 
 
 def _grid_point_gen():
@@ -378,11 +387,16 @@ if __name__ == '__main__':
     # p_sol = array([241., 661., 237.])
     # p_sol = array([43.0, 641.0, 74.0])
     # p_sol = array([146, 660, 73])
-    p_sol = array([46, 660, 73])
+    # p_sol = array([46, 660, 73])
     # p_sol = array([42, 641, 74])
     # p_sol = array([50, 450, 100])
     # p_sol = array([50, 450, 100])
+    p1 = array([0.02539062, 1.19287109, 0.17333984])
+    p2 = array([0.07373047, 1.19287109, 0.17333984])
+    p3 = array([0.07373047, 1.09375,    0.17333984])
+    p4 = array([0.07373047, 1.19287109, 0.07421875])
 
-    _sim_p(p_sol)
+    for p_ in [p1, p2, p3, p4]:
+        _sim_p(p_)
 
     _grid_point_gen()

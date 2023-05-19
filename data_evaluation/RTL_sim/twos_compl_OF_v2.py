@@ -67,7 +67,7 @@ class CostFuncFixedPoint:
             # print("r_experimental:\n", r_real)
             print("!!! Using experimental data !!!")
 
-        print(f"r_target: {r_exp}")
+        print(f"r_target: {r_exp}\n")
 
         self.r_exp_real = self.numfi(r_exp.real)
         self.r_exp_imag = self.numfi(r_exp.imag)

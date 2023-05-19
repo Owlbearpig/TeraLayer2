@@ -97,9 +97,11 @@ def initial_simplex(p_start, options=None, res=None, cost_func=None):
         for j in range(n):
             if i - 1 == j:
                 if isinstance(p_start.x, numfi):
-                    simplex.p[i].x[j] = p_start.x[j] - (spread / (2 * pi * 2 ** input_scaling))
+                    val = p_start.x[j] - (spread / (2 * pi * 2 ** input_scaling))
+                    simplex.p[i].x[j] = np.abs(val)
                 else:
-                    simplex.p[i].x[j] = p_start.x[j] - spread
+                    val = p_start.x[j] - spread
+                    simplex.p[i].x[j] = val
             else:
                 simplex.p[i].x[j] = p_start.x[j]
         if cost_func is not None:
@@ -130,13 +132,22 @@ def grid(p_center, options=None):
                 if all(point) and all([x >= 0 for x in point]):
                     grid_points.append(point)
 
-    return grid_points
+    ret = grid_points
+    if "debug" in options.keys():
+        if options["debug"]:
+            ret = [grid_points[1]]
+
+    return ret
 
 
 def nm_algo(start_val, cost_func, res, options):
     iterations = options["iterations"]
     input_scaling = options["input_scale"]
+
     verbose = options["verbose"]
+    if "debug" in options.keys():
+        if options["debug"]:
+            verbose = True
 
     p_start = Point(start_val, name="Start point")
     if verbose:
