@@ -301,14 +301,22 @@ if __name__ == '__main__':
     # p_sol = array([42, 641, 74])
     p_sol = array([50, 450, 100])
 
+    p1 = array([0.02539062, 1.19287109, 0.17333984])
+    p2 = array([0.07373047, 1.19287109, 0.17333984])
+    p3 = array([0.07373047, 1.09375, 0.17333984])
+    p4 = array([0.07373047, 1.19287109, 0.07421875])
+    p5 = array([0.06494140625, 1.17529296875, 0.12353515625])
+    p6 = array([0.03466796875, 1.27734375, 0.13916015625])
+
     p_test = p_sol / (2 * pi * 2 ** 6)
     print("test_point: ", p_test)
     sam_idx_ = 42
 
     cost_func = CostFuncFixedPoint(pd=pd, p=p, sam_idx=sam_idx_).cost
     start = time.process_time()
-    loss = cost_func(p_test)
-    print(loss)
+    for p_ in [p1, p2, p3, p4, p5, p6]:
+        loss = cost_func(p_)
+        print(p_, loss)
 
     plt.show()
     """

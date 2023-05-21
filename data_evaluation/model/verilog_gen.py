@@ -213,9 +213,9 @@ def default_coeffs():
     return sample_coefficients("s", n, angle_in, selected_freqs)
 
 
-def _sample_data(sam_idx=0):
-    def _real_data_cw():
-        t_func_fd = mean_data(sam_idx, ret_t_func=True)
+def _sample_data(sam_idx=None):
+    def _real_data_cw(s_idx):
+        t_func_fd = mean_data(s_idx, ret_t_func=True)
         freq_idx_lst = []
         for freq in selected_freqs:
             f_idx = np.argmin(np.abs(freq - t_func_fd[:, 0].real))
@@ -223,45 +223,77 @@ def _sample_data(sam_idx=0):
 
         return t_func_fd[freq_idx_lst, 1]
 
-    w = 3 + p
-    r_exp = _real_data_cw()
-    print(f"r_target: {r_exp}")
-    _numfi = partial(numfi_, s=1, w=w, f=p, fixed=True, rounding="floor")
-    r_exp_real = _numfi(r_exp.real)
-    r_exp_imag = _numfi(r_exp.imag)
-
     indent = "    "
+    w = 3 + p
 
-    print("cur_data_real = {")
-    for i in range(len(r_exp)):
-        line0 = f"{w}'b{r_exp_real[i].bin[0]}"
-        line1 = f" // {r_exp_real[i]} ({r_exp_real[i].w} / {r_exp_real[i].f})"
-        if i == len(r_exp) - 1:
-            print(indent + line0 + line1)
-        else:
-            print(indent + line0 + "," + line1)
-    print("};\n")
+    def _sample_data_v(out, sam_idx_):
+        r_exp = _real_data_cw(sam_idx_)
+        if out is print:
+            out(f"r_target: {r_exp}")
+        _numfi = partial(numfi_, s=1, w=w, f=p, fixed=True, rounding="floor")
+        r_exp_real = _numfi(r_exp.real)
+        r_exp_imag = _numfi(r_exp.imag)
 
-    print("cur_data_imag = {")
-    for i in range(len(r_exp)):
-        line0 = f"{w}'b{r_exp_imag[i].bin[0]}"
-        line1 = f" // {r_exp_imag[i]} ({r_exp_imag[i].w} / {r_exp_imag[i].f})"
-        if i == len(r_exp) - 1:
-            print(indent + line0 + line1)
-        else:
-            print(indent + line0 + "," + line1)
-    print("};\n")
+        out(f"// sam_idx = {sam_idx_}:")
+        out("cur_data_real = {")
+        for i in range(len(r_exp)):
+            line0 = f"{w}'b{r_exp_real[i].bin[0]}"
+            line1 = f" // {r_exp_real[i]} ({r_exp_real[i].w} / {r_exp_real[i].f})"
+            if i == len(r_exp) - 1:
+                out(indent + line0 + line1)
+            else:
+                out(indent + line0 + "," + line1)
+        out("};\n")
+
+        out("cur_data_imag = {")
+        for i in range(len(r_exp)):
+            line0 = f"{w}'b{r_exp_imag[i].bin[0]}"
+            line1 = f" // {r_exp_imag[i]} ({r_exp_imag[i].w} / {r_exp_imag[i].f})"
+            if i == len(r_exp) - 1:
+                out(indent + line0 + line1)
+            else:
+                out(indent + line0 + "," + line1)
+        out("};\n")
+
+    if sam_idx is not None:
+        _sample_data_v(out=print, sam_idx_=sam_idx)
+    else:
+        dir_ = Path("verilog_gen_output")
+        dir_.mkdir(exist_ok=True)
+        with open(dir_ / f"_sample_data_v.txt", "w") as file:
+            def write_line(line_, indents=0):
+                file.write(indents * indent + line_ + "\n")
+
+            write_line_ = partial(write_line, indents=2)
+
+            write_line("initial begin", 1)
+            write_line("cur_data_real = {6*(3+p){1'b0}};", 2)
+            write_line("cur_data_imag = {6*(3+p){1'b0}};", 2)
+            write_line("#40", 2)
+            _sample_data_v(out=write_line_, sam_idx_=0)
+            write_line("end", 1)
+            write_line("always @(posedge eval_done) begin", 1)
+            write_line("eval_done_cntr <= eval_done_cntr + 1;", 2)
+            write_line("case (eval_done_cntr)", 2)
+            for idx in range(1, 101):
+                write_line(f"{idx} : begin", 2)
+                _sample_data_v(out=write_line_, sam_idx_=idx)
+                write_line("end", 2)
+            write_line("endcase", 2)
+            write_line("end", 1)
 
 
 def _sim_p(p_):
     p_ = array(p_)
-    scale = (2 * pi * 2 ** input_scale)
-    p_upscaled = p_
-    if all(p_ < 4.0):
-        p_upscaled *= scale
-        scale = 1
 
-    p_test = p_ / scale
+    scale = (2 * pi * 2 ** input_scale)
+    if all(p_ < 4.0):
+        p_upscaled = p_ * scale
+        p_test = p_.copy()
+    else:
+        p_upscaled = p_.copy()
+        p_test = p_ / scale
+
     p_test = numfi(p_test)
 
     for i in range(len(p_test)):
@@ -301,8 +333,8 @@ def _grid_point_gen():
         write_line("end\n")
 
         p0_cnt = len(points)-1
-        cntr_w = 8
-        p0_cnt_bin = numfi_(p0_cnt, w=cntr_w, f=0).bin[0]
+        cntr_w = 10
+        p0_cnt_bin = numfi_(p0_cnt, s=0, w=cntr_w, f=0).bin[0]
         write_line(f"reg [{cntr_w-1}:0] p0_cnt = {cntr_w}'b{p0_cnt_bin}; // total p0 cnt {p0_cnt_bin} ({p0_cnt})\n")
         write_line("always @(p0_idx) begin")
         write_line(indent + "case(p0_idx)")
@@ -323,7 +355,7 @@ def _grid_point_gen():
             p0 = initial_simplex(Point(point), grid_options)
 
             write_line(f"// Initial point idx {idx}")
-            write_line(f"8\'b{numfi_(idx, w=8, f=0).bin[0]} : begin")
+            write_line(f"{cntr_w}\'b{numfi_(idx, w=cntr_w, f=0).bin[0]} : begin")
             for i in range(4):
                 for j in range(3):
                     val = np.abs(p0.p[i].x[j])
@@ -382,7 +414,7 @@ if __name__ == '__main__':
 
     _verilog_code()
 
-    _sample_data(sam_idx=42)
+    _sample_data(sam_idx=None)
 
     # p_sol = array([241., 661., 237.])
     # p_sol = array([43.0, 641.0, 74.0])

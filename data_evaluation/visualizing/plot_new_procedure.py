@@ -34,11 +34,12 @@ def fail_cnt(x, y):
     return cnt
 
 
-solutions = ROOT_DIR / "optimization" / "results" / "FP_pd4_p11_real_data" / "FP_results_nm_grid_real_data_v2.txt"
-
+# solutions = ROOT_DIR / "optimization" / "results" / "FP_pd4_p11_real_data" / "FP_results_nm_grid_real_data_v2.txt"
+solutions = r"H:\IPs\eval\proj_eval1\proj_eval1.sim\sim_1\behav\xsim\sim_output.txt"
 
 # vivado_sim_output_path = r"H:\IPs\eval\proj_eval1\proj_eval1.sim\sim_1\behav\xsim\sim_output.txt"
 #
+
 
 def read_optim_result(file_path):
     # sam_idx __ found __ fx __ p0 __ fevals __ opt_p0
@@ -49,16 +50,28 @@ def read_optim_result(file_path):
             line_idx += 1
             if (line_idx >= idx_start) * (line_idx <= idx_start + 110):
                 split_line = line.split(" __ ")
+
                 try:
                     fevals_lst.append(float(split_line[5]))
-                    #sam_idx, found = eval(split_line[0]), eval(split_line[1])
+                except IndexError:
+                    try:
+                        fevals_lst.append(float(split_line[-1]))
+                    except Exception:
+                        pass
+                try:
                     sam_idx, found = line_idx-1, eval(split_line[1])
                 except Exception:
-                    continue
+                    pass
+
                 sam_idx_lst.append(sam_idx)
                 found_lst.append(found)
 
-    return sam_idx_lst, array(found_lst), fevals_lst
+    found_arr = array(found_lst)
+
+    if (found_arr < 4.0).all():
+        found_arr *= (2*np.pi*2**6)
+
+    return sam_idx_lst, found_arr, fevals_lst
 
 
 def read_result_file(file_path=solutions, vivado_sim=False, p=22):
@@ -83,7 +96,12 @@ def read_result_file(file_path=solutions, vivado_sim=False, p=22):
                 results.append(res)
                 truths.append(truth)
 
-    return results, truths, fevals
+    result_arr = array(results)
+
+    if (result_arr < 4.0).all():
+        result_arr *= (2 * np.pi * 2 ** 6)
+
+    return result_arr, truths, fevals
 
 
 

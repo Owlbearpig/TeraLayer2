@@ -31,7 +31,7 @@ def single_measurement(sam_idx, en_plt=False):
 
     options = {"grid_spacing": grid_spacing, "iterations": iterations, "numfi": numfi, "size": size,
                "verbose": False, "enhance_step": False, "simplex_spread": simplex_spread, "input_scale": input_scale,
-               "debug": True}
+               "debug": False}
 
     start = time.process_time()
 
@@ -77,7 +77,7 @@ def all_measurements():
 
 
 def main():
-    single_measurement(sam_idx=42)
+    single_measurement(sam_idx=44)
     # all_measurements()
 
 
