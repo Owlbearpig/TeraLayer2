@@ -307,14 +307,15 @@ if __name__ == '__main__':
     p4 = array([0.07373047, 1.19287109, 0.07421875])
     p5 = array([0.06494140625, 1.17529296875, 0.12353515625])
     p6 = array([0.03466796875, 1.27734375, 0.13916015625])
+    p7 = array([0.025390625, 1.19287109375, 0.07373046875])
 
     p_test = p_sol / (2 * pi * 2 ** 6)
     print("test_point: ", p_test)
-    sam_idx_ = 42
+    sam_idx_ = 0
 
     cost_func = CostFuncFixedPoint(pd=pd, p=p, sam_idx=sam_idx_).cost
     start = time.process_time()
-    for p_ in [p1, p2, p3, p4, p5, p6]:
+    for p_ in [p1, p2, p3, p4, p5, p6, p7]:
         loss = cost_func(p_)
         print(p_, loss)
 

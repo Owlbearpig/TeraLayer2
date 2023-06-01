@@ -109,8 +109,17 @@ def initial_simplex(p_start, options=None, res=None, cost_func=None):
             res["nfev"] += 1
 
     if cost_func is not None:
+        if "debug" in options.keys():
+            if options["debug"]:
+                print("simplex before sorting: ")
+                print(simplex)
+
         simplex_sort(simplex)
 
+        if "debug" in options.keys():
+            if options["debug"]:
+                print("simplex after sorting: ")
+                print(simplex)
     return simplex
 
 

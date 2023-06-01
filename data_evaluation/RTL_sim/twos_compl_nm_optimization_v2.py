@@ -10,7 +10,7 @@ import numpy as np
 import time
 
 
-def single_measurement(sam_idx, en_plt=False):
+def single_measurement(sam_idx, en_plt=False, debug=False):
     np.random.seed(420)
     p_sol = array([241., 661., 237.])
     noise_factor = 0.00
@@ -31,7 +31,7 @@ def single_measurement(sam_idx, en_plt=False):
 
     options = {"grid_spacing": grid_spacing, "iterations": iterations, "numfi": numfi, "size": size,
                "verbose": False, "enhance_step": False, "simplex_spread": simplex_spread, "input_scale": input_scale,
-               "debug": False}
+               "debug": debug}
 
     start = time.process_time()
 
@@ -77,7 +77,7 @@ def all_measurements():
 
 
 def main():
-    single_measurement(sam_idx=44)
+    single_measurement(sam_idx=0, debug=True)
     # all_measurements()
 
 
