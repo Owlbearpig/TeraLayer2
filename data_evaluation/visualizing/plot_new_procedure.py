@@ -36,6 +36,7 @@ def fail_cnt(x, y):
 
 # solutions = ROOT_DIR / "optimization" / "results" / "FP_pd4_p11_real_data" / "FP_results_nm_grid_real_data_v2.txt"
 solutions = r"H:\IPs\eval\proj_eval1\proj_eval1.sim\sim_1\behav\xsim\sim_output.txt"
+solutions = r"/media/alex/WDElements/IPs/eval/proj_eval1/proj_eval1.sim/sim_1/behav/xsim/sim_output.txt"
 
 # vivado_sim_output_path = r"H:\IPs\eval\proj_eval1\proj_eval1.sim\sim_1\behav\xsim\sim_output.txt"
 #

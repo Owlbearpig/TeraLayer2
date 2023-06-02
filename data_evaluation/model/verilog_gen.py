@@ -414,7 +414,7 @@ if __name__ == '__main__':
 
     _verilog_code()
 
-    _sample_data(sam_idx=None)
+    # _sample_data(sam_idx=None)
 
     # p_sol = array([241., 661., 237.])
     # p_sol = array([43.0, 641.0, 74.0])
