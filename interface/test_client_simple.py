@@ -7,7 +7,8 @@ from dataclasses import dataclass, field
 import socket
 
 #HOST = '192.168.0.102'  # The server's hostname or IP address
-HOST = '192.168.134.41'  # The server's hostname or IP address
+#HOST = '192.168.134.41'  # The server's hostname or IP address
+HOST = '192.168.178.53'  # The server's hostname or IP address
 PORT = 1001        # The port used by the server
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -21,12 +22,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             bl = len(buffer)
             #print(buffer)
             #print(bl)
+            file.write(buffer)
+            """
             elements = buffer.split(b"\x00\x00\x00\x00\x00")
             for b in elements:
                 file.write(b)
-
+            """
             loops += 1
-            if loops > 100:
+            if loops > 2:
                 break
 
         """
