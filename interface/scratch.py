@@ -21,6 +21,11 @@ for data in [data6]:
     c = BitArray(hex=input_str)
     #print(c.bin)
 
+# Create figure for plotting
+fig, ax = plt.subplots()
+xs = []
+d0_, d1_, d2_ = [], [], []
+# TODO https://pythonforundergradengineers.com/live-plotting-with-matplotlib.html
 # print(hex(int("1111101011111110111111101111111011111110111111101111011011111100", 2)))
 c_ = 2 ** 6 * 2 * pi * 2 ** (-11)
 with open('test', 'rb') as f:
@@ -30,7 +35,7 @@ with open('test', 'rb') as f:
 
     # hexdata = hexdata[5:]
 
-    d0_, d1_, d2_ = [], [], []
+
     cntr = 0
     for i in range(len(hexdata)//16 - 1):
         s_ = hexdata[i*16:(i+1)*16].decode()
@@ -46,6 +51,8 @@ with open('test', 'rb') as f:
         print(d0, d1, d2)
 
         d0_.append(d0), d1_.append(d1), d2_.append(d2)
+
+
         cntr += 1
     print(cntr)
 
