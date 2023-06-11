@@ -159,6 +159,7 @@ def grid(p_center, options=None):
     if "debug" in options.keys():
         if options["debug"]:
             ret = [grid_points[1]]
+            # ret = grid_points
 
     return Grid(ret)
 
