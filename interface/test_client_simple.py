@@ -12,36 +12,8 @@ PORT = 1001        # The port used by the server
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     sock.connect((HOST, PORT))
-<<<<<<< HEAD
 
-    buf_len = 256*1024
-    loops = 0
-    with open("test", "wb") as file:
-        while True:
-            buffer = sock.recv(buf_len)
-            bl = len(buffer)
-            #print(buffer)
-            #print(bl)
-            elements = buffer.split(b"\x00\x00\x00\x00\x00")
-            for b in elements:
-                file.write(b)
-
-            loops += 1
-            if loops > 1:
-                break
-
-        """
-        for b in elements:
-            #print(b)
-            try:
-                # pass
-                print(int.from_bytes(b, byteorder="little"))
-            except ValueError:
-                continue
-        """
-=======
     while True:
         buf_len = 8
         buffer = sock.recv(buf_len)
         print(buffer)
->>>>>>> 9fbe31cb98e8ee6e58e0a8de7cfbdd60e147056b

@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from bitstring import BitArray
+# from bitstring import BitArray
 
 vals = []
 with open("test", "rb") as file:
