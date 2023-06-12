@@ -26,7 +26,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 file.write(b)
 
             loops += 1
-            if loops > 100:
+            if loops > 1:
                 break
 
         """
