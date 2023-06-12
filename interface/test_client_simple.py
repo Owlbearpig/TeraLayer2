@@ -7,11 +7,12 @@ from dataclasses import dataclass, field
 import socket
 
 #HOST = '192.168.0.102'  # The server's hostname or IP address
-HOST = '192.168.134.41'  # The server's hostname or IP address
+HOST = '192.168.178.53'  # The server's hostname or IP address
 PORT = 1001        # The port used by the server
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     sock.connect((HOST, PORT))
+<<<<<<< HEAD
 
     buf_len = 256*1024
     loops = 0
@@ -38,3 +39,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             except ValueError:
                 continue
         """
+=======
+    while True:
+        buf_len = 8
+        buffer = sock.recv(buf_len)
+        print(buffer)
+>>>>>>> 9fbe31cb98e8ee6e58e0a8de7cfbdd60e147056b

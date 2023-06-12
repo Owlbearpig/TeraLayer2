@@ -77,7 +77,7 @@ def all_measurements():
 
 
 def main():
-    single_measurement(sam_idx=0, debug=True)
+    single_measurement(sam_idx=1, debug=True)
     # all_measurements()
 
 
