@@ -5,15 +5,17 @@ import matplotlib.pyplot as plt
 import socket
 import matplotlib.animation as animation
 import time
+import numpy as np
 import datetime as dt
 
 HOST = '192.168.178.53'  # HOME network
-HOST = '192.168.134.69'  # UNI
+# HOST = '192.168.134.69'  # UNI
 
 PORT = 1001
 c_ = 2 ** 6 * 2 * pi * 2 ** (-11)  # conversion factor
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+    cntr = 0
     sock.connect((HOST, PORT))
     t0 = time.time()
 
@@ -23,6 +25,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         # print(buffer)
 
         hexdata = binascii.hexlify(buffer)
+        print(hexdata)
         s_ = hexdata.decode()
         # print(s_)
         s = [s_[i:i + 2] for i in range(0, len(s_), 2)]
@@ -42,12 +45,20 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 
 
     # Create figure for plotting
-    fig, ax = plt.subplots()
+    f, (ax, ax2) = plt.subplots(2, 1, sharex=True)
+
+    ax.spines['bottom'].set_visible(False)
+    ax2.spines['top'].set_visible(False)
+    ax.xaxis.tick_top()
+    ax.tick_params(labeltop=False)  # don't put tick labels at the top
+    ax2.xaxis.tick_bottom()
+    # txt = ax.text(.20, .5, "here", fontsize=15)
+
     xs = []
     d0_, d1_, d2_ = [], [], []
+    cntr = []
 
     def animate(i, xs: list, d0_: list, d1_: list, d2_: list):
-        # grab the data from thingspeak.com
         resp = pull_data()
         # Add x and y to lists
         xs.append(time.time() - t0)
@@ -60,19 +71,27 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         d2_ = d2_[-10:]
         # Draw x and y lists
         ax.clear()
-        ax.plot(xs, d0_)
-        ax.plot(xs, d1_)
-        ax.plot(xs, d2_)
+        ax2.clear()
+        cntr.append(1)
+
+        ax2.plot(xs, d0_)
+        ax.plot(xs, d1_, color="green")
+        ax2.plot(xs, d2_)
+        # txt.set_text("Some other text")
         # Format plot
-        # ax.set_ylim([0, 255])
+        ax.set_ylim(600, 700)
+        ax2.set_ylim(0, 100)
         plt.xticks(rotation=45, ha='right')
         plt.subplots_adjust(bottom=0.20)
-        # ax.set_title('Plot of random numbers from https://qrng.anu.edu.au')
-        ax.set_xlabel('Time (s)')
-        ax.set_ylabel('Thickness (um)')
+
+        avg = f"Avg. : {round(np.mean(d2_), 1)}, {round(np.mean(d1_), 1)}, {round(np.mean(d0_), 1)}"
+        ax.set_title(f'Animate calls: {sum(cntr)}.\n' + avg)
+        ax2.set_xlabel('Time since start (s)')
+        ax.set_ylabel("Layer width (µm)")
+        ax.yaxis.set_label_coords(-0.1, -0.0)
 
     # Set up plot to call animate() function every 1000 milliseconds
-    ani = animation.FuncAnimation(fig, animate, fargs=(xs, d0_, d1_, d2_), interval=1)
+    ani = animation.FuncAnimation(f, animate, fargs=(xs, d0_, d1_, d2_), interval=50)
 
     plt.show()
 
