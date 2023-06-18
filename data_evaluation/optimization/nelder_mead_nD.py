@@ -161,6 +161,8 @@ def grid(p_center, options=None):
             ret = [grid_points[1]]
             # ret = grid_points
 
+    options["grid_cnt"] = len(ret)
+
     return Grid(ret)
 
 
@@ -313,8 +315,8 @@ def nm_algo(start_val, cost_func, res, options):
         print(simplex, "\n")
 
     # iterations, start value
-    grid_idx = res["grid_idx"]
-    print(f"Iterations completed: {h}, grid_idx: {grid_idx}")
+    grid_idx, grid_cnt = res["grid_idx"], options["grid_cnt"]
+    print(f"Iterations completed: {h}, grid_idx: {grid_idx} / {grid_cnt}")
     print(f"Upscaled starting point: {array(start_val) * (2*pi*2**input_scaling)}, (original: {start_val})")
     res["total_iters"] += h
     # solution in p0 of simplex

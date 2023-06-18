@@ -51,21 +51,45 @@ def real_data_cw(sam_idx=10):
 
 
 class CostFuncFixedPoint:
-    def __init__(self, pd, p, p_sol=array([168., 609., 98.]), sam_idx=None, noise=0.0, en_plt=False):
-        self.p_sol = array(p_sol)
-        self.prec_int, self.prec = pd, p
+    def _conf_settings(self, options):
+        if "p_sol" not in options.keys():
+            options["p_sol"] = array([168., 609., 98.])
+        if "pd" not in options.keys():
+            options["pd"] = 4
+        if "p" not in options.keys():
+            options["p"] = 11
+        if "sam_idx" not in options.keys():
+            options["sam_idx"] = 0
+        if "en_plt" not in options.keys():
+            options["en_plt"] = False
+        if "use_real_data" not in options.keys():
+            options["use_real_data"] = True
+        if "noise" not in options.keys():
+            options["noise"] = 0.0
+
+        self.settings.update(options)
+
+    def __init__(self, options):
+        self.settings = {}
+        self._conf_settings(options)
+        settings = self.settings
+
+        self.prec_int, self.prec = settings["pd"], settings["p"]
         self.numfi = partial(numfi_, s=1, w=self.prec_int + self.prec, f=self.prec, fixed=True, rounding='floor')
         # self.numfi = lambda x: x
 
         self.freqs = selected_freqs * THz
 
-        if sam_idx == -1:
-            r_exp = Cost(freqs=self.freqs, p_solution=self.p_sol, noise_std_scale=noise, plt_mod=False).r_exp
-        else:
+        en_plt = settings["en_plt"]
+        sam_idx = settings["sam_idx"]
+        if settings["use_real_data"]:
             r_exp = real_data_cw(sam_idx)
             # r_exp = read_data_tds(sam_idx)
             # print("r_experimental:\n", r_real)
             print("!!! Using experimental data !!!")
+        else:
+            r_exp = Cost(freqs=self.freqs, p_solution=settings["p_sol"], noise_std_scale=settings["noise"]).r_exp
+            print("!!! Using model data !!!")
 
         print(f"r_target: {r_exp}\n")
 
@@ -125,6 +149,19 @@ class CostFuncFixedPoint:
 
         self.wide_zero = numfi_(0.0, s=1, w=10 + self.prec, f=self.prec, fixed=True, rounding='floor')
         self.max_loss = 0
+        """
+        print(settings["p_sol"])
+        p = settings["p_sol"] / (2 * pi * 2 ** 6)
+        r_mod = self.cost(p, ret_mod=True)
+
+        plt.figure("test")
+        plt.plot(r_mod.real, color="blue")
+        plt.plot(r_mod.imag, color="blue")
+        plt.plot(r_exp.real, color="red")
+        plt.plot(r_exp.imag, color="red")
+        plt.show()
+        exit()
+        """
 
     def cost(self, point, ret_mod=False):
 
@@ -311,9 +348,9 @@ if __name__ == '__main__':
 
     p_test = p_sol / (2 * pi * 2 ** 6)
     print("test_point: ", p_test)
-    sam_idx_ = 0
+    cost_func_opts = {"pd": pd, "p": p, "use_real_data": True, "en_plt": False, "sam_idx": 0}
 
-    cost_func = CostFuncFixedPoint(pd=pd, p=p, sam_idx=sam_idx_).cost
+    cost_func = CostFuncFixedPoint(cost_func_opts).cost
     start = time.process_time()
     for p_ in [p1, p2, p3, p4, p5, p6, p7]:
         loss = cost_func(p_)

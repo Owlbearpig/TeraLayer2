@@ -12,12 +12,11 @@ import time
 
 def single_measurement(sam_idx, en_plt=False, debug=False):
     np.random.seed(420)
-    p_sol = array([241., 661., 237.])
-    noise_factor = 0.00
-
+    p_sol = array([168., 609., 98.])
     pd, p = 4, 11
     # pd, p = 4, 21
-    cost_inst = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_factor, en_plt=en_plt, sam_idx=sam_idx)
+    cost_func_opts = {"pd": pd, "p": p, "use_real_data": True, "sam_idx": sam_idx, "en_plt": en_plt, "p_sol": p_sol}
+    cost_inst = CostFuncFixedPoint(cost_func_opts)
     cost_func = cost_inst.cost
 
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')

@@ -1,5 +1,5 @@
 import numpy as np
-from consts import um_to_m, THz, GHz, um, array, n0, n1, n2
+from consts import um_to_m, THz, GHz, um, array, n0, n1, n2, thea
 from model.tmm_reduced import get_amplitude, get_phase, thickest_layer_approximation, get_r_cart, tmm_matrix_elems
 from model.initial_tests.explicitEvalSimple import explicit_reflectance_complex
 from model.refractive_index import get_n
@@ -23,15 +23,15 @@ class Cost:
         self.p_solution = array(p_solution)
 
         self.all_freqs = np.arange(0.000, 1500 + 1, 1) * GHz
-        selected_freqs_idx = array([np.argwhere(np.isclose(freq, self.all_freqs))[0][0] for freq in self.freqs])
+        # selected_freqs_idx = array([np.argwhere(np.isclose(freq, self.all_freqs))[0][0] for freq in self.freqs])
 
         # self.n = get_n(self.freqs, n_min=2.8, n_max=2.8)
-        f0 = array([0.000, 0.520, 0.650, 0.800, 0.850, 1.500]) * THz
-        n0_ = np.interp(self.freqs, f0, n0)
-        n1_ = np.interp(self.freqs, f0, n1)
-        n2_ = np.interp(self.freqs, f0, n2)
+        # f0 = array([0.000, 0.520, 0.650, 0.800, 0.850, 1.500]) * THz
+        # n0_ = np.interp(self.freqs, f0, n0)
+        # n1_ = np.interp(self.freqs, f0, n1)
+        # n2_ = np.interp(self.freqs, f0, n2)
 
-        self.n = array([np.ones_like(self.freqs), n0_, n1_, n2_, np.ones_like(self.freqs)]).T
+        self.n = array([np.ones_like(self.freqs), n0, n1, n2, np.ones_like(self.freqs)]).T
 
         """
         approximate_model = False
@@ -51,9 +51,9 @@ class Cost:
         """
 
         d_list = array([np.inf, *self.p_solution, np.inf])
-        angle_in = 8 * np.pi / 180
+        angle_in = thea
         wavelengths = 10**6 * c0 / self.freqs
-        r_slim = np.zeros_like(self.freqs)
+        r_slim = np.zeros_like(self.freqs, dtype=complex)
         for i, lambda_vac in enumerate(wavelengths):
             r = coh_tmm_slim("s", self.n[i], d_list, angle_in, lambda_vac)
             r_slim[i] = -r
@@ -61,12 +61,12 @@ class Cost:
         R0 = np.real(r_slim * np.conj(r_slim))
         phi0 = np.angle(r_slim)
 
-        self.noise_std_scale = noise_std_scale
-        self.noise_amp = noise_gen(self.all_freqs, True, scale=0.15 * noise_std_scale, seed=seed)
-        self.noise_phase = noise_gen(self.all_freqs, True, scale=0.20 * noise_std_scale, seed=seed)
+        # self.noise_std_scale = noise_std_scale
+        self.noise_amp = noise_gen(self.freqs, True, scale=0.15 * noise_std_scale, seed=seed)
+        self.noise_phase = noise_gen(self.freqs, True, scale=0.20 * noise_std_scale, seed=seed)
 
-        R = R0 * self.noise_amp[selected_freqs_idx] ** 2
-        phi = phi0 + (1 - self.noise_phase[selected_freqs_idx])
+        R = R0 * self.noise_amp ** 2
+        phi = phi0 + (1 - self.noise_phase)
 
         plt.figure("noise R")
         plt.plot(self.freqs/THz, R0, label="R no noise")
@@ -134,8 +134,8 @@ class Cost:
             #print("r_mod_enum_r / r_mod_denum: ", r_mod_enum_r / r_mod_denum, "r_exp.real: ", self.r_exp.real)
             #print("r_mod_enum_i / r_mod_denum: ", r_mod_enum_i / r_mod_denum, "self.r_exp.imag: ", self.r_exp.imag)
 
-            amp_loss = sum((r_mod_enum_r  - self.r_exp.real * r_mod_denum) ** 2)
-            phase_loss = sum((r_mod_enum_i  - self.r_exp.imag * r_mod_denum) ** 2)
+            amp_loss = sum((r_mod_enum_r - self.r_exp.real * r_mod_denum) ** 2)
+            phase_loss = sum((r_mod_enum_i - self.r_exp.imag * r_mod_denum) ** 2)
             #"""
             """
             s = 0
@@ -173,6 +173,7 @@ class Cost:
             point.fx = cost_function(p)
 
     def plot_model(self, ):
+        # TODO ...
         m01, m11 = explicit_reflectance_complex(freqs=self.all_freqs, p=self.p_solution * um_to_m)
         r = m01 / m11
         R0_amplitude = np.real(r * np.conj(r))

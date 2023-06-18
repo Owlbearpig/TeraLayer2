@@ -8,7 +8,7 @@ import time
 import numpy as np
 import datetime as dt
 
-HOST = '192.168.178.53'  # HOME network
+HOST = '192.168.178.24'  # HOME network
 # HOST = '192.168.134.69'  # UNI
 
 PORT = 1001

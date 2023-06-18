@@ -18,7 +18,8 @@ def main():
 
     #cost_func = Cost(p_solution=p_sol, noise_std_scale=noise_scale).cost
     pd, p = 4, 13
-    cost_func = CostFuncFixedPoint(pd=pd, p=p, p_sol=p_sol, noise=noise_scale, plt_mod=True).cost
+    cost_func_opts = {"pd": pd, "p": p, "use_real_data": False, "noise": noise_scale, "en_plt": True}
+    cost_func = CostFuncFixedPoint(cost_func_opts).cost
 
     x = numfi_(x / (2*pi*2**6), s=1, w=pd + p, f=p, fixed=True, rounding='floor')
     p_sol = numfi_(p_sol / (2*pi*2**6), s=1, w=pd + p, f=p, fixed=True, rounding='floor')
