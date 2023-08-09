@@ -28,7 +28,7 @@ with open("dump", "wb") as file:
         t0 = time.time()
         cntr = 0
         cntr1 = 0
-        buf_len = 64
+        buf_len = 1024
         chunk = 8
         cntr_sum = 0
         while True:
