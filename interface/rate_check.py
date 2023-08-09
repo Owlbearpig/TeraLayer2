@@ -1,5 +1,6 @@
 import socket
 import time
+import numpy as np
 import binascii
 from bitstring import BitArray
 from numpy import pi
@@ -22,52 +23,48 @@ def flip(s):
 
 
 with open("dump", "wb") as file:
-    y = []
+    y, d0_, d1_, d2_ = [], [], [], []
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.connect((HOST, PORT))
-        t0 = time.time()
         cntr = 0
-        cntr1 = 0
-        buf_len = 64
+        buf_len = 128
         chunk = 8
-        cntr_sum = 0
+
+        t0 = time.time()
         while True:
             # time.sleep(0.01)
             buffer = sock.recv(buf_len)
-            # print(time.time() - t0)
-            print(buffer)
-            print(len(buffer))
+            #print(buffer)
+            #print(f"Received {len(buffer)} bytes")
             file.write(buffer)
             for j in range(len(buffer) // chunk):
                 hexdata = binascii.hexlify(buffer[j * chunk:(j + 1) * chunk]).decode()
-                print(hexdata)
-                s = [hexdata[i:i + 2] for i in range(0, len(hexdata), 2)]
-                # print(s)
-                input_str = '0x' + "".join(list(reversed(s)))
-                # print(input_str)
-                clk_cycle_cnt = int(input_str, 16)
-                # print(clk_cycle_cnt, clk_cycle_cnt/)
+                s = ["0x" + hexdata[i + 2:i + 4] + hexdata[i:i + 2] for i in range(0, len(hexdata), 4)]
+                fpga_cntr = int(s[-1], 16)
+                print(fpga_cntr, s)
 
-                c = BitArray(hex=input_str)
-                c_bin = str(c.bin)
+                d0, d1, d2 = c_ * int(s[0], 16), c_ * int(s[1], 16), c_ * int(s[2], 16)
+                print(d0, d1, d2)
 
-                fpga_cntr, d0, d1, d2 = c_bin[-64:-48], c_bin[-48:-32], c_bin[-32:-16], c_bin[-16:]
-                # print(cntr, fpga_cntr, int(fpga_cntr, 2))
-                d0, d1, d2 = c_ * int(d0, 2), c_ * int(d1, 2), c_ * int(d2, 2)
-                fpga_cntr = int(fpga_cntr, 2)
-
-                # print(fpga_cntr, d0, d1, d2)
-                cntr += 1
-                cntr_sum += fpga_cntr
                 y.append(fpga_cntr)
-                if cntr > 1000:
+                d0_.append(d0)
+                d1_.append(d1)
+                d2_.append(d2)
+
+                if len(y) == 10000:
+                    fig, (ax0, ax1) = plt.subplots(2, 1)
+                    ax0.plot(y)
+                    ax1.plot(d0_)
+                    ax1.plot(d1_)
+                    ax1.plot(d2_)
+                    print(np.mean(d0_[:100]), np.std(d0_[:100]))
+                    print(np.mean(d1_[:100]), np.std(d1_[:100]))
+                    print(np.mean(d2_[:100]), np.std(d2_[:100]))
+                    plt.show()
+
+                dt = time.time() - t0
+                try:
+                    print(f"Avg. T: {dt / cntr}\n")
+                except ZeroDivisionError:
                     pass
-                    # plt.plot(y)
-                    # plt.show()
-                if (cntr % 100) == 0:
-                    print("cntr", cntr)
-                    print("rate", (time.time() - t0) / cntr)
-                    # cntr = 0
-                    print("cntr_sum", cntr_sum)
-                    # cntr_sum = 0
-                    # print(time.time() - t0)
+                cntr += 1

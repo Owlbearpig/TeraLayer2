@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 # from bitstring import BitArray
 import binascii
-chunk = 4
+chunk = 8
 
 vals = []
 with open("dump", "rb") as file:
@@ -21,12 +21,11 @@ with open("dump", "rb") as file:
         s = [data_slices[i:i + 2] for i in range(0, len(data_slices), 2)]
         #s = [c[1] + c[0] for c in s]
         # s = list(reversed(s))
-        if i < 10000:
-            print(i, " ".join(s))
         input_str = '0x' + "".join(list(reversed(s)))
         #print(input_str)
         val = int(input_str, 16)
-        print(val)
+        if i < 10000:
+            print(i, val, " ".join(s))
         #input_str = '0x' + "".join(list(reversed(s)))
         #print(input_str)
 
