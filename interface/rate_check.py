@@ -4,8 +4,13 @@ import binascii
 from bitstring import BitArray
 from numpy import pi
 import matplotlib.pyplot as plt
+import os
 
-HOST = "192.168.178.24"
+if "nt" in os.name.lower():
+    HOST = "192.168.178.24"
+else:
+    HOST = "192.168.134.69"
+
 PORT = 1001
 c_ = 2 ** 6 * 2 * pi * 2 ** (-11)  # conversion factor
 
