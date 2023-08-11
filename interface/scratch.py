@@ -149,3 +149,44 @@ with open('test', 'rb') as f:
     plt.plot(d1_)
     plt.plot(d2_)
     plt.show()
+
+"""
+a = 2
+with open("dump", "wb") as file:
+    y, d0_, d1_, d2_ = [], [], [], []
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.connect((HOST, PORT))
+        cntr = 0
+        buf_len = 128
+
+        t0 = time.time()
+        while True:
+            buffer = sock.recv(buf_len)
+            #print(f"Received {len(buffer)} bytes")
+            file.write(buffer)
+            fpga_cntr, d0, d1, d2 = format_recv_data(buffer)
+
+            y.extend(fpga_cntr)
+            d0_.extend(d0)
+            d1_.extend(d1)
+            d2_.extend(d2)
+
+            if len(y) == 7e4:
+                fig, (ax0, ax1) = plt.subplots(2, 1)
+                ax0.plot(y)
+                ax1.plot(d0_)
+                ax1.plot(d1_)
+                ax1.plot(d2_)
+                print(np.mean(d0_[:100]), np.std(d0_[:100]))
+                print(np.mean(d1_[:100]), np.std(d1_[:100]))
+                print(np.mean(d2_[:100]), np.std(d2_[:100]))
+                plt.show()
+
+            dt = time.time() - t0
+            try:
+                print(f"Avg. T: {dt / cntr}\n")
+            except ZeroDivisionError:
+                pass
+
+            cntr += len(fpga_cntr)
+"""

@@ -2,10 +2,11 @@ import socket
 import time
 import numpy as np
 import binascii
-from bitstring import BitArray
+import matplotlib.animation as animation
 from numpy import pi
 import matplotlib.pyplot as plt
 import os
+from mpl_settings import *
 
 if "nt" in os.name.lower():
     HOST = "192.168.178.24"
@@ -14,57 +15,96 @@ else:
 
 PORT = 1001
 c_ = 2 ** 6 * 2 * pi * 2 ** (-11)  # conversion factor
+t0 = time.time()
 
 
-def flip(s):
-    s_ = [s[i:i + 2] for i in range(0, len(s), 2)]
+def format_recv_data(buffer_):
+    width_tdata = 8  # width_tdata 64 bit / 8 (bit / byte) = 8 byte
+    # concat = [4, 2, 2]  # byte
+    concat = [2, 2, 2, 2]  # byte
+    t = []
 
-    return "".join(list(reversed(s_)))
+    slice0_, slice1_, slice2_, slice3_ = [], [], [], []  # number of lists should be == len(concat)
+    for j in range(len(buffer_) // width_tdata):
+        # split into parts of length given by width_tdata in ram_writer core
+        tdata = binascii.hexlify(buffer_[j * width_tdata:(j + 1) * width_tdata]).decode()
+
+        # split into bytes and reverse
+        bytes_ = [tdata[i:i + 2] for i in reversed(range(0, len(tdata), 2))]
+
+        # split into slices of length given by concat(2) core and convert to dec
+        slice_vals = []
+        for i, slice_width in enumerate(concat):
+            idx0 = sum(concat[:i])
+            slice_ = "".join(bytes_[idx0:idx0 + slice_width])
+            val = int(slice_, 16)
+            slice_vals.append(val)
+
+        t.append(time.time() - t0)
+        slice0_.append(slice_vals[0])
+        slice1_.append(c_ * slice_vals[-1])
+        slice2_.append(c_ * slice_vals[-2])
+        slice3_.append(c_ * slice_vals[-3])
+
+    return t, slice0_, slice1_, slice2_, slice3_
 
 
 with open("dump", "wb") as file:
     y, d0_, d1_, d2_ = [], [], [], []
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.connect((HOST, PORT))
-        cntr = 0
         buf_len = 128
-        chunk = 8
 
-        t0 = time.time()
+        # Create figure for plotting
+        f, (ax, ax2) = plt.subplots(2, 1, sharex=True)
+
+        ax.spines['bottom'].set_visible(False)
+        ax2.spines['top'].set_visible(False)
+        ax.xaxis.tick_top()
+        ax.tick_params(labeltop=False)  # don't put tick labels at the top
+        ax2.xaxis.tick_bottom()
+        # txt = ax.text(.20, .5, "here", fontsize=15)
+
+        # Format plot
+        ax.set_ylim(600, 700)
+        ax2.set_ylim(0, 100)
+        plt.xticks(rotation=45, ha='right')
+        plt.subplots_adjust(bottom=0.20)
+
+        ax2.set_xlabel('Measurement counter')
+        ax.set_ylabel("Layer width (µm)")
+        ax.yaxis.set_label_coords(-0.1, -0.0)
+
+        cntr = []
+        plot_buf_len = 20
+        line_d0, = ax2.plot(16 * plot_buf_len * [1])
+        line_d1, = ax.plot(16 * plot_buf_len * [1])
+        line_d2, = ax2.plot(16 * plot_buf_len * [1])
+
+        xs, d0, d1, d2 = [], [], [], []
+        loop_cntr = 0
         while True:
-            # time.sleep(0.01)
+            # time.sleep(0.001)
             buffer = sock.recv(buf_len)
-            #print(buffer)
-            #print(f"Received {len(buffer)} bytes")
             file.write(buffer)
-            for j in range(len(buffer) // chunk):
-                hexdata = binascii.hexlify(buffer[j * chunk:(j + 1) * chunk]).decode()
-                s = ["0x" + hexdata[i + 2:i + 4] + hexdata[i:i + 2] for i in range(0, len(hexdata), 4)]
-                fpga_cntr = int(s[-1], 16)
-                print(fpga_cntr, s)
+            resp = format_recv_data(buffer)
 
-                d0, d1, d2 = c_ * int(s[0], 16), c_ * int(s[1], 16), c_ * int(s[2], 16)
-                print(d0, d1, d2)
+            xs.extend(resp[1])
+            d0_, d1_, d2_ = resp[-3:]
+            d0.extend(resp[2]), d1.extend(resp[3]), d2.extend(resp[4])
 
-                y.append(fpga_cntr)
-                d0_.append(d0)
-                d1_.append(d1)
-                d2_.append(d2)
+            if loop_cntr == plot_buf_len-1:
+                line_d0.set_ydata(d0)
+                line_d1.set_ydata(d1)
+                line_d2.set_ydata(d2)
+                # tick at every 10 points
+                ax.set_xticks(range(0, 16*plot_buf_len+10, 10), range(xs[0], xs[-1]+10, 10))
 
-                if len(y) == 10000:
-                    fig, (ax0, ax1) = plt.subplots(2, 1)
-                    ax0.plot(y)
-                    ax1.plot(d0_)
-                    ax1.plot(d1_)
-                    ax1.plot(d2_)
-                    print(np.mean(d0_[:100]), np.std(d0_[:100]))
-                    print(np.mean(d1_[:100]), np.std(d1_[:100]))
-                    print(np.mean(d2_[:100]), np.std(d2_[:100]))
-                    plt.show()
+                avg = f"Mean: {round(np.mean(d2_), 1)}, {round(np.mean(d1_), 1)}, {round(np.mean(d0_), 1)}"
+                ax.set_title(f'Period: {round(1000 * (time.time() - t0) / xs[-1], 2)} ms\n' + avg)
+                plt.pause(0.001)
 
-                dt = time.time() - t0
-                try:
-                    print(f"Avg. T: {dt / cntr}\n")
-                except ZeroDivisionError:
-                    pass
-                cntr += 1
+                xs, d0, d1, d2 = [], [], [], []
+                loop_cntr = 0
+            else:
+                loop_cntr += 1
