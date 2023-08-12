@@ -15,7 +15,7 @@ else:
 PORT = 1001
 c_ = 2 ** 6 * 2 * pi * 2 ** (-11)  # conversion factor
 t0 = time.time()
-
+print(c_)
 
 def format_recv_data(buffer_):
     width_tdata = 8  # width_tdata 64 bit / 8 (bit / byte) = 8 byte
@@ -30,6 +30,7 @@ def format_recv_data(buffer_):
 
         # split into bytes and reverse
         bytes_ = [tdata[i:i + 2] for i in reversed(range(0, len(tdata), 2))]
+        # print(bytes_)
 
         # split into slices of length given by concat(2) core and convert to dec
         slice_vals = []

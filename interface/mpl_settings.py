@@ -16,7 +16,7 @@ def fmt(x, val):
 mpl.rcParams['legend.shadow'] = False
 mpl.rcParams['lines.marker'] = 'o'
 mpl.rcParams['lines.markersize'] = 4
-mpl.rcParams['lines.linewidth'] = 2
+mpl.rcParams['lines.linewidth'] = 0.5
 mpl.rcParams['ytick.major.width'] = 2.5
 mpl.rcParams['xtick.major.width'] = 2.5
 #mpl.rcParams['xtick.direction'] = 'in'

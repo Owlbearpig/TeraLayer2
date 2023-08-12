@@ -34,14 +34,14 @@ if __name__ == '__main__':
     grid_spacing = 40
     size = 3  # 3 working but slow
     # nm options
-    simplex_spread = 40 # 80  # 40 working but slow # TODO try larger bounds with model data
-    iterations = 15
+    simplex_spread = 40  # 80  # 40 working but slow # TODO try larger bounds with model data
+    iterations = 10
     # noise options
     noise_factor = 0.00
 
     pd, p = 4, 11
 
-    cost_func_opts = {"pd": pd, "p": p, "use_real_data": False, "noise": noise_factor, "en_plt": False}
+    cost_func_opts = {"pd": pd, "p": p, "use_real_data": True, "noise": noise_factor, "en_plt": False}
 
     dir_ = Path("results") / Path(f"FP_pd{pd}_p{p}_real_data")
     dir_.mkdir(exist_ok=True)
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     # test_values = cnt*[[46.0, 660.0, 76.0]]
     deviations, failures, fevals_all = [], 0, []
     # with open(dir_ / f"FP_results_nm_grid_real_data_v2.2.txt", "a") as file:
-    with open(dir_ / f"FP_results_nm_grid_sim_data_v2.2.txt", "a") as file:
+    with open(dir_ / f"FP_results_nm_grid_real_data_test_v1.0.txt", "a") as file:
         description = f"FP_p0_Gridsearch, "
         description += f"Seed={seed}, iters={iterations}, size={size}, grid_spacing={grid_spacing}, pd={pd}, p={p}"
         description += f", simplex_spread={simplex_spread}, noise_factor={noise_factor}"

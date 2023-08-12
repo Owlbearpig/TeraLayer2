@@ -17,6 +17,8 @@ PORT = 1001
 c_ = 2 ** 6 * 2 * pi * 2 ** (-11)  # conversion factor
 t0 = time.time()
 
+round = np.round
+
 
 def format_recv_data(buffer_):
     width_tdata = 8  # width_tdata 64 bit / 8 (bit / byte) = 8 byte
@@ -76,10 +78,14 @@ with open("dump", "wb") as file:
         ax.yaxis.set_label_coords(-0.1, -0.0)
 
         cntr = []
-        plot_buf_len = 20
+        plot_buf_len = 8
         line_d0, = ax2.plot(16 * plot_buf_len * [1])
         line_d1, = ax.plot(16 * plot_buf_len * [1])
         line_d2, = ax2.plot(16 * plot_buf_len * [1])
+
+        mean_line_d0 = ax2.axhline(y=0, color='r', linestyle='-')
+        mean_line_d1 = ax.axhline(y=0, color='r', linestyle='-')
+        mean_line_d2 = ax2.axhline(y=0, color='r', linestyle='-')
 
         xs, d0, d1, d2 = [], [], [], []
         loop_cntr = 0
@@ -97,12 +103,21 @@ with open("dump", "wb") as file:
                 line_d0.set_ydata(d0)
                 line_d1.set_ydata(d1)
                 line_d2.set_ydata(d2)
+
                 # tick at every 10 points
                 ax.set_xticks(range(0, 16*plot_buf_len+10, 10), range(xs[0], xs[-1]+10, 10))
 
-                avg = f"Mean: {round(np.mean(d2_), 1)}, {round(np.mean(d1_), 1)}, {round(np.mean(d0_), 1)}"
-                ax.set_title(f'Period: {round(1000 * (time.time() - t0) / xs[-1], 2)} ms\n' + avg)
-                plt.pause(0.001)
+                dt = 1000 * (time.time() - t0) / xs[-1]
+                mean_d2, mean_d1, mean_d0 = np.mean(d2_), np.mean(d1_), np.mean(d0_)
+                avg = f"Mean: {round(mean_d2, 1)}, {round(mean_d1, 1)}, {round(mean_d0, 1)} (µm)\n"
+                std = f"Std: {round(np.std(d2_), 1)}, {round(np.std(d1_), 1)}, {round(np.std(d0_), 1)} (µm)"
+
+                mean_line_d0.set_ydata(mean_d0)
+                mean_line_d1.set_ydata(mean_d1)
+                mean_line_d2.set_ydata(mean_d2)
+
+                ax.set_title(f'Period: {round(dt, 2)} ms, {round(1000/dt, 0)} Hz\n' + avg + std)
+                plt.pause(0.0004)
 
                 xs, d0, d1, d2 = [], [], [], []
                 loop_cntr = 0

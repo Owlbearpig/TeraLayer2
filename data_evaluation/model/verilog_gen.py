@@ -383,15 +383,15 @@ if __name__ == '__main__':
     np.set_printoptions(floatmode="fixed")
 
     #### settings #####
-    cntr_w = 5
-    pd, p = 4, 11
-    input_scale = 6
-    pipe_delay = 5
+    cntr_w = 5  # default 5
+    pd, p = 4, 11  # default 4, 11
+    input_scale = 6  # default 6 probably don't change this
+    pipe_delay = 5  # default 5 probably don't change this
 
     ### grid and simplex ####
-    p_center = [150, 600, 150]
-    grid_size = 3
-    grid_spacing = 40
+    p_center = [100, 600, 100]  # default [150, 600, 150]
+    grid_size = 2  # default 3
+    grid_spacing = 28  # default 40
     grid_options = {"input_scale": input_scale, "grid_spacing": grid_spacing, "size": grid_size,
                     "simplex_spread": 40}
 
