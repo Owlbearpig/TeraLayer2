@@ -1,6 +1,7 @@
 import numpy as np
 from tmm import (is_forward_angle, list_snell, seterr, interface_t, interface_r,
                  make_2x2_array)
+from model.cost_function import Cost
 from functools import partial
 from pathlib import Path
 import sys
@@ -11,6 +12,7 @@ from numfi import numfi as numfi_
 from meas_eval.cw.refractive_index_fit import freqs as all_freqs
 from meas_eval.cw.load_data import mean_data
 from optimization.nelder_mead_nD import grid, initial_simplex, Point
+from functions import gen_p_sols
 
 EPSILON = sys.float_info.epsilon  # typical floating-point calculation error
 
@@ -163,7 +165,7 @@ def _verilog_code():
     indent = "			"
 
     for i, f_ in enumerate(fs):
-        f_ = numfi(f_ * 2**3)
+        f_ = numfi(f_ * 2 ** 3)
         bin_s = numfi_(i + 1, w=cntr_w, f=0).bin[0]
         if i == 0:
             print(f"assign f = (cntr == 4'b{bin_s}) ? {w}'b{f_.bin[0]}: // {f_} ({f_.w} / {f_.f})")
@@ -172,7 +174,7 @@ def _verilog_code():
     print(indent + "{(4+p){1'b0}};\n")
 
     for i, g_ in enumerate(gs):
-        g_ = numfi(g_ * 2**3)
+        g_ = numfi(g_ * 2 ** 3)
         bin_s = numfi_(i + 1, w=cntr_w, f=0).bin[0]
         if i == 0:
             print(f"assign g = (cntr == 4'b{bin_s}) ? {w}'b{g_.bin[0]}: // {g_} ({g_.w} / {g_.f})")
@@ -211,6 +213,68 @@ def default_coeffs():
     n = array([one, n0, n1, n2, one]).T
 
     return sample_coefficients("s", n, angle_in, selected_freqs)
+
+
+def _model_data(p_sol_grid_):
+    indent = "    "
+    w = 3 + p
+
+    def _sample_data_v(out, p_sol_):
+        r_exp = Cost(freqs=selected_freqs, p_solution=p_sol_, noise_std_scale=0).r_exp
+        if out is print:
+            out(f"r_target: {r_exp}")
+        _numfi = partial(numfi_, s=1, w=w, f=p, fixed=True, rounding="floor")
+        r_exp_real = _numfi(r_exp.real)
+        r_exp_imag = _numfi(r_exp.imag)
+
+        out(f"// Solution = {p_sol_}:")
+        out("cur_data_real = {")
+        for i in range(len(r_exp)):
+            line0 = f"{w}'b{r_exp_real[i].bin[0]}"
+            line1 = f" // {r_exp_real[i]} ({r_exp_real[i].w} / {r_exp_real[i].f})"
+            if i == len(r_exp) - 1:
+                out(indent + line0 + line1)
+            else:
+                out(indent + line0 + "," + line1)
+        out("};\n")
+
+        out("cur_data_imag = {")
+        for i in range(len(r_exp)):
+            line0 = f"{w}'b{r_exp_imag[i].bin[0]}"
+            line1 = f" // {r_exp_imag[i]} ({r_exp_imag[i].w} / {r_exp_imag[i].f})"
+            if i == len(r_exp) - 1:
+                out(indent + line0 + line1)
+            else:
+                out(indent + line0 + "," + line1)
+        out("};\n")
+
+    dir_ = Path("verilog_gen_output")
+    dir_.mkdir(exist_ok=True)
+    with open(dir_ / f"_model_data_v.txt", "w") as file:
+        def write_line(line_, indents=0):
+            file.write(indents * indent + line_ + "\n")
+
+        write_line_ = partial(write_line, indents=3)
+
+        write_line("always @(posedge clk) begin", 1)
+        write_line("if (eval_done) begin", 2)
+        write_line(f"if (eval_done_cntr <= {len(p_sol_grid_)-1}) begin", 3)
+        write_line("eval_done_cntr <= eval_done_cntr + 1;", 4)
+        write_line("end else begin", 3)
+        write_line("eval_done_cntr <= 0;", 4)
+        write_line("end", 3)
+        write_line("case (eval_done_cntr)", 3)
+        for idx, p_sol in enumerate(p_sol_grid_):
+            write_line(f"{idx} : begin", 3)
+            _sample_data_v(out=write_line_, p_sol_=p_sol)
+            write_line("end", 3)
+        write_line("endcase", 3)
+        write_line("end else begin", 2)
+        write_line("cur_data_real <= cur_data_real;", 3)
+        write_line("cur_data_imag <= cur_data_imag;", 3)
+        write_line("end", 2)
+        write_line("end", 1)
+        write_line("endmodule", 0)
 
 
 def _sample_data(sam_idx=None):
@@ -286,6 +350,7 @@ def _sample_data(sam_idx=None):
             write_line("end", 1)
             write_line("endmodule", 0)
 
+
 def _sim_p(p_):
     p_ = array(p_)
 
@@ -309,7 +374,7 @@ def _sim_p(p_):
 def _grid_point_gen():
     w_d = 4 + p
     _numfi = partial(numfi_, s=1, w=w_d, f=p, fixed=True, rounding="floor")
-    c_ = 2*pi*2**input_scale
+    c_ = 2 * pi * 2 ** input_scale
     p_center_ = _numfi(array(p_center) * (1 / c_))
     indent = "    "
 
@@ -335,10 +400,10 @@ def _grid_point_gen():
                 write_line("")
         write_line("end\n")
 
-        p0_cnt = len(points)-1
+        p0_cnt = len(points) - 1
         cntr_w = 10
         p0_cnt_bin = numfi_(p0_cnt, s=0, w=cntr_w, f=0).bin[0]
-        write_line(f"reg [{cntr_w-1}:0] p0_cnt = {cntr_w}'b{p0_cnt_bin}; // total p0 cnt {p0_cnt_bin} ({p0_cnt})\n")
+        write_line(f"reg [{cntr_w - 1}:0] p0_cnt = {cntr_w}'b{p0_cnt_bin}; // total p0 cnt {p0_cnt_bin} ({p0_cnt})\n")
         write_line("always @(p0_idx) begin")
         write_line(indent + "case(p0_idx)")
 
@@ -347,7 +412,7 @@ def _grid_point_gen():
         line = ""
         for i, p_ in enumerate(points[1:]):
             i += 1
-            line += str((array(p_)*c_).astype(int)) + ", "
+            line += str((array(p_) * c_).astype(int)) + ", "
             if (i % 10) == 0:
                 write_line(line)
                 line = ""
@@ -365,7 +430,7 @@ def _grid_point_gen():
                     val_bin = numfi_(val, s=0, w=w_d, f=p, rounding="floor")
 
                     line0 = f"p{i}_d{j}_0 = {w_d}'b{val_bin.bin[0]};"
-                    line1 = f"// {val}, ({val_bin.w} / {val_bin.f}) // val*scaling {array(val)*c_}"
+                    line1 = f"// {val}, ({val_bin.w} / {val_bin.f}) // val*scaling {array(val) * c_}"
                     write_line(indent + line0 + line1)
                 if i != 3:
                     write_line("")
@@ -389,10 +454,17 @@ if __name__ == '__main__':
     cntr_w = 5  # default 5
     pd, p = 4, 11  # default 4, 11
     input_scale = 6  # default 6 probably don't change this
-    pipe_delay = 5  # default 5 probably don't change this
+    pipe_delay = 5  # default 5 also probably don't change this
 
     ### grid and simplex ####
+    """ # working with "Ampelmaenchen" data
     p_center = [100, 600, 100]  # default [150, 600, 150]
+    grid_size = 2  # default 3
+    grid_spacing = 28  # default 40
+    grid_options = {"input_scale": input_scale, "grid_spacing": grid_spacing, "size": grid_size,
+                    "simplex_spread": 40}
+    """
+    p_center = [50, 600, 50]  # default [150, 600, 150]
     grid_size = 2  # default 3
     grid_spacing = 28  # default 40
     grid_options = {"input_scale": input_scale, "grid_spacing": grid_spacing, "size": grid_size,
@@ -417,7 +489,7 @@ if __name__ == '__main__':
 
     _verilog_code()
 
-    _sample_data(sam_idx=None)
+    # _sample_data(sam_idx=None)
 
     # p_sol = array([241., 661., 237.])
     # p_sol = array([43.0, 641.0, 74.0])
@@ -428,7 +500,7 @@ if __name__ == '__main__':
     # p_sol = array([50, 450, 100])
     p1 = array([0.02539062, 1.19287109, 0.17333984])
     p2 = array([0.07373047, 1.19287109, 0.17333984])
-    p3 = array([0.07373047, 1.09375,    0.17333984])
+    p3 = array([0.07373047, 1.09375, 0.17333984])
     p4 = array([0.07373047, 1.19287109, 0.07421875])
 
     for p_ in [p1, p2, p3, p4]:
@@ -436,3 +508,8 @@ if __name__ == '__main__':
 
     _grid_point_gen()
 
+    p_sol_grid = gen_p_sols(cnt=20, p0_=p_center)
+    for i in range(len(p_sol_grid)):
+        p_sol_grid[i][0] = 0
+
+    _model_data(p_sol_grid)
