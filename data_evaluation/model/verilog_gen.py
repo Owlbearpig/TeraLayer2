@@ -264,24 +264,27 @@ def _sample_data(sam_idx=None):
             def write_line(line_, indents=0):
                 file.write(indents * indent + line_ + "\n")
 
-            write_line_ = partial(write_line, indents=2)
+            write_line_ = partial(write_line, indents=3)
 
-            write_line("initial begin", 1)
-            write_line("cur_data_real = {6*(3+p){1'b0}};", 2)
-            write_line("cur_data_imag = {6*(3+p){1'b0}};", 2)
-            write_line("#40", 2)
-            _sample_data_v(out=write_line_, sam_idx_=0)
-            write_line("end", 1)
-            write_line("always @(posedge eval_done) begin", 1)
-            write_line("eval_done_cntr <= eval_done_cntr + 1;", 2)
-            write_line("case (eval_done_cntr)", 2)
-            for idx in range(1, 101):
-                write_line(f"{idx} : begin", 2)
+            write_line("always @(posedge clk) begin", 1)
+            write_line("if (eval_done) begin", 2)
+            write_line("if (eval_done_cntr <= 99) begin", 3)
+            write_line("eval_done_cntr <= eval_done_cntr + 1;", 4)
+            write_line("end else begin", 3)
+            write_line("eval_done_cntr <= 0;", 4)
+            write_line("end", 3)
+            write_line("case (eval_done_cntr)", 3)
+            for idx in range(0, 101):
+                write_line(f"{idx} : begin", 3)
                 _sample_data_v(out=write_line_, sam_idx_=idx)
-                write_line("end", 2)
-            write_line("endcase", 2)
+                write_line("end", 3)
+            write_line("endcase", 3)
+            write_line("end else begin", 2)
+            write_line("cur_data_real <= cur_data_real;", 3)
+            write_line("cur_data_imag <= cur_data_imag;", 3)
+            write_line("end", 2)
             write_line("end", 1)
-
+            write_line("endmodule", 0)
 
 def _sim_p(p_):
     p_ = array(p_)
@@ -414,7 +417,7 @@ if __name__ == '__main__':
 
     _verilog_code()
 
-    # _sample_data(sam_idx=None)
+    _sample_data(sam_idx=None)
 
     # p_sol = array([241., 661., 237.])
     # p_sol = array([43.0, 641.0, 74.0])
@@ -432,3 +435,4 @@ if __name__ == '__main__':
         _sim_p(p_)
 
     _grid_point_gen()
+
