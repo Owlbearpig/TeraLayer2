@@ -39,7 +39,7 @@ if __name__ == '__main__':
     # noise options
     noise_factor = 0.00
 
-    pd, p = 4, 11
+    pd, p = 4, 12
 
     cost_func_opts = {"pd": pd, "p": p, "use_real_data": True, "noise": noise_factor, "en_plt": False}
 
@@ -47,13 +47,13 @@ if __name__ == '__main__':
     dir_.mkdir(exist_ok=True)
     numfi = partial(numfi_, s=1, w=pd + p, f=p, fixed=True, rounding='floor')
 
-    cnt = 100
+    cnt = 20
     test_values = gen_p_sols(cnt=cnt, seed=seed)
     # test_values = cnt*[[46.0, 660.0, 76.0]]
     deviations, failures, fevals_all = [], 0, []
     # with open(dir_ / f"FP_results_nm_grid_real_data_v2.2.txt", "a") as file:
-    with open(dir_ / f"FP_results_nm_grid_real_data_test_v1.0.txt", "a") as file:
-        description = f"FP_p0_Gridsearch, "
+    with open(dir_ / f"FP_results_shgo_real_data_test_v1.0.txt", "a") as file:
+        description = f"FP_shgo, "
         description += f"Seed={seed}, iters={iterations}, size={size}, grid_spacing={grid_spacing}, pd={pd}, p={p}"
         description += f", simplex_spread={simplex_spread}, noise_factor={noise_factor}"
         header = description + "\ntruth __ found __ fx __ p0 __ success? __ fevals __ opt_p0"
@@ -74,12 +74,21 @@ if __name__ == '__main__':
                        "simplex_spread": simplex_spread, "size": size, "verbose": False, "enhance_step": False,
                        "input_scale": 6}
 
-            res = nm_gridsearch(cost_func, p0, options)
+            # res = nm_gridsearch(cost_func, p0, options)
+            bounds = array([(0, 200.0), (500.0, 700.0), (0, 200.0)], dtype=float) / (2 * pi * 2 ** 6)
+            res = shgo(cost_func, bounds, iters=3, options={"f_min": 0.1})
 
             success = is_success(res["x"], p_sol)
             failures += not success
 
-            nfev, fx, x, opt_p0 = res["nfev"], res["fun"], res["x"], res["best_start_points"][-1]
+            nfev, fx, x = res["nfev"], res["fun"], res["x"],
+            if all(x < 3):
+                x *= (2 * pi * 2 ** 6)
+            if "best_start_points" in res.keys():
+                opt_p0 = res["best_start_points"][-1]
+            else:
+                opt_p0 = None
+
             file.write(f"{[*p_sol]} __ {[*np.round(x, 2)]} __ {np.round(fx, 3)} __ {[*p0]} __ "
                        f"{success} __ {nfev} __ {opt_p0}\n")
 

@@ -328,7 +328,7 @@ class CostFuncFixedPoint:
 
 if __name__ == '__main__':
     import time
-    pd, p = 4, 11
+    pd, p = 4, 12
     from model.cost_function import Cost
 
     # p_sol = array([241., 661., 237.])
@@ -348,11 +348,16 @@ if __name__ == '__main__':
 
     p_test = p_sol / (2 * pi * 2 ** 6)
     print("test_point: ", p_test)
-    cost_func_opts = {"pd": pd, "p": p, "use_real_data": True, "en_plt": False, "sam_idx": 0}
+
+    en_real_data = False
+    if en_real_data:
+        cost_func_opts = {"pd": pd, "p": p, "use_real_data": en_real_data, "en_plt": False, "sam_idx": 0}
+    else:
+        cost_func_opts = {"pd": pd, "p": p, "use_real_data": en_real_data, "en_plt": False, "p_sol": p_sol}
 
     cost_func = CostFuncFixedPoint(cost_func_opts).cost
     start = time.process_time()
-    for p_ in [p1, p2, p3, p4, p5, p6, p7]:
+    for p_ in [p1, p2, p3, p4, p5, p6, p7, p_test]:
         loss = cost_func(p_)
         print(p_, loss)
 
