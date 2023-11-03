@@ -54,32 +54,32 @@ def multir_complex(freqs, p, n):
                                     [-ra[0], 1]], dtype=np.complex128)
         """
         M = np.array([[(ta[0] * tb[0]) - (ra[0] * rb[0]), rb[0]],
-                                    [-ra[0], 1]], dtype=np.complex128)
+                      [-ra[0], 1]], dtype=np.complex128)
         fi = np.zeros(nc, dtype=np.complex128)
-        #print(M)
+        # print(M)
         for s in range(nc):
             fi[s] = (2 * pi * n[h, s + 1] * es[s]) * (freqs[h] / c0)
-            #""" correct
+            # """ correct
             Q = (1 / tb[s + 1]) * np.array([[(ta[s + 1] * tb[s + 1]) - (ra[s + 1] * rb[s + 1]), rb[s + 1]],
                                             [-ra[s + 1], 1]], dtype=np.complex128)
-            #"""
+            # """
             """
             Q = np.array([[(ta[s + 1] * tb[s + 1]) - (ra[s + 1] * rb[s + 1]), rb[s + 1]],
                                             [-ra[s + 1], 1]], dtype=np.complex128)
             """
             P = np.array([[exp(-fi[s] * 1j), 0], [0, exp(fi[s] * 1j)]])
             M = dot(M, dot(P, Q))
-            #M = dot(M, dot(Q, P))
-        #print(h, M[0, 1])
-        #print(h, M[1, 1])
+            # M = dot(M, dot(Q, P))
+        # print(h, M[0, 1])
+        # print(h, M[1, 1])
 
         r[h] = M[0, 1] / M[1, 1]
         # r[h] = M[1, 0] / M[0, 0]
         # print(r[h])
 
-    #print(r)
-    #print(np.conj(r)*r)
-    #exit()
+    # print(r)
+    # print(np.conj(r)*r)
+    # exit()
 
     return r
 
@@ -114,29 +114,29 @@ def tmm_matrix_elems(freqs, p, n):
         M = (1 / tb[0]) * np.array([[(ta[0] * tb[0]) - (ra[0] * rb[0]), rb[0]],
                                     [-ra[0], 1]], dtype=np.complex128)
         """
-        #"""
+        # """
         M = np.array([[(ta[0] * tb[0]) - (ra[0] * rb[0]), rb[0]],
-                                    [-ra[0], 1]], dtype=np.complex128)
-        #"""
+                      [-ra[0], 1]], dtype=np.complex128)
+        # """
         fi = np.zeros(nc, dtype=np.complex128)
-        #print(M)
+        # print(M)
         for s in range(nc):
             fi[s] = (2 * pi * n[h, s + 1] * es[s]) * (freqs[h] / c0)
             """ correct
             Q = (1 / tb[s + 1]) * np.array([[(ta[s + 1] * tb[s + 1]) - (ra[s + 1] * rb[s + 1]), rb[s + 1]],
                                             [-ra[s + 1], 1]], dtype=np.complex128)
             """
-            #"""
+            # """
             Q = np.array([[(ta[s + 1] * tb[s + 1]) - (ra[s + 1] * rb[s + 1]), rb[s + 1]],
-                                            [-ra[s + 1], 1]], dtype=np.complex128)
-            #"""
+                          [-ra[s + 1], 1]], dtype=np.complex128)
+            # """
             P = np.array([[exp(-fi[s] * 1j), 0], [0, exp(fi[s] * 1j)]])
             M = dot(M, dot(P, Q))
 
         m01[h], m11[h] = M[0, 1], M[1, 1]
-        #r[h] = M[0, 1] / M[1, 1]
+        # r[h] = M[0, 1] / M[1, 1]
 
-    return m01, m11 # r
+    return m01, m11  # r
 
 
 @jit(cache=True, nopython=True)
@@ -228,8 +228,8 @@ if __name__ == '__main__':
     freqs_filtered = freqs[limited_slice]
 
     noise_std_scale = 0.50
-    noise_amp = noise_gen(freqs, True, scale=0.15*noise_std_scale)
-    noise_phase = noise_gen(freqs, True, scale=0.10*noise_std_scale)
+    noise_amp = noise_gen(freqs, True, scale=0.15 * noise_std_scale)
+    noise_phase = noise_gen(freqs, True, scale=0.10 * noise_std_scale)
     phase_mod = get_phase(freqs, p_opt, n) + (1 - noise_phase)
     amp_mod = get_amplitude(freqs, p_opt, n) * noise_amp ** 2
 

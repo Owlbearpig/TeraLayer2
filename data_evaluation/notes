@@ -136,3 +136,12 @@ problem is not finding minimum (simplex works fine) problem is it's wrong compar
         -> 900 us on redpitaya (Dual-Core ARM Cortex-A9 MPCore) (loss.c: 12.9 us / call)
 
 24. recip LUT: values of denum in explicitEvalSimple seem to be bound between x = 0.5 and x = 2. -> 1/x is in [2, 0.5]
+
+#####################################################
+
+r with correct phase, r1:
+# r0 = Mtilde[1,0]/Mtilde[0,0]  # "original" tmm package convention
+# r1 = -Mtilde[0, 1] / Mtilde[1, 1]
+
+and r0 = -np.conj(r1)
+
