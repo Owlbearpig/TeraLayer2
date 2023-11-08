@@ -168,18 +168,18 @@ def _verilog_code():
         f_ = numfi(f_ * 2 ** 3)
         bin_s = numfi_(i + 1, w=cntr_w, f=0).bin[0]
         if i == 0:
-            print(f"assign f = (cntr == 4'b{bin_s}) ? {w}'b{f_.bin[0]}: // {f_} ({f_.w} / {f_.f})")
+            print(f"assign f = (cntr == 4'b{bin_s}) ? {w}'b{f_.bin[0]}: // {f_} ({f_.w} / {f_.f_})")
         else:
-            print(indent + f"(cntr == 4'b{bin_s}) ? {w}'b{f_.bin[0]}: // {f_} ({f_.w} / {f_.f})")
+            print(indent + f"(cntr == 4'b{bin_s}) ? {w}'b{f_.bin[0]}: // {f_} ({f_.w} / {f_.f_})")
     print(indent + "{(4+p){1'b0}};\n")
 
     for i, g_ in enumerate(gs):
         g_ = numfi(g_ * 2 ** 3)
         bin_s = numfi_(i + 1, w=cntr_w, f=0).bin[0]
         if i == 0:
-            print(f"assign g = (cntr == 4'b{bin_s}) ? {w}'b{g_.bin[0]}: // {g_} ({g_.w} / {g_.f})")
+            print(f"assign g = (cntr == 4'b{bin_s}) ? {w}'b{g_.bin[0]}: // {g_} ({g_.w} / {g_.f_})")
         else:
-            print(indent + f"(cntr == 4'b{bin_s}) ? {w}'b{g_.bin[0]}: // {g_} ({g_.w} / {g_.f})")
+            print(indent + f"(cntr == 4'b{bin_s}) ? {w}'b{g_.bin[0]}: // {g_} ({g_.w} / {g_.f_})")
     print(indent + "{(4+p){1'b0}};\n")
 
     c = combine_module_coefficients()
@@ -231,7 +231,7 @@ def _model_data(p_sol_grid_):
         out("cur_data_real = {")
         for i in range(len(r_exp)):
             line0 = f"{w}'b{r_exp_real[i].bin[0]}"
-            line1 = f" // {r_exp_real[i]} ({r_exp_real[i].w} / {r_exp_real[i].f})"
+            line1 = f" // {r_exp_real[i]} ({r_exp_real[i].w} / {r_exp_real[i].f_})"
             if i == len(r_exp) - 1:
                 out(indent + line0 + line1)
             else:
@@ -241,7 +241,7 @@ def _model_data(p_sol_grid_):
         out("cur_data_imag = {")
         for i in range(len(r_exp)):
             line0 = f"{w}'b{r_exp_imag[i].bin[0]}"
-            line1 = f" // {r_exp_imag[i]} ({r_exp_imag[i].w} / {r_exp_imag[i].f})"
+            line1 = f" // {r_exp_imag[i]} ({r_exp_imag[i].w} / {r_exp_imag[i].f_})"
             if i == len(r_exp) - 1:
                 out(indent + line0 + line1)
             else:
@@ -258,7 +258,7 @@ def _model_data(p_sol_grid_):
 
         write_line("always @(posedge clk) begin", 1)
         write_line("if (eval_done) begin", 2)
-        write_line(f"if (eval_done_cntr <= {len(p_sol_grid_)-1}) begin", 3)
+        write_line(f"if (eval_done_cntr <= {len(p_sol_grid_) - 1}) begin", 3)
         write_line("eval_done_cntr <= eval_done_cntr + 1;", 4)
         write_line("end else begin", 3)
         write_line("eval_done_cntr <= 0;", 4)
@@ -302,7 +302,7 @@ def _sample_data(sam_idx=None):
         out("cur_data_real = {")
         for i in range(len(r_exp)):
             line0 = f"{w}'b{r_exp_real[i].bin[0]}"
-            line1 = f" // {r_exp_real[i]} ({r_exp_real[i].w} / {r_exp_real[i].f})"
+            line1 = f" // {r_exp_real[i]} ({r_exp_real[i].w} / {r_exp_real[i].f_})"
             if i == len(r_exp) - 1:
                 out(indent + line0 + line1)
             else:
@@ -312,7 +312,7 @@ def _sample_data(sam_idx=None):
         out("cur_data_imag = {")
         for i in range(len(r_exp)):
             line0 = f"{w}'b{r_exp_imag[i].bin[0]}"
-            line1 = f" // {r_exp_imag[i]} ({r_exp_imag[i].w} / {r_exp_imag[i].f})"
+            line1 = f" // {r_exp_imag[i]} ({r_exp_imag[i].w} / {r_exp_imag[i].f_})"
             if i == len(r_exp) - 1:
                 out(indent + line0 + line1)
             else:
@@ -365,7 +365,7 @@ def _sim_p(p_):
     p_test = numfi(p_test)
 
     for i in range(len(p_test)):
-        line = f"i_d{i}_r = {p_test.w}'b{p_test[i].bin[0]}; // {p_test[i]} ({p_test[i].w} / {p_test[i].f}) // {p_[i]}"
+        line = f"i_d{i}_r = {p_test.w}'b{p_test[i].bin[0]}; // {p_test[i]} ({p_test[i].w} / {p_test[i].f_}) // {p_[i]}"
         line += f" {p_upscaled[i]}"
         print(line)
     print()
