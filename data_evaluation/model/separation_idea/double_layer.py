@@ -17,6 +17,14 @@ from scipy.optimize import minimize
 minimize = partial(minimize, method="Nelder-Mead")
 
 """
+f_idx   period   wavelength  1/period
+0 0.0019 1/um 	2997.925	526
+1 0.0046 	1199.17		217
+2 0.0121 	461.219		83
+3 0.0148 	374.741		68
+4 0.0169 	329.442		59
+6 0.0195 	285.517		51
+
 - Taking abs value of expr1 means that minima positions do not depend on phase error.
 - Amplitude error causes minima around correct value 
 
