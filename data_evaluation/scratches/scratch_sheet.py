@@ -56,7 +56,7 @@ def f(d1_, d2_=d_list[2], freq_=1.0):
     return s
 
 plt.figure()
-for f_ in np.arange(0.1, 2.0, 0.001):
+for f_ in np.arange(0.1, 2.0, 0.1):
     print(f_)
     roots = multi_root(f, [0, 300], args=(45, f_,))
     print(roots)

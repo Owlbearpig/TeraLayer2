@@ -97,4 +97,4 @@ f_offset = 0.0296  # 0.0296 with screenshot works
 
 # selected_freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950], dtype=float)
 # selected_freqs = array([0.100, 0.250, 0.650, 0.800, 0.910, 1.050], dtype=float)
-selected_freqs = array([0.130, 0.280, 0.680, 0.830, 0.940, 1.080], dtype=float) - f_offset
+selected_freqs = round(array([0.130, 0.280, 0.680, 0.830, 0.940, 1.080], dtype=float) - f_offset, 3)
