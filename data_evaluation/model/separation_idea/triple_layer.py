@@ -25,7 +25,7 @@ freqs = selected_freqs.copy()
 lam = c0 * 1e-6 / freqs
 print(f"Frequencies: {freqs} THz,\nwavelengths {np.round(lam, 3)} um")
 print(f"Refractive indices: n0={n0},\nn1={n1},\nn2={n2}")
-d_truth = [np.inf, 175, 350, 40, np.inf]
+d_truth = [np.inf, 175, 450, 40, np.inf]
 
 r0, r1, r2, r3 = (1 - n0) / (1 + n0), (n0 - n1) / (n0 + n1), (n1 - n2) / (n1 + n2), (n2 - 1) / (n2 + 1)
 
@@ -38,17 +38,18 @@ for freq_idx_ in range(freqs.size):
 
 r, u = np.abs(r_exp), np.exp(1j * np.angle(r_exp))
 
-c0 = r3 - r * r0 * r3 * u
-c1 = r0 * r1 * r3 - r * r1 * r3 * u
-c2 = r1 * r2 * r3 - r * r0 * r1 * r3 * u
-c3 = r2 - r * r0 * r2 * u
-c4 = r0 * r2 * r3 - r * r2 * r3 * u
-c5 = r0 * r1 * r2 - r * r1 * r2 * u
-c6 = r1 - r * r0 * r1 * u
-c7 = r0 - r * u
+c0 = r * r0 * r3 * u - r3
+c1 = r * r1 * r3 * u - r0 * r1 * r3
+c2 = r * r0 * r1 * r2 * r3 * u - r1 * r2 * r3
+c3 = r * r0 * r2 * u - r2
+c4 = r * r2 * r3 * u - r0 * r2 * r3
+c5 = r * r1 * r2 * u - r0 * r1 * r2
+c6 = r * r0 * r1 * u - r1
+c7 = r * u - r0
 
 
-def expr1(d1_, d2_, freq_idx_=0):
+def expr1(x, freq_idx_=0):
+    d1_, d2_ = x
     phi0 = 2 * np.pi * d1_ * n0[freq_idx_] / lam[freq_idx_]
     x_ = np.exp(1j * 2 * phi0)
     phi1 = 2 * np.pi * d2_ * n1[freq_idx_] / lam[freq_idx_]
@@ -61,22 +62,25 @@ def expr1(d1_, d2_, freq_idx_=0):
     return (1 - s) ** 2
 
 
-freq_idx = 0
-X, Y = np.meshgrid(d1, d2)
-Z = expr1(X, Y, freq_idx)
+expr1_ = partial(expr1, freq_idx_=0)
+# opt_res1 = minimize(expr1_, x0=[50, 50])
+opt_res1 = minimize_(expr1, x0=np.array([50, 50]))
+print(opt_res1)
 
-print(expr1(175.0, 350.0))
+for freq_idx in range(6):
+    X, Y = np.meshgrid(d1, d2)
+    Z = expr1([X, Y], freq_idx)
+    Z = np.log10(Z)
 
-fig0, ax0 = plt.subplots(subplot_kw={"projection": "3d"})
-ax0.set_title(f"Expression 1 (Fidx: {freq_idx})")
-surf0 = ax0.plot_surface(X, Y, Z, cmap=cm.viridis, antialiased=True)
-ax0.set_xlabel("$d_1$")
-ax0.set_ylabel("$d_2$")
-ax0.zaxis.set_major_locator(LinearLocator(10))
-# A StrMethodFormatter is used automatically
-ax0.zaxis.set_major_formatter('{x:.02f}')
+    print(expr1(d_truth[1:3], freq_idx))
 
-# Add a color bar which maps values to colors.
-fig0.colorbar(surf0, shrink=1, aspect=5)
+    plt.figure()
+    plt.title(f"Freq. idx: {freq_idx}")
+    plt.imshow(Z, extent=[d1[0], d1[-1], d2[0], d2[-1]], origin="lower",
+               # interpolation='bilinear',
+               # cmap="plasma",
+               )
+    plt.xlabel("$d_1$")
+    plt.ylabel("$d_2$")
 
 plt.show()

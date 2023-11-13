@@ -324,7 +324,7 @@ def noise_gen(freqs, enabled, scale=1, seed=None):
     return ret
 
 
-def gen_p_sols(cnt=100, seed=421, p0_=None):
+def gen_p_sols(cnt=100, seed=421, p0_=None, layer_cnt=3):
     np.random.seed(seed)
 
     def rand_sol():
@@ -333,8 +333,13 @@ def gen_p_sols(cnt=100, seed=421, p0_=None):
         else:
             sol_ = [int(i) for i in [uniform(p0_[j] - 30, p0_[j] + 30) for j in range(3)]]
 
-        return sol_
+        try:
+            sol_[layer_cnt:] = (len(sol_)-layer_cnt)*[0]
+        except IndexError:
+            print("Check solution layer count")
+            exit("223")
 
+        return sol_
 
     p_sols = []
     for _ in range(cnt):
