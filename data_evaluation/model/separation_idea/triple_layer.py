@@ -25,7 +25,7 @@ freqs = selected_freqs.copy()
 lam = c0 * 1e-6 / freqs
 print(f"Frequencies: {freqs} THz,\nwavelengths {np.round(lam, 3)} um")
 print(f"Refractive indices: n0={n0},\nn1={n1},\nn2={n2}")
-d_truth = [np.inf, 175, 450, 40, np.inf]
+d_truth = [np.inf, 60, 450, 240, np.inf]
 
 r0, r1, r2, r3 = (1 - n0) / (1 + n0), (n0 - n1) / (n0 + n1), (n1 - n2) / (n1 + n2), (n2 - 1) / (n2 + 1)
 
@@ -70,7 +70,7 @@ print(opt_res1)
 for freq_idx in range(6):
     X, Y = np.meshgrid(d1, d2)
     Z = expr1([X, Y], freq_idx)
-    Z = np.log10(Z)
+    # Z = np.log10(Z)
 
     print(expr1(d_truth[1:3], freq_idx))
 
@@ -79,6 +79,7 @@ for freq_idx in range(6):
     plt.imshow(Z, extent=[d1[0], d1[-1], d2[0], d2[-1]], origin="lower",
                # interpolation='bilinear',
                # cmap="plasma",
+               vmin=0, vmax=0.5
                )
     plt.xlabel("$d_1$")
     plt.ylabel("$d_2$")
