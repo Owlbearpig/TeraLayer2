@@ -84,7 +84,7 @@ def expr1(d1_, freq_idx_=0):
     x_ = np.exp(1j * 2 * phi0)
     s = np.abs((c0[freq_idx_] + c1[freq_idx_] * x_) / (c2[freq_idx_] + c3[freq_idx_] * x_))
 
-    return (1-abs(s))**2
+    return (1-s)**2
 
 
 def expr2(d1_, d2_):

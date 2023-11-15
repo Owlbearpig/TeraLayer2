@@ -2,7 +2,7 @@ import tmm
 from numpy import array
 import numpy as np
 from scipy.constants import c
-from consts import um_to_m, GHz, selected_freqs, n0, n1, n2
+from consts import um_to_m, GHz, selected_freqs, n0, n1, n2, f_offset
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator
 import matplotlib.pyplot as plt
@@ -20,23 +20,24 @@ def minimize(*args, **kwargs):
 
     return opt_res_["x"]
 
-
+selected_freqs = np.round(array([0.130, 0.260, 0.680, 0.830, 0.940, 1.080], dtype=float) - f_offset, 3)
 freqs = selected_freqs.copy()
 lam = c0 * 1e-6 / freqs
 print(f"Frequencies: {freqs} THz,\nwavelengths {np.round(lam, 3)} um")
 print(f"Refractive indices: n0={n0},\nn1={n1},\nn2={n2}")
-d_truth = [np.inf, 60, 450, 240, np.inf]
+
+d_truth = [np.inf, 50, 270, 40, np.inf]
 
 r0, r1, r2, r3 = (1 - n0) / (1 + n0), (n0 - n1) / (n0 + n1), (n1 - n2) / (n1 + n2), (n2 - 1) / (n2 + 1)
 
-d1, d2, d3 = np.arange(1, 700, 1), np.arange(1, 500, 1), np.arange(1, 500, 1)
+d1, d2, d3 = np.arange(1, 500, 1), np.arange(1, 500, 1), np.arange(1, 500, 1)
 
 r_exp = np.zeros(len(freqs), dtype=complex)
 for freq_idx_ in range(freqs.size):
     r_exp[freq_idx_] = coh_tmm_slim("s", [1, n0[freq_idx_], n1[freq_idx_], n2[freq_idx_], 1],
                                     d_truth, 0, lam[freq_idx_])
 
-r, u = np.abs(r_exp), np.exp(1j * np.angle(r_exp))
+r, u = 0.95*np.abs(r_exp), np.exp(1j * np.angle(r_exp))
 
 c0 = r * r0 * r3 * u - r3
 c1 = r * r1 * r3 * u - r0 * r1 * r3
@@ -59,20 +60,26 @@ def expr1(x, freq_idx_=0):
     den = c3[freq_idx_] + c5[freq_idx_] * x_ + c6[freq_idx_] * y_ + c7[freq_idx_] * x_ * y_
     s = np.abs(num / den)
 
-    return (1 - s) ** 2
+    return np.abs(1 - s)# ** 2
 
 
+x0s = [(125, 125), (125, 250), (125, 375),
+       (375, 125), (375, 250), (375, 375)]
 expr1_ = partial(expr1, freq_idx_=0)
 # opt_res1 = minimize(expr1_, x0=[50, 50])
-opt_res1 = minimize_(expr1, x0=np.array([50, 50]))
-print(opt_res1)
+for x0 in x0s:
+    opt_res1 = minimize_(expr1, x0=x0)
+    print(opt_res1["fun"])
+    print(opt_res1["x"])
 
 for freq_idx in range(6):
+    if freq_idx != 0:
+        pass
     X, Y = np.meshgrid(d1, d2)
     Z = expr1([X, Y], freq_idx)
     # Z = np.log10(Z)
 
-    print(expr1(d_truth[1:3], freq_idx))
+    # print(expr1(d_truth[1:3], freq_idx))
 
     plt.figure()
     plt.title(f"Freq. idx: {freq_idx}")
