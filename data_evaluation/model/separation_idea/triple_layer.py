@@ -65,7 +65,7 @@ print(f"Frequencies: {freqs} THz,\nwavelengths {np.round(lam, 3)} um")
 print(f"Refractive indices: n0={n0},\nn1={n1},\nn2={n2}")
 d_truth = [np.inf, 45, 640, 65, np.inf]
 
-# TODO add angle dependencies.
+# TODO add angle dependencies. + Check sign
 r0, r1, r2, r3 = (1 - n0) / (1 + n0), (n0 - n1) / (n0 + n1), (n1 - n2) / (n1 + n2), (n2 - 1) / (n2 + 1)
 
 d1, d2, d3 = np.arange(1, 500, 1), np.arange(300, 800, 1), np.arange(1, 500, 1)
