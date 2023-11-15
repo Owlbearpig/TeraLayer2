@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     pd, p = 4, 12
 
-    cost_func_opts = {"pd": pd, "p": p, "use_real_data": False, "noise": noise_factor, "en_plt": False}
+    cost_func_opts = {"pd": pd, "p": p, "use_real_data": True, "noise": noise_factor, "en_plt": False}
 
     dir_ = Path("results") / Path(f"FP_pd{pd}_p{p}_real_data")
     dir_.mkdir(exist_ok=True)

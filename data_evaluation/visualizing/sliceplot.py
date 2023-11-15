@@ -38,7 +38,7 @@ file_name = str(Path('plot_data') / file_name)
 # Cache ;)
 try:
     grid_vals = np.load(file_name)
-except FileNotFoundError:
+except FileNotFoundError as e:
     grid_vals = np.zeros([rez_x, rez_y, rez_z])
     for i in range(rez_x):
         if (i % 5) == 0:
