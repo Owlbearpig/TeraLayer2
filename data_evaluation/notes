@@ -145,3 +145,12 @@ r with correct phase, r1:
 
 and r0 = -np.conj(r1)
 
+"Manually fitted" refractive index and layer results are given in meas_eval dir.
+
+model ([45.77, 660.0, 72.6]) r_target:
+[ 0.61940433+0.23832974j  0.42574706+0.18852254j  0.1613055 -0.18909995j
+ -0.13937567-0.19086711j  0.21296596-0.0711631j  -0.04763592+0.35357242j]
+
+experimental (sam_idx=0) r_target:
+[ 0.68861143+0.19188424j  0.40914245+0.21957212j  0.27207933-0.37308845j
+ -0.17356888-0.2019538j   0.21104934-0.13649972j  0.03111117+0.24119368j]

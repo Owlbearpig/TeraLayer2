@@ -1,8 +1,8 @@
 import tmm
-from numpy import array
+from numpy import array, cos
 import numpy as np
 from scipy.constants import c
-from consts import um_to_m, GHz, selected_freqs, n0, n1, n2, f_offset
+from consts import um_to_m, GHz, selected_freqs, n0, n1, n2, f_offset, thea
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator
 import matplotlib.pyplot as plt
@@ -14,16 +14,17 @@ from helpers import multi_root
 from itertools import product
 from scipy.optimize import minimize as minimize_
 from scipy.optimize import show_options
+from tmm import list_snell, interface_r
+from RTL_sim.twos_compl_OF_v2 import real_data_cw
 
 
 # show_options("minimize", "Nelder-Mead")
 
 
 def minimize(*args, **kwargs):
-    options_ = {"adaptive": True}
+    options_ = {"adaptive": True, "fatol": 0}
     if "x0" in kwargs.keys():
         x0 = kwargs["x0"]
-        print(x0)
         nonzdelt = 0.025
         zdelt = 0.00025
         N = len(x0)
@@ -38,7 +39,6 @@ def minimize(*args, **kwargs):
                 y[k] = zdelt
             sim[k + 1] = y
         options_["initial_simplex"] = sim
-        print(sim)
 
     opt_res_ = minimize_(*args, **kwargs, method="Nelder-Mead", options=options_)
 
@@ -49,51 +49,60 @@ def whitenoise(s=0.05):
     return np.random.uniform(1 - s, 1, size=len(selected_freqs))
 
 
-noise_scale = 0.00
+randint = np.random.randint
+np.random.seed(42)
+noise_scale = 0.10
 amp_noise = whitenoise(noise_scale)
 phi_noise = whitenoise(noise_scale)
 
-# np.random.seed(42)
-
-# selected_freqs = array([0.020, 0.100, 0.210, 0.250, 0.340, 0.480], dtype=float)
-# selected_freqs = np.random.uniform(0.1, 1.2, size=6)
-# selected_freqs.sort()
-
+sam_idx = randint(0, 100)
+sam_idx = 56
+print(sam_idx)
+num_layers = 5  # first and last layers are air
+pol = "s"
 freqs = selected_freqs.copy()
 lam = c0 * 1e-6 / freqs
 print(f"Frequencies: {freqs} THz,\nwavelengths {np.round(lam, 3)} um")
 print(f"Refractive indices: n0={n0},\nn1={n1},\nn2={n2}")
-d_truth = [np.inf, 45, 640, 65, np.inf]
-
-# TODO add angle dependencies. + Check sign
-r0, r1, r2, r3 = (1 - n0) / (1 + n0), (n0 - n1) / (n0 + n1), (n1 - n2) / (n1 + n2), (n2 - 1) / (n2 + 1)
 
 d1, d2, d3 = np.arange(1, 500, 1), np.arange(300, 800, 1), np.arange(1, 500, 1)
+n_list = array([np.ones_like(freqs), n0, n1, n2, np.ones_like(freqs)], dtype=float).T
 
-r_exp = np.zeros(len(freqs), dtype=complex)
+d_truth = [np.inf, 45.77, 660.0, 72.6, np.inf]
+d_truth = [np.inf, randint(d1[0], d1[-1]), randint(d2[0], d2[-1]), randint(d3[0], d3[-1]), np.inf]
+
+r_fn = np.zeros((len(freqs), num_layers, num_layers), dtype=complex)
+kz_list, th_list = np.zeros((2, len(freqs), num_layers), dtype=complex)
+r_exp_mod = np.zeros(len(freqs), dtype=complex)
 for freq_idx_ in range(freqs.size):
-    r_exp[freq_idx_] = -coh_tmm_slim("s", [1, n0[freq_idx_], n1[freq_idx_], n2[freq_idx_], 1],
-                                     d_truth, 0, lam[freq_idx_])
-print(r_exp)
-# r_exp = np.array([0.68861143 + 0.19188424j, 0.40914245 + 0.21957212j, 0.27207933 - 0.37308845j, -0.17356888 - 0.2019538j,0.21104934 - 0.13649972j, 0.03111117 + 0.24119368j], dtype=complex)
-print(r_exp)
-r = np.abs(r_exp) * amp_noise
+    th_list[freq_idx_] = list_snell(n_list[freq_idx_], thea).T
+    kz_list[freq_idx_, :] = 2 * np.pi * n_list[freq_idx_] * cos(th_list[freq_idx_]) / lam[freq_idx_]
+    for i in range(num_layers - 1):
+        r_fn[freq_idx_, i, i + 1] = interface_r(pol, n_list[freq_idx_, i], n_list[freq_idx_, i + 1],
+                                                th_list[freq_idx_, i], th_list[freq_idx_, i + 1])
+
+    r_exp_mod[freq_idx_] = -coh_tmm_slim(pol, n_list[freq_idx_], d_truth, thea, lam[freq_idx_])
+
+r_exp = real_data_cw(sam_idx)  # use real data
+r_exp = r_exp_mod  # use model data
+print("r_exp: ", r_exp)
+r = -np.abs(r_exp) * amp_noise
 u = np.exp(1j * np.angle(r_exp) * phi_noise)
 
-c0 = r * r0 * r3 * u - r3
-c1 = r * r1 * r3 * u - r0 * r1 * r3
-c2 = r * r0 * r1 * r2 * r3 * u - r1 * r2 * r3
-c3 = r * r0 * r2 * u - r2
-c4 = r * r2 * r3 * u - r0 * r2 * r3
-c5 = r * r1 * r2 * u - r0 * r1 * r2
-c6 = r * r0 * r1 * u - r1
-c7 = r * u - r0
+c0 = r * r_fn[:, 0, 1] * r_fn[:, 3, 4] * u - r_fn[:, 3, 4]
+c1 = r * r_fn[:, 1, 2] * r_fn[:, 3, 4] * u - r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 3, 4]
+c2 = (r * r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 2, 3] * u - r_fn[:, 1, 2] * r_fn[:, 2, 3]) * r_fn[:, 3, 4]
+c3 = r * r_fn[:, 0, 1] * r_fn[:, 2, 3] * u - r_fn[:, 2, 3]
+c4 = r * r_fn[:, 2, 3] * r_fn[:, 3, 4] * u - r_fn[:, 0, 1] * r_fn[:, 2, 3] * r_fn[:, 3, 4]
+c5 = r * r_fn[:, 1, 2] * r_fn[:, 2, 3] * u - r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 2, 3]
+c6 = r * r_fn[:, 0, 1] * r_fn[:, 1, 2] * u - r_fn[:, 1, 2]
+c7 = r * u - r_fn[:, 0, 1]
 
 
 def expr1_(d1_, d2_, freq_idx_=0):
-    phi0 = 2 * np.pi * d1_ * n0[freq_idx_] / lam[freq_idx_]
+    phi0 = d1_ * kz_list[freq_idx_, 1]
     x_ = np.exp(1j * 2 * phi0)
-    phi1 = 2 * np.pi * d2_ * n1[freq_idx_] / lam[freq_idx_]
+    phi1 = d2_ * kz_list[freq_idx_, 2]
     y_ = np.exp(1j * 2 * phi1)
 
     num = c0[freq_idx_] + c1[freq_idx_] * x_ + c2[freq_idx_] * y_ + c4[freq_idx_] * x_ * y_
@@ -110,20 +119,40 @@ def fun(x, freq_idx_=0):
 
 def fun1(x):
     return (expr1_(*x, 0) + expr1_(*x, 1) + expr1_(*x, 2) + expr1_(*x, 3) +
-            expr1_(*x, 4) + expr1_(*x, 1))
+            expr1_(*x, 4) + expr1_(*x, 5))
 
 
-# from scipy.optimize import shgo
-# bounds = [(0, 500), (0, 500)]
-x0s = [x0_ for x0_ in product(range(d1[0], d1[-1], 20), range(d2[0], d2[-1], 20))]
-y0s = [(x0_, fun1(x0_)) for x0_ in x0s]
-print(len(y0s))
-x0_best = sorted(y0s, key=lambda x: x[1])[0]
-print(x0_best)
-opt_res = minimize(fun1, x0=x0_best[0])
-print(opt_res["nfev"])
-tot_nfev = opt_res["nfev"] + len(y0s)
-print(opt_res["x"], opt_res["fun"], opt_res["nfev"], tot_nfev)
+def fun2(x):
+    return expr1_(*x, 0) + expr1_(*x, 1)
+
+
+freq_idx_0_grid = [(x0_, fun2(x0_)) for x0_ in product(range(d1[0], d1[-1], 50), range(d2[0], d2[-1], 50))]
+# freq_idx_0_grid = [minimize(fun2, x0=x0_) for x0_ in [(250, i) for i in range(d2[0], d2[-1], 50)]]
+
+# freq_idx_0_opt_res_sorted = sorted(freq_idx_0_grid, key=lambda x: x["fun"])
+freq_idx_0_opt_res_sorted = sorted(freq_idx_0_grid, key=lambda x: x[1])
+print(freq_idx_0_opt_res_sorted[0:3])
+# print([(x["x"], x["fun"]) for x in freq_idx_0_opt_res_sorted])
+
+tot_nfev = len(freq_idx_0_grid)
+opt_results = []
+for x0 in freq_idx_0_opt_res_sorted[:2]:
+    # x0 = [int(i) for i in opt_res_["x"]]
+    x0 = x0[0]
+    d1_x0_0, d1_x0_1 = max(x0[0] - 50, d1[0]), min(x0[0] + 50, d1[-1])
+    d2_x0_0, d2_x0_1 = max(x0[1] - 50, d2[0]), min(x0[1] + 50, d2[-1])
+    x0s = [(x0_, fun1(x0_)) for x0_ in product(range(d1_x0_0, d1_x0_1, 15), range(d2_x0_0, d2_x0_1, 15))]
+    tot_nfev += len(x0s)
+    x0s_sorted = sorted(x0s, key=lambda x: x[1])
+
+    for x0_ in x0s_sorted[0:3]:
+        opt_res = minimize(fun1, x0=x0_[0])
+        tot_nfev += opt_res["nfev"]
+        print(opt_res["x"], opt_res["fun"], opt_res["nfev"], tot_nfev)
+        opt_results.append(opt_res)
+
+best_opt_res = sorted(opt_results, key=lambda x: x["fun"])[0]
+print(best_opt_res)
 print(d_truth)
 
 """
@@ -145,7 +174,7 @@ for freq_idx in range(6):
     # Z = np.log10(Z)
 
     plt.figure()
-    plt.title(f"Summed differences idx: {freq_idx}")
+    plt.title(f"Difference idx: {freq_idx} ({freqs[freq_idx]} THz)")
     plt.imshow(Z,
                extent=[d1[0], d1[-1], d2[0], d2[-1]], origin="lower",
                # interpolation='bilinear',
@@ -155,12 +184,11 @@ for freq_idx in range(6):
     plt.xlabel("$d_1$")
     plt.ylabel("$d_2$")
 
-X, Y = np.meshgrid(d1, d2)
-Z = fun1([X, Y])
-# Z = np.log10(Z)
 
 plt.figure()
-plt.title(f"Summed differences idx: sum")
+X, Y = np.meshgrid(d1, d2)
+Z = fun1([X, Y])
+plt.title(f"Summed differences all idx")
 plt.imshow(Z,
            extent=[d1[0], d1[-1], d2[0], d2[-1]],
            origin="lower",
@@ -170,6 +198,42 @@ plt.imshow(Z,
            )
 plt.xlabel("$d_1$")
 plt.ylabel("$d_2$")
+
+plt.figure()
+X, Y = np.meshgrid(d1, d2)
+Z = fun2([X, Y])
+plt.title(f"Fun2")
+plt.imshow(Z,
+           extent=[d1[0], d1[-1], d2[0], d2[-1]],
+           origin="lower",
+           # interpolation='bilinear',
+           # cmap="plasma",
+           vmin=np.min(Z), vmax=np.mean(Z),
+           )
+plt.xlabel("$d_1$")
+plt.ylabel("$d_2$")
+
+plt.figure()
+plt.title("(full model - measurement)$^2$, wrt $d_3$")
+r_exp_mod = np.zeros_like(freqs, dtype=complex)
+y_vals = []
+for d3_ in d3:
+    for freq_idx_ in range(len(freqs)):
+        d = array([np.inf, *best_opt_res["x"], d3_, np.inf], dtype=float)
+        r_exp_mod[freq_idx_] = -coh_tmm_slim(pol, n_list[freq_idx_], d, thea, lam[freq_idx_])
+    err = np.sum((r_exp_mod.real - r_exp.real) ** 2 + (r_exp_mod.imag - r_exp.imag) ** 2)
+    y_vals.append(err)
+
+plt.plot(d3, y_vals)
+min_point = (d3[np.argmin(y_vals)], np.min(y_vals))
+plt.annotate(f"{min_point[0]}, {min_point[1]}", xy=(min_point[0], min_point[1]), xytext=(-20, 20),
+             textcoords='offset points', ha='center', va='bottom',
+             bbox=dict(boxstyle='round,pad=0.2', fc='yellow', alpha=0.3),
+             arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.5',
+                             color='red'))
+plt.xlabel("$d_3$")
+plt.ylabel("Loss")
+
 """
 from scipy import fftpack, ndimage
 plt.figure()

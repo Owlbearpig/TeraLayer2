@@ -49,6 +49,7 @@ if __name__ == '__main__':
 
     cnt = 10
     test_values = gen_p_sols(cnt=cnt, seed=seed, layer_cnt=2)
+    # test_values[0] = [45.77, 660.0, 72.6]
     # test_values = cnt*[[46.0, 660.0, 76.0]]
     deviations, failures, fevals_all = [], 0, []
     # with open(dir_ / f"FP_results_nm_grid_real_data_v2.2.txt", "a") as file:

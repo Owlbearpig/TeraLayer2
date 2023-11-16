@@ -53,6 +53,7 @@ n = [1, 1.50, 2.80, 1.50, 1]
 # n1 = array([2.88, 2.89, 2.89, 2.90, 2.88, 2.89])
 # n2 = array([1.56, 1.57, 1.60, 1.61, 1.62, 1.62])
 
+# matches "original" frequency set
 n0 = array([1.513, 1.515, 1.520, 1.521, 1.522, 1.524])
 n1 = array([2.782, 2.782, 2.784, 2.785, 2.786, 2.787])
 n2 = array([1.513, 1.515, 1.520, 1.521, 1.522, 1.524])
@@ -97,4 +98,5 @@ f_offset = 0.0296  # 0.0296 with screenshot works
 
 # selected_freqs = array([0.420, 0.520, 0.650, 0.800, 0.850, 0.950], dtype=float)
 # selected_freqs = array([0.100, 0.250, 0.650, 0.800, 0.910, 1.050], dtype=float)
+# selected_freqs = round(array([0.130, 0.280, 0.680, 0.830, 0.940, 1.080], dtype=float) - f_offset, 3) # original set
 selected_freqs = round(array([0.130, 0.280, 0.680, 0.830, 0.940, 1.080], dtype=float) - f_offset, 3)

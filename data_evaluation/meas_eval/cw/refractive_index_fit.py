@@ -65,7 +65,7 @@ plt.show()
 f0, f1 = 0.150, 1.200
 f0_idx, f1_idx = np.argmin(np.abs(freqs - f0)), np.argmin(np.abs(freqs - f1))
 
-np.random.seed(420)
+# np.random.seed(420)
 
 bounds = ((1.50, 1.65), (2.75, 2.85), )
 bounds = ((1.58, 1.62), (2.75, 2.85), (1.58, 1.62))
