@@ -50,8 +50,8 @@ def whitenoise(s=0.05):
 
 
 randint = np.random.randint
-np.random.seed(42)
-noise_scale = 0.10
+# np.random.seed(37)
+noise_scale = 0.0
 amp_noise = whitenoise(noise_scale)
 phi_noise = whitenoise(noise_scale)
 
@@ -113,40 +113,78 @@ def expr1_(d1_, d2_, freq_idx_=0):
     return abs(1 - s)
 
 
-def fun(x, freq_idx_=0):
+def expr2_(d1_, d3_, freq_idx_=0):
+    phi0 = d1_ * kz_list[freq_idx_, 1]
+    x_ = np.exp(1j * 2 * phi0)
+    phi2 = d3_ * kz_list[freq_idx_, 3]
+    z_ = np.exp(1j * 2 * phi2)
+
+    num = c0[freq_idx_] + c1[freq_idx_] * x_ + c3[freq_idx_] * z_ + c5[freq_idx_] * x_ * z_
+    den = c2[freq_idx_] + c4[freq_idx_] * x_ + c6[freq_idx_] * z_ + c7[freq_idx_] * x_ * z_
+
+    s = np.abs(num / den)
+
+    return abs(1 - s)
+
+
+def fun10(x, freq_idx_=0):
     return expr1_(*x, freq_idx_)
 
 
-def fun1(x):
+def fun11(x):
     return (expr1_(*x, 0) + expr1_(*x, 1) + expr1_(*x, 2) + expr1_(*x, 3) +
             expr1_(*x, 4) + expr1_(*x, 5))
 
 
-def fun2(x):
+def fun12(x):
     return expr1_(*x, 0) + expr1_(*x, 1)
 
 
-freq_idx_0_grid = [(x0_, fun2(x0_)) for x0_ in product(range(d1[0], d1[-1], 50), range(d2[0], d2[-1], 50))]
+def fun20(x, freq_idx_=0):
+    return expr2_(*x, freq_idx_)
+
+
+def fun21(x):
+    return (expr2_(*x, 0) + expr2_(*x, 1) + expr2_(*x, 2) + expr2_(*x, 3) +
+            expr2_(*x, 4) + expr2_(*x, 5))
+
+
+def fun22(x):
+    return expr2_(*x, 0) + expr2_(*x, 1)
+
+
+def fun1222(x):
+    return fun12(x) + fun22(x)
+
+
+# TODO check total nfev. How do we choose the best starting point?
+fun12_freq_idx_0_grid = [(x0_, fun12(x0_)) for x0_ in product(range(d1[0], d1[-1], 50), range(d2[0], d2[-1], 50))]
+fun22_freq_idx_0_grid = [(x0_, fun22(x0_)) for x0_ in product(range(d1[0], d1[-1], 50), range(d3[0], d3[-1], 50))]
+fun1222_freq_idx_0_grid = [(x0_, fun1222(x0_)) for x0_ in product(range(d1[0], d1[-1], 50), range(d3[0], d3[-1], 50))]
 # freq_idx_0_grid = [minimize(fun2, x0=x0_) for x0_ in [(250, i) for i in range(d2[0], d2[-1], 50)]]
 
 # freq_idx_0_opt_res_sorted = sorted(freq_idx_0_grid, key=lambda x: x["fun"])
-freq_idx_0_opt_res_sorted = sorted(freq_idx_0_grid, key=lambda x: x[1])
-print(freq_idx_0_opt_res_sorted[0:3])
+fun12_freq_idx_0_opt_res_sorted = sorted(fun12_freq_idx_0_grid, key=lambda x: x[1])
+fun22_freq_idx_0_opt_res_sorted = sorted(fun22_freq_idx_0_grid, key=lambda x: x[1])
+fun1222_freq_idx_0_opt_res_sorted = sorted(fun22_freq_idx_0_grid, key=lambda x: x[1])
+print("fun12_freq_idx_0_opt_res_sorted:", fun12_freq_idx_0_opt_res_sorted[0:3])
+print("fun22_freq_idx_0_opt_res_sorted:", fun22_freq_idx_0_opt_res_sorted[0:3])
+print("fun1222_freq_idx_0_opt_res_sorted:", fun1222_freq_idx_0_opt_res_sorted[0:3])
 # print([(x["x"], x["fun"]) for x in freq_idx_0_opt_res_sorted])
 
-tot_nfev = len(freq_idx_0_grid)
+tot_nfev = len(fun12_freq_idx_0_grid)
 opt_results = []
-for x0 in freq_idx_0_opt_res_sorted[:2]:
+for x0 in fun12_freq_idx_0_opt_res_sorted[:2]:
     # x0 = [int(i) for i in opt_res_["x"]]
     x0 = x0[0]
     d1_x0_0, d1_x0_1 = max(x0[0] - 50, d1[0]), min(x0[0] + 50, d1[-1])
     d2_x0_0, d2_x0_1 = max(x0[1] - 50, d2[0]), min(x0[1] + 50, d2[-1])
-    x0s = [(x0_, fun1(x0_)) for x0_ in product(range(d1_x0_0, d1_x0_1, 15), range(d2_x0_0, d2_x0_1, 15))]
+    x0s = [(x0_, fun11(x0_)) for x0_ in product(range(d1_x0_0, d1_x0_1, 15), range(d2_x0_0, d2_x0_1, 15))]
     tot_nfev += len(x0s)
     x0s_sorted = sorted(x0s, key=lambda x: x[1])
 
     for x0_ in x0s_sorted[0:3]:
-        opt_res = minimize(fun1, x0=x0_[0])
+        opt_res = minimize(fun11, x0=x0_[0])
         tot_nfev += opt_res["nfev"]
         print(opt_res["x"], opt_res["fun"], opt_res["nfev"], tot_nfev)
         opt_results.append(opt_res)
@@ -169,49 +207,106 @@ print(best_x0, fun0, tot_nfev)
 """
 
 for freq_idx in range(6):
-    X, Y = np.meshgrid(d1, d2)
-    Z = fun([X, Y], freq_idx)
+    X, Z = np.meshgrid(d1, d3)
+    vals = fun20([X, Z], freq_idx)
     # Z = np.log10(Z)
 
     plt.figure()
-    plt.title(f"Difference idx: {freq_idx} ({freqs[freq_idx]} THz)")
-    plt.imshow(Z,
+    plt.title(f"Difference idx: {freq_idx} ({freqs[freq_idx]} THz) fun20")
+    plt.imshow(vals,
+               extent=[d1[0], d1[-1], d3[0], d3[-1]], origin="lower",
+               # interpolation='bilinear',
+               # cmap="plasma",
+               vmin=np.min(vals), vmax=np.mean(vals),
+               )
+    plt.xlabel("$d_1$")
+    plt.ylabel("$d_3$")
+
+plt.figure()
+X, Z = np.meshgrid(d1, d3)
+vals = fun21([X, Z])
+plt.title(f"Summed differences all idx fun21")
+plt.imshow(vals,
+           extent=[d1[0], d1[-1], d3[0], d3[-1]],
+           origin="lower",
+           # interpolation='bilinear',
+           # cmap="plasma",
+           vmin=np.min(vals), vmax=np.mean(vals),
+           )
+plt.xlabel("$d_1$")
+plt.ylabel("$d_3$")
+
+plt.figure()
+X, Z = np.meshgrid(d1, d3)
+vals = fun22([X, Z])
+plt.title(f"Fun22")
+plt.imshow(vals,
+           extent=[d1[0], d1[-1], d3[0], d3[-1]],
+           origin="lower",
+           # interpolation='bilinear',
+           # cmap="plasma",
+           vmin=np.min(vals), vmax=np.mean(vals),
+           )
+plt.xlabel("$d_1$")
+plt.ylabel("$d_3$")
+
+for freq_idx in range(6):
+    X, Y = np.meshgrid(d1, d2)
+    vals = fun10([X, Y], freq_idx)
+    # Z = np.log10(Z)
+
+    plt.figure()
+    plt.title(f"Difference idx: {freq_idx} ({freqs[freq_idx]} THz) fun10")
+    plt.imshow(vals,
                extent=[d1[0], d1[-1], d2[0], d2[-1]], origin="lower",
                # interpolation='bilinear',
                # cmap="plasma",
-               vmin=np.min(Z), vmax=np.mean(Z),
+               vmin=np.min(vals), vmax=np.mean(vals),
                )
     plt.xlabel("$d_1$")
     plt.ylabel("$d_2$")
 
-
 plt.figure()
 X, Y = np.meshgrid(d1, d2)
-Z = fun1([X, Y])
-plt.title(f"Summed differences all idx")
-plt.imshow(Z,
+vals = fun11([X, Y])
+plt.title(f"Summed differences all idx fun11")
+plt.imshow(vals,
            extent=[d1[0], d1[-1], d2[0], d2[-1]],
            origin="lower",
            # interpolation='bilinear',
            # cmap="plasma",
-           vmin=np.min(Z), vmax=np.mean(Z),
+           vmin=np.min(vals), vmax=np.mean(vals),
            )
 plt.xlabel("$d_1$")
 plt.ylabel("$d_2$")
 
 plt.figure()
 X, Y = np.meshgrid(d1, d2)
-Z = fun2([X, Y])
-plt.title(f"Fun2")
-plt.imshow(Z,
+vals = fun12([X, Y])
+plt.title(f"Fun12")
+plt.imshow(vals,
            extent=[d1[0], d1[-1], d2[0], d2[-1]],
            origin="lower",
            # interpolation='bilinear',
            # cmap="plasma",
-           vmin=np.min(Z), vmax=np.mean(Z),
+           vmin=np.min(vals), vmax=np.mean(vals),
            )
 plt.xlabel("$d_1$")
 plt.ylabel("$d_2$")
+
+plt.figure()
+X, Z = np.meshgrid(d1, d3)
+vals = fun1222([X, Z])
+plt.title(f"Fun1222")
+plt.imshow(vals,
+           extent=[d1[0], d1[-1], d3[0], d3[-1]],
+           origin="lower",
+           # interpolation='bilinear',
+           # cmap="plasma",
+           vmin=np.min(vals), vmax=np.mean(vals),
+           )
+plt.xlabel("$d_1$")
+plt.ylabel("$d_3$ or $d_2$ I don't know")
 
 plt.figure()
 plt.title("(full model - measurement)$^2$, wrt $d_3$")
