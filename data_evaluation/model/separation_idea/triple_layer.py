@@ -13,9 +13,11 @@ from functools import partial
 from helpers import multi_root
 from itertools import product
 from scipy.optimize import minimize as minimize_
+from scipy.optimize import shgo
 from scipy.optimize import show_options
 from tmm import list_snell, interface_r
 from RTL_sim.twos_compl_OF_v2 import real_data_cw
+from scipy.special import huber
 
 
 # show_options("minimize", "Nelder-Mead")
@@ -50,7 +52,7 @@ def whitenoise(s=0.05):
 
 
 randint = np.random.randint
-# np.random.seed(37)
+#np.random.seed(37)
 noise_scale = 0.0
 amp_noise = whitenoise(noise_scale)
 phi_noise = whitenoise(noise_scale)
@@ -157,6 +159,14 @@ def fun1222(x):
     return fun12(x) + fun22(x)
 
 
+def fun1020(x):
+    return fun10(x) + fun20(x)
+
+
+def fun1121(x):
+    return fun11(x) + fun21(x)
+
+
 # TODO check total nfev. How do we choose the best starting point?
 fun12_freq_idx_0_grid = [(x0_, fun12(x0_)) for x0_ in product(range(d1[0], d1[-1], 50), range(d2[0], d2[-1], 50))]
 fun22_freq_idx_0_grid = [(x0_, fun22(x0_)) for x0_ in product(range(d1[0], d1[-1], 50), range(d3[0], d3[-1], 50))]
@@ -189,7 +199,8 @@ for x0 in fun12_freq_idx_0_opt_res_sorted[:2]:
         print(opt_res["x"], opt_res["fun"], opt_res["nfev"], tot_nfev)
         opt_results.append(opt_res)
 
-best_opt_res = sorted(opt_results, key=lambda x: x["fun"])[0]
+sorted_opt_results = sorted(opt_results, key=lambda x: x["fun"])
+best_opt_res = sorted_opt_results[0]
 print(best_opt_res)
 print(d_truth)
 
@@ -206,7 +217,7 @@ for x0 in x0s:
 print(best_x0, fun0, tot_nfev)
 """
 
-for freq_idx in range(6):
+for freq_idx in range(3):
     X, Z = np.meshgrid(d1, d3)
     vals = fun20([X, Z], freq_idx)
     # Z = np.log10(Z)
@@ -250,7 +261,7 @@ plt.imshow(vals,
 plt.xlabel("$d_1$")
 plt.ylabel("$d_3$")
 
-for freq_idx in range(6):
+for freq_idx in range(3):
     X, Y = np.meshgrid(d1, d2)
     vals = fun10([X, Y], freq_idx)
     # Z = np.log10(Z)
@@ -296,8 +307,8 @@ plt.ylabel("$d_2$")
 
 plt.figure()
 X, Z = np.meshgrid(d1, d3)
-vals = fun1222([X, Z])
-plt.title(f"Fun1222")
+vals = fun1121([X, Z])
+plt.title(f"fun1121")
 plt.imshow(vals,
            extent=[d1[0], d1[-1], d3[0], d3[-1]],
            origin="lower",
@@ -310,22 +321,23 @@ plt.ylabel("$d_3$ or $d_2$ I don't know")
 
 plt.figure()
 plt.title("(full model - measurement)$^2$, wrt $d_3$")
-r_exp_mod = np.zeros_like(freqs, dtype=complex)
-y_vals = []
-for d3_ in d3:
-    for freq_idx_ in range(len(freqs)):
-        d = array([np.inf, *best_opt_res["x"], d3_, np.inf], dtype=float)
-        r_exp_mod[freq_idx_] = -coh_tmm_slim(pol, n_list[freq_idx_], d, thea, lam[freq_idx_])
-    err = np.sum((r_exp_mod.real - r_exp.real) ** 2 + (r_exp_mod.imag - r_exp.imag) ** 2)
-    y_vals.append(err)
+for opt_res_ in sorted_opt_results:
+    r_exp_mod = np.zeros_like(freqs, dtype=complex)
+    y_vals = []
+    for d3_ in d3:
+        for freq_idx_ in range(len(freqs)):
+            d = array([np.inf, *opt_res_["x"], d3_, np.inf], dtype=float)
+            r_exp_mod[freq_idx_] = -coh_tmm_slim(pol, n_list[freq_idx_], d, thea, lam[freq_idx_])
+        err = np.sum((r_exp_mod.real - r_exp.real) ** 2 + (r_exp_mod.imag - r_exp.imag) ** 2)
+        y_vals.append(err)
 
-plt.plot(d3, y_vals)
-min_point = (d3[np.argmin(y_vals)], np.min(y_vals))
-plt.annotate(f"{min_point[0]}, {min_point[1]}", xy=(min_point[0], min_point[1]), xytext=(-20, 20),
-             textcoords='offset points', ha='center', va='bottom',
-             bbox=dict(boxstyle='round,pad=0.2', fc='yellow', alpha=0.3),
-             arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.5',
-                             color='red'))
+    plt.plot(d3, y_vals)
+    min_point = (d3[np.argmin(y_vals)], np.min(y_vals))
+    plt.annotate(f"{min_point[0]}, {min_point[1]}", xy=(min_point[0], min_point[1]), xytext=(-20, 20),
+                 textcoords='offset points', ha='center', va='bottom',
+                 bbox=dict(boxstyle='round,pad=0.2', fc='yellow', alpha=0.3),
+                 arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.5',
+                                 color='red'))
 plt.xlabel("$d_3$")
 plt.ylabel("Loss")
 
