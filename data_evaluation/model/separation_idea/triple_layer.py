@@ -1,5 +1,5 @@
 import tmm
-from numpy import array, cos
+from numpy import array, cos, conj, abs, sqrt
 import numpy as np
 from scipy.constants import c
 from consts import um_to_m, GHz, selected_freqs, n0, n1, n2, f_offset, thea
@@ -52,14 +52,14 @@ def whitenoise(s=0.05):
 
 
 randint = np.random.randint
-#np.random.seed(37)
+# np.random.seed(37)
 noise_scale = 0.0
 amp_noise = whitenoise(noise_scale)
 phi_noise = whitenoise(noise_scale)
 
 sam_idx = randint(0, 100)
 sam_idx = 56
-print(sam_idx)
+
 num_layers = 5  # first and last layers are air
 pol = "s"
 freqs = selected_freqs.copy()
@@ -72,6 +72,8 @@ n_list = array([np.ones_like(freqs), n0, n1, n2, np.ones_like(freqs)], dtype=flo
 
 d_truth = [np.inf, 45.77, 660.0, 72.6, np.inf]
 d_truth = [np.inf, randint(d1[0], d1[-1]), randint(d2[0], d2[-1]), randint(d3[0], d3[-1]), np.inf]
+print(sam_idx, d_truth)
+
 
 r_fn = np.zeros((len(freqs), num_layers, num_layers), dtype=complex)
 kz_list, th_list = np.zeros((2, len(freqs), num_layers), dtype=complex)
@@ -99,6 +101,35 @@ c4 = r * r_fn[:, 2, 3] * r_fn[:, 3, 4] * u - r_fn[:, 0, 1] * r_fn[:, 2, 3] * r_f
 c5 = r * r_fn[:, 1, 2] * r_fn[:, 2, 3] * u - r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 2, 3]
 c6 = r * r_fn[:, 0, 1] * r_fn[:, 1, 2] * u - r_fn[:, 1, 2]
 c7 = r * u - r_fn[:, 0, 1]
+
+a0 = c0 * conj(c4) - c3 * conj(c7)
+a1 = c1 * conj(c4) - c3 * conj(c6) + c0 * conj(c2) - c5 * conj(c7)
+a2 = c1 * conj(c2) - c5 * conj(c6)
+a3 = c0 * conj(c1) + c2 * conj(c4) - c3 * conj(c5) - c6 * conj(c7)
+a4 = c2 * conj(c1) - c6 * conj(c5)
+a5 = abs(c0) + abs(c1) + abs(c2) + abs(c4) - abs(c3) - abs(c5) - abs(c6) - abs(c7)
+a6 = c4 * conj(c1) + c2 * conj(c0) - c6 * conj(c3) - c7 * conj(c5)
+a7 = c1 * conj(c0) + c4 * conj(c2) - c5 * conj(c3) - c7 * conj(c6)
+a8 = c4 * conj(c0) - c7 * conj(c3)
+
+
+def expr0_(d2_, freq_idx_=0):
+    phi1 = d2_ * kz_list[freq_idx_, 2]
+    y_ = np.exp(1j * 2 * phi1)
+
+    A = a2[freq_idx_] + a7[freq_idx_] * y_ ** 2 + a8[freq_idx_] * y_ ** 2
+    B = a1[freq_idx_] + a5[freq_idx_] * y_ + a6[freq_idx_] * y_ ** 2
+    C = a0[freq_idx_] + a3[freq_idx_] * y_ + a4[freq_idx_] * y_ ** 2
+
+    ret = abs(-B + sqrt(B ** 2 - 4 * A * C)) - abs(2 * A)
+
+    return ret
+
+
+plt.figure()
+plt.title("lol")
+plt.plot(d2, expr0_(d2))
+plt.show()
 
 
 def expr1_(d1_, d2_, freq_idx_=0):
