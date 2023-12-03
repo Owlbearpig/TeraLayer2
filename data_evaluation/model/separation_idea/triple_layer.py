@@ -61,12 +61,13 @@ def whitenoise(s=0.05):
 
 randint = np.random.randint
 seed = randint(0, 10000, size=1)
-# seed = 3736 doesn't work with first algo idea
-# seed = 3191  # difficult
-# seed = 924
-# seed = 4435 ellipse seed
-# 7542 doesnt work
-# seed = 1234
+seed = 3736  # doesn't work with first algo idea # works "xy idea" (barely) should assume a and shift are fixed.
+# seed = 3191  # difficult # works "xy idea"
+# seed = 924 # works "xy idea"
+# seed = 4435  # ellipse seed works "xy idea"
+# seed = 7542  # doesnt work # works "xy idea"
+# seed = 1234 # works "xy idea"
+# seed = 6063 # works "xy idea"
 np.random.seed(seed)
 print(seed)
 
@@ -239,57 +240,56 @@ def pick_points(points, cnt=2):
 
     return picked_points
 
+
 minima = []
-for i in range(100, 250, 5):
+
+for i in range(0, 200, 5):
     y = expr1xy_(*[d1, i], 2)
     ext = argrelextrema(y, np.less)
-    minima.append((i, d1[ext[0][0]]))
+    minima.append((d1[ext[0][0]], i))
+    print(ext)
 
+y = expr1xy_(*[200, d2], 2)
+ext = argrelextrema(y, np.less)
+shift = 83  # d2[ext[0][1]] - d2[ext[0][0]]
+
+y = expr1xy_(*[0, d2], 2)
+ext = argrelextrema(y, np.less)
+y0 = d2[ext[0][0]]
+
+print(minima)
 plt.figure("minima")
 plt.plot([i[0] for i in minima], [i[1] for i in minima])
-plt.xlabel("d2")
-plt.ylabel("d1")
+plt.xlabel("d1")
+plt.ylabel("d2")
 
+minima_d1 = np.array([i[0] for i in minima], dtype=int)
+minima_d2 = np.array([i[1] for i in minima], dtype=int)
+minima_grad = np.gradient(minima_d2, minima_d1)
+print(minima_grad)
+a = np.mean(minima_grad[:5])
+print(a, shift)
 
+diag_lines = []
+for i in range(10):
+    for d1_ in range(0, 500, 5):
+        d2_ = d1_ * a + i * shift + y0
+        if 0 < d2_ < d2[-1]:
+            diag_lines.append((d1_, d2_))
 
-
-all_points = []  # for plotting
 tot_nfev = 0
-initial_grid = [(x0_, fun12(x0_)) for x0_ in product(range(1, 200, 10), range(1, 100, 10))]
-tot_nfev += len(initial_grid)
-all_points.extend(initial_grid)
-
-small_grid_filtered = pick_points(initial_grid, cnt=1)
-
-centers = []
-for pt in small_grid_filtered:
-    best_point_opt = minimize(fun12, x0=pt[0])
-    print(best_point_opt)
-    tot_nfev += best_point_opt["nfev"]
-    centers.append(best_point_opt["x"])
 
 large_grid = []
-for center in centers:
-    center_grid = [(x0_, fun11(x0_)) for x0_ in product(range(center[0], d1[-1], 150), range(center[1], d2[-1], 80))]
-    large_grid.extend(center_grid)
+for i in range(-10, 15, 5):
+    large_grid.extend([(pt[0], pt[1] - i) for pt in diag_lines])
 
-tot_nfev += len(large_grid)
-all_points.extend(large_grid)
-
-best_point = ((), np.inf)
-for pt in large_grid:
-    x0 = pt[0]
-    small_grid = [(x0_, fun11(x0_)) for x0_ in
-                  product(range(x0[0] - 30, x0[0] + 40, 10), range(x0[1] - 30, x0[1] + 40, 10))]
-    tot_nfev += len(small_grid)
-    all_points.extend(small_grid)
-
-    small_grid_sorted = sorted(small_grid, key=lambda x: x[1])
-    if small_grid_sorted[0][1] < best_point[1]:
-        best_point = small_grid_sorted[0]
-        print("new best point: ", best_point)
+all_points = sorted([(pt, fun11(pt)) for pt in large_grid], key=lambda x: x[1])
+tot_nfev += len(all_points)
+print(all_points[:5])
+best_point = all_points[0]
 
 final_opt_res = minimize(fun11, x0=best_point[0])
+
 print(final_opt_res)
 print(d_truth)
 print(tot_nfev + final_opt_res["nfev"])
@@ -306,8 +306,6 @@ for x0 in x0s:
     print(opt_res1["x"], opt_res1["fun"], opt_res1["nfev"])
 print(best_x0, fun0, tot_nfev)
 """
-
-
 
 plt.figure()
 plt.title(f"fun10 f0")
@@ -345,6 +343,19 @@ plt.imshow(vals,
            )
 
 
+plt.figure("expr1xy")
+X, Y = np.meshgrid(d1, d2)
+vals = expr1xy_(*[X, Y], 2)
+plt.title(f"expr1xy f2")
+plt.imshow(vals,
+           extent=[d1[0], d1[-1], d2[0], d2[-1]],
+           origin="lower",
+           # interpolation='bilinear',
+           # cmap="plasma",
+           vmin=0, vmax=np.mean(vals),
+           )
+
+
 def ellipse():
     t = np.linspace(0, 2 * np.pi, 100)
     a, b = 75, 40
@@ -356,11 +367,14 @@ def ellipse():
     return list(zip(x, y))
 
 
-plt.figure("f2")
-plt.scatter(140, 210, s=1, c='blue', marker='o')
-ellipse_pts = ellipse()
-for pt in ellipse_pts:
+plt.figure("fun11_f0-f5")
+for pt in large_grid:
     plt.scatter(*pt, s=1, c='black', marker='o')
+
+plt.figure("expr1xy")
+for pt in large_grid:
+    plt.scatter(*pt, s=1, c='black', marker='o')
+
 """
 for pt in all_points[:len(initial_grid)]:
     plt.scatter(*pt[0], s=1, c='black', marker='o')
@@ -372,7 +386,7 @@ for center in centers:
 plt.xlabel("$d_1$")
 plt.ylabel("$d_2$")
 
-plt.figure()
+plt.figure("fun11_f0-f5")
 X, Y = np.meshgrid(d1, d2)
 vals = fun11([X, Y])
 plt.title(f"fun11 (f0 +..+ f5)")
@@ -383,6 +397,10 @@ plt.imshow(vals,
            # cmap="plasma",
            vmin=0, vmax=np.mean(vals),
            )
+
+for pt in diag_lines:
+    plt.scatter(*pt, s=1, c='black', marker='o')
+
 plt.xlabel("$d_1$")
 plt.ylabel("$d_2$")
 
