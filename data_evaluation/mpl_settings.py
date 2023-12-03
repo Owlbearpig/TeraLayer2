@@ -16,7 +16,7 @@ mpl.rcParams['axes.grid'] = True
 mpl.rcParams['figure.autolayout'] = False
 mpl.rcParams['savefig.format'] = 'pdf'
 
-mpl.rcParams.update({'font.size': 22})
+# mpl.rcParams.update({'font.size': 22})
 mpl.rcParams['mathtext.fontset'] = 'custom'
 mpl.rcParams['mathtext.it'] = 'Arial:italic'
 mpl.rcParams['mathtext.rm'] = 'Arial'
