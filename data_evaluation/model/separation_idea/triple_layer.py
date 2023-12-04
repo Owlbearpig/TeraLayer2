@@ -61,17 +61,21 @@ def whitenoise(s=0.05):
 
 randint = np.random.randint
 seed = randint(0, 10000, size=1)
-seed = 3736  # doesn't work with first algo idea # works "xy idea" (barely) should assume a and shift are fixed.
+# seed = 3736  # doesn't work with first algo idea # works "xy idea" (barely) should assume a and shift are fixed.
 # seed = 3191  # difficult # works "xy idea"
 # seed = 924 # works "xy idea"
 # seed = 4435  # ellipse seed works "xy idea"
 # seed = 7542  # doesnt work # works "xy idea"
 # seed = 1234 # works "xy idea"
 # seed = 6063 # works "xy idea"
+# seed = 5577
+# seed = 1768
+# seed = 3454
+seed = 7217
 np.random.seed(seed)
 print(seed)
 
-noise_scale = 0.05
+noise_scale = 0.00
 amp_noise = whitenoise(noise_scale)
 phi_noise = whitenoise(noise_scale)
 
@@ -294,18 +298,6 @@ print(final_opt_res)
 print(d_truth)
 print(tot_nfev + final_opt_res["nfev"])
 
-"""
-fun0, best_x0 = np.inf, None
-for x0 in x0s:
-    opt_res1 = minimize_(fun1, x0=x0)
-    # opt_res1 = shgo(expr1_, bounds, options={"f_min": 1e-5})
-    if opt_res1["fun"] < fun0:
-        fun0 = opt_res1["fun"]
-        best_x0 = opt_res1["x"]
-    tot_nfev += opt_res1["nfev"]
-    print(opt_res1["x"], opt_res1["fun"], opt_res1["nfev"])
-print(best_x0, fun0, tot_nfev)
-"""
 
 plt.figure()
 plt.title(f"fun10 f0")
@@ -341,19 +333,93 @@ plt.imshow(vals,
            # cmap="plasma",
            vmin=0, vmax=np.mean(vals),
            )
+plt.xlabel("$d_1$")
+plt.ylabel("$d_2$")
 
+sum_expr1xy_vals = np.zeros_like(vals)
+for i in range(len(lam)):
+    plt.figure(f"expr1xy_f{i}")
+    X, Y = np.meshgrid(d1, d2)
+    vals = expr1xy_(*[X, Y], i)
+    plt.title(f"expr1xy f{i}")
+    plt.imshow(vals,
+               extent=[d1[0], d1[-1], d2[0], d2[-1]],
+               origin="lower",
+               # interpolation='bilinear',
+               # cmap="plasma",
+               vmin=0, vmax=np.mean(vals),
+               )
+    plt.xlabel("$d_1$")
+    plt.ylabel("$d_2$")
+    sum_expr1xy_vals += vals
 
-plt.figure("expr1xy")
-X, Y = np.meshgrid(d1, d2)
-vals = expr1xy_(*[X, Y], 2)
-plt.title(f"expr1xy f2")
-plt.imshow(vals,
+    plt.figure(f"expr1xy_1D_sliced")
+    vals = expr1xy_(100, d2, i)
+    plt.title(f"expr1xy f{i}")
+    plt.plot(d2, vals, label=f"expr1xy_f{i}(100, d2)")
+    plt.xlabel("$d_2$")
+    plt.ylabel("value")
+
+plt.figure(f"expr1xy_summed_1D_sliced")
+plt.title(f"expr1xy summed")
+for d1_ in range(0, 600, 100):
+    f_sum_expr1xy = np.sum([expr1xy_(d1_, d2, i) for i in range(6)], axis=0)
+    plt.plot(d2, f_sum_expr1xy, label=f"expr1xy({d1_}, d2)_f_sum")
+plt.xlabel("$d_2$")
+plt.ylabel("value")
+
+print("##############################################################")
+sum_expr1xy_1D_0 = np.sum([expr1xy_(0, d2, i) for i in range(6)], axis=0)
+sum_expr1xy_1D_500 = np.sum([expr1xy_(500, d2, i) for i in range(6)], axis=0)
+a = -0.5429
+
+if np.min(sum_expr1xy_1D_0) < np.min(sum_expr1xy_1D_500):
+    print(np.min(sum_expr1xy_1D_0))
+    shift = d2[np.argmin(sum_expr1xy_1D_0)]
+    b = shift
+else:
+    print(np.min(sum_expr1xy_1D_500))
+    shift = d2[np.argmin(sum_expr1xy_1D_500)]
+    b = shift - a*d2[-1]
+print(shift, b)
+
+diag_line = []
+for d1_ in range(0, d1[-1], 5):
+    d2_ = d1_ * a + b
+    if 0 < d2_ < d2[-1]:
+        diag_line.append((d1_, d2_))
+
+#print(diag_line)
+#diag_line = list(zip(np.arange(0, d1[-1], 5), b + a*np.arange(0, d1[-1], 5)))
+#print(diag_line)
+
+tot_nfev = 2*len(sum_expr1xy_1D_0)
+grid = []
+for i in range(-10, 15, 5):
+    grid.extend([(pt[0], pt[1] - i) for pt in diag_line])
+
+all_points = sorted([(pt, fun11(pt)) for pt in grid], key=lambda x: x[1])
+tot_nfev += len(all_points)
+print(all_points[:5])
+best_point = all_points[0]
+
+final_opt_res = minimize(fun11, x0=best_point[0])
+
+print(final_opt_res)
+print(d_truth)
+print(tot_nfev + final_opt_res["nfev"])
+
+plt.figure("expr1xy summed")
+plt.title(f"expr1xy summed")
+plt.imshow(sum_expr1xy_vals,
            extent=[d1[0], d1[-1], d2[0], d2[-1]],
            origin="lower",
            # interpolation='bilinear',
            # cmap="plasma",
-           vmin=0, vmax=np.mean(vals),
+           vmin=0, vmax=np.mean(sum_expr1xy_vals),
            )
+plt.xlabel("$d_1$")
+plt.ylabel("$d_2$")
 
 
 def ellipse():
@@ -368,23 +434,19 @@ def ellipse():
 
 
 plt.figure("fun11_f0-f5")
+for pt in grid:
+    plt.scatter(*pt, s=1, c='black', marker='o')
+"""
+plt.figure("fun11_f0-f5")
 for pt in large_grid:
     plt.scatter(*pt, s=1, c='black', marker='o')
 
 plt.figure("expr1xy")
 for pt in large_grid:
     plt.scatter(*pt, s=1, c='black', marker='o')
+"""
 
-"""
-for pt in all_points[:len(initial_grid)]:
-    plt.scatter(*pt[0], s=1, c='black', marker='o')
-for pt in all_points[len(initial_grid):]:
-    plt.scatter(*pt[0], s=1, c='red', marker='o')
-for center in centers:
-    plt.scatter(*center, s=2, c='blue', marker='o')
-"""
-plt.xlabel("$d_1$")
-plt.ylabel("$d_2$")
+
 
 plt.figure("fun11_f0-f5")
 X, Y = np.meshgrid(d1, d2)
@@ -397,12 +459,15 @@ plt.imshow(vals,
            # cmap="plasma",
            vmin=0, vmax=np.mean(vals),
            )
-
-for pt in diag_lines:
-    plt.scatter(*pt, s=1, c='black', marker='o')
-
 plt.xlabel("$d_1$")
 plt.ylabel("$d_2$")
+
+"""
+for pt in diag_lines:
+    plt.scatter(*pt, s=1, c='black', marker='o')
+"""
+
+
 
 plt.figure()
 plt.title("(full model - measurement)$^2$, wrt $d_3$")
