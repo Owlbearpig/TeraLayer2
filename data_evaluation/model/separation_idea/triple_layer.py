@@ -27,7 +27,7 @@ def minimize(*args, **kwargs):
     options_ = {"adaptive": True, "fatol": 0}
     if "x0" in kwargs.keys():
         x0 = kwargs["x0"]
-        nonzdelt = 0.025
+        nonzdelt = 0.025 * 20
         zdelt = 0.00025
         N = len(x0)
 
@@ -41,9 +41,15 @@ def minimize(*args, **kwargs):
                 y[k] = zdelt
             sim[k + 1] = y
         options_["initial_simplex"] = sim
+        print(sim)
+
+    if "bounds" not in kwargs.keys():
+        kwargs["bounds"] = [(d1[0], d1[-1]), (d2[0], d2[-1])]
 
     opt_res_ = minimize_(*args, **kwargs, method="Nelder-Mead", options=options_)
     # opt_res_ = minimize_(*args, **kwargs, options=options_)
+
+    opt_res_["x"] = opt_res_["x"].astype(int)
 
     return opt_res_
 
@@ -53,7 +59,9 @@ def whitenoise(s=0.05):
 
 
 randint = np.random.randint
-# np.random.seed(37)
+seed = randint(0, 10000, size=1)
+np.random.seed(seed)
+print("seed: ", seed)
 noise_scale = 0.0
 amp_noise = whitenoise(noise_scale)
 phi_noise = whitenoise(noise_scale)
@@ -68,7 +76,7 @@ lam = c0 * 1e-6 / freqs
 print(f"Frequencies: {freqs} THz,\nwavelengths {np.round(lam, 3)} um")
 print(f"Refractive indices: n0={n0},\nn1={n1},\nn2={n2}")
 
-d1, d2, d3 = np.arange(1, 500, 1), np.arange(300, 800, 1), np.arange(1, 500, 1)
+d1, d2, d3 = np.arange(0, 500, 1), np.arange(0, 500, 1), np.arange(0, 500, 1)
 n_list = array([np.ones_like(freqs), n0, n1, n2, np.ones_like(freqs)], dtype=float).T
 
 d_truth = [np.inf, 45.77, 660.0, 72.6, np.inf]
@@ -153,7 +161,7 @@ def fun11(x):
 
 
 def fun12(x):
-    return expr1_(*x, 0) + expr1_(*x, 1)
+    return expr1_(*x, 0) + expr1_(*x, 1) + expr1_(*x, 2)
 
 
 def fun20(x, freq_idx_=0):
@@ -204,13 +212,13 @@ fun12_freq_idx_0_grid = [(x0_, fun11(x0_)) for x0_ in product(range(d1[0], d1[-1
 fun22_freq_idx_0_grid = [(x0_, fun22(x0_)) for x0_ in product(range(d1[0], d1[-1], 50), range(d3[0], d3[-1], 50))]
 fun1222_freq_idx_0_grid = [(x0_, fun1222(x0_)) for x0_ in product(range(d1[0], d1[-1], 50), range(d3[0], d3[-1], 50))]
 # freq_idx_0_grid = [minimize(fun2, x0=x0_) for x0_ in [(250, i) for i in range(d2[0], d2[-1], 50)]]
-print(sorted(fun12_freq_idx_0_grid, key=lambda x: x[1])[:10])
+# print(sorted(fun12_freq_idx_0_grid, key=lambda x: x[1])[:10])
 fun12_freq_idx_0_opt_res_sorted = pick_points(fun12_freq_idx_0_grid)
-print(fun12_freq_idx_0_opt_res_sorted)
+# print(fun12_freq_idx_0_opt_res_sorted)
 # fun12_freq_idx_0_opt_res_sorted = pick_points(fun12_freq_idx_0_grid)
 # fun22_freq_idx_0_opt_res_sorted = pick_points(fun22_freq_idx_0_grid)
 # fun1222_freq_idx_0_opt_res_sorted = pick_points(fun22_freq_idx_0_grid)
-print("fun12_freq_idx_0_opt_res_sorted:", fun12_freq_idx_0_opt_res_sorted)
+# print("fun12_freq_idx_0_opt_res_sorted:", fun12_freq_idx_0_opt_res_sorted)
 # print("fun22_freq_idx_0_opt_res_sorted:", fun22_freq_idx_0_opt_res_sorted[0:3])
 # print("fun1222_freq_idx_0_opt_res_sorted:", fun1222_freq_idx_0_opt_res_sorted[0:3])
 # print([(x["x"], x["fun"]) for x in freq_idx_0_opt_res_sorted])
@@ -253,7 +261,7 @@ for x0 in x0s:
     print(opt_res1["x"], opt_res1["fun"], opt_res1["nfev"])
 print(best_x0, fun0, tot_nfev)
 """
-
+"""
 for freq_idx in range(3):
     X, Z = np.meshgrid(d1, d3)
     vals = fun20([X, Z], freq_idx)
@@ -265,11 +273,11 @@ for freq_idx in range(3):
                extent=[d1[0], d1[-1], d3[0], d3[-1]], origin="lower",
                # interpolation='bilinear',
                # cmap="plasma",
-               vmin=np.min(vals), vmax=np.mean(vals),
+               vmin=0, vmax=1,
                )
     plt.xlabel("$d_1$")
     plt.ylabel("$d_3$")
-
+"""
 """
 plt.figure()
 X, Z = np.meshgrid(d1, d3)
@@ -301,13 +309,13 @@ plt.ylabel("$d_3$")
 """
 
 plt.figure()
-plt.title(f"fun10 f0")
-y = fun10([d1, d_truth[2] * 0.9])
-plt.plot(d1, y)
-plt.xlabel("$d_1$")
+plt.title(f"fun10 f2 ({int(lam[2])} um)")
+y = fun10([d_truth[1] * 0.2, d2], 2)
+plt.plot(d2, y)
+plt.xlabel("$d_2$")
 plt.ylabel("fun10")
 
-for freq_idx in range(3):
+for freq_idx in range(5):
     X, Y = np.meshgrid(d1, d2)
     vals = fun10([X, Y], freq_idx)
     # Z = np.log10(Z)
@@ -332,7 +340,7 @@ plt.imshow(vals,
            origin="lower",
            # interpolation='bilinear',
            # cmap="plasma",
-           vmin=np.min(vals), vmax=np.mean(vals),
+           vmin=np.min(vals), vmax=np.mean(vals)/2,
            )
 plt.xlabel("$d_1$")
 plt.ylabel("$d_2$")
@@ -340,13 +348,13 @@ plt.ylabel("$d_2$")
 plt.figure()
 X, Y = np.meshgrid(d1, d2)
 vals = fun12([X, Y])
-plt.title(f"Fun12 (f0 + f1)")
+plt.title(f"Fun12 (f0 + f1 + f2)")
 plt.imshow(vals,
            extent=[d1[0], d1[-1], d2[0], d2[-1]],
            origin="lower",
            # interpolation='bilinear',
            # cmap="plasma",
-           vmin=np.min(vals), vmax=np.mean(vals),
+           vmin=0, vmax=1,
            )
 plt.xlabel("$d_1$")
 plt.ylabel("$d_2$")
@@ -409,4 +417,7 @@ plt.imshow(Z[0], extent=[d1[0], d1[-1], d2[0], d2[-1]], origin="lower",
 plt.xlabel("$d_1$")
 plt.ylabel("$d_2$")
 """
+
+
+
 plt.show()
