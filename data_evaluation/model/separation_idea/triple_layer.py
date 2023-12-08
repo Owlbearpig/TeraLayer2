@@ -245,103 +245,106 @@ def pick_points(points, cnt=2):
     return picked_points
 
 
-minima = []
+def show():
+    for fig_num in plt.get_fignums():
+        plt.figure(fig_num)
+        ax = plt.gca()
+        handles, labels = ax.get_legend_handles_labels()
+        if labels:
+            plt.legend()
 
-for i in range(0, 200, 5):
-    y = expr1xy_(*[d1, i], 2)
+        axes = fig.get_axes()
+        for ax in axes:
+            handles, labels = ax.get_legend_handles_labels()
+            if labels:
+                ax.legend()
+
+    plt.show()
+
+
+if __name__ == '__main__':
+
+    minima = []
+
+    for i in range(0, 200, 5):
+        y = expr1xy_(*[d1, i], 2)
+        ext = argrelextrema(y, np.less)
+        minima.append((d1[ext[0][0]], i))
+        print(ext)
+
+    y = expr1xy_(*[200, d2], 2)
     ext = argrelextrema(y, np.less)
-    minima.append((d1[ext[0][0]], i))
-    print(ext)
+    shift = 83  # d2[ext[0][1]] - d2[ext[0][0]]
 
-y = expr1xy_(*[200, d2], 2)
-ext = argrelextrema(y, np.less)
-shift = 83  # d2[ext[0][1]] - d2[ext[0][0]]
+    y = expr1xy_(*[0, d2], 2)
+    ext = argrelextrema(y, np.less)
+    y0 = d2[ext[0][0]]
 
-y = expr1xy_(*[0, d2], 2)
-ext = argrelextrema(y, np.less)
-y0 = d2[ext[0][0]]
+    print(minima)
+    plt.figure("minima")
+    plt.plot([i[0] for i in minima], [i[1] for i in minima])
+    plt.xlabel("d1")
+    plt.ylabel("d2")
 
-print(minima)
-plt.figure("minima")
-plt.plot([i[0] for i in minima], [i[1] for i in minima])
-plt.xlabel("d1")
-plt.ylabel("d2")
+    minima_d1 = np.array([i[0] for i in minima], dtype=int)
+    minima_d2 = np.array([i[1] for i in minima], dtype=int)
+    minima_grad = np.gradient(minima_d2, minima_d1)
+    print(minima_grad)
+    a = np.mean(minima_grad[:5])
+    print(a, shift)
 
-minima_d1 = np.array([i[0] for i in minima], dtype=int)
-minima_d2 = np.array([i[1] for i in minima], dtype=int)
-minima_grad = np.gradient(minima_d2, minima_d1)
-print(minima_grad)
-a = np.mean(minima_grad[:5])
-print(a, shift)
+    diag_lines = []
+    for i in range(10):
+        for d1_ in range(0, 500, 5):
+            d2_ = d1_ * a + i * shift + y0
+            if 0 < d2_ < d2[-1]:
+                diag_lines.append((d1_, d2_))
 
-diag_lines = []
-for i in range(10):
-    for d1_ in range(0, 500, 5):
-        d2_ = d1_ * a + i * shift + y0
-        if 0 < d2_ < d2[-1]:
-            diag_lines.append((d1_, d2_))
+    tot_nfev = 0
 
-tot_nfev = 0
+    large_grid = []
+    for i in range(-10, 15, 5):
+        large_grid.extend([(pt[0], pt[1] - i) for pt in diag_lines])
 
-large_grid = []
-for i in range(-10, 15, 5):
-    large_grid.extend([(pt[0], pt[1] - i) for pt in diag_lines])
+    all_points = sorted([(pt, fun11(pt)) for pt in large_grid], key=lambda x: x[1])
+    tot_nfev += len(all_points)
+    print(all_points[:5])
+    best_point = all_points[0]
 
-all_points = sorted([(pt, fun11(pt)) for pt in large_grid], key=lambda x: x[1])
-tot_nfev += len(all_points)
-print(all_points[:5])
-best_point = all_points[0]
+    final_opt_res = minimize(fun11, x0=best_point[0])
 
-final_opt_res = minimize(fun11, x0=best_point[0])
-
-print(final_opt_res)
-print(d_truth)
-print(tot_nfev + final_opt_res["nfev"])
+    print(final_opt_res)
+    print(d_truth)
+    print(tot_nfev + final_opt_res["nfev"])
 
 
-plt.figure()
-plt.title(f"fun10 f0")
-y = fun10([d1, 100], 2)
-plt.plot(d1, y, label=f"fun10(d, {100})")
-plt.xlabel("d")
-plt.ylabel("fun10")
+    plt.figure()
+    plt.title(f"fun10 f0")
+    y = fun10([d1, 100], 2)
+    plt.plot(d1, y, label=f"fun10(d, {100})")
+    plt.xlabel("d")
+    plt.ylabel("fun10")
 
-for freq_idx in range(6):
+    for freq_idx in range(6):
+        X, Y = np.meshgrid(d1, d2)
+        vals = fun10([X, Y], freq_idx)
+        # Z = np.log10(Z)
+
+        plt.figure(f"f{freq_idx}")
+        plt.title(f"Difference idx: {freq_idx} ({freqs[freq_idx]} THz) fun10")
+        plt.imshow(vals,
+                   extent=[d1[0], d1[-1], d2[0], d2[-1]], origin="lower",
+                   # interpolation='bilinear',
+                   # cmap="plasma",
+                   vmin=0, vmax=np.mean(vals),
+                   )
+        plt.xlabel("$d_1$")
+        plt.ylabel("$d_2$")
+
+    plt.figure()
     X, Y = np.meshgrid(d1, d2)
-    vals = fun10([X, Y], freq_idx)
-    # Z = np.log10(Z)
-
-    plt.figure(f"f{freq_idx}")
-    plt.title(f"Difference idx: {freq_idx} ({freqs[freq_idx]} THz) fun10")
-    plt.imshow(vals,
-               extent=[d1[0], d1[-1], d2[0], d2[-1]], origin="lower",
-               # interpolation='bilinear',
-               # cmap="plasma",
-               vmin=0, vmax=np.mean(vals),
-               )
-    plt.xlabel("$d_1$")
-    plt.ylabel("$d_2$")
-
-plt.figure()
-X, Y = np.meshgrid(d1, d2)
-vals = fun12([X, Y])
-plt.title(f"Fun12 (f0 + f1 + f2)")
-plt.imshow(vals,
-           extent=[d1[0], d1[-1], d2[0], d2[-1]],
-           origin="lower",
-           # interpolation='bilinear',
-           # cmap="plasma",
-           vmin=0, vmax=np.mean(vals),
-           )
-plt.xlabel("$d_1$")
-plt.ylabel("$d_2$")
-
-sum_expr1xy_vals = np.zeros_like(vals)
-for i in range(len(lam)):
-    plt.figure(f"expr1xy_f{i}")
-    X, Y = np.meshgrid(d1, d2)
-    vals = expr1xy_(*[X, Y], i)
-    plt.title(f"expr1xy f{i}")
+    vals = fun12([X, Y])
+    plt.title(f"Fun12 (f0 + f1 + f2)")
     plt.imshow(vals,
                extent=[d1[0], d1[-1], d2[0], d2[-1]],
                origin="lower",
@@ -351,183 +354,188 @@ for i in range(len(lam)):
                )
     plt.xlabel("$d_1$")
     plt.ylabel("$d_2$")
-    sum_expr1xy_vals += vals
 
-    plt.figure(f"expr1xy_1D_sliced")
-    vals = expr1xy_(100, d2, i)
-    plt.title(f"expr1xy f{i}")
-    plt.plot(d2, vals, label=f"expr1xy_f{i}(100, d2)")
+    sum_expr1xy_vals = np.zeros_like(vals)
+    for i in range(len(lam)):
+        plt.figure(f"expr1xy_f{i}")
+        X, Y = np.meshgrid(d1, d2)
+        vals = expr1xy_(*[X, Y], i)
+        plt.title(f"expr1xy f{i}")
+        plt.imshow(vals,
+                   extent=[d1[0], d1[-1], d2[0], d2[-1]],
+                   origin="lower",
+                   # interpolation='bilinear',
+                   # cmap="plasma",
+                   vmin=0, vmax=np.mean(vals),
+                   )
+        plt.xlabel("$d_1$")
+        plt.ylabel("$d_2$")
+        sum_expr1xy_vals += vals
+
+        plt.figure(f"expr1xy_1D_sliced")
+        vals = expr1xy_(100, d2, i)
+        plt.title(f"expr1xy f{i}")
+        plt.plot(d2, vals, label=f"expr1xy_f{i}(100, d2)")
+        plt.xlabel("$d_2$")
+        plt.ylabel("value")
+
+    plt.figure(f"expr1xy_summed_1D_sliced")
+    plt.title(f"expr1xy summed")
+    for d1_ in range(0, 600, 100):
+        f_sum_expr1xy = np.sum([expr1xy_(d1_, d2, i) for i in range(6)], axis=0)
+        plt.plot(d2, f_sum_expr1xy, label=f"expr1xy({d1_}, d2)_f_sum")
     plt.xlabel("$d_2$")
     plt.ylabel("value")
 
-plt.figure(f"expr1xy_summed_1D_sliced")
-plt.title(f"expr1xy summed")
-for d1_ in range(0, 600, 100):
-    f_sum_expr1xy = np.sum([expr1xy_(d1_, d2, i) for i in range(6)], axis=0)
-    plt.plot(d2, f_sum_expr1xy, label=f"expr1xy({d1_}, d2)_f_sum")
-plt.xlabel("$d_2$")
-plt.ylabel("value")
+    print("############################################################## Use xy-term to find feasible region")
+    sum_expr1xy_1D_0 = np.sum([expr1xy_(0, d2, i) for i in range(6)], axis=0)
+    sum_expr1xy_1D_500 = np.sum([expr1xy_(500, d2, i) for i in range(6)], axis=0)
+    a = -0.5429
 
-print("##############################################################")
-sum_expr1xy_1D_0 = np.sum([expr1xy_(0, d2, i) for i in range(6)], axis=0)
-sum_expr1xy_1D_500 = np.sum([expr1xy_(500, d2, i) for i in range(6)], axis=0)
-a = -0.5429
+    if np.min(sum_expr1xy_1D_0) < np.min(sum_expr1xy_1D_500):
+        print(np.min(sum_expr1xy_1D_0))
+        shift = d2[np.argmin(sum_expr1xy_1D_0)]
+        b = shift
+    else:
+        print(np.min(sum_expr1xy_1D_500))
+        shift = d2[np.argmin(sum_expr1xy_1D_500)]
+        b = shift - a*d2[-1]
+    print(shift, b)
 
-if np.min(sum_expr1xy_1D_0) < np.min(sum_expr1xy_1D_500):
-    print(np.min(sum_expr1xy_1D_0))
-    shift = d2[np.argmin(sum_expr1xy_1D_0)]
-    b = shift
-else:
-    print(np.min(sum_expr1xy_1D_500))
-    shift = d2[np.argmin(sum_expr1xy_1D_500)]
-    b = shift - a*d2[-1]
-print(shift, b)
+    diag_line = []
+    for d1_ in range(0, d1[-1], 5):
+        d2_ = d1_ * a + b
+        if 0 < d2_ < d2[-1]:
+            diag_line.append((d1_, d2_))
 
-diag_line = []
-for d1_ in range(0, d1[-1], 5):
-    d2_ = d1_ * a + b
-    if 0 < d2_ < d2[-1]:
-        diag_line.append((d1_, d2_))
+    #print(diag_line)
+    #diag_line = list(zip(np.arange(0, d1[-1], 5), b + a*np.arange(0, d1[-1], 5)))
+    #print(diag_line)
 
-#print(diag_line)
-#diag_line = list(zip(np.arange(0, d1[-1], 5), b + a*np.arange(0, d1[-1], 5)))
-#print(diag_line)
+    tot_nfev = 2*len(sum_expr1xy_1D_0)
+    grid = []
+    for i in range(-10, 15, 5):
+        grid.extend([(pt[0], pt[1] - i) for pt in diag_line])
 
-tot_nfev = 2*len(sum_expr1xy_1D_0)
-grid = []
-for i in range(-10, 15, 5):
-    grid.extend([(pt[0], pt[1] - i) for pt in diag_line])
+    all_points = sorted([(pt, fun11(pt)) for pt in grid], key=lambda x: x[1])
+    tot_nfev += len(all_points)
+    print(all_points[:5])
+    best_point = all_points[0]
 
-all_points = sorted([(pt, fun11(pt)) for pt in grid], key=lambda x: x[1])
-tot_nfev += len(all_points)
-print(all_points[:5])
-best_point = all_points[0]
+    final_opt_res = minimize(fun11, x0=best_point[0])
 
-final_opt_res = minimize(fun11, x0=best_point[0])
+    print(final_opt_res)
+    print(d_truth)
+    print(tot_nfev + final_opt_res["nfev"])
 
-print(final_opt_res)
-print(d_truth)
-print(tot_nfev + final_opt_res["nfev"])
-
-plt.figure("expr1xy summed")
-plt.title(f"expr1xy summed")
-plt.imshow(sum_expr1xy_vals,
-           extent=[d1[0], d1[-1], d2[0], d2[-1]],
-           origin="lower",
-           # interpolation='bilinear',
-           # cmap="plasma",
-           vmin=0, vmax=np.mean(sum_expr1xy_vals),
-           )
-plt.xlabel("$d_1$")
-plt.ylabel("$d_2$")
+    plt.figure("expr1xy summed")
+    plt.title(f"expr1xy summed")
+    plt.imshow(sum_expr1xy_vals,
+               extent=[d1[0], d1[-1], d2[0], d2[-1]],
+               origin="lower",
+               # interpolation='bilinear',
+               # cmap="plasma",
+               vmin=0, vmax=np.mean(sum_expr1xy_vals),
+               )
+    plt.xlabel("$d_1$")
+    plt.ylabel("$d_2$")
 
 
-def ellipse():
-    t = np.linspace(0, 2 * np.pi, 100)
-    a, b = 75, 40
-    h, k = 140, 210
-    A = -15 * np.pi / 180
-    x = cos(A) * a * cos(t) - sin(A) * b * sin(t) + h
-    y = sin(A) * a * cos(t) + cos(A) * b * sin(t) + k
+    def ellipse():
+        t = np.linspace(0, 2 * np.pi, 100)
+        a, b = 75, 40
+        h, k = 140, 210
+        A = -15 * np.pi / 180
+        x = cos(A) * a * cos(t) - sin(A) * b * sin(t) + h
+        y = sin(A) * a * cos(t) + cos(A) * b * sin(t) + k
 
-    return list(zip(x, y))
-
-
-plt.figure("fun11_f0-f5")
-for pt in grid:
-    plt.scatter(*pt, s=1, c='black', marker='o')
-"""
-plt.figure("fun11_f0-f5")
-for pt in large_grid:
-    plt.scatter(*pt, s=1, c='black', marker='o')
-
-plt.figure("expr1xy")
-for pt in large_grid:
-    plt.scatter(*pt, s=1, c='black', marker='o')
-"""
+        return list(zip(x, y))
 
 
+    plt.figure("fun11_f0-f5")
+    for pt in grid:
+        plt.scatter(*pt, s=1, c='black', marker='o')
+    """
+    plt.figure("fun11_f0-f5")
+    for pt in large_grid:
+        plt.scatter(*pt, s=1, c='black', marker='o')
+    
+    plt.figure("expr1xy")
+    for pt in large_grid:
+        plt.scatter(*pt, s=1, c='black', marker='o')
+    """
 
-plt.figure("fun11_f0-f5")
-X, Y = np.meshgrid(d1, d2)
-vals = fun11([X, Y])
-plt.title(f"fun11 (f0 +..+ f5)")
-plt.imshow(vals,
-           extent=[d1[0], d1[-1], d2[0], d2[-1]],
-           origin="lower",
-           # interpolation='bilinear',
-           # cmap="plasma",
-           vmin=0, vmax=np.mean(vals),
-           )
-plt.xlabel("$d_1$")
-plt.ylabel("$d_2$")
+    plt.figure("fun11_f0-f5")
+    X, Y = np.meshgrid(d1, d2)
+    vals = fun11([X, Y])
+    plt.title(f"fun11 (f0 +..+ f5)")
+    plt.imshow(vals,
+               extent=[d1[0], d1[-1], d2[0], d2[-1]],
+               origin="lower",
+               # interpolation='bilinear',
+               # cmap="plasma",
+               vmin=0, vmax=np.mean(vals),
+               )
+    plt.xlabel("$d_1$")
+    plt.ylabel("$d_2$")
 
-"""
-for pt in diag_lines:
-    plt.scatter(*pt, s=1, c='black', marker='o')
-"""
+    """
+    for pt in diag_lines:
+        plt.scatter(*pt, s=1, c='black', marker='o')
+    """
 
 
+    plt.figure()
+    plt.title("(full model - measurement)$^2$, wrt $d_3$")
+    r_exp_mod = np.zeros_like(freqs, dtype=complex)
+    y_vals = []
+    best_fit = (None, np.inf)
+    for d3_ in d3:
+        for freq_idx_ in range(len(freqs)):
+            d = array([np.inf, *final_opt_res["x"], d3_, np.inf], dtype=float)
+            r_exp_mod[freq_idx_] = -coh_tmm_slim(pol, n_list[freq_idx_], d, thea, lam[freq_idx_])
+        err = np.sum((r_exp_mod.real - r_exp.real) ** 2 + (r_exp_mod.imag - r_exp.imag) ** 2)
+        y_vals.append(err)
+        if err < best_fit[1]:
+            best_fit = (d3_, err)
 
-plt.figure()
-plt.title("(full model - measurement)$^2$, wrt $d_3$")
-r_exp_mod = np.zeros_like(freqs, dtype=complex)
-y_vals = []
-best_fit = (None, np.inf)
-for d3_ in d3:
+    plt.plot(d3, y_vals, label="Squared differences")
+    min_point = (d3[np.argmin(y_vals)], np.min(y_vals))
+    plt.annotate(f"{min_point[0]}, {min_point[1]}", xy=(min_point[0], min_point[1]), xytext=(-20, 20),
+                 textcoords='offset points', ha='center', va='bottom',
+                 bbox=dict(boxstyle='round,pad=0.2', fc='yellow', alpha=0.3),
+                 arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.5',
+                                 color='red'))
+    plt.xlabel("$d_3$")
+    plt.ylabel("Loss")
+
     for freq_idx_ in range(len(freqs)):
-        d = array([np.inf, *final_opt_res["x"], d3_, np.inf], dtype=float)
+        d = array([np.inf, *final_opt_res["x"], best_fit[0], np.inf], dtype=float)
         r_exp_mod[freq_idx_] = -coh_tmm_slim(pol, n_list[freq_idx_], d, thea, lam[freq_idx_])
-    err = np.sum((r_exp_mod.real - r_exp.real) ** 2 + (r_exp_mod.imag - r_exp.imag) ** 2)
-    y_vals.append(err)
-    if err < best_fit[1]:
-        best_fit = (r_exp_mod, err)
 
-plt.plot(d3, y_vals, label="Squared differences")
-min_point = (d3[np.argmin(y_vals)], np.min(y_vals))
-plt.annotate(f"{min_point[0]}, {min_point[1]}", xy=(min_point[0], min_point[1]), xytext=(-20, 20),
-             textcoords='offset points', ha='center', va='bottom',
-             bbox=dict(boxstyle='round,pad=0.2', fc='yellow', alpha=0.3),
-             arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.5',
-                             color='red'))
-plt.xlabel("$d_3$")
-plt.ylabel("Loss")
+    ax0.plot(lam, -np.abs(r_exp_mod), label="Found")
+    ax1.plot(lam, np.angle(r_exp_mod), label="Found")
 
-ax0.plot(lam, -np.abs(best_fit[0]), label="Found")
-ax1.plot(lam, np.angle(best_fit[0]), label="Found")
+    """
+    from scipy import fftpack, ndimage
+    plt.figure()
+    fft2 = fftpack.fft2(Z)
+    plt.imshow(np.log10(np.abs(fft2)),
+        vmin=3, vmax=4.5,
+               )
+    """
+    """
+    Z = np.gradient(Z)
+    
+    plt.figure()
+    plt.title(f"Gradient")
+    plt.imshow(Z[0], extent=[d1[0], d1[-1], d2[0], d2[-1]], origin="lower",
+               # interpolation='bilinear',
+               # cmap="plasma",
+               vmin=0, vmax=0.001,
+               )
+    plt.xlabel("$d_1$")
+    plt.ylabel("$d_2$")
+    """
 
-"""
-from scipy import fftpack, ndimage
-plt.figure()
-fft2 = fftpack.fft2(Z)
-plt.imshow(np.log10(np.abs(fft2)),
-    vmin=3, vmax=4.5,
-           )
-"""
-"""
-Z = np.gradient(Z)
-
-plt.figure()
-plt.title(f"Gradient")
-plt.imshow(Z[0], extent=[d1[0], d1[-1], d2[0], d2[-1]], origin="lower",
-           # interpolation='bilinear',
-           # cmap="plasma",
-           vmin=0, vmax=0.001,
-           )
-plt.xlabel("$d_1$")
-plt.ylabel("$d_2$")
-"""
-for fig_num in plt.get_fignums():
-    plt.figure(fig_num)
-    ax = plt.gca()
-    handles, labels = ax.get_legend_handles_labels()
-    if labels:
-        plt.legend()
-
-    axes = fig.get_axes()
-    for ax in axes:
-        handles, labels = ax.get_legend_handles_labels()
-        if labels:
-            ax.legend()
-
-plt.show()
+    show()
