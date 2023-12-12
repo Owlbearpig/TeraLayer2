@@ -20,12 +20,8 @@ def update(val):
     d1_slider_val, d2_slider_val = d1_slider.val, d2_slider.val
     phasors_ = phasors(d1_slider_val, d2_slider_val)
     for i, line in enumerate(lines):
-        phi, R = np.angle(phasors_[i]), np.abs(phasors_[i])
-        if i in [0, 4]:
-            xdata, ydata = [0, phi], [0, R]
-        else:
-            R_prev, phi_prev = np.abs(phasors_[i - 1]), np.angle(phasors_[i - 1])
-            xdata, ydata = [phi_prev, phi], [R_prev, R]
+        ps = np.sum(phasors_[i*4:(i+1)*4])
+        xdata, ydata = [0, np.angle(ps)], [0, np.abs(ps)]
 
         line.set_xdata(xdata)
         line.set_ydata(ydata)
@@ -75,16 +71,18 @@ d2_slider = Slider(
 phasors0 = phasors(d1_init, d2_init)
 bar_colors = 4 * ['blue'] + 4 * ['red']
 lines = []
-print(phasors0)
-for i, p_ in enumerate(phasors0):
-    R, phi = np.abs(p_), np.angle(p_)
-    if i in [0, 4]:
-        line, = ax.plot([0, phi], [0, R], c=bar_colors[i])
-    else:
-        R_prev, phi_prev = np.abs(phasors0[i - 1]), np.angle(phasors0[i - 1])
-        line, = ax.plot([phi_prev, phi], [R_prev, R], c=bar_colors[i])
+ps = np.sum(phasors0[:4])
+phi, R = np.angle(ps), np.abs(ps)
 
-    lines.append(line)
+line, = ax.plot([0, phi], [0, R], c=bar_colors[0])
+lines.append(line)
+
+ps = np.sum(phasors0[4:])
+phi, R = np.angle(ps), np.abs(ps)
+
+line, = ax.plot([0, phi], [0, R], c=bar_colors[4])
+lines.append(line)
+
 
 # register the update function with each slider
 d1_slider.on_changed(update)
