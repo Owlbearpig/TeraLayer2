@@ -69,8 +69,26 @@ d2_slider = Slider(
 )
 
 phasors0 = phasors(d1_init, d2_init)
-bar_colors = 4 * ['blue'] + 4 * ['red']
+# bar_colors = 4 * ['blue'] + 4 * ['red']
+bar_colors = ["blue", "black", "green", "yellow", *(4 * ['red'])]
+
 lines = []
+ps = phasors0[0]
+phi, R = np.angle(ps), np.abs(ps)
+line0, = ax.plot([0, phi], [0, R], c=bar_colors[0])
+
+ps = np.sum(phasors0[:2])
+phi1, R1 = np.angle(ps), np.abs(ps)
+line1, = ax.plot([phi, phi1], [R, R1], c=bar_colors[1])
+
+ps = np.sum(phasors0[:3])
+phi2, R2 = np.angle(ps), np.abs(ps)
+line2, = ax.plot([phi1, phi2], [R1, R2], c=bar_colors[2])
+
+ps = np.sum(phasors0[:4])
+phi3, R3 = np.angle(ps), np.abs(ps)
+line3, = ax.plot([phi2, phi3], [R2, R3], c=bar_colors[2])
+
 ps = np.sum(phasors0[:4])
 phi, R = np.angle(ps), np.abs(ps)
 
