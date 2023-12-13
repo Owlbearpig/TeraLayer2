@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 from triple_layer import *
-from matplotlib.widgets import Button, Slider
+from matplotlib.widgets import Button, Slider, TextBox
 
 
 def phasors(d1_, d2_, freq_idx_=0):
@@ -19,12 +19,32 @@ def phasors(d1_, d2_, freq_idx_=0):
 def update(val):
     d1_slider_val, d2_slider_val = d1_slider.val, d2_slider.val
     phasors_ = phasors(d1_slider_val, d2_slider_val)
-    for i, line in enumerate(lines):
-        ps = np.sum(phasors_[i*4:(i+1)*4])
-        xdata, ydata = [0, np.angle(ps)], [0, np.abs(ps)]
 
-        line.set_xdata(xdata)
-        line.set_ydata(ydata)
+    ps_ = 0
+    for k in range(len(phasors_)):
+        if k == 4:
+            ps_ = 0
+
+        prev_phi_, prev_R_ = np.angle(ps_), np.abs(ps_)
+        ps_ += phasors_[k]
+        phi_, R_ = np.angle(ps_), np.abs(ps_)
+        xdata = [prev_phi_, phi_]
+        ydata = [prev_R_, R_]
+        lines[k].set_xdata(xdata)
+        lines[k].set_ydata(ydata)
+
+        if k == 3:
+            line3.set_xdata([0, phi_])
+            line3.set_ydata([0, R_])
+        if k == 7:
+            line7.set_xdata([0, phi_])
+            line7.set_ydata([0, R_])
+
+    red_len = np.round(np.abs(np.sum(phasors_[:4])), 5)
+    blue_len = np.round(np.abs(np.sum(phasors_[4:])), 5)
+
+    new_txt = f"red: {red_len}\nblue: {blue_len}"
+    txt_field.set_text(new_txt)
 
     fig.canvas.draw_idle()
 
@@ -41,13 +61,13 @@ size = min(width, height)
 fig = plt.figure(figsize=(size, size))
 ax = fig.add_axes([0.1, 0.1, 0.8, 0.8], polar=True)
 ax.set_rticks([0.5, 1, 1.5, 2])  # Less radial ticks
-ax.set_ylim((0, 0.35))
+ax.set_ylim((0, 0.75))
 plt.grid(True)
 
 ax.set_title("And there was much rejoicing!", fontsize=20)
 
 d1_init, d2_init = d_truth[1:3]
-print(d1_init, d2_init)
+
 axd1 = fig.add_axes([0.1, 0.25, 0.0225, 0.63])
 d1_slider = Slider(
     ax=axd1,
@@ -70,38 +90,31 @@ d2_slider = Slider(
 
 phasors0 = phasors(d1_init, d2_init)
 # bar_colors = 4 * ['blue'] + 4 * ['red']
-bar_colors = ["blue", "black", "green", "yellow", *(4 * ['red'])]
+bar_colors = [*(4 * ['blue']), *(4 * ['red'])]
 
 lines = []
-ps = phasors0[0]
-phi, R = np.angle(ps), np.abs(ps)
-line0, = ax.plot([0, phi], [0, R], c=bar_colors[0])
+ps = 0
+for i in range(len(phasors0)):
+    if i == 4:
+        ps = 0
 
-ps = np.sum(phasors0[:2])
-phi1, R1 = np.angle(ps), np.abs(ps)
-line1, = ax.plot([phi, phi1], [R, R1], c=bar_colors[1])
-
-ps = np.sum(phasors0[:3])
-phi2, R2 = np.angle(ps), np.abs(ps)
-line2, = ax.plot([phi1, phi2], [R1, R2], c=bar_colors[2])
-
-ps = np.sum(phasors0[:4])
-phi3, R3 = np.angle(ps), np.abs(ps)
-line3, = ax.plot([phi2, phi3], [R2, R3], c=bar_colors[2])
-
-ps = np.sum(phasors0[:4])
-phi, R = np.angle(ps), np.abs(ps)
-
-line, = ax.plot([0, phi], [0, R], c=bar_colors[0])
-lines.append(line)
-
-ps = np.sum(phasors0[4:])
-phi, R = np.angle(ps), np.abs(ps)
-
-line, = ax.plot([0, phi], [0, R], c=bar_colors[4])
-lines.append(line)
+    prev_phi, prev_R = np.angle(ps), np.abs(ps)
+    ps += phasors0[i]
+    phi, R = np.angle(ps), np.abs(ps)
+    line, = ax.plot([prev_phi, phi], [prev_R, R], c=bar_colors[i])
+    lines.append(line)
+    if i == 3:
+        line3, = ax.plot([0, phi], [0, R], c="black")
+    if i == 7:
+        line7, = ax.plot([0, phi], [0, R], c="black")
 
 
+red_len0 = np.round(np.abs(np.sum(phasors0[:4])), 5)
+blue_len0 = np.round(np.abs(np.sum(phasors0[4:])), 5)
+
+init_txt = f"red: {red_len0}\nblue: {blue_len0}"
+
+txt_field = ax.text(np.pi/2, 0.35, init_txt, va='center', ha='center')
 # register the update function with each slider
 d1_slider.on_changed(update)
 d2_slider.on_changed(update)
