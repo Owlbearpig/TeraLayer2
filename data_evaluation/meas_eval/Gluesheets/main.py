@@ -9,17 +9,17 @@ def main():
     image = Image(data_dir, options=options)
     image.plot_image()
 
-    samples = [("Sheet1_1", 250, (10, 7)),
-               ("Sheet2_4", 244, (10, -15)),
-               ("GlueSugar_2", 320, (30, 5)),
-               ("GluePlate1_3", 171, (49, 7)),
-               ("GluePlate2_6", 90, (50, -10)),
-               ("TripleLayer_5", 521, (32, -12)),
+    samples = [("Sheet1_(1)", 250, (10, 7)),
+               ("Sheet2_(4)", 244, (10, -15)),
+               ("Glue1_(Sugar_2)", 320, (30, 5)),
+               ("Glue2_(Plate1_3)", 171, (49, 7)),
+               ("Glue3_(Plate2_6)", 90, (50, -10)),
+               # ("3x_Layer_(5)", 521, (32, -12)),
                ]
 
     for sample in samples:
         if "TripleLayer_5" not in sample[0]:
-            continue
+            pass
         thickness = sample[1]
         label = sample[0] + f" (d={thickness} um)"
         point = sample[2]

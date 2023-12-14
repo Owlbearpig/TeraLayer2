@@ -399,7 +399,7 @@ class Image:
 
         return closest_meas
 
-    def get_point(self, x, y, normalize=False, sub_offset=False, both=False, add_plot=False):
+    def get_point(self, x, y, normalize=False, sub_offset=False, both=False, add_plot=False, en_window=False):
         dx, dy, dt = self.image_info["dx"], self.image_info["dy"], self.image_info["dt"]
 
         x_idx, y_idx = self._coords_to_idx(x, y)
@@ -417,12 +417,15 @@ class Image:
         if add_plot:
             self.plot_point(x, y, y_td)
 
+        if en_window:
+            y_td = window(y_td, slope=0.99)
+
         if not both:
             return y_td
         else:
             return y_td, do_fft(y_td)
 
-    def get_ref(self, both=False, normalize=False, sub_offset=False, point=None, ret_meas=False):
+    def get_ref(self, both=False, normalize=False, sub_offset=False, point=None, ret_meas=False, en_window=False):
         if point is not None:
             closest_sam = self.get_measurement(*point, meas_type=MeasurementType.SAM.value)
 
@@ -450,6 +453,9 @@ class Image:
 
         if ret_meas:
             return chosen_ref
+
+        if en_window:
+            ref_td = window(ref_td, slope=0.99)
 
         if both:
             ref_fd = do_fft(ref_td)
@@ -523,7 +529,7 @@ class Image:
         plt.plot(sam_fd[plot_range1, 0], 100 * absorb, label=label)
 
         plt.figure("Absorbance")
-        plt.plot(sam_fd[plot_range1, 0], -20*np.log10(absorb), label=label)
+        plt.plot(sam_fd[plot_range1, 0], -20 * np.log10(absorb), label=label)
         plt.xlabel("Frequency (THz)")
         plt.ylabel("Absorbance (dB)")
 
@@ -532,7 +538,7 @@ class Image:
         evaluate and plot n, alpha and absorbance
 
         """
-        sam_td, sam_fd = self.get_point(*point, both=True)
+        sam_td, sam_fd = self.get_point(*point, both=True, en_window=True)
         ref_td, ref_fd = self.get_ref(point=point, both=True)
 
         omega = 2 * np.pi * ref_fd[:, 0].real
@@ -544,7 +550,7 @@ class Image:
 
         n = 1 + phi * c_thz / (omega * d)
 
-        alpha = (1/1e-4) * (-2 / d) * np.log(np.abs(sam_fd[:, 1] / ref_fd[:, 1]) * (n + 1) ** 2 / (4 * n))
+        alpha = (1 / 1e-4) * (-2 / d) * np.log(np.abs(sam_fd[:, 1] / ref_fd[:, 1]) * (n + 1) ** 2 / (4 * n))
 
         if en_plot:
             freq = ref_fd[:, 0].real
@@ -557,7 +563,6 @@ class Image:
             plt.plot(freq[plot_range2], alpha[plot_range2], label=label)
             plt.xlabel("Frequency (THz)")
             plt.ylabel("Absorption coefficient (1/cm)")
-
 
         return array([ref_fd[:, 0].real, n]).T, array([ref_fd[:, 0].real, alpha]).T
 
