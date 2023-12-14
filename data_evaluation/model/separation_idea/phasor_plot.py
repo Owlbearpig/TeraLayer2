@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-
 from triple_layer import *
 from matplotlib.widgets import Button, Slider, TextBox
 
@@ -61,7 +60,7 @@ size = min(width, height)
 fig = plt.figure(figsize=(size, size))
 ax = fig.add_axes([0.1, 0.1, 0.8, 0.8], polar=True)
 ax.set_rticks([0.5, 1, 1.5, 2])  # Less radial ticks
-ax.set_ylim((0, 0.75))
+ax.set_ylim((0, 0.5))
 plt.grid(True)
 
 ax.set_title("And there was much rejoicing!", fontsize=20)

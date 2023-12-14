@@ -71,9 +71,10 @@ seed = randint(0, 10000, size=1)
 # seed = 5577
 # seed = 1768
 # seed = 3454
-seed = 7217
+# seed = 7217
+# seed = 2054
 np.random.seed(seed)
-print(seed)
+print("seed", seed)
 
 noise_scale = 0.00
 amp_noise = whitenoise(noise_scale)
@@ -171,6 +172,10 @@ def expr1xy_(d1_, d2_, freq_idx_=0):
 
     num = c0[freq_idx_] + c4[freq_idx_] * x_ * y_
     den = c3[freq_idx_] + c7[freq_idx_] * x_ * y_
+
+    s = np.abs(num) - np.abs(den)
+
+    return s ** 2
 
     s = np.abs(num / den)
 
@@ -317,7 +322,6 @@ if __name__ == '__main__':
     print(d_truth)
     print(tot_nfev + final_opt_res["nfev"])
 
-
     plt.figure()
     plt.title(f"fun10 f0")
     y = fun10([d1, 100], 2)
@@ -390,6 +394,8 @@ if __name__ == '__main__':
     print("############################################################## Use xy-term to find feasible region")
     sum_expr1xy_1D_0 = np.sum([expr1xy_(0, d2, i) for i in range(6)], axis=0)
     sum_expr1xy_1D_500 = np.sum([expr1xy_(500, d2, i) for i in range(6)], axis=0)
+    # sum_expr1xy_1D_0 = expr1xy_(0, d2, 0)
+    # sum_expr1xy_1D_500 = expr1xy_(500, d2, 0)
     a = -0.5429
 
     if np.min(sum_expr1xy_1D_0) < np.min(sum_expr1xy_1D_500):
@@ -399,7 +405,7 @@ if __name__ == '__main__':
     else:
         print(np.min(sum_expr1xy_1D_500))
         shift = d2[np.argmin(sum_expr1xy_1D_500)]
-        b = shift - a*d2[-1]
+        b = shift - a * d2[-1]
     print(shift, b)
 
     diag_line = []
@@ -408,11 +414,11 @@ if __name__ == '__main__':
         if 0 < d2_ < d2[-1]:
             diag_line.append((d1_, d2_))
 
-    #print(diag_line)
-    #diag_line = list(zip(np.arange(0, d1[-1], 5), b + a*np.arange(0, d1[-1], 5)))
-    #print(diag_line)
+    # print(diag_line)
+    # diag_line = list(zip(np.arange(0, d1[-1], 5), b + a*np.arange(0, d1[-1], 5)))
+    # print(diag_line)
 
-    tot_nfev = 2*len(sum_expr1xy_1D_0)
+    tot_nfev = 2 * len(sum_expr1xy_1D_0)
     grid = []
     for i in range(-10, 15, 5):
         grid.extend([(pt[0], pt[1] - i) for pt in diag_line])
@@ -483,7 +489,6 @@ if __name__ == '__main__':
     for pt in diag_lines:
         plt.scatter(*pt, s=1, c='black', marker='o')
     """
-
 
     plt.figure()
     plt.title("(full model - measurement)$^2$, wrt $d_3$")
