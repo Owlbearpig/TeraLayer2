@@ -73,6 +73,7 @@ seed = randint(0, 10000, size=1)
 # seed = 3454
 # seed = 7217
 # seed = 2054
+# seed = 133
 np.random.seed(seed)
 print("seed", seed)
 
@@ -93,6 +94,17 @@ print(f"Refractive indices: n0={n0},\nn1={n1},\nn2={n2}")
 d1, d2, d3 = np.arange(0, 500, 1), np.arange(0, 500, 1), np.arange(0, 500, 1)
 n_list = array([np.ones_like(freqs), n0, n1, n2, np.ones_like(freqs)], dtype=float).T
 
+
+def meas_sim(d_truth_):
+    if len(d_truth_) == 3:
+        d_truth_ = np.array([np.inf, *d_truth_, np.inf], dtype=float)
+    r_exp_mod_ = np.zeros(len(freqs), dtype=complex)
+    for f_idx in range(freqs.size):
+        r_exp_mod_[f_idx] = -coh_tmm_slim(pol, n_list[f_idx], d_truth_, thea, lam[f_idx])
+
+    return r_exp_mod_
+
+
 d_truth = [np.inf, 45.77, 660.0, 72.6, np.inf]
 d_truth = [np.inf, randint(d1[0], d1[-1]), randint(d2[0], d2[-1]), randint(d3[0], d3[-1]), np.inf]
 # d_truth = [np.inf, 270, 469, 327, np.inf]
@@ -101,7 +113,6 @@ print(sam_idx, d_truth)
 
 r_fn = np.zeros((len(freqs), num_layers, num_layers), dtype=complex)
 kz_list, th_list = np.zeros((2, len(freqs), num_layers), dtype=complex)
-r_exp_mod = np.zeros(len(freqs), dtype=complex)
 for freq_idx_ in range(freqs.size):
     th_list[freq_idx_] = list_snell(n_list[freq_idx_], thea).T
     kz_list[freq_idx_, :] = 2 * np.pi * n_list[freq_idx_] * cos(th_list[freq_idx_]) / lam[freq_idx_]
@@ -109,7 +120,7 @@ for freq_idx_ in range(freqs.size):
         r_fn[freq_idx_, i, i + 1] = interface_r(pol, n_list[freq_idx_, i], n_list[freq_idx_, i + 1],
                                                 th_list[freq_idx_, i], th_list[freq_idx_, i + 1])
 
-    r_exp_mod[freq_idx_] = -coh_tmm_slim(pol, n_list[freq_idx_], d_truth, thea, lam[freq_idx_])
+r_exp_mod = meas_sim(d_truth)
 
 r_exp = real_data_cw(sam_idx)  # use real data
 r_exp = r_exp_mod  # use model data
@@ -130,14 +141,24 @@ ax0.plot(lam, r / amp_noise, label="Truth - 0 noise")
 ax1.plot(lam, np.angle(r_exp) * phi_noise, label="Truth - Noisy")
 ax1.plot(lam, np.angle(r_exp), label="Truth - 0 noise")
 
-c0 = r * r_fn[:, 0, 1] * r_fn[:, 3, 4] * u - r_fn[:, 3, 4]
-c1 = r * r_fn[:, 1, 2] * r_fn[:, 3, 4] * u - r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 3, 4]
-c2 = (r * r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 2, 3] * u - r_fn[:, 1, 2] * r_fn[:, 2, 3]) * r_fn[:, 3, 4]
-c3 = r * r_fn[:, 0, 1] * r_fn[:, 2, 3] * u - r_fn[:, 2, 3]
-c4 = r * r_fn[:, 2, 3] * r_fn[:, 3, 4] * u - r_fn[:, 0, 1] * r_fn[:, 2, 3] * r_fn[:, 3, 4]
-c5 = r * r_fn[:, 1, 2] * r_fn[:, 2, 3] * u - r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 2, 3]
-c6 = r * r_fn[:, 0, 1] * r_fn[:, 1, 2] * u - r_fn[:, 1, 2]
-c7 = r * u - r_fn[:, 0, 1]
+
+def coeffs(r_exp_):
+    r = -np.abs(r_exp_) * amp_noise
+    u = np.exp(1j * np.angle(r_exp_) * phi_noise)
+
+    c0_ = r * r_fn[:, 0, 1] * r_fn[:, 3, 4] * u - r_fn[:, 3, 4]
+    c1_ = r * r_fn[:, 1, 2] * r_fn[:, 3, 4] * u - r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 3, 4]
+    c2_ = (r * r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 2, 3] * u - r_fn[:, 1, 2] * r_fn[:, 2, 3]) * r_fn[:, 3, 4]
+    c3_ = r * r_fn[:, 0, 1] * r_fn[:, 2, 3] * u - r_fn[:, 2, 3]
+    c4_ = r * r_fn[:, 2, 3] * r_fn[:, 3, 4] * u - r_fn[:, 0, 1] * r_fn[:, 2, 3] * r_fn[:, 3, 4]
+    c5_ = r * r_fn[:, 1, 2] * r_fn[:, 2, 3] * u - r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 2, 3]
+    c6_ = r * r_fn[:, 0, 1] * r_fn[:, 1, 2] * u - r_fn[:, 1, 2]
+    c7_ = r * u - r_fn[:, 0, 1]
+
+    return c0_, c1_, c2_, c3_, c4_, c5_, c6_, c7_
+
+
+c0, c1, c2, c3, c4, c5, c6, c7 = coeffs(r_exp)
 
 a0 = c0 * conj(c4) - c3 * conj(c7)
 a1 = c1 * conj(c4) - c3 * conj(c6) + c0 * conj(c2) - c5 * conj(c7)
@@ -177,9 +198,8 @@ def expr1xy_(d1_, d2_, freq_idx_=0):
 
     return s ** 2
 
-    s = np.abs(num / den)
-
-    return (1 - s) ** 2
+    # s = np.abs(num / den)
+    # return (1 - s) ** 2
 
 
 def expr2_(d1_, d3_, freq_idx_=0):

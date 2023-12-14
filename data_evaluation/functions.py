@@ -324,12 +324,15 @@ def noise_gen(freqs, enabled, scale=1, seed=None):
     return ret
 
 
-def gen_p_sols(cnt=100, seed=421, p0_=None, layer_cnt=3):
+def gen_p_sols(cnt=100, seed=421, p0_=None, layer_cnt=3, bounds=None):
     np.random.seed(seed)
+
+    if not bounds:
+        bounds = [(20, 300), (500, 700), (50, 300)]
 
     def rand_sol():
         if p0_ is None:
-            sol_ = [int(i) for i in [uniform(20, 300), uniform(500, 700), uniform(50, 300)]]
+            sol_ = [int(i) for i in [uniform(*bounds[0]), uniform(*bounds[1]), uniform(*bounds[2])]]
         else:
             sol_ = [int(i) for i in [uniform(p0_[j] - 30, p0_[j] + 30) for j in range(3)]]
 
