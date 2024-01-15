@@ -32,7 +32,7 @@ def avg_runtime(fun, *args, **kwargs):
 
 
 def load_ref_file():
-    r = read_csv(data_dir / 'ref_1000x.csv')
+    r = read_csv(matlab_data_dir / 'ref_1000x.csv')
     slice_0, slice_1 = settings['data_range_idx']
 
     return r[:]
@@ -53,8 +53,8 @@ def load_files(sample_file_idx=0, data_type='amplitude'):
     slice_0, slice_1 = settings['data_range_idx']
 
     r = load_ref_file()
-    b = read_csv(data_dir / 'BG_1000.csv')
-    s = read_csv(data_dir / 'Kopf_1x' / f'Kopf_1x_{sample_file_idx:04}')
+    b = read_csv(matlab_data_dir / 'BG_1000.csv')
+    s = read_csv(matlab_data_dir / 'Kopf_1x' / f'Kopf_1x_{sample_file_idx:04}')
 
     if data_type == 'amplitude':
         # return r[:, 1], b[slice_0:slice_1, 1], s[slice_0:slice_1, 1]

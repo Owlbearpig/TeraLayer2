@@ -59,12 +59,12 @@ freqs = selected_freqs.copy()
 lam = c0 * 1e-6 / freqs
 print(f"Frequencies: {freqs} THz,\nwavelengths {np.round(lam, 3)} um")
 print(f"Refractive indices: n0={n0},\nn1={n1}")
-d_truth = [np.inf, 175, 50, np.inf]
+d_truth = [np.inf, 250, 350, np.inf]
 
 r0, r1, r2 = (1 - n0) / (1 + n0), (n0 - n1) / (n0 + n1), (n1 - 1) / (n1 + 1)
 # phi = (2 * np.random.random() - 1) * np.pi
 
-d1, d2 = np.arange(1, 700, 1), np.arange(1, 500, 1)
+d1, d2 = np.arange(1, 500, 1, dtype=float), np.arange(1, 500, 1, dtype=float)
 
 r_exp = np.zeros(len(freqs), dtype=complex)
 for freq_idx_ in range(freqs.size):
@@ -87,16 +87,39 @@ def expr1(d1_, freq_idx_=0):
     return (1-s)**2
 
 
-def expr2(d1_, d2_):
-    phi0, phi1 = 2 * np.pi * d1_ * n0 / lam, 2 * np.pi * d2_ * n1 / lam
+def expr2(d1_, d2_, f_idx_=0):
+    phi0, phi1 = 2 * np.pi * d1_ * n0[f_idx_] / lam[f_idx_], 2 * np.pi * d2_ * n1[f_idx_] / lam[f_idx_]
     x_, y_ = np.exp(1j * 2 * phi0), np.exp(1j * 2 * phi1)
+    x_, y_ = np.linspace(-1, 1, len(x_)), np.linspace(-1, 1, len(x_))
+    x_, y_ = np.meshgrid(x_, y_)
+    diff = c0[f_idx_] + c1[f_idx_] * x_ + c2[f_idx_] * y_ + c3[f_idx_] * x_ * y_
+    print(c0[f_idx_], c1[f_idx_], c2[f_idx_], c3[f_idx_])
+    return diff.imag
 
-    diff = c0 + c1 * x_ + c2 * y_ + c3 * x_ * y_
 
-    return np.sum(diff.real**2 + diff.imag**2)
+f_idx = 0
+
+x = np.linspace(-1, 1, 1000)
+y = np.linspace(-1, 1, 1000)
+y = c0[f_idx] + c1[f_idx] * x + c2[f_idx] * y + c3[f_idx] * x * y
+#plt.figure()
+#plt.plot()
+
+plt.figure()
+X, Y = np.meshgrid(d1, d2)
+vals = expr2(*[X, Y], f_idx)
+plt.title(f"expr2 f{f_idx}")
+plt.imshow(vals,
+           extent=[d1[0], d1[-1], d2[0], d2[-1]],
+           origin="lower",
+           # interpolation='bilinear',
+           # cmap="plasma",
+           vmin=0, vmax=np.mean(vals),
+           )
+plt.xlabel("$d_1$")
+plt.ylabel("$d_2$")
 
 
-f_idx = 1
 Y = rfft([expr1(d1_, freq_idx_=f_idx) for d1_ in np.arange(1, 500000, 1)])
 f_axis = rfftfreq(len(Y))
 
@@ -113,14 +136,13 @@ plt.legend()
 
 
 x0 = (d1[-1]-d1[0])/2
-plt.figure()
 for freq_idx in range(len(freqs)):
     expr1_ = partial(expr1, freq_idx_=freq_idx)
 
     opt_res1 = minimize(expr1_, x0=x0)
     right_minima = expr1_(opt_res1[0]-10) > expr1_(opt_res1[0])
-    print(right_minima)
-    print(opt_res1)
+    #print(right_minima)
+    #print(opt_res1)
 
 
 plt.legend()
