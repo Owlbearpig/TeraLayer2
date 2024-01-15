@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from datetime import datetime
-from consts import data_dir
+from consts import matlab_data_dir
 from numpy.fft import fft, fftfreq
 from functions import window
 from enum import Enum
@@ -115,7 +115,7 @@ def get_all_measurements(post_process=None, data_dir_=None):
     if data_dir_ is not None:
         glob = data_dir_.glob("**/*.txt")
     else:
-        glob = data_dir.glob("**/*.txt")
+        glob = matlab_data_dir.glob("**/*.txt")
 
     for file_path in glob:
         if file_path.is_file():

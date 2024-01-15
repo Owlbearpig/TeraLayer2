@@ -1,0 +1,39 @@
+Samples:
+3: BlueCube
+4: FPSample2
+5: FPSample3
+6: FPSample5Plastic
+7: FPSample5Ceramic
+8: FPSample6
+9: OPBlueP1
+10: OPBlueP2
+11: OPBlackP1
+12: OPBlackP2
+13: OPRedP1
+14: OPRedP2
+15: OPDarkRedP1
+16: OPDarkRedP2
+19: BWCeramicWhiteFaceUP
+20: BWCeramicBlackFaceUP
+21: AmpelMannFaceRight
+22: AmpelMannFaceLeft
+26: OPRedP1
+27: OPRedP2
+28: OPBlueP1
+29: OPBlueP2
+
+
+
+Discrete Frequencies - WaveSource (PIC-Freuqency Set)
+01_Gold_Plate_short.json
+"Frequency [THz]": [0.301, 0.357, -0.083, 0.741, 0.756, 0.8180000000000001, 0.12000000000000002, 1.0000000000000002], "Frequency [THz] (OSA measurement)": [0.30068100000000003, 0.35709900000000006, -0.041314000000000003, 0.741529, 0.7564050000000001, 0.817014, 0.11914400000000001, 1.000002]
+
+Discrete Frequencies - WaveSource
+01_Gold_Plate_short.json
+"Frequency [THz]": [0.05, 0.15, 0.2, 0.6, 0.75, 0.8, 1.0000000000000002, 1.5], "Frequency [THz] (OSA measurement)": [0.051021000000000004, 0.14866100000000002, 0.199132, 0.600431, 0.751053, 0.8011320000000001, 0.9985040000000001, 1.499568]
+
+
+Discrete Frequencies - PIC
+01_Gold_Plate_short.json
+{"Frequency [THz]": [0.301, 0.357, -0.083, 0.741, 0.756, 0.8180000000000001], "Frequency [THz] (OSA measurement)": [0.300548, 0.356887, -0.082737, 0.7409430000000001, 0.7556550000000001, 0.818495],
+

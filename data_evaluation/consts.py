@@ -18,7 +18,16 @@ settings = {
 Omega_, Delta_, sigma_, mu_, epsilon_, degree_ = '\u03BC', '\u0394', '\u03C3', '\u03BC', '\u03B5', '\u00B0'
 
 ROOT_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
-data_dir = Path(ROOT_DIR / 'matlab_enrique' / 'Data')
+if 'posix' in cur_os:
+    data_dir = Path(r"/home/ftpuser/ftp/Data/TeraLayer2")
+else:
+    data_dir = Path(r"E:\measurementdata\TeraLayer2")
+    try:
+        os.scandir(data_dir)
+    except FileNotFoundError:
+        data_dir = Path(r"C:\Users\Laptop\Desktop")
+
+matlab_data_dir = Path(ROOT_DIR / 'matlab_enrique' / 'Data')
 optimization_results_dir = Path(ROOT_DIR / 'measurementComparisonResults')
 hhi_data_dir = Path(ROOT_DIR / "data" / "T-Sweeper_and_TeraFlash" /
                     "Lackierte Keramik" / "CW (T-Sweeper)" / "Kopf_Ahmad_3")
