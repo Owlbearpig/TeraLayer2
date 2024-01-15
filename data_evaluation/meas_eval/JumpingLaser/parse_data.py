@@ -29,8 +29,12 @@ class Measurement:
     freq = None
     freq_OSA = None
     name = None
-    data_fd_pol = None
-    data_fd_car = None
+    amp = None
+    amp_avg = None
+    phase = None
+    phase_avg = None
+    data_car = None
+    data_car_avg = None
     n_sweeps = None
     meas_type = None
     system = None
@@ -38,6 +42,7 @@ class Measurement:
     sample = None
     meas_number = None
     r_exp_car = None
+    r_exp_car_avg = None
 
     def __init__(self, file_path):
         self.parse_file(file_path)
@@ -45,7 +50,7 @@ class Measurement:
             self.set_car_data()
 
     def __repr__(self):
-        return f"{self.file_path.stem}"
+        return f"({self.file_path.stem}, {self.system})"
 
     def time_diff(self, meas):
         if self.system != SystemEnum.TSweeper:
@@ -112,7 +117,7 @@ class Measurement:
             elif "ampelmann" in file_path_str and "left" in file_path_str:
                 self.sample = ampelMannLeft
             elif "ampelmann" in file_path_str and "avg" in file_path_str:
-                self.sample = ampelMannRight
+                self.sample = ampelMannLeft
             elif "op_tool" in file_path_str and "red_pos1" in file_path_str:
                 self.sample = opToolRedPos1
             elif "op_tool" in file_path_str and "red_pos2" in file_path_str:
@@ -135,8 +140,12 @@ class Measurement:
 
         amp, phase = pd_df["Amplitude Signal (a.u.)"], pd_df["Phase Signal (rad)"]
 
-        self.data_fd_pol = np.array([amp, phase], dtype=float).T
+        self.amp = np.array(amp, dtype=float)
+        self.phase = np.array(phase, dtype=float)
         self.n_sweeps = 1
+
+        self.amp_avg = self.amp
+        self.phase_avg = self.phase
 
     def parse_json_file(self):
         def LoadData(fName='DataDict.json'):
@@ -169,12 +178,15 @@ class Measurement:
         self.freq = np.abs(self.freq_OSA)
         amp = json_dict['Amplitude [A]']
 
-        self.data_fd_pol = np.array([amp, phase], dtype=float).T
+        self.amp = np.array(amp, dtype=float)
+        self.phase = np.array(phase, dtype=float)
+
+        self.amp_avg = np.mean(self.amp, axis=0)
+        self.phase_avg = np.mean(self.phase, axis=0)
 
     def set_car_data(self):
-        amp, phase = self.data_fd_pol[:, 0], self.data_fd_pol[:, 0]
-        data_car = amp * np.exp(-1j * phase)  # ?? sign
-        self.data_fd_car = np.array([data_car.real, data_car.imag], dtype=float).T
+        self.data_car = self.amp * np.exp(-1j * self.phase)  # ?? sign
+        self.data_car_avg = self.amp_avg * np.exp(-1j * self.phase_avg)  # ?? sign
 
     def parse_file(self, file_path):
         self.file_path = file_path

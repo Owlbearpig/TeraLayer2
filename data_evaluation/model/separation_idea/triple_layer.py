@@ -74,6 +74,7 @@ seed = randint(0, 10000, size=1)
 # seed = 7217
 # seed = 2054
 # seed = 133
+seed = 2932
 np.random.seed(seed)
 print("seed", seed)
 
@@ -159,7 +160,9 @@ def coeffs(r_exp_):
 
 
 c0, c1, c2, c3, c4, c5, c6, c7 = coeffs(r_exp)
+coe_list = [c0, c1, c2, c3, c4, c5, c6, c7]
 
+print("coe. magn.", [np.abs(c_) for c_ in coe_list])
 a0 = c0 * conj(c4) - c3 * conj(c7)
 a1 = c1 * conj(c4) - c3 * conj(c6) + c0 * conj(c2) - c5 * conj(c7)
 a2 = c1 * conj(c2) - c5 * conj(c6)

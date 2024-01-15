@@ -137,3 +137,11 @@ def mean_data(sam_idx_=None, ret_t_func=False):
         return t_func_fd_
 
     return t_func_fd_, ref_fd_, sam_fd_, amp_meas_, angle_meas_
+
+
+if __name__ == '__main__':
+    import matplotlib.pyplot as plt
+    t_func = mean_data(ret_t_func=True)
+
+    plt.plot(t_func[:, 0], np.log10(t_func[:, 1]))
+    plt.show()
