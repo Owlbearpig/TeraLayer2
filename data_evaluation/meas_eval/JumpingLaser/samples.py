@@ -17,6 +17,9 @@ class Sample:
             self.ref_idx = np.array(ref_idx, dtype=float)
         self.s_id = s_id
 
+    def __repr__(self):
+        return f"{self.s_id}"
+
 
 empty = Sample([0.0], s_id=0)
 blue_cube = Sample([30.000], [1.54], s_id=1)

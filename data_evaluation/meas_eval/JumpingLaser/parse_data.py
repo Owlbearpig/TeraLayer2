@@ -11,10 +11,13 @@ sub_dirs = ["Discrete Frequencies - PIC", "Discrete Frequencies - WaveSource",
             "Discrete Frequencies - WaveSource (PIC-Freuqency Set)", "T-Sweeper"]
 
 
+excluded_files = ["01_Gold_Plate_short.csv"]
+
 class SystemEnum(Enum):
     PIC = 1
     WaveSource = 2
-    TSweeper = 3
+    WaveSourcePicFreq = 3
+    TSweeper = 4
 
 
 class MeasTypeEnum(Enum):
@@ -40,7 +43,6 @@ class Measurement:
     system = None
     timestamp = None
     sample = None
-    meas_number = None
     r_exp_car = None
     r_exp_car_avg = None
 
@@ -50,11 +52,11 @@ class Measurement:
             self.set_car_data()
 
     def __repr__(self):
-        return f"({self.file_path.stem}, {self.system})"
+        return f"({self.file_path.stem}, {self.timestamp}, {self.system})"
 
     def time_diff(self, meas):
         if self.system != SystemEnum.TSweeper:
-            return self.meas_number - meas.meas_number
+            return self.timestamp - meas.timestamp
         else:
             return (self.timestamp - meas.timestamp).total_seconds()
 
@@ -71,10 +73,11 @@ class Measurement:
 
         if "Discrete Frequencies - PIC" in str(self.file_path):
             self.system = SystemEnum.PIC
-        elif "Discrete Frequencies - WaveSource" in str(self.file_path):
+        elif ("Discrete Frequencies - WaveSource" in str(self.file_path) and
+              ("(PIC-Freuqency Set)" not in str(self.file_path))):
             self.system = SystemEnum.WaveSource
         elif "Discrete Frequencies - WaveSource (PIC-Freuqency Set)" in str(self.file_path):
-            self.system = SystemEnum.WaveSource
+            self.system = SystemEnum.WaveSourcePicFreq
         else:
             self.system = SystemEnum.TSweeper
 
@@ -171,11 +174,12 @@ class Measurement:
         self.freq_OSA = json_dict["Frequency [THz] (OSA measurement)"]
         self.name = json_dict["Measurement"]
         self.n_sweeps = len(json_dict['Amplitude [A]'])
-        self.meas_number = json_dict['measure #']
+        self.timestamp = json_dict['measure #']
 
         phase = json_dict['Phase [rad]'] * np.sign(self.freq)
-        self.freq = np.abs(self.freq)
-        self.freq = np.abs(self.freq_OSA)
+        # self.freq = np.abs(self.freq)
+        # self.freq_OSA = np.abs(self.freq_OSA)
+
         amp = json_dict['Amplitude [A]']
 
         self.amp = np.array(amp, dtype=float)
@@ -202,8 +206,11 @@ class Measurement:
 
 
 def get_all_measurements(ret_all_files=False):
+
     all_dirs = [dir_ for dir_ in [data_dir / sub_dir for sub_dir in sub_dirs]]
     all_files = [file_path for sublist in [list(dir_path.glob('*')) for dir_path in all_dirs] for file_path in sublist]
+
+    all_files = [file for file in all_files if file.name not in excluded_files]
 
     all_measurements_ret = [Measurement(file_path) for file_path in all_files]
 

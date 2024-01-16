@@ -1,6 +1,6 @@
 from consts import *
 import pandas as pd
-from functions import window, do_fft, do_ifft, shift
+from functions import window, do_fft, do_ifft, shift, filtering
 
 
 def raw_data(sam_idx_=None, bk_gnd=False, polar=False):
@@ -68,7 +68,7 @@ def processed_data(sam_idx_, ret_all=False):
 
     ref_td, sam_td = do_ifft(ref_fd), do_ifft(sam_fd)
 
-    # ref_td, sam_td = filter(ref_td), filter(sam_td)
+    # ref_td, sam_td = filtering(ref_td, wn=(0.150, 2.250)), filtering(sam_td, wn=(0.150, 2.250))
 
     ref_td, sam_td = shift(ref_td, 100 - offset), shift(sam_td, 100)
 
@@ -141,7 +141,12 @@ def mean_data(sam_idx_=None, ret_t_func=False):
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
+
     t_func = mean_data(ret_t_func=True)
 
+    plt.figure("Amp")
     plt.plot(t_func[:, 0], np.log10(t_func[:, 1]))
+
+    plt.figure("Phase")
+    plt.plot(t_func[:, 0], np.angle(t_func[:, 1]))
     plt.show()

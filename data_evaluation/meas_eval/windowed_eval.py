@@ -1,13 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import shgo, curve_fit
-from consts import *
+from consts import pi, c0
 from model.tmm_package import tmm_package_wrapper
 from functions import do_ifft
 from functools import partial
 from measurement import Measurement
 from tmm import coh_tmm
-
+from numpy import array
 
 
 def middle_fit(n_outer, freq_idx_range, measurement):

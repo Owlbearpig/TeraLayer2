@@ -71,6 +71,18 @@ def multi_root(f: Callable, bracket: Iterable[float], args: Iterable = (), n: in
     return roots_unique
 
 
+def plt_show(plt_):
+    for fig_label in plt_.get_figlabels():
+        plt_.figure(fig_label)
+        # save_fig(fig_label)
+        ax = plt_.gca()
+        handles, labels = ax.get_legend_handles_labels()
+        if labels:
+            plt_.legend()
+
+    plt_.show()
+
+
 if __name__ == '__main__':
     from functools import partial
     from scratches.scratch_sheet import f
