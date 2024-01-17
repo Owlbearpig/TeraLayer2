@@ -20,17 +20,17 @@ def mpl_style_params():
     # rcParams['lines.linestyle'] = '--'
     # rcParams['legend.fontsize'] = 'large' #'x-large'
     rcParams['legend.shadow'] = False
-    # rcParams['lines.marker'] = 'o'
-    rcParams['lines.markersize'] = 4
-    rcParams['lines.linewidth'] = 3.5  # 2
+    rcParams['lines.marker'] = 'o'
+    rcParams['lines.markersize'] = 2
+    # rcParams['lines.linewidth'] = 3.5  # 2
     rcParams['ytick.major.width'] = 2.5
     rcParams['xtick.major.width'] = 2.5
     rcParams['xtick.direction'] = 'in'
     rcParams['ytick.direction'] = 'in'
     rcParams['axes.grid'] = True
     rcParams['figure.autolayout'] = False
-    rcParams['savefig.format'] = 'pdf'
-    rcParams.update({'font.size': 24})
+    rcParams['savefig.format'] = 'png'
+    # rcParams.update({'font.size': 24})
 
     # Say, "the default sans-serif font is COMIC SANS"
     # rcParams['font.sans-serif'] = 'Liberation Sans'

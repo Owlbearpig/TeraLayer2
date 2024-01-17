@@ -3,15 +3,16 @@ from enum import Enum
 import json
 import pandas as pd
 from datetime import datetime
-from samples import *
+from samples import SamplesEnum
+import numpy as np
 
 data_dir = data_root / "Jumping Laser THz/Probe Measurements (Reflexion)/2024-01-11"
 
 sub_dirs = ["Discrete Frequencies - PIC", "Discrete Frequencies - WaveSource",
             "Discrete Frequencies - WaveSource (PIC-Freuqency Set)", "T-Sweeper"]
 
-
 excluded_files = ["01_Gold_Plate_short.csv"]
+
 
 class SystemEnum(Enum):
     PIC = 1
@@ -47,12 +48,12 @@ class Measurement:
     r_exp_car_avg = None
 
     def __init__(self, file_path):
-        self.parse_file(file_path)
+        self._parse_file(file_path)
         if self.meas_type != MeasTypeEnum.NotAMeasurement:
-            self.set_car_data()
+            self._set_car_data()
 
     def __repr__(self):
-        return f"({self.file_path.stem}, {self.timestamp}, {self.system})"
+        return f"({self.file_path.stem}, {self.timestamp}, {self.system.name})"
 
     def time_diff(self, meas):
         if self.system != SystemEnum.TSweeper:
@@ -60,7 +61,7 @@ class Measurement:
         else:
             return (self.timestamp - meas.timestamp).total_seconds()
 
-    def read_metadata(self):
+    def _set_metadata(self):
         if self.meas_type == MeasTypeEnum.NotAMeasurement:
             return
 
@@ -84,55 +85,55 @@ class Measurement:
         if self.meas_type == MeasTypeEnum.Sample:
             file_path_str = str(self.file_path).lower()
             if "cube" in file_path_str:
-                self.sample = blue_cube
+                self.sample = SamplesEnum.blueCube
             elif "fp" in file_path_str and "probe2" in file_path_str:
-                self.sample = fpSample2
+                self.sample = SamplesEnum.fpSample2
             elif "fp" in file_path_str and "probe3" in file_path_str:
-                self.sample = fpSample3
+                self.sample = SamplesEnum.fpSample3
             elif "fp" in file_path_str and "probe5_plastic" in file_path_str:
-                self.sample = fpSample5Plastic
+                self.sample = SamplesEnum.fpSample5Plastic
             elif "fp" in file_path_str and "probe5_ceramic" in file_path_str:
-                self.sample = fpSample5ceramic
+                self.sample = SamplesEnum.fpSample5ceramic
             elif "fp" in file_path_str and "probe6" in file_path_str:
-                self.sample = fpSample6
+                self.sample = SamplesEnum.fpSample6
             elif "op_blue" in file_path_str and "pos1" in file_path_str:
-                self.sample = opBluePos1
+                self.sample = SamplesEnum.opBluePos1
             elif "op_blue" in file_path_str and "pos2" in file_path_str:
-                self.sample = opBluePos2
+                self.sample = SamplesEnum.opBluePos2
             elif "op_black" in file_path_str and "pos1" in file_path_str:
-                self.sample = opBlackPos1
+                self.sample = SamplesEnum.opBlackPos1
             elif "op_black" in file_path_str and "pos2" in file_path_str:
-                self.sample = opBlackPos2
+                self.sample = SamplesEnum.opBlackPos2
             elif "op_red" in file_path_str and "pos1" in file_path_str:
-                self.sample = opRedPos1
+                self.sample = SamplesEnum.opRedPos1
             elif "op_red" in file_path_str and "pos2" in file_path_str:
-                self.sample = opRedPos2
+                self.sample = SamplesEnum.opRedPos2
             elif "op_darkred" in file_path_str and "pos1" in file_path_str:
-                self.sample = opDarkRedPos1
+                self.sample = SamplesEnum.opDarkRedPos1
             elif "op_darkred" in file_path_str and "pos2" in file_path_str:
-                self.sample = opDarkRedPos2
+                self.sample = SamplesEnum.opDarkRedPos2
             elif "bw-ceramic" in file_path_str and "white" in file_path_str:
-                self.sample = bwCeramicWhiteUp
+                self.sample = SamplesEnum.bwCeramicWhiteUp
             elif "bw-ceramic" in file_path_str and "black" in file_path_str:
-                self.sample = bwCeramicBlackUp
+                self.sample = SamplesEnum.bwCeramicBlackUp
             elif "ampelmann" in file_path_str and "right" in file_path_str:
-                self.sample = ampelMannRight
+                self.sample = SamplesEnum.ampelMannRight
             elif "ampelmann" in file_path_str and "left" in file_path_str:
-                self.sample = ampelMannLeft
+                self.sample = SamplesEnum.ampelMannLeft
             elif "ampelmann" in file_path_str and "avg" in file_path_str:
-                self.sample = ampelMannLeft
+                self.sample = SamplesEnum.ampelMannOld
             elif "op_tool" in file_path_str and "red_pos1" in file_path_str:
-                self.sample = opToolRedPos1
+                self.sample = SamplesEnum.opToolRedPos1
             elif "op_tool" in file_path_str and "red_pos2" in file_path_str:
-                self.sample = opToolRedPos2
+                self.sample = SamplesEnum.opToolRedPos2
             elif "op_tool" in file_path_str and "blue_pos1" in file_path_str:
-                self.sample = opToolBluePos1
+                self.sample = SamplesEnum.opToolBluePos1
             elif "op_tool" in file_path_str and "blue_pos2" in file_path_str:
-                self.sample = opToolBluePos2
+                self.sample = SamplesEnum.opToolBluePos2
         else:
-            self.sample = empty
+            self.sample = SamplesEnum.empty
 
-    def parse_csv_file(self):
+    def _parse_csv_file(self):
         with open(self.file_path, "r") as file:
             first_5_lines = [file.readline().strip() for _ in range(5)]
 
@@ -150,7 +151,7 @@ class Measurement:
         self.amp_avg = self.amp
         self.phase_avg = self.phase
 
-    def parse_json_file(self):
+    def _parse_json_file(self):
         def LoadData(fName='DataDict.json'):
             """
             Created on Thu Jan 11 14:23:21 2024
@@ -188,25 +189,24 @@ class Measurement:
         self.amp_avg = np.mean(self.amp, axis=0)
         self.phase_avg = np.mean(self.phase, axis=0)
 
-    def set_car_data(self):
+    def _set_car_data(self):
         self.data_car = self.amp * np.exp(-1j * self.phase)  # ?? sign
         self.data_car_avg = self.amp_avg * np.exp(-1j * self.phase_avg)  # ?? sign
 
-    def parse_file(self, file_path):
+    def _parse_file(self, file_path):
         self.file_path = file_path
 
         if ".json" in str(self.file_path):
-            self.parse_json_file()
+            self._parse_json_file()
         elif ".csv" in str(self.file_path) and ("lock" not in str(self.file_path)):
-            self.parse_csv_file()
+            self._parse_csv_file()
         else:
             self.meas_type = MeasTypeEnum.NotAMeasurement
 
-        self.read_metadata()
+        self._set_metadata()
 
 
 def get_all_measurements(ret_all_files=False):
-
     all_dirs = [dir_ for dir_ in [data_dir / sub_dir for sub_dir in sub_dirs]]
     all_files = [file_path for sublist in [list(dir_path.glob('*')) for dir_path in all_dirs] for file_path in sublist]
 

@@ -12,7 +12,7 @@ if 'posix' in os_name:
     result_dir = Path(r"/home/alex/MEGA/AG/Projects/TeraLayer/Implementation/Results")
 else:
     data_dir = Path(r"")
-    result_dir = Path(r"")
+    result_dir = Path(r"E:\Mega\AG\Projects\TeraLayer\Implementation\Results")
 
 try:
     os.scandir(data_dir)
