@@ -24,6 +24,7 @@ post_process_config = {"sub_offset": True, "en_windowing": False}
 # physical constants
 THz = 1e12
 c_thz = c0 * 1e-6  # um / ps -> 1e6 / 1e-12 = 1e-6
+thea = 8 * pi / 180
 
 # plotting
 plot_range = slice(25, 250)

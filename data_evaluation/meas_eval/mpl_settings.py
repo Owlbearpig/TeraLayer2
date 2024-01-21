@@ -1,10 +1,7 @@
 import matplotlib as mpl
 from meas_eval.consts import os_name, Path, result_dir
-import matplotlib.pyplot as plt
 import matplotlib.font_manager
 
-
-# print(rcParams.keys())
 
 # print([f.name for f in matplotlib.font_manager.fontManager.ttflist])
 
@@ -30,6 +27,7 @@ def mpl_style_params():
     rcParams['axes.grid'] = True
     rcParams['figure.autolayout'] = False
     rcParams['savefig.format'] = 'png'
+    rcParams["scatter.marker"] = "x"
     # rcParams.update({'font.size': 24})
 
     # Say, "the default sans-serif font is COMIC SANS"
@@ -53,3 +51,7 @@ grid()
 
 show()
 """
+
+if __name__ == '__main__':
+    rcParams = mpl_style_params()
+    print(rcParams.keys())

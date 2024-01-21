@@ -3,15 +3,18 @@ from enum import Enum
 import json
 import pandas as pd
 from datetime import datetime
-from samples import SamplesEnum
+from samples import SamplesEnum, Sample
 import numpy as np
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+from pathlib import Path
+from meas_eval.consts import c_thz, thea
+from tmm_package import coh_tmm_slim_unsafe
 
 data_dir = data_root / "Jumping Laser THz/Probe Measurements (Reflexion)/2024-01-11"
 
 sub_dirs = ["Discrete Frequencies - PIC", "Discrete Frequencies - WaveSource",
             "Discrete Frequencies - WaveSource (PIC-Freuqency Set)", "T-Sweeper"]
-
-excluded_files = ["01_Gold_Plate_short.csv"]
 
 
 class SystemEnum(Enum):
@@ -19,13 +22,13 @@ class SystemEnum(Enum):
     WaveSource = 2
     WaveSourcePicFreq = 3
     TSweeper = 4
+    Model = 5
 
 
 class MeasTypeEnum(Enum):
     Background = 1
     Reference = 2
     Sample = 3
-    NotAMeasurement = 4
 
 
 class Measurement:
@@ -37,20 +40,16 @@ class Measurement:
     amp_avg = None
     phase = None
     phase_avg = None
-    data_car = None
-    data_car_avg = None
     n_sweeps = None
     meas_type = None
     system = None
     timestamp = None
     sample = None
-    r_exp_car = None
-    r_exp_car_avg = None
+    r = None
+    r_avg = None
 
-    def __init__(self, file_path):
+    def __init__(self, file_path=None):
         self._parse_file(file_path)
-        if self.meas_type != MeasTypeEnum.NotAMeasurement:
-            self._set_car_data()
 
     def __repr__(self):
         return f"({self.file_path.stem}, {self.timestamp}, {self.system.name})"
@@ -62,9 +61,6 @@ class Measurement:
             return (self.timestamp - meas.timestamp).total_seconds()
 
     def _set_metadata(self):
-        if self.meas_type == MeasTypeEnum.NotAMeasurement:
-            return
-
         if "background" in str(self.file_path).lower() or "bkg" in str(self.file_path).lower():
             self.meas_type = MeasTypeEnum.Background
         elif "short" in str(self.file_path).lower():
@@ -148,9 +144,6 @@ class Measurement:
         self.phase = np.array(phase, dtype=float)
         self.n_sweeps = 1
 
-        self.amp_avg = self.amp
-        self.phase_avg = self.phase
-
     def _parse_json_file(self):
         def LoadData(fName='DataDict.json'):
             """
@@ -178,48 +171,160 @@ class Measurement:
         self.timestamp = json_dict['measure #']
 
         phase = json_dict['Phase [rad]'] * np.sign(self.freq)
-        # self.freq = np.abs(self.freq)
-        # self.freq_OSA = np.abs(self.freq_OSA)
+        phase_raw = json_dict["Phase [rad] (raw)"] * np.sign(self.freq)
 
         amp = json_dict['Amplitude [A]']
+        raw_amp_key = [key for key in json_dict if ("Am" in key) and ("(raw)" in key)][0]
+        amp_raw = json_dict[raw_amp_key]
 
         self.amp = np.array(amp, dtype=float)
-        self.phase = np.array(phase, dtype=float)
 
-        self.amp_avg = np.mean(self.amp, axis=0)
-        self.phase_avg = np.mean(self.phase, axis=0)
-
-    def _set_car_data(self):
-        self.data_car = self.amp * np.exp(-1j * self.phase)  # ?? sign
-        self.data_car_avg = self.amp_avg * np.exp(-1j * self.phase_avg)  # ?? sign
+        phase_sign = 1
+        if self.system == SystemEnum.PIC:
+            phase_sign = -1
+        self.phase = phase_sign * np.array(phase, dtype=float)
 
     def _parse_file(self, file_path):
         self.file_path = file_path
+
+        self._set_metadata()
 
         if ".json" in str(self.file_path):
             self._parse_json_file()
         elif ".csv" in str(self.file_path) and ("lock" not in str(self.file_path)):
             self._parse_csv_file()
         else:
-            self.meas_type = MeasTypeEnum.NotAMeasurement
+            print(f"Can't parse {file_path.stem}")
 
-        self._set_metadata()
+        self._set_mean_vals()
+
+    def _set_mean_vals(self):
+        # average amp and phase over multiple consecutive measurements of same sample
+        if self.n_sweeps == 1:
+            self.amp_avg = self.amp
+            self.phase_avg = self.phase
+        else:
+            self.amp_avg = np.mean(self.amp, axis=0)
+            self.phase_avg = self._calculate_mean_phase()
+
+    def _calculate_mean_phase(self, en_plot=False, use_kmeans=False):
+        # fix jumps and calculate mean phase # consider using unwrapping
+        phase_avg = np.zeros_like(self.freq)
+        if np.isclose(self.phase, np.zeros_like(self.phase)).all():
+            return np.zeros_like(self.freq)
+
+        for freq_idx, freq in enumerate(self.freq):
+            if not use_kmeans:
+                phi_unwrapped = np.unwrap(self.phase[:, freq_idx])
+                phase_avg[freq_idx] = np.mean(phi_unwrapped, axis=0)
+            else:
+                phi_1f = self.phase[:, freq_idx]
+                kmeans = KMeans(n_clusters=2, random_state=42, n_init=10)
+                kmeans.fit(phi_1f.reshape(-1, 1))
+
+                centers = kmeans.cluster_centers_
+                labels = kmeans.labels_
+                if np.abs(centers[0] - centers[1]) >= 2:
+                    center0_cnt = len(phi_1f[np.abs(centers[0] - phi_1f) <= 1])
+                    center1_cnt = len(phi_1f[np.abs(centers[1] - phi_1f) <= 1])
+                    if center0_cnt > center1_cnt:
+                        biggest_cluster = centers[0]
+                    else:
+                        biggest_cluster = centers[1]
+                    phi_raw_avg_1f = biggest_cluster[0]
+                else:
+                    phi_raw_avg_1f = 0.5 * np.sum(centers)
+
+                if en_plot:
+                    plt.figure()
+                    plt.title(self)
+                    plt.plot(phi_1f)
+
+                    plt.scatter(np.zeros_like(phi_1f), phi_1f, c=labels, s=30, cmap='viridis', alpha=0.5)
+                    plt.scatter(np.zeros_like(centers), centers, marker='X', s=200, color='red', label='Centroids')
+
+                    plt.legend()
+                    plt.show()
+
+                phase_avg[freq_idx] = phi_raw_avg_1f
+
+        return phase_avg
 
 
-def get_all_measurements(ret_all_files=False):
+class ModelMeasurement(Measurement):
+    def __init__(self, sample_enum: SamplesEnum):
+        ref_file = data_dir / "T-Sweeper" / "17_Gold_Plate_short.csv"
+        super().__init__(ref_file)
+        self.sample = sample_enum
+        self.system = SystemEnum.Model
+        self.meas_type = MeasTypeEnum.Sample
+        self.name = f"Model {self.sample}"
+        self._simulate_sam_measurement()
+
+    def _simulate_sam_measurement(self):
+        has_iron_core = self.sample.value.has_iron_core
+        one = np.ones_like(self.freq)
+        sample_ref_idx = self.sample.value.ref_idx[:, np.newaxis] * one
+
+        fa_idx, fe_idx = np.argmin(np.abs(self.freq - 0.001)), np.argmin(np.abs(self.freq - 2.000))
+        #n[fa_idx:fe_idx, 1] = np.linspace(1.5038, 1.5438, fe_idx - fa_idx)
+        #np.linspace(0, )
+
+        if has_iron_core:
+            n_fe = (500 + 500j) * one
+            n = np.array([one, *sample_ref_idx, n_fe, one], dtype=complex).T
+        else:
+            n = np.array([one, *sample_ref_idx, one], dtype=complex).T
+
+        d_truth = self.sample.value.thicknesses
+
+        r_mod = np.zeros_like(self.freq, dtype=complex)
+        for f_idx, freq in enumerate(self.freq):
+            if f_idx % 2 != 0:
+                continue
+            lam_vac = c_thz / freq
+            if has_iron_core:
+                d_ = np.array([np.inf, *d_truth, 10, np.inf], dtype=float)
+            else:
+                d_ = np.array([np.inf, *d_truth, np.inf], dtype=float)
+            r_mod[f_idx] = -1 * coh_tmm_slim_unsafe("s", n[f_idx], d_, thea, lam_vac)
+
+        ref_fd = np.array([self.freq, self.amp * np.exp(1j*self.phase)]).T
+
+        self.amp, self.phase = np.abs(ref_fd[:, 1] * r_mod), np.angle(ref_fd[:, 1] * r_mod)
+        self.amp_avg, self.phase_avg = self.amp, self.phase
+        self.r, self.r_avg = r_mod, r_mod
+
+
+def get_all_measurements(add_model_measurements=False):
     all_dirs = [dir_ for dir_ in [data_dir / sub_dir for sub_dir in sub_dirs]]
     all_files = [file_path for sublist in [list(dir_path.glob('*')) for dir_path in all_dirs] for file_path in sublist]
 
-    all_files = [file for file in all_files if file.name not in excluded_files]
+    excluded_files = ["01_Gold_Plate_short.csv"]
+    included_filetypes = ["csv", "json"]
 
-    all_measurements_ret = [Measurement(file_path) for file_path in all_files]
+    filtered_files = []
+    for file in all_files:
+        if file.name in excluded_files:
+            continue
+        if file.suffix[1:] not in included_filetypes:
+            continue
 
-    if ret_all_files:
-        return all_measurements_ret
-    else:
-        return [meas for meas in all_measurements_ret if (meas.meas_type != MeasTypeEnum.NotAMeasurement)]
+        filtered_files.append(file)
+
+    all_measurements = [Measurement(file_path) for file_path in filtered_files]
+
+    if add_model_measurements:
+        for sample in SamplesEnum:
+            print(f"Calculating model for {sample}")
+            all_measurements.append(ModelMeasurement(sample))
+
+    return all_measurements
 
 
 if __name__ == '__main__':
     for measurement in get_all_measurements():
         print(measurement)
+
+    tmm = ModelMeasurement(SamplesEnum.fpSample2)
+    print(tmm.sample)

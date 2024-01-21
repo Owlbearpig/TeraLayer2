@@ -39,7 +39,7 @@ Discrete Frequencies - PIC
 
 Manual interference evaluation of single layers:
 
-FPceramic5:
+FPceramic5: (!!! "Einfachste" Probe)
 dw = 0.285 THz - 0.244 THz  = 0.041 THz
 c/(2n * dw) = 300 um/ps / (2*2.3 * 0.041 1/ps) = 1590 um
 Evaluating: (07_FP.Probe5_ceramic, 104, PIC)
@@ -201,4 +201,5 @@ Found minimum:  567.0
 Evaluating: (10_OP_blue_pos2, 110, WaveSourcePicFreq)
 Found minimum:  301.0
 
-
+- Use amplitude data to set correct freq. shift.
+-
