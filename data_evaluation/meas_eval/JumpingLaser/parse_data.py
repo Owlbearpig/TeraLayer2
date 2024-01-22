@@ -259,9 +259,8 @@ class ModelMeasurement(Measurement):
         self.system = SystemEnum.Model
         self.meas_type = MeasTypeEnum.Sample
         self.name = f"Model {self.sample}"
-        self._simulate_sam_measurement()
 
-    def _simulate_sam_measurement(self):
+    def simulate_sam_measurement(self):
         has_iron_core = self.sample.value.has_iron_core
         one = np.ones_like(self.freq)
         sample_ref_idx = self.sample.value.ref_idx[:, np.newaxis] * one
@@ -281,7 +280,7 @@ class ModelMeasurement(Measurement):
         r_mod = np.zeros_like(self.freq, dtype=complex)
         for f_idx, freq in enumerate(self.freq):
             if f_idx % 2 != 0:
-                continue
+                pass
             lam_vac = c_thz / freq
             if has_iron_core:
                 d_ = np.array([np.inf, *d_truth, 10, np.inf], dtype=float)
@@ -316,7 +315,6 @@ def get_all_measurements(add_model_measurements=False):
 
     if add_model_measurements:
         for sample in SamplesEnum:
-            print(f"Calculating model for {sample}")
             all_measurements.append(ModelMeasurement(sample))
 
     return all_measurements

@@ -3,12 +3,10 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from helpers import plt_show
-from meas_eval.mpl_settings import mpl_style_params
+from meas_eval.mpl_settings import mpl_style_params, result_dir
 from consts import thea, c_thz
 from tmm_package import coh_tmm_slim_unsafe
-from typing import List
-
-mpl.rcParams = mpl_style_params()
+from typing import List, Union
 
 np.set_printoptions(precision=2)
 
@@ -83,18 +81,48 @@ def fix_r_phi_sign(meas: Measurement):
     for freq_idx, freq in enumerate(meas.freq):
         tsweeper_r_avg = meas_tsweeper.r_avg[np.argmin(np.abs(meas_tsweeper.freq - freq))]
         tsweeper_r_phi_avg, meas_r_phi_avg = np.angle(tsweeper_r_avg), np.angle(meas.r_avg[freq_idx])
+
         if np.abs(tsweeper_r_phi_avg - meas_r_phi_avg) <= np.abs(tsweeper_r_phi_avg - -meas_r_phi_avg):
             meas.r_avg[freq_idx] = np.abs(meas.r_avg[freq_idx]) * np.exp(1j * meas_r_phi_avg)
         else:
             meas.r_avg[freq_idx] = np.abs(meas.r_avg[freq_idx]) * np.exp(-1j * meas_r_phi_avg)
 
 
-def calc_refl_coe(measurements: List[Measurement]):
+def shift_freq_axis(sam_meas_: Measurement, ref_meas_: Measurement):
+    shifts = {SamplesEnum.ampelMannRight: 0.010, SamplesEnum.fpSample5ceramic: -0*0.010}
+    try:
+        shift = shifts[sam_meas_.sample]
+    except KeyError:
+        shift = 0
+
+    sam_meas_.freq += shift
+    ref_meas_.freq += shift
+
+
+def fix_phase_slope(sam_meas_: Measurement):
+    if sam_meas_.system != SystemEnum.TSweeper:
+        return
+    pulse_shifts = {SamplesEnum.fpSample5ceramic: 0.25}
+    try:
+        pulse_shift = pulse_shifts[sam_meas_.sample]
+    except KeyError:
+        pulse_shift = 0
+
+    phase_correction = -2*np.pi*sam_meas_.freq*pulse_shift
+
+    sam_meas_.phase += phase_correction
+    sam_meas_.phase_avg += phase_correction
+
+
+def calc_refl_coe(measurements: List[Union[Measurement, ModelMeasurement]]):
     for sam_meas in measurements:
-        if sam_meas.r is not None:
-            return
+        if sam_meas.system == SystemEnum.Model:
+            sam_meas.simulate_sam_measurement()
+            continue
 
         ref_meas = find_nearest_meas(sam_meas, ref_measurements)
+        shift_freq_axis(sam_meas, ref_meas)
+        fix_phase_slope(sam_meas)
 
         amp_ref, phi_ref = ref_meas.amp, ref_meas.phase
         amp_ref_avg, phi_ref_avg = ref_meas.amp_avg, ref_meas.phase_avg
@@ -105,21 +133,21 @@ def calc_refl_coe(measurements: List[Measurement]):
         if sam_meas.system == SystemEnum.TSweeper:
             sign_ = -1
 
-        sam_meas.r = (amp_sam / amp_ref) * np.exp(sign_*1j * (phi_sam - phi_ref))
-        sam_meas.r_avg = (amp_sam_avg / amp_ref_avg) * np.exp(sign_*1j * (phi_sam_avg - phi_ref_avg))
+        sam_meas.r = (amp_sam / amp_ref) * np.exp(sign_ * 1j * (phi_sam - phi_ref))
+        sam_meas.r_avg = (amp_sam_avg / amp_ref_avg) * np.exp(sign_ * 1j * (phi_sam_avg - phi_ref_avg))
 
     for sam_meas in measurements:
         fix_r_phi_sign(sam_meas)
 
 
-def plot_refl_coe(measurements: List[Measurement]):
+def plot_refl_coe(measurements: List[Measurement], less_plots: bool):
     for sam_meas in measurements:
         ref_meas = find_nearest_meas(sam_meas, ref_measurements)
 
         amp_ref, phi_ref = ref_meas.amp, ref_meas.phase
         amp_sam, phi_sam = sam_meas.amp, sam_meas.phase
 
-        if sam_meas.n_sweeps != 1:
+        if sam_meas.n_sweeps != 1 and not less_plots:
             fig, (ax0, ax1) = plt.subplots(2, 1, num=str(ref_meas))
             ax0.set_title(f"{ref_meas}")
             ax1.set_xlabel("Meas idx")
@@ -140,7 +168,7 @@ def plot_refl_coe(measurements: List[Measurement]):
                 ax0.plot(20 * np.log10(amp_sam[:, i]), label=f"{np.round(freq, 2)} THz")
                 ax1.plot(phi_sam[:, i], label=f"{np.round(freq, 2)} THz")
 
-        if sam_meas.system == SystemEnum.TSweeper:
+        if (sam_meas.system == SystemEnum.TSweeper) and not less_plots:
             plt.figure("TSWeeper amp")
             plt.title("TSWeeper amp")
             plt.xlabel("Frequency (THz)")
@@ -176,8 +204,6 @@ def plot_refl_coe(measurements: List[Measurement]):
         else:
             plt.scatter(sam_meas.freq_OSA, 20 * np.log10(np.abs(sam_meas.r_avg)), label=sam_meas.system.name, s=22,
                         zorder=9)
-            plt.scatter(sam_meas.freq_OSA, 20 * np.log10(np.abs(sam_meas.r_avg)),
-                        label=sam_meas.system.name + " raw", s=22, zorder=9)
 
         plt.figure(f"r avg phase {sam_meas.sample.name}")
         plt.title(title)
@@ -289,10 +315,15 @@ def single_layer_eval(sam_meas_: Measurement):
 
 
 if __name__ == '__main__':
-    sample_meas = [meas for meas in all_measurements if meas.sample == SamplesEnum.ampelMannRight]
+    selected_sample = SamplesEnum.fpSample5ceramic
+
+    new_rcparams = {"savefig.directory": result_dir / "GoodResults" / str(selected_sample.name)}
+    mpl.rcParams = mpl_style_params(new_rcparams)
+
+    sample_meas = [meas for meas in all_measurements if meas.sample == selected_sample]
 
     calc_refl_coe(sample_meas)
-    plot_refl_coe(sample_meas)
+    plot_refl_coe(sample_meas, less_plots=True)
     # thickness_eval(sample_meas)
 
-    plt_show(plt)
+    plt_show(mpl, en_save=False)

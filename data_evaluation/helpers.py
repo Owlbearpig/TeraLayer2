@@ -72,33 +72,42 @@ def multi_root(f: Callable, bracket: Iterable[float], args: Iterable = (), n: in
     return roots_unique
 
 
-def save_fig(fig_num_, plt=None, save_dir=None, filename=None, **kwargs):
-    if filename is None:
-        filename = fig_num_
+def save_fig(fig_num_, mpl=None, save_dir=None, filename=None, **kwargs):
+    if mpl is None:
+        import matplotlib as mpl
 
-    if plt is None:
-        import matplotlib.pyplot as plt
+    plt = mpl.pyplot
 
-    from meas_eval.mpl_settings import mpl_style_params
-    rcParams = mpl_style_params()
+    rcParams = mpl.rcParams
 
     if save_dir is None:
         save_dir = Path(rcParams["savefig.directory"])
 
     fig = plt.figure(fig_num_)
-    filename_s = str(filename)
+
+    if filename is None:
+        filename_s = str(fig.canvas.get_window_title())
+    else:
+        filename_s = str(filename)
+
+    unwanted_chars = ["(", ")"]
+    for char in unwanted_chars:
+        filename_s = filename_s.replace(char, '')
+    filename_s.replace(" ", "_")
+
     fig.set_size_inches((16, 9), forward=False)
-    plt.savefig(save_dir / (filename_s.replace(" ", "_") + ".png"),
-                bbox_inches='tight', dpi=300, pad_inches=0, **kwargs)
+    plt.savefig(save_dir / (filename_s + ".png"), bbox_inches='tight', dpi=300, pad_inches=0, **kwargs)
 
 
-def plt_show(plt_):
+def plt_show(mpl_, en_save=False):
+    plt_ = mpl_.pyplot
     for fig_num in plt_.get_fignums():
         fig = plt_.figure(fig_num)
-        # save_fig(fig_num, plt_)
         for ax in fig.get_axes():
             ax.legend()
 
+        if en_save:
+            save_fig(fig_num, mpl_)
     plt_.show()
 
 

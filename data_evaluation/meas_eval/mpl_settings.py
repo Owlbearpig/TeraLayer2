@@ -1,5 +1,6 @@
 import matplotlib as mpl
 from meas_eval.consts import os_name, Path, result_dir
+from typing import Dict
 import matplotlib.font_manager
 
 
@@ -12,7 +13,7 @@ def fmt(x, val):
     return rf'{a}E+{b:02}'
 
 
-def mpl_style_params():
+def mpl_style_params(new_rcparams=None):
     rcParams = mpl.rcParams
     # rcParams['lines.linestyle'] = '--'
     # rcParams['legend.fontsize'] = 'large' #'x-large'
@@ -36,6 +37,11 @@ def mpl_style_params():
     # rcParams['font.family'] = "sans-serif"
 
     rcParams["savefig.directory"] = result_dir
+
+    if new_rcparams:
+        rcParams.update(new_rcparams)
+
+    Path(rcParams["savefig.directory"]).mkdir(parents=True, exist_ok=True)
 
     return rcParams
 
