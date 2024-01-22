@@ -262,18 +262,8 @@ class ModelMeasurement(Measurement):
 
     def simulate_sam_measurement(self):
         has_iron_core = self.sample.value.has_iron_core
-        one = np.ones_like(self.freq)
-        sample_ref_idx = self.sample.value.ref_idx[:, np.newaxis] * one
 
-        fa_idx, fe_idx = np.argmin(np.abs(self.freq - 0.001)), np.argmin(np.abs(self.freq - 2.000))
-        #n[fa_idx:fe_idx, 1] = np.linspace(1.5038, 1.5438, fe_idx - fa_idx)
-        #np.linspace(0, )
-
-        if has_iron_core:
-            n_fe = (500 + 500j) * one
-            n = np.array([one, *sample_ref_idx, n_fe, one], dtype=complex).T
-        else:
-            n = np.array([one, *sample_ref_idx, one], dtype=complex).T
+        n = self.sample.value.get_ref_idx(self.freq)
 
         d_truth = self.sample.value.thicknesses
 

@@ -89,7 +89,8 @@ def fix_r_phi_sign(meas: Measurement):
 
 
 def shift_freq_axis(sam_meas_: Measurement, ref_meas_: Measurement):
-    shifts = {SamplesEnum.ampelMannRight: 0.010, SamplesEnum.fpSample5ceramic: -0*0.010}
+    shifts = {SamplesEnum.ampelMannRight: 0.010, SamplesEnum.fpSample5ceramic: -0*0.010,
+              SamplesEnum.fpSample2: -0.007}
     try:
         shift = shifts[sam_meas_.sample]
     except KeyError:
@@ -102,7 +103,8 @@ def shift_freq_axis(sam_meas_: Measurement, ref_meas_: Measurement):
 def fix_phase_slope(sam_meas_: Measurement):
     if sam_meas_.system != SystemEnum.TSweeper:
         return
-    pulse_shifts = {SamplesEnum.fpSample5ceramic: 0.25}
+    pulse_shifts = {SamplesEnum.fpSample5ceramic: 0.24, SamplesEnum.fpSample5Plastic: 0.39,
+                    SamplesEnum.fpSample2: 0.24}
     try:
         pulse_shift = pulse_shifts[sam_meas_.sample]
     except KeyError:
@@ -129,15 +131,18 @@ def calc_refl_coe(measurements: List[Union[Measurement, ModelMeasurement]]):
         amp_sam, phi_sam = sam_meas.amp, sam_meas.phase
         amp_sam_avg, phi_sam_avg = sam_meas.amp_avg, sam_meas.phase_avg
 
+        center = 0
         sign_ = -1
         if sam_meas.system == SystemEnum.TSweeper:
             sign_ = -1
+            center = np.mean(np.unwrap(sign_*(phi_sam_avg[500:1500] - phi_ref_avg[500:1500])))
 
         sam_meas.r = (amp_sam / amp_ref) * np.exp(sign_ * 1j * (phi_sam - phi_ref))
-        sam_meas.r_avg = (amp_sam_avg / amp_ref_avg) * np.exp(sign_ * 1j * (phi_sam_avg - phi_ref_avg))
+        sam_meas.r_avg = (amp_sam_avg / amp_ref_avg) * np.exp(sign_ * 1j * (phi_sam_avg - phi_ref_avg + center))
 
     for sam_meas in measurements:
-        fix_r_phi_sign(sam_meas)
+        # fix_r_phi_sign(sam_meas)
+        pass
 
 
 def plot_refl_coe(measurements: List[Measurement], less_plots: bool):
@@ -264,13 +269,7 @@ def single_layer_eval(sam_meas_: Measurement):
     r_amp, r_phi = np.abs(sam_meas_.r_avg), np.angle(sam_meas_.r_avg)
 
     selected_freqs = sam_meas_.freq
-    one = np.ones_like(selected_freqs)
-    has_iron_core = sam_meas_.sample.value.has_iron_core
-    if has_iron_core:
-        n_fe = (500 + 500j) * one
-        n = np.array([one, *(sam_meas_.sample.value.ref_idx[:, np.newaxis] * one), n_fe, one], dtype=complex).T
-    else:
-        n = np.array([one, *(sam_meas_.sample.value.ref_idx[:, np.newaxis] * one), one], dtype=complex).T
+    n = sam_meas_.sample.value.get_ref_idx(sam_meas_.freq)
 
     def calc_cost(p_):
         r_mod = np.zeros_like(selected_freqs, dtype=complex)
@@ -278,7 +277,7 @@ def single_layer_eval(sam_meas_: Measurement):
             if f_idx in [2, 4]:
                 pass
             lam_vac = c_thz / freq
-            if has_iron_core:
+            if sam_meas_.sample.value.has_iron_core:
                 d_ = np.array([np.inf, *p_, 10, np.inf], dtype=float)
             else:
                 d_ = np.array([np.inf, *p_, np.inf], dtype=float)
@@ -315,7 +314,7 @@ def single_layer_eval(sam_meas_: Measurement):
 
 
 if __name__ == '__main__':
-    selected_sample = SamplesEnum.fpSample5ceramic
+    selected_sample = SamplesEnum.fpSample2
 
     new_rcparams = {"savefig.directory": result_dir / "GoodResults" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)
