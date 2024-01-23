@@ -2,11 +2,14 @@ from parse_data import get_all_measurements, SystemEnum, MeasTypeEnum, SamplesEn
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib.widgets import RangeSlider, Button
 from helpers import plt_show
 from meas_eval.mpl_settings import mpl_style_params, result_dir
 from consts import thea, c_thz
 from tmm_package import coh_tmm_slim_unsafe
 from typing import List, Union
+from samples import Sample
+from functions import do_ifft
 
 np.set_printoptions(precision=2)
 
@@ -89,8 +92,8 @@ def fix_r_phi_sign(meas: Measurement):
 
 
 def shift_freq_axis(sam_meas_: Measurement, ref_meas_: Measurement):
-    shifts = {SamplesEnum.ampelMannRight: 0.010, SamplesEnum.fpSample5ceramic: -0*0.010,
-              SamplesEnum.fpSample2: -0.007}
+    shifts = {SamplesEnum.ampelMannRight: 0.010, SamplesEnum.fpSample5ceramic: -0 * 0.010,
+              SamplesEnum.fpSample2: -0*0.007}
     try:
         shift = shifts[sam_meas_.sample]
     except KeyError:
@@ -110,14 +113,15 @@ def fix_phase_slope(sam_meas_: Measurement):
     except KeyError:
         pulse_shift = 0
 
-    phase_correction = -2*np.pi*sam_meas_.freq*pulse_shift
+    phase_correction = -2 * np.pi * sam_meas_.freq * pulse_shift
 
     sam_meas_.phase += phase_correction
     sam_meas_.phase_avg += phase_correction
 
 
-def calc_refl_coe(measurements: List[Union[Measurement, ModelMeasurement]]):
-    for sam_meas in measurements:
+def calc_sample_refl_coe(sample_enum: SamplesEnum):
+    sample_meas = [meas for meas in all_measurements if meas.sample == sample_enum]
+    for sam_meas in sample_meas:
         if sam_meas.system == SystemEnum.Model:
             sam_meas.simulate_sam_measurement()
             continue
@@ -135,22 +139,87 @@ def calc_refl_coe(measurements: List[Union[Measurement, ModelMeasurement]]):
         sign_ = -1
         if sam_meas.system == SystemEnum.TSweeper:
             sign_ = -1
-            center = np.mean(np.unwrap(sign_*(phi_sam_avg[500:1500] - phi_ref_avg[500:1500])))
+            center = np.mean(np.unwrap(sign_ * (phi_sam_avg[500:1500] - phi_ref_avg[500:1500])))
 
         sam_meas.r = (amp_sam / amp_ref) * np.exp(sign_ * 1j * (phi_sam - phi_ref))
         sam_meas.r_avg = (amp_sam_avg / amp_ref_avg) * np.exp(sign_ * 1j * (phi_sam_avg - phi_ref_avg + center))
 
-    for sam_meas in measurements:
+    for sam_meas in sample_meas:
         # fix_r_phi_sign(sam_meas)
         pass
 
 
-def plot_refl_coe(measurements: List[Measurement], less_plots: bool):
-    for sam_meas in measurements:
+def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
+    sample_meas = [meas for meas in all_measurements if meas.sample == sample_enum]
+    sample = sample_enum.value
+    layer_cnt = sample.layers
+
+    title = f"Avg. reflection coefficient. Sample: {sample_enum.name}"
+    fig_r_avg_num = f"Avg. r {sample_enum.name}"
+    fig_r_avg, (ax0_r_avg, ax1_r_avg) = plt.subplots(nrows=2, ncols=1, num=fig_r_avg_num)
+    fig_r_avg.subplots_adjust(left=0.05, bottom=0.15 + 0.05 * layer_cnt)
+    ax0_r_avg.set_title(title)
+    ax0_r_avg.set_ylabel("Amplitude (dB)")
+    ax1_r_avg.set_ylabel("Phase (rad)")
+    ax1_r_avg.set_xlabel("Frequency (THz)")
+    ax0_r_avg.set_xlim((-0.150, 2.1))
+    ax1_r_avg.set_xlim((-0.150, 2.1))
+
+    n_sliders, k_sliders = [], []
+    n_slider_axes, k_slider_axes = [], []
+    for layer_idx in range(layer_cnt):
+        layer_n, layer_k = sample.ref_idx[layer_idx].real, sample.ref_idx[layer_idx].imag
+        layer_n_min, layer_n_max = layer_n[0], layer_n[1]
+        layer_k_min, layer_k_max = layer_k[0], layer_k[1]
+        print()
+        n_slider_axes.append(fig_r_avg.add_axes([0.15, 0.10 - 0.05 * layer_idx, 0.25, 0.03]))
+        n_slider = RangeSlider(ax=n_slider_axes[layer_idx],
+                               label=f"n{layer_idx}",
+                               valmin=layer_n_min * 0.95,
+                               valmax=layer_n_max * 1.05,
+                               valinit=(layer_n_min * 0.99, layer_n_max * 1.01),
+                               )
+        n_sliders.append(n_slider)
+
+        k_slider_axes.append(fig_r_avg.add_axes([0.60, 0.10 - 0.05 * layer_idx, 0.20, 0.03]))
+        k_slider = RangeSlider(ax=k_slider_axes[layer_idx],
+                               label=f"k{layer_idx}",
+                               valmin=0,
+                               valmax=np.abs(layer_k_max) * 1.2,
+                               valinit=(0, np.abs(layer_k_max)+0.001),
+                               )
+        k_sliders.append(k_slider)
+
+    resetax0 = fig_r_avg.add_axes([0.8, 0.010, 0.1, 0.04])
+    reset_but = Button(resetax0, 'Reset', hovercolor='0.975')
+
+    def reset0(event):
+        for slider in (n_sliders + k_sliders):
+            slider.reset()
+
+    reset_but.on_clicked(reset0)
+
+    mod_amp_scat, mod_phi_scat, mod_meas = None, None, None
+    for sam_meas in sample_meas:
         ref_meas = find_nearest_meas(sam_meas, ref_measurements)
 
         amp_ref, phi_ref = ref_meas.amp, ref_meas.phase
         amp_sam, phi_sam = sam_meas.amp, sam_meas.phase
+
+        if sam_meas.system == SystemEnum.TSweeper:
+            ax0_r_avg.plot(sam_meas.freq, 20 * np.log10(np.abs(sam_meas.r_avg)),
+                           label=sam_meas.system.name, c="grey")
+            ax1_r_avg.plot(sam_meas.freq, np.angle(sam_meas.r_avg), label=sam_meas.system.name, c="grey")
+        elif sam_meas.system == SystemEnum.Model:
+            mod_amp_scat = ax0_r_avg.scatter(sam_meas.freq, 20 * np.log10(np.abs(sam_meas.r_avg)),
+                                             label=sam_meas.system.name, c="black")
+            mod_phi_scat = ax1_r_avg.scatter(sam_meas.freq, np.angle(sam_meas.r_avg),
+                                             label=sam_meas.system.name, c="black")
+            mod_meas = sam_meas
+        else:
+            ax0_r_avg.scatter(sam_meas.freq, 20 * np.log10(np.abs(sam_meas.r_avg)),
+                              label=sam_meas.system.name, s=22, zorder=9)
+            ax1_r_avg.scatter(sam_meas.freq, np.angle(sam_meas.r_avg), label=sam_meas.system.name, s=22, zorder=9)
 
         if sam_meas.n_sweeps != 1 and not less_plots:
             fig, (ax0, ax1) = plt.subplots(2, 1, num=str(ref_meas))
@@ -194,37 +263,6 @@ def plot_refl_coe(measurements: List[Measurement], less_plots: bool):
             plt.plot(sam_meas.freq, sam_meas.phase, label=sam_meas)
             # plt.plot(bkg_meas.freq, bkg_meas.phase, label="background")
 
-        title = f"Avg. reflection coefficient. Sample: {sam_meas.sample.name}"
-
-        plt.figure(f"r avg amp {sam_meas.sample.name}")
-        plt.title(title)
-        plt.xlabel("Frequency (THz)")
-        plt.ylabel("Amplitude (dB)")
-        plt.xlim((-0.150, 2.1))
-
-        if sam_meas.system == SystemEnum.TSweeper:
-            plt.plot(sam_meas.freq, 20 * np.log10(np.abs(sam_meas.r_avg)), label=sam_meas.system.name, c="grey")
-        elif sam_meas.system == SystemEnum.Model:
-            plt.scatter(sam_meas.freq, 20 * np.log10(np.abs(sam_meas.r_avg)), label=sam_meas.system.name, c="black")
-        else:
-            plt.scatter(sam_meas.freq_OSA, 20 * np.log10(np.abs(sam_meas.r_avg)), label=sam_meas.system.name, s=22,
-                        zorder=9)
-
-        plt.figure(f"r avg phase {sam_meas.sample.name}")
-        plt.title(title)
-        plt.xlabel("Frequency (THz)")
-        plt.ylabel("Phase (rad)")
-        plt.xlim((-0.150, 2.1))
-
-        if sam_meas.system == SystemEnum.TSweeper:
-            plt.plot(sam_meas.freq, np.angle(sam_meas.r_avg), label=sam_meas.system.name, c="grey")
-        elif sam_meas.system == SystemEnum.Model:
-            plt.scatter(sam_meas.freq, np.angle(sam_meas.r_avg), label=sam_meas.system.name, c="black")
-        else:
-            plt.scatter(sam_meas.freq_OSA, np.angle(sam_meas.r_avg), label=sam_meas.system.name, s=22, zorder=9)
-            # phase_diff = meas.phase_avg - ref_meas.phase_avg
-            # plt.scatter(meas.freq_OSA, phase_diff, label=f"Phase diff {meas.system.name}", s=22, zorder=9)
-
         freq_idx = 2
         fig_num = f"r all meas. {sam_meas.sample.name}"
         title = f"Reflection coefficient. All meas. {sam_meas.sample.name} {np.round(sam_meas.freq[freq_idx], 2)} THz"
@@ -253,6 +291,28 @@ def plot_refl_coe(measurements: List[Measurement], less_plots: bool):
                     continue
                 ax0.plot(r_amp_db[:, i], label=f"{sam_meas} {np.round(freq, 2)} THz")
                 ax1.plot(r_phi[:, i], label=f"{sam_meas} {np.round(freq, 2)} THz")
+
+    def update(val):
+        new_ref_idx = []
+        for layer_idx_ in range(layer_cnt):
+            n_min = n_sliders[layer_idx_].val[0] - 1j * k_sliders[layer_idx_].val[0]
+            n_max = n_sliders[layer_idx_].val[1] - 1j * k_sliders[layer_idx_].val[1]
+            new_ref_idx.append((n_min, n_max))
+
+        sample.set_ref_idx(new_ref_idx)
+
+        mod_meas.simulate_sam_measurement(fast=True)
+        freqs = mod_meas.freq
+        new_amp, new_phi = 20 * np.log10(np.abs(mod_meas.r_avg)), np.angle(mod_meas.r_avg)
+
+        mod_amp_scat.set_offsets(np.array([freqs, new_amp]).T)
+        mod_phi_scat.set_offsets(np.array([freqs, new_phi]).T)
+        fig_r_avg.canvas.draw_idle()
+
+    for slider in n_sliders + k_sliders:
+        slider.on_changed(update)
+
+    plt_show(mpl, en_save=False)
 
 
 def thickness_eval(measurements: List[Measurement]):
@@ -319,10 +379,8 @@ if __name__ == '__main__':
     new_rcparams = {"savefig.directory": result_dir / "GoodResults" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)
 
-    sample_meas = [meas for meas in all_measurements if meas.sample == selected_sample]
-
-    calc_refl_coe(sample_meas)
-    plot_refl_coe(sample_meas, less_plots=True)
+    calc_sample_refl_coe(selected_sample)
+    plot_sample_refl_coe(selected_sample, less_plots=True)
     # thickness_eval(sample_meas)
 
-    plt_show(mpl, en_save=False)
+    # plt_show(mpl, en_save=False)

@@ -104,7 +104,9 @@ def plt_show(mpl_, en_save=False):
     for fig_num in plt_.get_fignums():
         fig = plt_.figure(fig_num)
         for ax in fig.get_axes():
-            ax.legend()
+            h, labels = ax.get_legend_handles_labels()
+            if labels:
+                ax.legend()
 
         if en_save:
             save_fig(fig_num, mpl_)

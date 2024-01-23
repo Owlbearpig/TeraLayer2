@@ -260,7 +260,7 @@ class ModelMeasurement(Measurement):
         self.meas_type = MeasTypeEnum.Sample
         self.name = f"Model {self.sample}"
 
-    def simulate_sam_measurement(self):
+    def simulate_sam_measurement(self, fast=False):
         has_iron_core = self.sample.value.has_iron_core
 
         n = self.sample.value.get_ref_idx(self.freq)
@@ -269,7 +269,7 @@ class ModelMeasurement(Measurement):
 
         r_mod = np.zeros_like(self.freq, dtype=complex)
         for f_idx, freq in enumerate(self.freq):
-            if f_idx % 2 != 0:
+            if fast and (f_idx % 2) != 0:
                 pass
             lam_vac = c_thz / freq
             if has_iron_core:
