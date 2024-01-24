@@ -273,7 +273,7 @@ class ModelMeasurement(Measurement):
                 continue
 
             if fast and (f_idx % 2) != 0:
-                continue
+                pass
             lam_vac = c_thz / freq
             if has_iron_core:
                 d_ = np.array([np.inf, *d_truth, 10, np.inf], dtype=float)

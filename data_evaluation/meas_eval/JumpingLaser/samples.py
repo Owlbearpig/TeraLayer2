@@ -56,12 +56,12 @@ class Sample:
 
 class SamplesEnum(Enum):
     empty = Sample([0.0])
-    blueCube = Sample([30.000], [(1.54 - 0.005j, 1.54 - 0.005j)])
-    fpSample2 = Sample([4.000], [(1.683 - 0.0192j, 1.699 - 0.033j)])
-    fpSample3 = Sample([1.150], [(1.60, 1.60)])
-    fpSample5Plastic = Sample([5.200], [(1.37, 1.37)])
-    fpSample5ceramic = Sample([1.600], [(2.31, 2.31)])
-    fpSample6 = Sample([0.600], [(1.35, 1.35)])
+    blueCube = Sample([30.000], [(1.54 - 0.005j, 1.54 - 0.005j)])  # probably ifft -> window -> fft
+    fpSample2 = Sample([4.000], [(1.683 - 0.0192j, 1.699 - 0.024j)])  # works
+    fpSample3 = Sample([1.150], [(1.676 - 0.0092j, 1.68 - 0.0945j)])  # works
+    fpSample5Plastic = Sample([5.200], [(1.2 - 0.0001j, 1.9 - 0.0080j)])  # doesnt work
+    fpSample5ceramic = Sample([1.600], [(2.30 - 0.00334j, 2.33 - 0.012j)])  # works
+    fpSample6 = Sample([0.600], [(1.34 - 0.028j, 1.370 - 0.096j)])  # works
     opBluePos1 = Sample([0.210], [(1.93, 1.93)], True)
     opBluePos2 = Sample([0.295], [(2.25, 2.25)], True)
     opBlackPos1 = Sample([0.145], [(1.93, 1.93)], True)
@@ -85,4 +85,4 @@ class SamplesEnum(Enum):
 
 
 if __name__ == '__main__':
-    print(SamplesEnum.blueCube.value.s_id)
+    print(SamplesEnum.blueCube.name)

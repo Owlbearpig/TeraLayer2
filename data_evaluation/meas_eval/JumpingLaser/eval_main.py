@@ -9,7 +9,7 @@ from consts import thea, c_thz
 from tmm_package import coh_tmm_slim_unsafe
 from typing import List, Union
 from samples import Sample
-from functions import do_ifft
+from functions import do_ifft, moving_average
 
 np.set_printoptions(precision=2)
 
@@ -93,7 +93,7 @@ def fix_r_phi_sign(meas: Measurement):
 
 def shift_freq_axis(sam_meas_: Measurement, ref_meas_: Measurement):
     shifts = {SamplesEnum.ampelMannRight: 0.010, SamplesEnum.fpSample5ceramic: -0 * 0.010,
-              SamplesEnum.fpSample2: 0}
+              SamplesEnum.fpSample2: 0, SamplesEnum.fpSample5Plastic: -0.006}
     try:
         shift = shifts[sam_meas_.sample]
     except KeyError:
@@ -104,10 +104,16 @@ def shift_freq_axis(sam_meas_: Measurement, ref_meas_: Measurement):
 
 
 def fix_phase_slope(sam_meas_: Measurement):
-    if sam_meas_.system != SystemEnum.TSweeper:
+    if sam_meas_.system not in [SystemEnum.TSweeper, SystemEnum.PIC]:
         return
-    pulse_shifts = {SamplesEnum.fpSample5ceramic: 0.24, SamplesEnum.fpSample5Plastic: 0.39,
-                    SamplesEnum.fpSample2: 0.24}
+
+    if sam_meas_.system == SystemEnum.TSweeper:
+        pulse_shifts = {SamplesEnum.blueCube: 2.6, SamplesEnum.fpSample2: 0.24, SamplesEnum.fpSample3: 0.25,
+                        SamplesEnum.fpSample5ceramic: 0.28, SamplesEnum.fpSample5Plastic: 0.39,
+                        SamplesEnum.fpSample6: 0.1}
+    else:
+        pulse_shifts = {SamplesEnum.fpSample5ceramic: -0.16, SamplesEnum.fpSample6: 0.2}
+
     try:
         pulse_shift = pulse_shifts[sam_meas_.sample]
     except KeyError:
@@ -120,16 +126,24 @@ def fix_phase_slope(sam_meas_: Measurement):
 
 
 def fix_phase_offset(sam_meas_: Measurement):
-    if sam_meas_.system != SystemEnum.PIC:
-        return
+    amp, phi = np.abs(sam_meas_.r_avg), np.angle(sam_meas_.r_avg)
 
-    phase_offsets = {SamplesEnum.fpSample2: 0.424}
+    if sam_meas_.system == SystemEnum.WaveSourcePicFreq:
+        phase_offsets = {SamplesEnum.fpSample3: -1.45}
+    elif sam_meas_.system == SystemEnum.PIC:
+        phase_offsets = {SamplesEnum.fpSample2: 0.424, SamplesEnum.fpSample3: 0.0,
+                         SamplesEnum.fpSample5ceramic: 0*0.952}
+    else:
+        phase_offsets = {}
+
     try:
         offset = phase_offsets[sam_meas_.sample]
     except KeyError:
         offset = 0
 
-    amp, phi = np.abs(sam_meas_.r_avg), np.angle(sam_meas_.r_avg)
+    if sam_meas_.system == SystemEnum.TSweeper:
+        offset = -np.mean(phi[540:1650])
+
     sam_meas_.r_avg = amp * np.exp(1j * (phi + offset))
 
 
@@ -149,14 +163,18 @@ def calc_sample_refl_coe(sample_enum: SamplesEnum):
         amp_sam, phi_sam = sam_meas.amp, sam_meas.phase
         amp_sam_avg, phi_sam_avg = sam_meas.amp_avg, sam_meas.phase_avg
 
-        center = 0
         sign_ = -1
-        if sam_meas.system == SystemEnum.TSweeper:
-            sign_ = -1
-            center = np.mean(np.unwrap(sign_ * (phi_sam_avg[500:1500] - phi_ref_avg[500:1500])))
+        if sam_meas.system == SystemEnum.PIC:
+            sign_ = 1
 
-        sam_meas.r = (amp_sam / amp_ref) * np.exp(sign_ * 1j * (phi_sam - phi_ref))
-        sam_meas.r_avg = (amp_sam_avg / amp_ref_avg) * np.exp(sign_ * 1j * (phi_sam_avg - phi_ref_avg + center))
+        phi_diff, phi_diff_avg = phi_sam - phi_ref, phi_sam_avg - phi_ref_avg
+        phi_diff, phi_diff_avg = np.unwrap(phi_diff), np.unwrap(phi_diff_avg)
+
+        if sam_meas.system == SystemEnum.TSweeper:
+            phi_diff_avg = moving_average(phi_diff_avg)
+
+        sam_meas.r = (amp_sam / amp_ref) * np.exp(sign_ * 1j * phi_diff)
+        sam_meas.r_avg = (amp_sam_avg / amp_ref_avg) * np.exp(sign_ * 1j * phi_diff_avg)
 
         fix_phase_offset(sam_meas)
 
@@ -178,8 +196,8 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
     ax0_r_avg.set_ylabel("Amplitude (dB)")
     ax1_r_avg.set_ylabel("Phase (rad)")
     ax1_r_avg.set_xlabel("Frequency (THz)")
-    ax0_r_avg.set_xlim((-0.150, 2.1))
-    ax1_r_avg.set_xlim((-0.150, 2.1))
+    ax0_r_avg.set_xlim((-0.150, 1.6))
+    ax1_r_avg.set_xlim((-0.150, 1.6))
 
     n_sliders, k_sliders, d_sliders = [], [], []
     n_slider_axes, k_slider_axes, d_slider_axes = [], [], []
@@ -217,8 +235,8 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
         d_slider_axes.append(fig_r_avg.add_axes([0.03 + 0.04 * layer_idx, 0.20, 0.03, 0.60]))
         d_slider = Slider(ax=d_slider_axes[layer_idx],
                           label=f"d (layer {layer_idx})",
-                          valmin=layer_thickness * 0.95,
-                          valmax=layer_thickness * 1.05,
+                          valmin=layer_thickness * 0.75,
+                          valmax=layer_thickness * 1.25,
                           valinit=layer_thickness,
                           orientation='vertical',
                           )
@@ -352,27 +370,37 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
     plt_show(mpl, en_save=False)
 
 
+variables = {"truth_line_exists": False, "colors": ['red', 'green', 'blue', 'orange', 'purple']}
+
+
 def thickness_eval(sample_enum: SamplesEnum):
     sample_meas = [meas for meas in all_measurements if meas.sample == sample_enum]
+    ts_meas = [meas for meas in sample_meas if meas.system == SystemEnum.TSweeper][0]
     for meas in sample_meas:
         if meas.system in [SystemEnum.TSweeper, SystemEnum.Model]:
             continue
 
         if len(meas.sample.value.thicknesses) == 1:
             print(f"Evaluating: {meas}")
-            single_layer_eval(meas)
+            _single_layer_eval(meas, ts_meas)
 
 
-def single_layer_eval(sam_meas_: Measurement):
+def _single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement):
     r_amp, r_phi = np.abs(sam_meas_.r_avg), np.angle(sam_meas_.r_avg)
-
     selected_freqs = sam_meas_.freq
+
+    ts_f_idx = []
+    for selected_freq in selected_freqs:
+        ts_f_idx.append(np.argmin(np.abs(selected_freq - ts_meas_.freq)))
+
+    r_amp_ts, r_phi_ts = np.abs(ts_meas_.r_avg[ts_f_idx]), np.angle(ts_meas_.r_avg[ts_f_idx])
+
     n = sam_meas_.sample.value.get_ref_idx(sam_meas_.freq)
 
     def calc_cost(p_):
         r_mod = np.zeros_like(selected_freqs, dtype=complex)
         for f_idx, freq in enumerate(selected_freqs):
-            if f_idx in [0]:
+            if f_idx in []:
                 r_mod[f_idx] = sam_meas_.r_avg[f_idx]
                 continue
             lam_vac = c_thz / freq
@@ -387,7 +415,10 @@ def single_layer_eval(sam_meas_: Measurement):
         amp_error = (r_amp - r_mod_amp) ** 2
         phi_error = (r_phi - r_mod_phi) ** 2
 
+        phi_error[selected_freq > 0.4] = 0
+
         """
+        r_exp_real, r_exp_imag = sam_meas_.r_avg.real, sam_meas_.r_avg.imag
         real_error = (r_mod.real - r_exp_real) ** 2
         imag_error = (r_mod.imag - r_exp_imag) ** 2
 
@@ -406,14 +437,19 @@ def single_layer_eval(sam_meas_: Measurement):
         losses.append(err)
 
     plt.figure(sam_meas_.sample.name)
-    plt.plot(d1, losses, label=sam_meas_)
+    plt.plot(d1, losses, label=sam_meas_, c=variables["colors"][sam_meas_.system.value])
+    if not variables["truth_line_exists"]:
+        plt.axvline(x=sam_meas_.sample.value.tot_thickness, label="True thickness", c="red")
+        variables["truth_line_exists"] = True
+    plt.axvline(x=d1[np.argmin(losses)], label=f"Found thickness ({sam_meas_.system.name})", linestyle="--",
+                c=variables["colors"][sam_meas_.system.value])
     plt.xlabel("d1 (um)")
     plt.ylabel("Summed(Freq) residuals")
     print("Found minimum: ", d1[np.argmin(losses)])
 
 
 if __name__ == '__main__':
-    selected_sample = SamplesEnum.fpSample2
+    selected_sample = SamplesEnum.fpSample6
 
     new_rcparams = {"savefig.directory": result_dir / "GoodResults" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)

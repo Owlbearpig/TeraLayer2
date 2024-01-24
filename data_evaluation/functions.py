@@ -195,7 +195,7 @@ def do_fft(data_td, shift=None):
 
     if shift is not None:
         shift = int(shift / dt) * dt
-        Y = Y * np.exp(1j*shift*2*pi*f)
+        Y = Y * np.exp(1j * shift * 2 * pi * f)
 
     idx_range = (f >= 0)
     # return array([f, Y]).T
@@ -212,6 +212,7 @@ def shift(data_td, shift=0):
     ret[:, 1] = np.roll(ret[:, 1], shift)
 
     return ret
+
 
 def do_ifft(data_fd, hermitian=True, shift=0, flip=False):
     freqs, y_fd = data_fd[:, 0].real, data_fd[:, 1]
@@ -245,13 +246,14 @@ def do_ifft(data_fd, hermitian=True, shift=0, flip=False):
 
     return array([t, y_td]).T
 
+
 def zero_pad(data_fd, mult=6):
     df = np.mean(np.diff(data_fd[:, 0])).real
     f_max = data_fd[-1, 0].real
     eps = 1e-15
     freq_extension = np.arange(f_max, f_max + mult * f_max, df)
     freqs_long = np.concatenate((data_fd[:, 0], freq_extension))
-    value_axis_long = np.concatenate((data_fd[:, 1], eps+np.zeros_like(freq_extension)))
+    value_axis_long = np.concatenate((data_fd[:, 1], eps + np.zeros_like(freq_extension)))
 
     ret = np.array([freqs_long, value_axis_long]).T
 
@@ -271,6 +273,16 @@ def filtering(data_td, wn=(0.001, 9.999), filt_type="bandpass", order=5):
     data_td_filtered = array([data_td[:, 0], data_td_filtered]).T
 
     return data_td_filtered
+
+
+def moving_average(data, window_size=2):
+    # Define a kernel for the moving average
+    kernel = np.ones(window_size) / window_size
+
+    # Use np.convolve to apply the moving average filter
+    result = np.convolve(data, kernel, mode='same')
+
+    return result
 
 
 def mult_2x2_matrix_chain(arr_in):
@@ -337,7 +349,7 @@ def gen_p_sols(cnt=100, seed=421, p0_=None, layer_cnt=3, bounds=None):
             sol_ = [int(i) for i in [uniform(p0_[j] - 30, p0_[j] + 30) for j in range(3)]]
 
         try:
-            sol_[layer_cnt:] = (len(sol_)-layer_cnt)*[0]
+            sol_[layer_cnt:] = (len(sol_) - layer_cnt) * [0]
         except IndexError:
             print("Check solution layer count")
             exit("223")
@@ -361,9 +373,8 @@ def sell_meier(l, *args):
 
     return np.sqrt(s)
 
+
 def unwrap(data_fd, only_ang=False):
-
-
     if data_fd.ndim == 2:
         data = nan_to_num(data_fd[:, 1])
     else:
@@ -378,6 +389,7 @@ def unwrap(data_fd, only_ang=False):
     else:
         return ret
 
+
 def to_db(data_fd):
     if data_fd.ndim == 2:
         return 20 * np.log10(np.abs(data_fd[:, 1]))
@@ -391,9 +403,9 @@ def window(data_td, win_width=None, win_start=None, en_plot=False, slope=0.15, l
     pulse_width = 10  # ps
     dt = np.mean(np.diff(t))
 
-    #shift = int(100 / dt)
+    # shift = int(100 / dt)
 
-    #y = np.roll(y, shift)
+    # y = np.roll(y, shift)
 
     if win_width is None:
         win_width = int(pulse_width / dt)
@@ -437,6 +449,7 @@ def window(data_td, win_width=None, win_start=None, en_plot=False, slope=0.15, l
 
     return np.array([t, y_win], dtype=float).T
 
+
 def phase_correction(data_fd, disable=False, fit_range=None, en_plot=False, extrapolate=False, rewrap=False,
                      ret_fd=False, both=False):
     freqs = data_fd[:, 0].real
@@ -477,7 +490,6 @@ def phase_correction(data_fd, disable=False, fit_range=None, en_plot=False, extr
         return array([freqs, y]).T
     else:
         return array([freqs, phase_corrected]).T
-
 
 
 if __name__ == '__main__':
