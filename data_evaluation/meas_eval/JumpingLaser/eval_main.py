@@ -2,7 +2,7 @@ from parse_data import get_all_measurements, SystemEnum, MeasTypeEnum, SamplesEn
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from matplotlib.widgets import RangeSlider, Button
+from matplotlib.widgets import RangeSlider, Button, Slider
 from helpers import plt_show
 from meas_eval.mpl_settings import mpl_style_params, result_dir
 from consts import thea, c_thz
@@ -93,7 +93,7 @@ def fix_r_phi_sign(meas: Measurement):
 
 def shift_freq_axis(sam_meas_: Measurement, ref_meas_: Measurement):
     shifts = {SamplesEnum.ampelMannRight: 0.010, SamplesEnum.fpSample5ceramic: -0 * 0.010,
-              SamplesEnum.fpSample2: -0*0.007}
+              SamplesEnum.fpSample2: 0}
     try:
         shift = shifts[sam_meas_.sample]
     except KeyError:
@@ -117,6 +117,20 @@ def fix_phase_slope(sam_meas_: Measurement):
 
     sam_meas_.phase += phase_correction
     sam_meas_.phase_avg += phase_correction
+
+
+def fix_phase_offset(sam_meas_: Measurement):
+    if sam_meas_.system != SystemEnum.PIC:
+        return
+
+    phase_offsets = {SamplesEnum.fpSample2: 0.424}
+    try:
+        offset = phase_offsets[sam_meas_.sample]
+    except KeyError:
+        offset = 0
+
+    amp, phi = np.abs(sam_meas_.r_avg), np.angle(sam_meas_.r_avg)
+    sam_meas_.r_avg = amp * np.exp(1j * (phi + offset))
 
 
 def calc_sample_refl_coe(sample_enum: SamplesEnum):
@@ -144,6 +158,8 @@ def calc_sample_refl_coe(sample_enum: SamplesEnum):
         sam_meas.r = (amp_sam / amp_ref) * np.exp(sign_ * 1j * (phi_sam - phi_ref))
         sam_meas.r_avg = (amp_sam_avg / amp_ref_avg) * np.exp(sign_ * 1j * (phi_sam_avg - phi_ref_avg + center))
 
+        fix_phase_offset(sam_meas)
+
     for sam_meas in sample_meas:
         # fix_r_phi_sign(sam_meas)
         pass
@@ -157,7 +173,7 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
     title = f"Avg. reflection coefficient. Sample: {sample_enum.name}"
     fig_r_avg_num = f"Avg. r {sample_enum.name}"
     fig_r_avg, (ax0_r_avg, ax1_r_avg) = plt.subplots(nrows=2, ncols=1, num=fig_r_avg_num)
-    fig_r_avg.subplots_adjust(left=0.05, bottom=0.15 + 0.05 * layer_cnt)
+    fig_r_avg.subplots_adjust(left=0.05 + 0.05 * layer_cnt, bottom=0.15 + 0.05 * layer_cnt)
     ax0_r_avg.set_title(title)
     ax0_r_avg.set_ylabel("Amplitude (dB)")
     ax1_r_avg.set_ylabel("Phase (rad)")
@@ -165,36 +181,54 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
     ax0_r_avg.set_xlim((-0.150, 2.1))
     ax1_r_avg.set_xlim((-0.150, 2.1))
 
-    n_sliders, k_sliders = [], []
-    n_slider_axes, k_slider_axes = [], []
+    n_sliders, k_sliders, d_sliders = [], [], []
+    n_slider_axes, k_slider_axes, d_slider_axes = [], [], []
     for layer_idx in range(layer_cnt):
         layer_n, layer_k = sample.ref_idx[layer_idx].real, sample.ref_idx[layer_idx].imag
         layer_n_min, layer_n_max = layer_n[0], layer_n[1]
         layer_k_min, layer_k_max = layer_k[0], layer_k[1]
-        print()
+
+        if np.isclose(layer_n_min, layer_n_max):
+            layer_n_max += 0.001
+
+        if np.isclose(layer_k_min, layer_k_max):
+            layer_k_max += 0.0001
+
         n_slider_axes.append(fig_r_avg.add_axes([0.15, 0.10 - 0.05 * layer_idx, 0.25, 0.03]))
         n_slider = RangeSlider(ax=n_slider_axes[layer_idx],
-                               label=f"n{layer_idx}",
+                               label=f"n (layer {layer_idx})",
                                valmin=layer_n_min * 0.95,
                                valmax=layer_n_max * 1.05,
-                               valinit=(layer_n_min * 0.99, layer_n_max * 1.01),
+                               valinit=(layer_n_min, layer_n_max),
                                )
         n_sliders.append(n_slider)
 
         k_slider_axes.append(fig_r_avg.add_axes([0.60, 0.10 - 0.05 * layer_idx, 0.20, 0.03]))
         k_slider = RangeSlider(ax=k_slider_axes[layer_idx],
-                               label=f"k{layer_idx}",
+                               label=f"$\kappa$ (layer {layer_idx})",
                                valmin=0,
                                valmax=np.abs(layer_k_max) * 1.2,
-                               valinit=(0, np.abs(layer_k_max)+0.001),
+                               valinit=(np.abs(layer_k_min), np.abs(layer_k_max)),
                                )
         k_sliders.append(k_slider)
+
+        layer_thickness = sample.thicknesses[layer_idx]
+
+        d_slider_axes.append(fig_r_avg.add_axes([0.03 + 0.04 * layer_idx, 0.20, 0.03, 0.60]))
+        d_slider = Slider(ax=d_slider_axes[layer_idx],
+                          label=f"d (layer {layer_idx})",
+                          valmin=layer_thickness * 0.95,
+                          valmax=layer_thickness * 1.05,
+                          valinit=layer_thickness,
+                          orientation='vertical',
+                          )
+        d_sliders.append(d_slider)
 
     resetax0 = fig_r_avg.add_axes([0.8, 0.010, 0.1, 0.04])
     reset_but = Button(resetax0, 'Reset', hovercolor='0.975')
 
     def reset0(event):
-        for slider in (n_sliders + k_sliders):
+        for slider in (n_sliders + k_sliders + d_sliders):
             slider.reset()
 
     reset_but.on_clicked(reset0)
@@ -249,8 +283,8 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
             plt.ylabel("Amplitude (dB)")
             plt.xlim((-0.150, 2.1))
 
-            plt.plot(ref_meas.freq, 20 * np.log10(ref_meas.amp), label=ref_meas)
-            plt.plot(sam_meas.freq, 20 * np.log10(sam_meas.amp), label=sam_meas)
+            plt.plot(ref_meas.freq[:-2], 20 * np.log10(ref_meas.amp[:-2]), label=ref_meas)
+            plt.plot(sam_meas.freq[:-2], 20 * np.log10(sam_meas.amp[:-2]), label=sam_meas)
             # plt.plot(bkg_meas.freq, np.log10(np.abs(bkg_meas.amp)), label="background")
 
             plt.figure("TSWeeper phase")
@@ -259,8 +293,8 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
             plt.ylabel("Phase (rad)")
             plt.xlim((-0.150, 2.1))
 
-            plt.plot(ref_meas.freq, ref_meas.phase, label=ref_meas)
-            plt.plot(sam_meas.freq, sam_meas.phase, label=sam_meas)
+            plt.plot(ref_meas.freq[:-2], ref_meas.phase[:-2], label=ref_meas)
+            plt.plot(sam_meas.freq[:-2], sam_meas.phase[:-2], label=sam_meas)
             # plt.plot(bkg_meas.freq, bkg_meas.phase, label="background")
 
         freq_idx = 2
@@ -285,7 +319,7 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
             print(f"ref mean phase: {ref_meas.phase_avg}±{np.std(ref_meas.phase, axis=0)}")
             print(f"sample mean phase: {sam_meas.phase_avg}±{np.std(sam_meas.phase, axis=0)}")
             print(f"r direct mean Amp. {np.mean(r_amp_db, axis=0)}±{np.std(r_amp_db, axis=0)}")
-            print(f"r direct mean phase: {np.mean(r_phi, axis=0)}±{np.std(r_phi, axis=0)}")
+            print(f"r direct mean phase: {np.mean(r_phi, axis=0)}±{np.std(r_phi, axis=0)}\n")
             for i, freq in enumerate(sam_meas.freq):
                 if i != freq_idx:
                     continue
@@ -301,6 +335,9 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
 
         sample.set_ref_idx(new_ref_idx)
 
+        new_thicknesses = [d_slider_.val for d_slider_ in d_sliders]
+        sample.set_thicknesses(new_thicknesses)
+
         mod_meas.simulate_sam_measurement(fast=True)
         freqs = mod_meas.freq
         new_amp, new_phi = 20 * np.log10(np.abs(mod_meas.r_avg)), np.angle(mod_meas.r_avg)
@@ -309,15 +346,16 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
         mod_phi_scat.set_offsets(np.array([freqs, new_phi]).T)
         fig_r_avg.canvas.draw_idle()
 
-    for slider in n_sliders + k_sliders:
+    for slider in n_sliders + k_sliders + d_sliders:
         slider.on_changed(update)
 
     plt_show(mpl, en_save=False)
 
 
-def thickness_eval(measurements: List[Measurement]):
-    for meas in measurements:
-        if meas.system == SystemEnum.TSweeper:
+def thickness_eval(sample_enum: SamplesEnum):
+    sample_meas = [meas for meas in all_measurements if meas.sample == sample_enum]
+    for meas in sample_meas:
+        if meas.system in [SystemEnum.TSweeper, SystemEnum.Model]:
             continue
 
         if len(meas.sample.value.thicknesses) == 1:
@@ -334,8 +372,9 @@ def single_layer_eval(sam_meas_: Measurement):
     def calc_cost(p_):
         r_mod = np.zeros_like(selected_freqs, dtype=complex)
         for f_idx, freq in enumerate(selected_freqs):
-            if f_idx in [2, 4]:
-                pass
+            if f_idx in [0]:
+                r_mod[f_idx] = sam_meas_.r_avg[f_idx]
+                continue
             lam_vac = c_thz / freq
             if sam_meas_.sample.value.has_iron_core:
                 d_ = np.array([np.inf, *p_, 10, np.inf], dtype=float)
@@ -381,6 +420,6 @@ if __name__ == '__main__':
 
     calc_sample_refl_coe(selected_sample)
     plot_sample_refl_coe(selected_sample, less_plots=True)
-    # thickness_eval(sample_meas)
+    thickness_eval(selected_sample)
 
-    # plt_show(mpl, en_save=False)
+    plt_show(mpl, en_save=False)

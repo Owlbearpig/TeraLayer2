@@ -23,6 +23,10 @@ class Sample:
     def __repr__(self):
         return f"{self.name}"
 
+    def set_thicknesses(self, new_thicknesses):
+        self.thicknesses = new_thicknesses
+        self.tot_thickness = np.sum(new_thicknesses)
+
     def set_ref_idx(self, ref_idx):
         self.ref_idx = np.array(ref_idx, dtype=complex)
 
@@ -31,15 +35,15 @@ class Sample:
         sample_ref_idx = np.zeros((self.layers, len(freq_axis)), dtype=complex)
         n0 = self.ref_idx
 
-        fa_idx, fe_idx = np.argmin(np.abs(freq_axis - 0.001)), np.argmin(np.abs(freq_axis - 2.000))
+        fa_idx, fe_idx = np.argmin(np.abs(freq_axis - -0.11)), np.argmin(np.abs(freq_axis - 2.000))
         for i in range(self.layers):
             n_min, n_max = n0[i][0], n0[i][1]
 
             n_r = np.linspace(n_min.real, n_max.real, fe_idx - fa_idx)
             n_i = np.linspace(n_min.imag, n_max.imag, fe_idx - fa_idx)
             sample_ref_idx[i, :fa_idx] = np.ones(fa_idx)
-            sample_ref_idx[i, fa_idx:fe_idx] = n_r + 1j*n_i
-            sample_ref_idx[i, fe_idx:] = np.ones(len(freq_axis)-fe_idx)
+            sample_ref_idx[i, fa_idx:fe_idx] = n_r + 1j * n_i
+            sample_ref_idx[i, fe_idx:] = np.ones(len(freq_axis) - fe_idx)
 
         if self.has_iron_core:
             n_fe = (500 + 500j) * one
@@ -52,8 +56,8 @@ class Sample:
 
 class SamplesEnum(Enum):
     empty = Sample([0.0])
-    blueCube = Sample([30.000], [(1.54-0.005j, 1.54-0.005j)])
-    fpSample2 = Sample([4.000], [(1.683-0.0192j, 1.708-0.055j)])
+    blueCube = Sample([30.000], [(1.54 - 0.005j, 1.54 - 0.005j)])
+    fpSample2 = Sample([4.000], [(1.683 - 0.0192j, 1.699 - 0.033j)])
     fpSample3 = Sample([1.150], [(1.60, 1.60)])
     fpSample5Plastic = Sample([5.200], [(1.37, 1.37)])
     fpSample5ceramic = Sample([1.600], [(2.31, 2.31)])
@@ -70,14 +74,14 @@ class SamplesEnum(Enum):
     opToolRedPos2 = Sample([0.335], [(1.93, 1.93)], True)
     opToolBluePos1 = Sample([0.210], [(1.93, 1.93)], True)
     opToolBluePos2 = Sample([0.295], [(2.25, 2.25)], True)
-    bwCeramicWhiteUp = Sample([0.500, 0.140], [(2.78-0.015j, 2.78-0.015j), (1.52, 1.52)])
-    bwCeramicBlackUp = Sample([0.140, 0.500], [(2.78-0.015j, 2.78-0.015j), (1.52, 1.52)])
-    ampelMannRight = Sample([0.046, 0.660, 0.073], [(1.52, 1.52), (2.78-0.015j, 2.78-0.015j),
+    bwCeramicWhiteUp = Sample([0.500, 0.140], [(2.78 - 0.015j, 2.78 - 0.015j), (1.52, 1.521)])
+    bwCeramicBlackUp = Sample([0.140, 0.500], [(2.78 - 0.015j, 2.78 - 0.015j), (1.52, 1.521)])
+    ampelMannRight = Sample([0.046, 0.660, 0.073], [(1.52, 1.521), (2.78 - 0.015j, 2.78 - 0.015j),
                                                     (1.52, 1.52)])
-    ampelMannLeft = Sample([0.073, 0.660, 0.046], [(1.52, 1.52), (2.78-0.015j, 2.78-0.015j),
-                                                   (1.52, 1.52)])
-    ampelMannOld = Sample([0.046, 0.660, 0.073], [(1.52, 1.52), (2.78-0.015j, 2.78-0.015j),
-                                                  (1.52, 1.52)])
+    ampelMannLeft = Sample([0.073, 0.660, 0.046], [(1.52, 1.521), (2.78 - 0.015j, 2.78 - 0.015j),
+                                                   (1.52, 1.521)])
+    ampelMannOld = Sample([0.046, 0.660, 0.073], [(1.52, 1.521), (2.78 - 0.015j, 2.78 - 0.015j),
+                                                  (1.52, 1.521)])
 
 
 if __name__ == '__main__':

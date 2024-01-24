@@ -269,8 +269,11 @@ class ModelMeasurement(Measurement):
 
         r_mod = np.zeros_like(self.freq, dtype=complex)
         for f_idx, freq in enumerate(self.freq):
+            if fast and f_idx > 1600:
+                continue
+
             if fast and (f_idx % 2) != 0:
-                pass
+                continue
             lam_vac = c_thz / freq
             if has_iron_core:
                 d_ = np.array([np.inf, *d_truth, 10, np.inf], dtype=float)
