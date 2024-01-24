@@ -10,6 +10,7 @@ from tmm_package import coh_tmm_slim_unsafe
 from typing import List, Union
 from samples import Sample
 from functions import do_ifft, moving_average
+from consts import selected_freqs as og_sel_freqs
 
 np.set_printoptions(precision=2)
 
@@ -93,7 +94,7 @@ def fix_r_phi_sign(meas: Measurement):
 
 def shift_freq_axis(sam_meas_: Measurement, ref_meas_: Measurement):
     shifts = {SamplesEnum.ampelMannRight: 0.010, SamplesEnum.fpSample5ceramic: -0 * 0.010,
-              SamplesEnum.fpSample2: 0, SamplesEnum.fpSample5Plastic: -0.006}
+              SamplesEnum.fpSample2: 0, SamplesEnum.fpSample5Plastic: -0.006, SamplesEnum.fpSample6: 0.0}
     try:
         shift = shifts[sam_meas_.sample]
     except KeyError:
@@ -110,7 +111,7 @@ def fix_phase_slope(sam_meas_: Measurement):
     if sam_meas_.system == SystemEnum.TSweeper:
         pulse_shifts = {SamplesEnum.blueCube: 2.6, SamplesEnum.fpSample2: 0.24, SamplesEnum.fpSample3: 0.25,
                         SamplesEnum.fpSample5ceramic: 0.28, SamplesEnum.fpSample5Plastic: 0.39,
-                        SamplesEnum.fpSample6: 0.1}
+                        SamplesEnum.fpSample6: 0.1, SamplesEnum.bwCeramicWhiteUp: 0.20}
     else:
         pulse_shifts = {SamplesEnum.fpSample5ceramic: -0.16, SamplesEnum.fpSample6: 0.2}
 
@@ -132,7 +133,7 @@ def fix_phase_offset(sam_meas_: Measurement):
         phase_offsets = {SamplesEnum.fpSample3: -1.45}
     elif sam_meas_.system == SystemEnum.PIC:
         phase_offsets = {SamplesEnum.fpSample2: 0.424, SamplesEnum.fpSample3: 0.0,
-                         SamplesEnum.fpSample5ceramic: 0*0.952}
+                         SamplesEnum.fpSample5ceramic: 0 * 0.952}
     else:
         phase_offsets = {}
 
@@ -198,6 +199,7 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
     ax1_r_avg.set_xlabel("Frequency (THz)")
     ax0_r_avg.set_xlim((-0.150, 1.6))
     ax1_r_avg.set_xlim((-0.150, 1.6))
+    ax0_r_avg.set_ylim((-40, 15))
 
     n_sliders, k_sliders, d_sliders = [], [], []
     n_slider_axes, k_slider_axes, d_slider_axes = [], [], []
@@ -381,8 +383,88 @@ def thickness_eval(sample_enum: SamplesEnum):
             continue
 
         if len(meas.sample.value.thicknesses) == 1:
-            print(f"Evaluating: {meas}")
+            print(f"Evaluating: {meas} (1 layer)")
             _single_layer_eval(meas, ts_meas)
+
+        if len(meas.sample.value.thicknesses) == 2:
+            print(f"Evaluating: {meas} (2 layers)")
+            _double_layer_eval(meas, ts_meas)
+
+
+def _double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement):
+    if sam_meas_.system != SystemEnum.PIC:
+        return
+
+    r_amp, r_phi = np.abs(sam_meas_.r_avg), np.angle(sam_meas_.r_avg)
+    selected_freqs = sam_meas_.freq
+
+    ts_f_idx = []
+    for selected_freq in selected_freqs:
+        ts_f_idx.append(np.argmin(np.abs(selected_freq - ts_meas_.freq)))
+
+    r_amp_ts, r_phi_ts = np.abs(ts_meas_.r_avg[ts_f_idx]), np.angle(ts_meas_.r_avg[ts_f_idx])
+
+    n = sam_meas_.sample.value.get_ref_idx(sam_meas_.freq)
+
+    def calc_cost(p_):
+        r_mod = np.zeros_like(selected_freqs, dtype=complex)
+        for f_idx, freq in enumerate(selected_freqs):
+            if f_idx in []:
+                r_mod[f_idx] = sam_meas_.r_avg[f_idx]
+                continue
+            lam_vac = c_thz / freq
+            if sam_meas_.sample.value.has_iron_core:
+                d_ = np.array([np.inf, *p_, 10, np.inf], dtype=float)
+            else:
+                d_ = np.array([np.inf, *p_, np.inf], dtype=float)
+            r_mod[f_idx] = -1 * coh_tmm_slim_unsafe("s", n[f_idx], d_, thea, lam_vac)
+
+        r_mod_amp, r_mod_phi = np.abs(r_mod), np.angle(r_mod)
+
+        amp_error = (r_amp - r_mod_amp) ** 2
+        phi_error = 0*(r_phi - r_mod_phi) ** 2
+
+        # phi_error[selected_freq > 0.4] = 0
+
+        """
+        r_exp_real, r_exp_imag = sam_meas_.r_avg.real, sam_meas_.r_avg.imag
+        real_error = (r_mod.real - r_exp_real) ** 2
+        imag_error = (r_mod.imag - r_exp_imag) ** 2
+
+        return np.sum(real_error + imag_error)
+        """
+
+        return np.sum(amp_error + phi_error)
+
+    d_truth0, d_truth1 = sam_meas_.sample.value.thicknesses.astype(int)
+    d1, d2 = np.arange(max(0, d_truth0-50), d_truth0+50, 1), np.arange(max(0, d_truth1-100), d_truth1+100, 1)
+
+    plt.figure()
+    img = np.zeros((len(d1), len(d2)))
+    for i, d1_ in enumerate(d1):
+        print(f"{i}/{len(d1)}")
+        for j, d2_ in enumerate(d2):
+            img[i, j] = calc_cost(np.array([d1_, d2_]))
+
+    plt.imshow(img,
+               extent=[d1[0], d1[-1], d2[0], d2[-1]],
+               origin="lower",
+               # interpolation='bilinear',
+               # cmap="plasma",
+               vmin=0, vmax=np.mean(img),
+               )
+    plt.xlabel("$d_1$")
+    plt.ylabel("$d_2$")
+    print(np.unravel_index(np.argmin(img), img.shape))
+    print(np.min(img), np.argmin(img))
+
+    plt.figure()
+    d2_loss = []
+    for d2_ in d2:
+        d2_loss.append(calc_cost(np.array([140, d2_])))
+
+    plt.plot(d2, d2_loss)
+    plt.xlabel("d2")
 
 
 def _single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement):
@@ -413,7 +495,7 @@ def _single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement):
         r_mod_amp, r_mod_phi = np.abs(r_mod), np.angle(r_mod)
 
         amp_error = (r_amp - r_mod_amp) ** 2
-        phi_error = (r_phi - r_mod_phi) ** 2
+        phi_error = 0 * (r_phi - r_mod_phi) ** 2
 
         phi_error[selected_freq > 0.4] = 0
 
@@ -428,7 +510,7 @@ def _single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement):
         return np.sum(amp_error + phi_error)
 
     d_truth = sam_meas_.sample.value.thicknesses[0]
-    d_min, d_max = np.max([1, d_truth - 500]), d_truth + 500
+    d_min, d_max = np.max([1, d_truth - 150]), d_truth + 150
     d1 = np.arange(int(d_min), int(d_max), 1, dtype=float)
     losses = []
     for d in d1:
@@ -449,7 +531,7 @@ def _single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement):
 
 
 if __name__ == '__main__':
-    selected_sample = SamplesEnum.fpSample6
+    selected_sample = SamplesEnum.bwCeramicWhiteUp
 
     new_rcparams = {"savefig.directory": result_dir / "GoodResults" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)
