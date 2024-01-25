@@ -11,6 +11,7 @@ from typing import List, Union
 from samples import Sample
 from functions import do_ifft, moving_average
 from consts import selected_freqs as og_sel_freqs
+from model.separation_idea.triple_layer_impl import triple_layer_impl
 
 np.set_printoptions(precision=2)
 
@@ -198,6 +199,7 @@ def calc_sample_refl_coe(sample_enum: SamplesEnum):
         # fix_r_phi_sign(sam_meas)
         pass
 
+    return sample_meas
 
 def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
     sample_meas = [meas for meas in all_measurements if meas.sample == sample_enum]
@@ -409,13 +411,14 @@ def thickness_eval(sample_enum: SamplesEnum):
 
         if len(meas.sample.value.thicknesses) == 3:
             print(f"Evaluating: {meas} (3 layers)")
-            print("not implemented yet")
-            continue
+            triple_layer_eval(meas, ts_meas, mod_meas)
 
 
-def _triple_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement):
+def triple_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement):
     if sam_meas_.system != SystemEnum.PIC:
         return
+
+    triple_layer_impl(sam_meas_)
 
 
 def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: Measurement):
@@ -573,12 +576,12 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
 if __name__ == '__main__':
     save_plots = False
-    selected_sample = SamplesEnum.ampelMannRight
+    selected_sample = SamplesEnum.ampelMannLeft
 
     new_rcparams = {"savefig.directory": result_dir / "JumpingLaser" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)
 
-    calc_sample_refl_coe(selected_sample)
+    sample_meas = calc_sample_refl_coe(selected_sample)
     plot_sample_refl_coe(selected_sample, less_plots=True)
     thickness_eval(selected_sample)
 

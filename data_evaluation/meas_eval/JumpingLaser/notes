@@ -222,16 +222,22 @@ n = c / (2 d delta_freq)
 
 # single layer
 (blueCube # probably ifft -> window -> fft)
-fpSample2 # works if we exclude freq < 0
-fpSample3 # works
+fpSample2 # works if we exclude freq < 0 (3980 um)
+fpSample3 # works 1162 um
 (fpSample5Plastic # Cannot find ref idx. muss auf beiden seiten von 0 gleich viel "rauschen" sein?)
-fpSample5ceramic # works
-fpSample6 # works
+fpSample5ceramic # works 1602 um
+fpSample6 # works 612 um
 
 # double layer
-bwCeramicBlackUp # works if we exclude freq > 0.8 THz d1: 153 um, d2: 487 um (100, 200)
-bwCeramicWhiteUp # works if we exclude freq > 0.8 THz d1: 498 um, d2: 152 um (200, 200)
+bwCeramicBlackUp # works if we exclude freq > 0.8 THz d1: 153 um, d2: 487 um (range: 100, 200)
+bwCeramicWhiteUp # works if we exclude freq > 0.8 THz d1: 498 um, d2: 152 um (range: 200, 200)
 
 # triple layer
+ampelMannRight # works d1, d2, d3: (53, 670, 65)
+
+# TODO
+1. Single shot plots und std abweichung
+2. Iron core samples
+(3. improve results)
 
 
