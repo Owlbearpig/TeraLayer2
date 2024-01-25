@@ -93,7 +93,7 @@ def fix_r_phi_sign(meas: Measurement):
 
 
 def shift_freq_axis(sam_meas_: Measurement, ref_meas_: Measurement):
-    shifts = {SamplesEnum.ampelMannRight: 0.010, SamplesEnum.fpSample5ceramic: -0 * 0.010,
+    shifts = {SamplesEnum.ampelMannRight: 0.0, SamplesEnum.fpSample5ceramic: -0 * 0.010,
               SamplesEnum.fpSample2: 0, SamplesEnum.fpSample5Plastic: -0.006, SamplesEnum.fpSample6: 0.0}
     try:
         shift = shifts[sam_meas_.sample]
@@ -111,7 +111,8 @@ def fix_phase_slope(sam_meas_: Measurement):
     if sam_meas_.system == SystemEnum.TSweeper:
         pulse_shifts = {SamplesEnum.blueCube: 2.6, SamplesEnum.fpSample2: 0.24, SamplesEnum.fpSample3: 0.25,
                         SamplesEnum.fpSample5ceramic: 0.28, SamplesEnum.fpSample5Plastic: 0.39,
-                        SamplesEnum.fpSample6: 0.1, SamplesEnum.bwCeramicWhiteUp: 0.20}
+                        SamplesEnum.fpSample6: 0.1, SamplesEnum.bwCeramicWhiteUp: 0.20,
+                        SamplesEnum.ampelMannRight: -0.05}
     else:
         pulse_shifts = {SamplesEnum.fpSample5ceramic: -0.16, SamplesEnum.fpSample6: 0.2}
 
@@ -244,7 +245,7 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
                           )
         d_sliders.append(d_slider)
 
-    resetax0 = fig_r_avg.add_axes([0.8, 0.010, 0.1, 0.04])
+    resetax0 = fig_r_avg.add_axes([0.0, 0.010, 0.1, 0.04])
     reset_but = Button(resetax0, 'Reset', hovercolor='0.975')
 
     def reset0(event):
@@ -391,6 +392,12 @@ def thickness_eval(sample_enum: SamplesEnum):
             _double_layer_eval(meas, ts_meas)
 
 
+def _triple_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement):
+    if sam_meas_.system != SystemEnum.PIC:
+        return
+
+
+
 def _double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement):
     if sam_meas_.system != SystemEnum.PIC:
         return
@@ -531,7 +538,7 @@ def _single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement):
 
 
 if __name__ == '__main__':
-    selected_sample = SamplesEnum.bwCeramicWhiteUp
+    selected_sample = SamplesEnum.ampelMannRight
 
     new_rcparams = {"savefig.directory": result_dir / "GoodResults" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)
