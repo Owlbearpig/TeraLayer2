@@ -201,10 +201,37 @@ Found minimum:  567.0
 Evaluating: (10_OP_blue_pos2, 110, WaveSourcePicFreq)
 Found minimum:  301.0
 
-blueCube # probably ifft -> window -> fft
-fpSample2 # works if we exclude 0.3 THz
-fpSample3 # works if we only consider amp
-fpSample5Plastic # Cannot find ref idx. muss auf beiden seiten von 0 gleich viel "rauschen" sein?
-fpSample5ceramic # works if we only consider amp
-fpSample6 # works if we exclude phases of last 3 high frequencies (0.74  0.76  0.82)
+########################################################################################################################
+
+1. Ungef. Brechungsindex bestimmt anhand von Amplitude plot
+n = c / (2 d delta_freq)
+
+2. TSweeper messung angepasst:
+    a) Schiebe Frequenzachse
+
+    b) Ziehe phi_shift = - 2pi * freq * t0 von Phase der Messung ab. Suche t0 s.d. Phase ungef. glm. um 0 schwingt.
+        => phi_diff = phi_sam - phi_ref + phi_shift
+
+    c) Ziehe mittelwert von der Phase von phi diff ab (Manchmal hat es ein vertikales offset)
+
+3. Passe n, k vom Model an, s.d. es mit TSWeeper Messung passt (Phase + Amp)
+
+4. Bestimme t0 von PIC Messung s.d. Phase zum Model passt. + Frequenzachse verschieben
+
+5. Berechne Summe über Freq. von (abs(r) - abs(r_mod))^2 + (angle(r) - angle(r_mod))^2 für Dicken in einem Interval.
+
+# single layer
+(blueCube # probably ifft -> window -> fft)
+fpSample2 # works if we exclude freq < 0
+fpSample3 # works
+(fpSample5Plastic # Cannot find ref idx. muss auf beiden seiten von 0 gleich viel "rauschen" sein?)
+fpSample5ceramic # works
+fpSample6 # works
+
+# double layer
+bwCeramicBlackUp # works if we exclude freq > 0.8 THz d1: 153 um, d2: 487 um (100, 200)
+bwCeramicWhiteUp # works if we exclude freq > 0.8 THz d1: 498 um, d2: 152 um (200, 200)
+
+# triple layer
+
 

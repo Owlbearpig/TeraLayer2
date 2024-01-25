@@ -166,16 +166,25 @@ class Measurement:
 
         self.freq = json_dict["Frequency [THz]"]
         self.freq_OSA = json_dict["Frequency [THz] (OSA measurement)"]
+
         self.name = json_dict["Measurement"]
         self.n_sweeps = len(json_dict['Amplitude [A]'])
         self.timestamp = json_dict['measure #']
 
-        phase = json_dict['Phase [rad]'] * np.sign(self.freq)
-        phase_raw = json_dict["Phase [rad] (raw)"] * np.sign(self.freq)
+        sorted_indices = np.argsort(self.freq)
 
-        amp = json_dict['Amplitude [A]']
+        self.freq = self.freq[sorted_indices]
+        self.freq_OSA = self.freq_OSA[sorted_indices]  # ! Assume oder is the same
+
+        phase = json_dict['Phase [rad]'][:, sorted_indices]
+        phase_raw = json_dict["Phase [rad] (raw)"][:, sorted_indices]
+
+        amp = json_dict['Amplitude [A]'][:, sorted_indices]
         raw_amp_key = [key for key in json_dict if ("Am" in key) and ("(raw)" in key)][0]
-        amp_raw = json_dict[raw_amp_key]
+        amp_raw = json_dict[raw_amp_key][:, sorted_indices]
+
+        phase *= np.sign(self.freq)
+        phase_raw *= np.sign(self.freq)
 
         self.amp = np.array(amp, dtype=float)
 
@@ -261,6 +270,7 @@ class ModelMeasurement(Measurement):
         self.name = f"Model {self.sample}"
 
     def simulate_sam_measurement(self, fast=False):
+        err_conf = np.seterr(divide='ignore')
         has_iron_core = self.sample.value.has_iron_core
 
         n = self.sample.value.get_ref_idx(self.freq)
@@ -281,11 +291,15 @@ class ModelMeasurement(Measurement):
                 d_ = np.array([np.inf, *d_truth, np.inf], dtype=float)
             r_mod[f_idx] = -1 * coh_tmm_slim_unsafe("s", n[f_idx], d_, thea, lam_vac)
 
-        ref_fd = np.array([self.freq, self.amp * np.exp(1j*self.phase)]).T
+        ref_fd = np.array([self.freq, self.amp * np.exp(1j * self.phase)]).T
 
         self.amp, self.phase = np.abs(ref_fd[:, 1] * r_mod), np.angle(ref_fd[:, 1] * r_mod)
         self.amp_avg, self.phase_avg = self.amp, self.phase
         self.r, self.r_avg = r_mod, r_mod
+
+        np.seterr(**err_conf)
+
+        return n
 
 
 def get_all_measurements(add_model_measurements=False):
