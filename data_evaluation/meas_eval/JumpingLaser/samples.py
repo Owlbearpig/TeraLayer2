@@ -48,7 +48,7 @@ class Sample:
             sample_ref_idx[i, fe_idx:] = np.ones(len(freq_axis) - fe_idx)
 
         if self.has_iron_core:
-            n_fe = (500 + 500j) * one
+            n_fe = (500 - 500j) * one
             n = np.array([one, *sample_ref_idx, n_fe, one], dtype=complex).T
         else:
             n = np.array([one, *sample_ref_idx, one], dtype=complex).T
@@ -74,7 +74,7 @@ class SamplesEnum(Enum):
     # 1 layer + mirror core
     opBluePos1 = Sample([0.210], [(1.93, 1.93)], True)
     opBluePos2 = Sample([0.295], [(2.25, 2.25)], True)
-    opBlackPos1 = Sample([0.145], [(1.93, 1.93)], True)
+    opBlackPos1 = Sample([0.145], [(1.1 - 0.0001j, 3.93 - 0.070j)], True)
     opBlackPos2 = Sample([0.210], [(1.93, 1.93)], True)
     opRedPos1 = Sample([0.235], [(1.93, 1.93)], True)
     opRedPos2 = Sample([0.335], [(1.93, 1.93)], True)
@@ -86,14 +86,18 @@ class SamplesEnum(Enum):
     opToolBluePos2 = Sample([0.295], [(2.25, 2.25)], True)
 
     # 2 layer
-    bwCeramicWhiteUp = Sample([0.500, 0.140], [(2.911 - 0.001j, 2.950 - 0.059j), (2.685 - 0.001j, 2.722 - 0.0636j)])  # WORKS
-    bwCeramicBlackUp = Sample([0.140, 0.500], [(2.685 - 0.001j, 2.722 - 0.0636j), (2.911 - 0.001j, 2.950 - 0.059j)])  # WORKS
+    # WORKS? [(2.911 - 0.001j, 2.950 - 0.059j), (2.685 - 0.001j, 2.722 - 0.0636j)]
+    bwCeramicWhiteUp = Sample([0.500, 0.140],
+                              [(2.911 - 0.001j, 2.950 - 0.0236j), (2.685 - 0.001j, 2.737 - 0.0236j)])
+    # WORKS
+    bwCeramicBlackUp = Sample([0.140, 0.500],
+                              [(2.685 - 0.001j, 2.722 - 0.0636j), (2.911 - 0.001j, 2.950 - 0.059j)])
 
     # 3 layer
     ampelMannRight = Sample([0.046, 0.660, 0.073], [(1.527, 1.532), (2.80 - 0.000j, 2.82 - 0.015j),
                                                     (1.527, 1.532)])  # WORKS
-    ampelMannLeft = Sample([0.073, 0.660, 0.046], [(1.52, 1.521), (2.78 - 0.000j, 2.78 - 0.015j),
-                                                   (1.52, 1.521)])
+    ampelMannLeft = Sample([0.073, 0.660, 0.043], [(1.527, 1.532), (2.80 - 0.000j, 2.82 - 0.015j),
+                                                   (1.527, 1.532)])
     ampelMannOld = Sample([0.046, 0.660, 0.073], [(1.52, 1.521), (2.78 - 0.000j, 2.78 - 0.015j),
                                                   (1.52, 1.521)])
 
