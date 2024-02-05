@@ -582,8 +582,8 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
 
 if __name__ == '__main__':
-    save_plots = False
-    selected_sample = SamplesEnum.ampelMannLeft
+    save_plots = True
+    selected_sample = SamplesEnum.fpSample2
 
     new_rcparams = {"savefig.directory": result_dir / "JumpingLaser" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)
