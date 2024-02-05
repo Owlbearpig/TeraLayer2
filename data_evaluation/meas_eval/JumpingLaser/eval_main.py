@@ -203,6 +203,9 @@ def calc_sample_refl_coe(sample_enum: SamplesEnum):
 
 def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
     sample_meas = [meas for meas in all_measurements if meas.sample == sample_enum]
+    excluded_systems = [SystemEnum.WaveSource, SystemEnum.WaveSourcePicFreq]
+    sample_meas = [meas for meas in sample_meas if meas.system not in excluded_systems]
+
     sample = sample_enum.value
     layer_cnt = sample.layers
 
@@ -576,13 +579,13 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
 if __name__ == '__main__':
     save_plots = False
-    selected_sample = SamplesEnum.ampelMannLeft
+    selected_sample = SamplesEnum.fpSample2
 
     new_rcparams = {"savefig.directory": result_dir / "JumpingLaser" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)
 
     sample_meas = calc_sample_refl_coe(selected_sample)
-    plot_sample_refl_coe(selected_sample, less_plots=True)
+    plot_sample_refl_coe(selected_sample, less_plots=False)
     thickness_eval(selected_sample)
 
     plt_show(mpl, en_save=save_plots)
