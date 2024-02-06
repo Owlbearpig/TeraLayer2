@@ -74,7 +74,7 @@ class SamplesEnum(Enum):
     # 1 layer + mirror core
     opBluePos1 = Sample([0.210], [(1.93, 1.93)], True)
     opBluePos2 = Sample([0.295], [(2.25, 2.25)], True)
-    opBlackPos1 = Sample([0.145], [(1.1 - 0.0001j, 3.93 - 0.070j)], True)
+    opBlackPos1 = Sample([0.172], [(1.597 - 0.0001j, 1.73 - 0.065j)], True)  # Lauri: 0.145
     opBlackPos2 = Sample([0.210], [(1.93, 1.93)], True)
     opRedPos1 = Sample([0.235], [(1.93, 1.93)], True)
     opRedPos2 = Sample([0.335], [(1.93, 1.93)], True)

@@ -123,13 +123,14 @@ def fix_phase_slope(sam_meas_: Measurement):
                         SamplesEnum.fpSample5ceramic: 0.28, SamplesEnum.fpSample5Plastic: 0.39,
                         SamplesEnum.fpSample6: 0.1, SamplesEnum.bwCeramicWhiteUp: 0.20,
                         SamplesEnum.bwCeramicBlackUp: 0.26, SamplesEnum.ampelMannRight: -0.05,
-                        SamplesEnum.ampelMannLeft: 0.2}
+                        SamplesEnum.ampelMannLeft: 0.2, SamplesEnum.opBlackPos1: 0.1}
     else:
         pulse_shifts = {SamplesEnum.fpSample2: 0.09, SamplesEnum.fpSample3: 0.09,
                         SamplesEnum.fpSample5ceramic: -0.16,
                         SamplesEnum.fpSample6: 0.2, SamplesEnum.bwCeramicBlackUp: 0.01,
                         SamplesEnum.bwCeramicWhiteUp: -0.069,
-                        SamplesEnum.ampelMannRight: 0.0, SamplesEnum.ampelMannLeft: 0.70}
+                        SamplesEnum.ampelMannRight: 0.0, SamplesEnum.ampelMannLeft: 0.70,
+                        SamplesEnum.opBlackPos1: -0.7}
 
     try:
         pulse_shift = pulse_shifts[sam_meas_.sample]
@@ -583,13 +584,13 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
 if __name__ == '__main__':
     save_plots = True
-    selected_sample = SamplesEnum.fpSample2
+    selected_sample = SamplesEnum.opDarkRedPos1
 
     new_rcparams = {"savefig.directory": result_dir / "JumpingLaser" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)
 
     sample_meas = calc_sample_refl_coe(selected_sample)
     plot_sample_refl_coe(selected_sample, less_plots=True)
-    thickness_eval(selected_sample)
+    # thickness_eval(selected_sample)
 
     plt_show(mpl, en_save=save_plots)
