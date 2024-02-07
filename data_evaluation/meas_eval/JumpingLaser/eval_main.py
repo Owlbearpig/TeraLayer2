@@ -9,6 +9,7 @@ from consts import thea, c_thz
 from tmm_package import coh_tmm_slim_unsafe
 from typing import List, Union
 from samples import Sample
+from functools import partial
 from functions import do_ifft, moving_average
 from consts import selected_freqs as og_sel_freqs
 from model.separation_idea.triple_layer_impl import triple_layer_impl
@@ -20,6 +21,11 @@ all_measurements = get_all_measurements(add_model_measurements=True)
 ref_measurements = [meas for meas in all_measurements if meas.meas_type == MeasTypeEnum.Reference]
 bkg_measurements = [meas for meas in all_measurements if meas.meas_type == MeasTypeEnum.Background]
 sam_measurements = [meas for meas in all_measurements if meas.meas_type == MeasTypeEnum.Sample]
+
+
+def std_err(arr, sigma=1):
+    arr = np.array(arr)
+    return sigma * np.std(arr) / np.sqrt(len(arr))
 
 
 def find_nearest_meas(meas1: Measurement, meas_list: List[Measurement]):
@@ -204,6 +210,7 @@ def calc_sample_refl_coe(sample_enum: SamplesEnum):
         pass
 
     return sample_meas
+
 
 def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
     sample_meas = [meas for meas in all_measurements if meas.sample == sample_enum]
@@ -399,6 +406,57 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
 variables = {"truth_line_exists": False, "colors": ['red', 'green', 'blue', 'orange', 'purple']}
 
 
+class Cost:
+    def __init__(self, meas: Measurement):
+        self.meas = meas
+        self.selected_freqs = meas.freq
+        self.n = meas.sample.value.get_ref_idx(meas.freq)
+        self.r_avg = meas.r_avg
+        self.r = meas.r
+
+    def calc_cost(self, p_, verbose=False, sweep_idx_=None):
+        if sweep_idx_ is None:
+            r_exp = self.r_avg
+        else:
+            r_exp = self.r[sweep_idx_]
+
+        r_real, r_imag = r_exp.real, r_exp.imag
+        r_amp, r_phi = np.abs(r_exp), np.angle(r_exp)
+
+        r_mod = np.zeros_like(self.selected_freqs, dtype=complex)
+        for f_idx, freq in enumerate(self.selected_freqs):
+            lam_vac = c_thz / freq
+            if self.meas.sample.value.has_iron_core:
+                d_ = np.array([np.inf, *p_, 10, np.inf], dtype=float)
+            else:
+                d_ = np.array([np.inf, *p_, np.inf], dtype=float)
+            r_mod[f_idx] = -1 * coh_tmm_slim_unsafe("s", self.n[f_idx], d_, thea, lam_vac)
+
+        r_mod_amp, r_mod_phi = np.abs(r_mod), np.angle(r_mod)
+
+        # r_mod_amp[selected_freq < 0] = r_amp[selected_freq < 0]
+        # r_mod_phi[selected_freq < 0] = r_phi[selected_freq < 0]
+
+        # r_mod_amp[selected_freq > 0.8] = r_amp[selected_freq > 0.8]
+        # r_mod_phi[selected_freq > 0.8] = r_phi[selected_freq > 0.8]
+
+        cart_error = True
+        if cart_error:
+            real_error = (r_real - r_mod.real) ** 2
+            imag_error = (r_imag - r_mod.imag) ** 2
+
+            return np.sum(real_error + imag_error)
+        else:
+            amp_error = (r_amp - r_mod_amp) ** 2
+            phi_error = (r_phi - r_mod_phi) ** 2
+
+            if verbose:
+                print(f"Amp error: {amp_error}")
+                print(f"Phi error: {phi_error}")
+
+            return np.sum(amp_error + phi_error)
+
+
 def thickness_eval(sample_enum: SamplesEnum):
     sample_meas = [meas for meas in all_measurements if meas.sample == sample_enum]
     ts_meas = [meas for meas in sample_meas if meas.system == SystemEnum.TSweeper][0]
@@ -432,53 +490,16 @@ def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     if sam_meas_.system != SystemEnum.PIC:
         return
 
-    r_amp, r_phi = np.abs(sam_meas_.r_avg), np.angle(sam_meas_.r_avg)
-    r_real, r_imag = sam_meas_.r_avg.real, sam_meas_.r_avg.imag
-    selected_freqs = sam_meas_.freq
-
     ts_f_idx = []
-    for selected_freq in selected_freqs:
+    for selected_freq in sam_meas_.freq:
         ts_f_idx.append(np.argmin(np.abs(selected_freq - ts_meas_.freq)))
 
     r_amp_ts, r_phi_ts = np.abs(ts_meas_.r_avg[ts_f_idx]), np.angle(ts_meas_.r_avg[ts_f_idx])
     r_amp_truth, r_phi_truth = np.abs(mod_meas_.r_avg[ts_f_idx]), np.angle(mod_meas_.r_avg[ts_f_idx])
     r_real_truth, r_imag_truth = mod_meas_.r_avg[ts_f_idx].real, mod_meas_.r_avg[ts_f_idx].imag
 
-    n = sam_meas_.sample.value.get_ref_idx(sam_meas_.freq)
-
-    def calc_cost(p_, verbose=False):
-        r_mod = np.zeros_like(selected_freqs, dtype=complex)
-        for f_idx, freq in enumerate(selected_freqs):
-            lam_vac = c_thz / freq
-            if sam_meas_.sample.value.has_iron_core:
-                d_ = np.array([np.inf, *p_, 10, np.inf], dtype=float)
-            else:
-                d_ = np.array([np.inf, *p_, np.inf], dtype=float)
-            r_mod[f_idx] = -1 * coh_tmm_slim_unsafe("s", n[f_idx], d_, thea, lam_vac)
-
-        r_mod_amp, r_mod_phi = np.abs(r_mod), np.angle(r_mod)
-
-        # r_mod_amp[selected_freq < 0] = r_amp[selected_freq < 0]
-        # r_mod_phi[selected_freq < 0] = r_phi[selected_freq < 0]
-
-        # r_mod_amp[selected_freq > 0.8] = r_amp[selected_freq > 0.8]
-        # r_mod_phi[selected_freq > 0.8] = r_phi[selected_freq > 0.8]
-
-        cart_error = True
-        if cart_error:
-            real_error = (r_real - r_mod.real) ** 2
-            imag_error = (r_imag - r_mod.imag) ** 2
-
-            return np.sum(real_error + imag_error)
-        else:
-            amp_error = (r_amp - r_mod_amp) ** 2
-            phi_error = (r_phi - r_mod_phi) ** 2
-
-            if verbose:
-                print(f"Amp error: {amp_error}")
-                print(f"Phi error: {phi_error}")
-
-            return np.sum(amp_error + phi_error)
+    cost = Cost(sam_meas_)
+    avg_cost = cost.calc_cost
 
     d_truth0, d_truth1 = sam_meas_.sample.value.thicknesses.astype(int)
     d1, d2 = np.arange(max(0, d_truth0 - 50), d_truth0 + 50, 1), np.arange(max(0, d_truth1 - 100), d_truth1 + 100, 1)
@@ -488,7 +509,7 @@ def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     for i, d1_ in enumerate(d1):
         print(f"{i}/{len(d1)}")
         for j, d2_ in enumerate(d2):
-            img[i, j] = calc_cost(np.array([d1_, d2_]))
+            img[i, j] = avg_cost(np.array([d1_, d2_]))
 
     plt.imshow(img,
                extent=[d1[0], d1[-1], d2[0], d2[-1]],
@@ -506,71 +527,39 @@ def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     plt.title(f"Loss: [{d_truth0}, d2_]")
     d2_loss = []
     for d2_ in d2:
-        d2_loss.append(calc_cost(np.array([140, d2_])))
+        d2_loss.append(avg_cost(np.array([140, d2_])))
 
     plt.plot(d2, d2_loss)
     plt.xlabel("d2")
 
 
 def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement):
-    r_amp, r_phi = np.abs(sam_meas_.r_avg), np.angle(sam_meas_.r_avg)
-    r_real, r_imag = sam_meas_.r_avg.real, sam_meas_.r_avg.imag
-    selected_freqs = sam_meas_.freq
 
     ts_f_idx = []
-    for selected_freq in selected_freqs:
+    for selected_freq in sam_meas_.freq:
         ts_f_idx.append(np.argmin(np.abs(selected_freq - ts_meas_.freq)))
 
     r_amp_ts, r_phi_ts = np.abs(ts_meas_.r_avg[ts_f_idx]), np.angle(ts_meas_.r_avg[ts_f_idx])
     r_amp_truth, r_phi_truth = np.abs(mod_meas_.r_avg[ts_f_idx]), np.angle(mod_meas_.r_avg[ts_f_idx])
     r_real_truth, r_imag_truth = mod_meas_.r_avg[ts_f_idx].real, mod_meas_.r_avg[ts_f_idx].imag
-    n = sam_meas_.sample.value.get_ref_idx(sam_meas_.freq)
-
-    def calc_cost(p_, verbose=False):
-        r_mod = np.zeros_like(selected_freqs, dtype=complex)
-        for f_idx, freq in enumerate(selected_freqs):
-            lam_vac = c_thz / freq
-            if sam_meas_.sample.value.has_iron_core:
-                d_ = np.array([np.inf, *p_, 10, np.inf], dtype=float)
-            else:
-                d_ = np.array([np.inf, *p_, np.inf], dtype=float)
-
-            r_mod[f_idx] = -1 * coh_tmm_slim_unsafe("s", n[f_idx], d_, thea, lam_vac)
-
-        r_mod_amp, r_mod_phi = np.abs(r_mod), np.angle(r_mod)
-
-        r_mod_amp[selected_freq < 0] = r_amp[selected_freq < 0]
-        r_mod_phi[selected_freq < 0] = r_phi[selected_freq < 0]
-
-        cart_error = True
-        if cart_error:
-            real_error = (r_real - r_mod.real) ** 2
-            imag_error = (r_imag - r_mod.imag) ** 2
-
-            return np.sum(real_error + imag_error)
-        else:
-            amp_error = (r_amp - r_mod_amp) ** 2
-            phi_error = (r_phi - r_mod_phi) ** 2
-
-            if verbose:
-                print(f"Amp error: {amp_error}")
-                print(f"Phi error: {phi_error}")
-
-            return np.sum(amp_error + phi_error)
 
     d_truth = sam_meas_.sample.value.thicknesses
 
-    calc_cost(d_truth, verbose=True)
+    cost = Cost(sam_meas_)
+
+    avg_cost = cost.calc_cost
+
+    avg_cost(d_truth, verbose=True)
 
     d_min, d_max = np.max([1, d_truth[0] - 150]), d_truth[0] + 150
     d1 = np.arange(int(d_min), int(d_max), 1, dtype=float)
     losses = []
     for d in d1:
         p = np.array([d])
-        err = calc_cost(p)
+        err = avg_cost(p)
         losses.append(err)
 
-    plt.figure(sam_meas_.sample.name)
+    plt.figure(str(sam_meas_.sample.name) + "_avg")
     plt.plot(d1, losses, label=sam_meas_, c=variables["colors"][sam_meas_.system.value])
     if not variables["truth_line_exists"]:
         plt.axvline(x=sam_meas_.sample.value.tot_thickness, label="True thickness", c="red")
@@ -579,18 +568,55 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
                 linestyle="--", c=variables["colors"][sam_meas_.system.value])
     plt.xlabel("d1 (um)")
     plt.ylabel("Summed(Freq) residuals")
-    print("Found minimum: ", d1[np.argmin(losses)])
+    print(f"Found minimum: {d1[np.argmin(losses)]} (all sweeps averaged)")
+
+    if sam_meas_.system != SystemEnum.PIC:
+        return
+
+    n_sweeps = sam_meas_.n_sweeps
+    sweeps = list(range(n_sweeps))
+    results = np.zeros(n_sweeps, dtype=float)
+    min_losses = np.zeros(n_sweeps)
+    for sweep_idx in sweeps:
+        sweep_cost = partial(cost.calc_cost, sweep_idx_=sweep_idx)
+        losses = []
+        for d in d1:
+            p = np.array([d])
+            err = sweep_cost(p)
+            losses.append(err)
+        best_fit = d1[np.argmin(losses)]
+        best_fit_loss = np.min(losses)
+        print(f"Found minimum: {best_fit} ({best_fit_loss}), sweep: {sweep_idx}")
+        min_losses[sweep_idx] = best_fit_loss
+        results[sweep_idx] = best_fit
+
+    mean = np.mean(results)
+    std = np.round(std_err(results), 2)
+
+    plt.figure(str(sam_meas_.sample.name) + "_single_sweeps")
+    plt.plot(sweeps, results)
+    plt.axhline(mean, label=f"Mean thickness ({mean}$\pm${std} um)", c="red")
+    plt.axhline(d_truth, label=f"True thickness", c="blue")
+    plt.xlabel("Sweep number")
+    plt.ylabel("Best fit thickness (um)")
+
+    fig, (ax0, ax1) = plt.subplots(2, 1, num=str(sam_meas_.sample.name) + "_single_sweeps_losses")
+    ax0.plot(sweeps, min_losses)
+    ax1.plot(sweeps, results)
+    ax0.set_xlabel("Sweep number")
+    ax0.set_ylabel("Min residual")
+    ax1.set_ylabel("Best fit thickness (um)")
 
 
 if __name__ == '__main__':
     save_plots = True
-    selected_sample = SamplesEnum.opDarkRedPos1
+    selected_sample = SamplesEnum.fpSample5ceramic
 
     new_rcparams = {"savefig.directory": result_dir / "JumpingLaser" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)
 
     sample_meas = calc_sample_refl_coe(selected_sample)
     plot_sample_refl_coe(selected_sample, less_plots=True)
-    # thickness_eval(selected_sample)
+    thickness_eval(selected_sample)
 
     plt_show(mpl, en_save=save_plots)
