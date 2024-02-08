@@ -501,13 +501,14 @@ def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     cost = Cost(sam_meas_)
     avg_cost = cost.calc_cost
 
-    d_truth0, d_truth1 = sam_meas_.sample.value.thicknesses.astype(int)
-    d1, d2 = np.arange(max(0, d_truth0 - 50), d_truth0 + 50, 1), np.arange(max(0, d_truth1 - 100), d_truth1 + 100, 1)
+    truth_d1, truth_d2 = sam_meas_.sample.value.thicknesses.astype(int)
+    d1, d2 = np.arange(max(0, truth_d1 - 50), truth_d1 + 50, 1), np.arange(max(0, truth_d2 - 100), truth_d2 + 100, 1)
 
-    plt.figure()
+    plt.figure(str(sam_meas_.sample.name) + "_avg")
     img = np.zeros((len(d1), len(d2)))
     for i, d1_ in enumerate(d1):
-        print(f"{i}/{len(d1)}")
+        if (i % 25) == 0:
+            print(f"{i}/{len(d1)}")
         for j, d2_ in enumerate(d2):
             img[i, j] = avg_cost(np.array([d1_, d2_]))
 
@@ -521,16 +522,66 @@ def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     plt.xlabel("$d_1$")
     plt.ylabel("$d_2$")
     i, j = np.unravel_index(np.argmin(img), img.shape)
-    print(np.min(img), f"Found (global)minima at d1: {d1[i]} um, d2: {d2[j]} um")
+    print(f"Averaged sweeps. Global minimum {np.min(img)} at d1: {d1[i]} um, d2: {d2[j]} um")
 
-    plt.figure()
-    plt.title(f"Loss: [{d_truth0}, d2_]")
+    plt.figure(str(sam_meas_.sample.name) + "single_dim_avg")
+    plt.title(f"Loss: [{truth_d1}, d2_] all sweeps averaged")
     d2_loss = []
     for d2_ in d2:
-        d2_loss.append(avg_cost(np.array([140, d2_])))
+        d2_loss.append(avg_cost(np.array([truth_d1, d2_])))
 
     plt.plot(d2, d2_loss)
     plt.xlabel("d2")
+
+    if sam_meas_.system != SystemEnum.PIC:
+        return
+
+    n_sweeps = sam_meas_.n_sweeps
+    sweeps = list(range(n_sweeps))
+    results_d1, results_d2 = np.zeros((2, n_sweeps), dtype=float)
+    min_losses = np.zeros(n_sweeps)
+    for sweep_idx in sweeps:
+        sweep_cost = partial(cost.calc_cost, sweep_idx_=sweep_idx)
+
+        best_fit, best_fit_loss = (None, None), np.inf
+        for i, d1_ in enumerate(d1):
+            if (i % 25) == 0:
+                print(f"{i}/{len(d1)}")
+            for j, d2_ in enumerate(d2):
+                p = np.array([d1_, d2_])
+                err = sweep_cost(p)
+
+                if err < best_fit_loss:
+                    best_fit_loss = err
+                    best_fit = (d1_, d2_)
+
+        print(f"Found minimum: {best_fit} ({best_fit_loss}), sweep: {sweep_idx}")
+        min_losses[sweep_idx] = best_fit_loss
+        results_d1[sweep_idx], results_d2[sweep_idx] = best_fit
+
+    mean_d1, mean_d2 = np.mean(results_d1), np.mean(results_d2)
+    std_d1, std_d2 = np.round(std_err(results_d1), 2), np.round(std_err(results_d2), 2)
+
+    fig, (ax0, ax1) = plt.subplots(1, 2, num=str(sam_meas_.sample.name) + "_single_sweeps")
+    ax0.plot(sweeps, results_d1, label="Thicknesses first layer")
+    ax0.axhline(mean_d1, label=f"Mean thickness ({mean_d1}$\pm${std_d1} um)", c="red")
+    ax0.axhline(truth_d1, label=f"True thickness", c="blue")
+
+    ax1.plot(sweeps, results_d2, label="Thicknesses second layer")
+    ax1.axhline(mean_d2, label=f"Mean thickness ({mean_d2}$\pm${std_d2} um)", c="red")
+    ax1.axhline(truth_d2, label=f"True thickness", c="blue")
+
+    ax0.set_xlabel("Sweep number")
+    ax0.set_ylabel("Best fit thickness (um)")
+    ax1.set_ylabel("Best fit thickness (um)")
+
+    fig, (ax0, ax1) = plt.subplots(2, 1, num=str(sam_meas_.sample.name) + "_single_sweeps_losses")
+    ax0.plot(sweeps, min_losses)
+    ax1.plot(sweeps, results_d1, label="Thicknesses first layer")
+    ax1.plot(sweeps, results_d2, label="Thicknesses second layer")
+    ax0.set_xlabel("Sweep number")
+    ax0.set_ylabel("Min residual")
+    ax1.set_ylabel("Best fit thickness (um)")
 
 
 def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement):
@@ -610,7 +661,7 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
 if __name__ == '__main__':
     save_plots = True
-    selected_sample = SamplesEnum.fpSample5ceramic
+    selected_sample = SamplesEnum.opBlackPos1
 
     new_rcparams = {"savefig.directory": result_dir / "JumpingLaser" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)

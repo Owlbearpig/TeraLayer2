@@ -68,13 +68,13 @@ class SamplesEnum(Enum):
     fpSample2 = Sample([4.000], [(1.683 - 0.0192j, 1.699 - 0.024j)])  # WORKS
     fpSample3 = Sample([1.150], [(1.676 - 0.0092j, 1.68 - 0.0945j)])  # WORKS
     fpSample5Plastic = Sample([5.200], [(1.2 - 0.0001j, 1.9 - 0.0080j)])  # doesnt work
-    fpSample5ceramic = Sample([1.600], [(2.307 - 0.00334j, 2.330 - 0.012j)])  # WORKS
+    fpSample5ceramic = Sample([1.600], [(2.307 - 0.00334j, 2.330 - 0.012j)])  # WORKS best
     fpSample6 = Sample([0.600], [(1.34 - 0.028j, 1.370 - 0.15j)])  # kriege ich nicht gut hin ...
 
     # 1 layer + mirror core
     opBluePos1 = Sample([0.210], [(1.93, 1.93)], True)
     opBluePos2 = Sample([0.295], [(2.25, 2.25)], True)
-    opBlackPos1 = Sample([0.172], [(1.597 - 0.0001j, 1.73 - 0.065j)], True)  # Lauri: 0.145
+    opBlackPos1 = Sample([0.172], [(1.597 - 0.0001j, 1.73 - 0.065j)], True)  # Lauri d1: 0.145
     opBlackPos2 = Sample([0.210], [(1.93, 1.93)], True)
     opRedPos1 = Sample([0.235], [(1.93, 1.93)], True)
     opRedPos2 = Sample([0.335], [(1.93, 1.93)], True)
