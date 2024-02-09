@@ -237,7 +237,11 @@ ampelMannRight # works d1, d2, d3: (53, 670, 65)
 
 # TODO
 1. Single shot plots und std abweichung
-2. Iron core samples
+2. Iron core samples # works
 (3. improve results)
 
-
+4. "truevalue" is a mechanical caliper measurement -> 50 um uncertainty.
+    -> Mention in report + change label to Mechanical measurement (Mechanisch gemessen)
+5. Is all/many frequency TSWeeper comparison possible? (Got an example for Ampelmann) (Done)
+6. sigma/(sqrt(sweep_idx)) vs sweep_idx * dt, dt = 0.960 ms for PIC (800 us Wavesource)
+    -> can add both errors in case of two error functions

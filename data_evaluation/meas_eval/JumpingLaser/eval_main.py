@@ -10,7 +10,7 @@ from tmm_package import coh_tmm_slim_unsafe
 from typing import List, Union
 from samples import Sample
 from functools import partial
-from functions import do_ifft, moving_average
+from functions import do_ifft, moving_average, std_err
 from consts import selected_freqs as og_sel_freqs
 from model.separation_idea.triple_layer_impl import triple_layer_impl
 
@@ -21,11 +21,6 @@ all_measurements = get_all_measurements(add_model_measurements=True)
 ref_measurements = [meas for meas in all_measurements if meas.meas_type == MeasTypeEnum.Reference]
 bkg_measurements = [meas for meas in all_measurements if meas.meas_type == MeasTypeEnum.Background]
 sam_measurements = [meas for meas in all_measurements if meas.meas_type == MeasTypeEnum.Sample]
-
-
-def std_err(arr, sigma=1):
-    arr = np.array(arr)
-    return sigma * np.std(arr) / np.sqrt(len(arr))
 
 
 def find_nearest_meas(meas1: Measurement, meas_list: List[Measurement]):
@@ -128,14 +123,15 @@ def fix_phase_slope(sam_meas_: Measurement):
         pulse_shifts = {SamplesEnum.blueCube: 2.6, SamplesEnum.fpSample2: 0.24, SamplesEnum.fpSample3: 0.28,
                         SamplesEnum.fpSample5ceramic: 0.28, SamplesEnum.fpSample5Plastic: 0.39,
                         SamplesEnum.fpSample6: 0.1, SamplesEnum.bwCeramicWhiteUp: 0.20,
-                        SamplesEnum.bwCeramicBlackUp: 0.26, SamplesEnum.ampelMannRight: -0.05,
+                        SamplesEnum.bwCeramicBlackUp: 0.26,
+                        SamplesEnum.ampelMannRight: -0.02,
                         SamplesEnum.ampelMannLeft: 0.2, SamplesEnum.opBlackPos1: 0.1}
     else:
         pulse_shifts = {SamplesEnum.fpSample2: 0.09, SamplesEnum.fpSample3: 0.09,
                         SamplesEnum.fpSample5ceramic: -0.16,
                         SamplesEnum.fpSample6: 0.2, SamplesEnum.bwCeramicBlackUp: 0.01,
                         SamplesEnum.bwCeramicWhiteUp: -0.069,
-                        SamplesEnum.ampelMannRight: 0.0, SamplesEnum.ampelMannLeft: 0.70,
+                        SamplesEnum.ampelMannRight: -0.05, SamplesEnum.ampelMannLeft: 0.70,
                         SamplesEnum.opBlackPos1: -0.7}
 
     try:
@@ -348,6 +344,9 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
             plt.plot(sam_meas.freq[:-2], sam_meas.phase[:-2], label=sam_meas)
             # plt.plot(bkg_meas.freq, bkg_meas.phase, label="background")
 
+        if less_plots:
+            continue
+
         freq_idx = 2
         fig_num = f"r all meas. {sam_meas.sample.name}"
         title = f"Reflection coefficient. All meas. {sam_meas.sample.name} {np.round(sam_meas.freq[freq_idx], 2)} THz"
@@ -463,6 +462,10 @@ def thickness_eval(sample_enum: SamplesEnum):
     mod_meas = [meas for meas in sample_meas if meas.system == SystemEnum.Model][0]
 
     for meas in sample_meas:
+        if len(meas.sample.value.thicknesses) == 3:
+            print(f"Evaluating: {meas} (3 layers)")
+            triple_layer_eval(meas, ts_meas, mod_meas)
+
         if meas.system in [SystemEnum.TSweeper, SystemEnum.Model]:
             continue
 
@@ -474,16 +477,12 @@ def thickness_eval(sample_enum: SamplesEnum):
             print(f"Evaluating: {meas} (2 layers)")
             double_layer_eval(meas, ts_meas, mod_meas)
 
-        if len(meas.sample.value.thicknesses) == 3:
-            print(f"Evaluating: {meas} (3 layers)")
-            triple_layer_eval(meas, ts_meas, mod_meas)
-
 
 def triple_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement):
-    if sam_meas_.system != SystemEnum.PIC:
+    if sam_meas_.system not in [SystemEnum.PIC, SystemEnum.TSweeper]:
         return
 
-    triple_layer_impl(sam_meas_)
+    triple_layer_impl(sam_meas_, ts_meas_, mod_meas_)
 
 
 def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: Measurement):
@@ -661,7 +660,7 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
 if __name__ == '__main__':
     save_plots = True
-    selected_sample = SamplesEnum.opBlackPos1
+    selected_sample = SamplesEnum.ampelMannRight
 
     new_rcparams = {"savefig.directory": result_dir / "JumpingLaser" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)

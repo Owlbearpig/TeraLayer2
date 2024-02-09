@@ -202,6 +202,13 @@ def do_fft(data_td, shift=None):
     return array([f[idx_range], Y[idx_range]]).T
 
 
+def std_err(arr, sigma=1):
+    arr = np.array(arr)
+    return sigma * np.std(arr) / np.sqrt(len(arr))
+
+    std = np.std(arr, axis=0)
+    return sigma * std / np.sqrt(np.arange(1, len(arr)+1))
+
 def shift(data_td, shift=0):
     t = data_td[:, 0].real
     dt = np.mean(np.diff(t))

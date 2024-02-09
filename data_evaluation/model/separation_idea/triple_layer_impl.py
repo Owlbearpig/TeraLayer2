@@ -2,54 +2,25 @@ import numpy as np
 from tmm import list_snell, interface_r
 from numpy import conj, abs, cos
 from meas_eval.consts import thea, c_thz
-from meas_eval.JumpingLaser.parse_data import Measurement, ModelMeasurement
+from meas_eval.JumpingLaser.parse_data import Measurement, ModelMeasurement, SystemEnum, SamplesEnum
 import matplotlib.pyplot as plt
 from model.tmm_package import coh_tmm_slim
-
-num_layers = 5  # first and last layers are air
-pol = "s"
+from functions import std_err
 
 
-def triple_layer_impl(sam_meas_: Measurement):
+def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement):
+    num_layers = 5  # first and last layers are air
+    pol = "s"
+
     freqs = sam_meas_.freq
+    ts_freq_idx = [np.argmin(np.abs(freq - mod_meas_.freq)) for freq in freqs]
 
-    n_list = sam_meas_.sample.value.get_ref_idx(freqs)
-    r_exp_ = sam_meas_.r_avg
-    lam_vac = c_thz / freqs
-
-    r_fn = np.zeros((len(freqs), num_layers, num_layers), dtype=complex)
-    kz_list, th_list = np.zeros((2, len(freqs), num_layers), dtype=complex)
-    for freq_idx_ in range(freqs.size):
-        th_list[freq_idx_] = list_snell(n_list[freq_idx_], thea).T
-        kz_list[freq_idx_, :] = 2 * np.pi * n_list[freq_idx_] * cos(th_list[freq_idx_]) / lam_vac[freq_idx_]
-        for i in range(num_layers - 1):
-            r_fn[freq_idx_, i, i + 1] = interface_r(pol, n_list[freq_idx_, i], n_list[freq_idx_, i + 1],
-                                                    th_list[freq_idx_, i], th_list[freq_idx_, i + 1])
-
-    r = -np.abs(r_exp_)
-    u = np.exp(1j * np.angle(r_exp_))
-
-    c0 = r * r_fn[:, 0, 1] * r_fn[:, 3, 4] * u - r_fn[:, 3, 4]
-    c1 = r * r_fn[:, 1, 2] * r_fn[:, 3, 4] * u - r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 3, 4]
-    c2 = (r * r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 2, 3] * u - r_fn[:, 1, 2] * r_fn[:, 2, 3]) * r_fn[:, 3, 4]
-    c3 = r * r_fn[:, 0, 1] * r_fn[:, 2, 3] * u - r_fn[:, 2, 3]
-    c4 = r * r_fn[:, 2, 3] * r_fn[:, 3, 4] * u - r_fn[:, 0, 1] * r_fn[:, 2, 3] * r_fn[:, 3, 4]
-    c5 = r * r_fn[:, 1, 2] * r_fn[:, 2, 3] * u - r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 2, 3]
-    c6 = r * r_fn[:, 0, 1] * r_fn[:, 1, 2] * u - r_fn[:, 1, 2]
-    c7 = r * u - r_fn[:, 0, 1]
-
-    def expr1_(d1_, d2_, freq_idx_=0):
-        phi0 = d1_ * kz_list[freq_idx_, 1]
-        x_ = np.exp(1j * 2 * phi0)
-        phi1 = d2_ * kz_list[freq_idx_, 2]
-        y_ = np.exp(1j * 2 * phi1)
-
-        num = c0[freq_idx_] + c1[freq_idx_] * x_ + c2[freq_idx_] * y_ + c4[freq_idx_] * x_ * y_
-        den = c3[freq_idx_] + c5[freq_idx_] * x_ + c6[freq_idx_] * y_ + c7[freq_idx_] * x_ * y_
-
-        s = np.abs(num / den)
-
-        return (1 - s) ** 2
+    is_ts_meas = sam_meas_.system.name == SystemEnum.TSweeper.name
+    if is_ts_meas:
+        freq_min, freq_max = 0.2, 1.25
+        freq_min_idx, freq_max_idx = np.argmin(np.abs(freq_min - freqs)), np.argmin(np.abs(freq_max - freqs))
+        f_res = 10
+        freqs = sam_meas_.freq[freq_min_idx:freq_max_idx:f_res]
 
     d1_truth, d2_truth, d3_truth = sam_meas_.sample.value.thicknesses.astype(int)
 
@@ -57,17 +28,102 @@ def triple_layer_impl(sam_meas_: Measurement):
     d2 = np.arange(max(0, d2_truth - 100), d2_truth + 100, 1)
     d3 = np.arange(max(0, d3_truth - 100), d3_truth + 100, 1)
 
-    X, Y = np.meshgrid(d1, d2)
+    def eval_sample(sweep_idx=None):
+        if sweep_idx is None:
+            r_exp_ = sam_meas_.r_avg
+        else:
+            r_exp_ = sam_meas_.r[sweep_idx]
+        if is_ts_meas:
+            r_exp_ = sam_meas_.r_avg[freq_min_idx:freq_max_idx:f_res]
 
-    expr1_sum = np.sum([expr1_(X, Y, f_idx) for f_idx in range(len(freqs))], axis=0)
+        if (sam_meas_.sample == SamplesEnum.ampelMannLeft) and not is_ts_meas:
+            # print(mod_meas_.freq[ts_freq_idx[2]], mod_meas_.freq[ts_freq_idx[5]])
+            # r_exp_[0] = mod_meas_.r_avg[ts_freq_idx[0]]
+            # r_exp_[1] = mod_meas_.r_avg[ts_freq_idx[1]]
+            r_exp_[2] = mod_meas_.r_avg[ts_freq_idx[2]]
+            # r_exp_[3] = mod_meas_.r_avg[ts_freq_idx[3]]
+            # r_exp_[4] = mod_meas_.r_avg[ts_freq_idx[4]]
+            r_exp_[5] = mod_meas_.r_avg[ts_freq_idx[5]]
 
-    i, j = np.unravel_index(np.argmin(expr1_sum), expr1_sum.shape)
-    d1_found, d2_found = d1[j], d2[i]
-    print(np.min(expr1_sum), f"Found (global)minimum at d1: {d1_found} um, d2: {d2_found} um")
+        if (sam_meas_.sample == SamplesEnum.ampelMannRight) and not is_ts_meas:
+            # print(print(mod_meas_.freq[ts_freq_idx[2]], mod_meas_.freq[ts_freq_idx[4]], mod_meas_.freq[ts_freq_idx[5]]))
+            # r_exp_ = mod_meas_.r_avg[ts_freq_idx]
+            # r_exp_[0] = mod_meas_.r_avg[ts_freq_idx[0]]
+            # r_exp_[1] = mod_meas_.r_avg[ts_freq_idx[1]]
+            r_exp_[2] = mod_meas_.r_avg[ts_freq_idx[2]]
+            # r_exp_[3] = mod_meas_.r_avg[ts_freq_idx[3]]
+            r_exp_[4] = mod_meas_.r_avg[ts_freq_idx[4]]
+            r_exp_[5] = mod_meas_.r_avg[ts_freq_idx[5]]
 
-    plt.figure(f"triple layer eval")
-    plt.scatter(*(d1_found, d2_found), s=20, c='red', marker='x')
-    plt.title(f"Freq. sum expr1")
+        n_list = sam_meas_.sample.value.get_ref_idx(freqs)
+        lam_vac = c_thz / freqs
+
+        r_fn = np.zeros((len(freqs), num_layers, num_layers), dtype=complex)
+        kz_list, th_list = np.zeros((2, len(freqs), num_layers), dtype=complex)
+        for freq_idx_ in range(freqs.size):
+            th_list[freq_idx_] = list_snell(n_list[freq_idx_], thea).T
+            kz_list[freq_idx_, :] = 2 * np.pi * n_list[freq_idx_] * cos(th_list[freq_idx_]) / lam_vac[freq_idx_]
+            for i in range(num_layers - 1):
+                r_fn[freq_idx_, i, i + 1] = interface_r(pol, n_list[freq_idx_, i], n_list[freq_idx_, i + 1],
+                                                        th_list[freq_idx_, i], th_list[freq_idx_, i + 1])
+
+        r = -np.abs(r_exp_)
+        u = np.exp(1j * np.angle(r_exp_))
+
+        c0 = r * r_fn[:, 0, 1] * r_fn[:, 3, 4] * u - r_fn[:, 3, 4]
+        c1 = r * r_fn[:, 1, 2] * r_fn[:, 3, 4] * u - r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 3, 4]
+        c2 = (r * r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 2, 3] * u - r_fn[:, 1, 2] * r_fn[:, 2, 3]) * r_fn[:, 3, 4]
+        c3 = r * r_fn[:, 0, 1] * r_fn[:, 2, 3] * u - r_fn[:, 2, 3]
+        c4 = r * r_fn[:, 2, 3] * r_fn[:, 3, 4] * u - r_fn[:, 0, 1] * r_fn[:, 2, 3] * r_fn[:, 3, 4]
+        c5 = r * r_fn[:, 1, 2] * r_fn[:, 2, 3] * u - r_fn[:, 0, 1] * r_fn[:, 1, 2] * r_fn[:, 2, 3]
+        c6 = r * r_fn[:, 0, 1] * r_fn[:, 1, 2] * u - r_fn[:, 1, 2]
+        c7 = r * u - r_fn[:, 0, 1]
+
+        def expr1_(d1_, d2_, freq_idx_=0):
+            phi0 = d1_ * kz_list[freq_idx_, 1]
+            x_ = np.exp(1j * 2 * phi0)
+            phi1 = d2_ * kz_list[freq_idx_, 2]
+            y_ = np.exp(1j * 2 * phi1)
+
+            num = c0[freq_idx_] + c1[freq_idx_] * x_ + c2[freq_idx_] * y_ + c4[freq_idx_] * x_ * y_
+            den = c3[freq_idx_] + c5[freq_idx_] * x_ + c6[freq_idx_] * y_ + c7[freq_idx_] * x_ * y_
+
+            s = np.abs(num / den)
+
+            return (1 - s) ** 2
+
+        X, Y = np.meshgrid(d1, d2)
+
+        expr1_sum_ = np.sum([expr1_(X, Y, f_idx) for f_idx in range(len(freqs))], axis=0)
+
+        i, j = np.unravel_index(np.argmin(expr1_sum_), expr1_sum_.shape)
+        d1_found_, d2_found_ = d1[j], d2[i]
+
+        # plt.title("(full model - measurement)$^2$, wrt $d_3$")
+        r_exp_mod = np.zeros_like(freqs, dtype=complex)
+        d3_err_ = []
+        best_fit = (None, np.inf)
+        for d3_ in d3:
+            for freq_idx_ in range(len(freqs)):
+                d = np.array([np.inf, d1_found_, d2_found_, d3_, np.inf], dtype=float)
+                r_exp_mod[freq_idx_] = -coh_tmm_slim(pol, n_list[freq_idx_], d, thea, lam_vac[freq_idx_])
+            err = np.sum((r_exp_mod.real - r_exp_.real) ** 2 + (r_exp_mod.imag - r_exp_.imag) ** 2)
+            d3_err_.append(err)
+            if err < best_fit[1]:
+                best_fit = (d3_, err)
+
+        d3_found_ = d3[np.argmin(d3_err_)]
+
+        print(f"Sweep: {sweep_idx}")
+        print(f"Found minimum {np.min(expr1_sum_)} at (d1: {d1_found_}, d2: {d2_found_}, d3: {d3_found_}) um")
+
+        return d1_found_, d2_found_, d3_found_, expr1_sum_, d3_err_
+
+    d1_found, d2_found, d3_found, expr1_sum, d3_err = eval_sample()
+
+    s = "TSweeper" if is_ts_meas else "PIC"
+    plt.figure(str(sam_meas_.sample.name) + f"_expr1_sum_sweep_avg_{s}")
+    plt.title(f"2D Fehler Funktion {s}")
     plt.imshow(expr1_sum,
                extent=[d1[0], d1[-1], d2[0], d2[-1]],
                origin="lower",
@@ -75,27 +131,17 @@ def triple_layer_impl(sam_meas_: Measurement):
                # cmap="plasma",
                vmin=0, vmax=np.mean(expr1_sum),
                )
-    s = f"({d1_found}, {d2_found})"
-    plt.text(d1_found+5, d2_found+5, s, fontsize=14, color="red")
-    plt.xlabel("$d_1$")
-    plt.ylabel("$d_2$")
+    s = f"({d1_found}, {d2_found}) PIC"
+    if is_ts_meas:
+        s = s.replace("PIC", "TSweeper")
+    plt.text(d1_found + 5, d2_found + 5, s, fontsize=14, c="red")
+    plt.scatter(*(d1_found, d2_found), s=20, c="red", marker='x')
+    plt.xlabel("Dicke erste Schicht (um)")
+    plt.ylabel("Dicke zweite Schicht (um)")
 
-    plt.figure()
-    plt.title("(full model - measurement)$^2$, wrt $d_3$")
-    r_exp_mod = np.zeros_like(freqs, dtype=complex)
-    y_vals = []
-    best_fit = (None, np.inf)
-    for d3_ in d3:
-        for freq_idx_ in range(len(freqs)):
-            d = np.array([np.inf, d1_found, d2_found, d3_, np.inf], dtype=float)
-            r_exp_mod[freq_idx_] = -coh_tmm_slim(pol, n_list[freq_idx_], d, thea, lam_vac[freq_idx_])
-        err = np.sum((r_exp_mod.real - r_exp_.real) ** 2 + (r_exp_mod.imag - r_exp_.imag) ** 2)
-        y_vals.append(err)
-        if err < best_fit[1]:
-            best_fit = (d3_, err)
-
-    plt.plot(d3, y_vals, label="Squared differences")
-    min_point = (d3[np.argmin(y_vals)], np.min(y_vals))
+    plt.figure(str(sam_meas_.sample.name) + "_avg")
+    plt.plot(d3, d3_err, label=f"Squared differences ({sam_meas_.system})")
+    min_point = (d3_found, np.min(d3_err))
     plt.annotate(f"{min_point[0]}, {min_point[1]}", xy=(min_point[0], min_point[1]), xytext=(-20, 20),
                  textcoords='offset points', ha='center', va='bottom',
                  bbox=dict(boxstyle='round,pad=0.2', fc='yellow', alpha=0.3),
@@ -103,6 +149,49 @@ def triple_layer_impl(sam_meas_: Measurement):
                                  color='red'))
     plt.xlabel("$d_3$")
     plt.ylabel("Loss")
+    return
+    if is_ts_meas:
+        return
 
-    return expr1_sum
+    n_sweeps = sam_meas_.n_sweeps
+    sweeps = list(range(n_sweeps))
+    results_d1, results_d2, results_d3 = np.zeros((3, n_sweeps), dtype=float)
+    min_losses = np.zeros((2, n_sweeps), dtype=float)
+    for sweep_idx in sweeps:
+        d1_found, d2_found, d3_found, expr1_sum, d3_err = eval_sample(sweep_idx)
 
+        results_d1[sweep_idx], results_d2[sweep_idx], results_d3[sweep_idx] = d1_found, d2_found, d3_found
+        min_losses[:, sweep_idx] = np.min(expr1_sum), np.min(d3_err)
+
+    mean_d1, mean_d2, mean_d3 = np.mean(results_d1), np.mean(results_d2), np.mean(results_d3)
+    std_d1 = np.round(std_err(results_d1), 2)
+    std_d2 = np.round(std_err(results_d2), 2)
+    std_d3 = np.round(std_err(results_d3), 2)
+
+    fig, (ax0, ax1) = plt.subplots(1, 2, num=str(sam_meas_.sample.name) + "_single_sweeps")
+    ax0.scatter(sweeps, results_d1, label="Thicknesses first layer", color="blue")
+    ax0.axhline(mean_d1, label=f"Mean thickness first layer ({mean_d1}$\pm${std_d1} um)", c="blue", ls="dashed")
+    ax0.axhline(d1_truth, label=f"True thickness first layer", c="blue")
+
+    ax0.scatter(sweeps, results_d3, label="Thicknesses third layer", color="green")
+    ax0.axhline(mean_d3, label=f"Mean thickness third layer ({mean_d3}$\pm${std_d3} um)", c="green", ls="dashed")
+    ax0.axhline(d3_truth, label=f"True thickness  third layer", c="green")
+
+    ax1.scatter(sweeps, results_d2, label="Thicknesses second layer", c="red")
+    ax1.axhline(mean_d2, label=f"Mean thickness ({mean_d2}$\pm${std_d2} um)", c="red", ls="dashed")
+    ax1.axhline(d2_truth, label=f"True thickness", c="red")
+
+    ax0.set_xlabel("Sweep number")
+    ax0.set_ylabel("Best fit thickness (um)")
+    ax1.set_ylabel("Best fit thickness (um)")
+
+    fig, (ax0, ax1) = plt.subplots(2, 1, num=str(sam_meas_.sample.name) + "_single_sweeps_losses")
+    ax0.plot(sweeps, min_losses[0], label="Expr1 min val")
+    ax0.plot(sweeps, min_losses[1], label="d3_err min val")
+
+    ax1.plot(sweeps, results_d1, label="Thicknesses first layer", c="blue")
+    ax1.plot(sweeps, results_d2, label="Thicknesses second layer", c="red")
+    ax1.plot(sweeps, results_d3, label="Thicknesses third layer", c="green")
+    ax0.set_xlabel("Sweep number")
+    ax0.set_ylabel("Min residual")
+    ax1.set_ylabel("Best fit thickness (um)")
