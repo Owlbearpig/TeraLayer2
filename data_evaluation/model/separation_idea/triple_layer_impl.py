@@ -136,19 +136,21 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
         s = s.replace("PIC", "TSweeper")
     plt.text(d1_found + 5, d2_found + 5, s, fontsize=14, c="red")
     plt.scatter(*(d1_found, d2_found), s=20, c="red", marker='x')
-    plt.xlabel("Dicke erste Schicht (um)")
-    plt.ylabel("Dicke zweite Schicht (um)")
+    plt.xlabel("Dicke erste Schicht ($\mu$m)")
+    plt.ylabel("Dicke zweite Schicht ($\mu$m)")
 
-    plt.figure(str(sam_meas_.sample.name) + "_avg")
-    plt.plot(d3, d3_err, label=f"Squared differences ({sam_meas_.system})")
+    plt.figure(str(sam_meas_.sample.name) + f"_avg_{sam_meas_.system}")
+    plt.plot(d3, d3_err, label=f"Residuen ({sam_meas_.system})")
     min_point = (d3_found, np.min(d3_err))
-    plt.annotate(f"{min_point[0]}, {min_point[1]}", xy=(min_point[0], min_point[1]), xytext=(-20, 20),
+    plt.annotate(f"{min_point[0]}, {np.round(min_point[1],3)}", xy=(min_point[0], min_point[1]),
+                 xytext=(-20, 20),
                  textcoords='offset points', ha='center', va='bottom',
                  bbox=dict(boxstyle='round,pad=0.2', fc='yellow', alpha=0.3),
                  arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.5',
-                                 color='red'))
-    plt.xlabel("$d_3$")
-    plt.ylabel("Loss")
+                                 color='red', mutation_scale=22))
+    plt.xlabel("Dicke dritter Schicht ($\mu$m)")
+    plt.ylabel("Residuum")
+
     return
     if is_ts_meas:
         return
@@ -169,29 +171,29 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     std_d3 = np.round(std_err(results_d3), 2)
 
     fig, (ax0, ax1) = plt.subplots(1, 2, num=str(sam_meas_.sample.name) + "_single_sweeps")
-    ax0.scatter(sweeps, results_d1, label="Thicknesses first layer", color="blue")
-    ax0.axhline(mean_d1, label=f"Mean thickness first layer ({mean_d1}$\pm${std_d1} um)", c="blue", ls="dashed")
-    ax0.axhline(d1_truth, label=f"True thickness first layer", c="blue")
+    ax0.scatter(sweeps, results_d1, label="Dicke erste Schicht", color="blue")
+    ax0.axhline(mean_d1, label=f"Durchschnittliche Dicke erste Schicht ({mean_d1}$\pm${std_d1} $\mu$m)", c="blue", ls="dashed")
+    ax0.axhline(d1_truth, label=f"Messschieber Messung erste Schicht", c="blue")
 
-    ax0.scatter(sweeps, results_d3, label="Thicknesses third layer", color="green")
-    ax0.axhline(mean_d3, label=f"Mean thickness third layer ({mean_d3}$\pm${std_d3} um)", c="green", ls="dashed")
-    ax0.axhline(d3_truth, label=f"True thickness  third layer", c="green")
+    ax0.scatter(sweeps, results_d3, label="Dicke dritte Schicht", color="green")
+    ax0.axhline(mean_d3, label=f"Durchschnittliche Dicke dritte Schicht ({mean_d3}$\pm${std_d3} $\mu$m)", c="green", ls="dashed")
+    ax0.axhline(d3_truth, label=f"Messschieber Messung dritte Schicht", c="green")
 
-    ax1.scatter(sweeps, results_d2, label="Thicknesses second layer", c="red")
-    ax1.axhline(mean_d2, label=f"Mean thickness ({mean_d2}$\pm${std_d2} um)", c="red", ls="dashed")
-    ax1.axhline(d2_truth, label=f"True thickness", c="red")
+    ax1.scatter(sweeps, results_d2, label="Dricke zweite Schicht", c="red")
+    ax1.axhline(mean_d2, label=f"Durchschnittliche Dicke zweite Schicht ({mean_d2}$\pm${std_d2} $\mu$m)", c="red", ls="dashed")
+    ax1.axhline(d2_truth, label=f"Messschieber Messung zweite Schicht", c="red")
 
-    ax0.set_xlabel("Sweep number")
-    ax0.set_ylabel("Best fit thickness (um)")
-    ax1.set_ylabel("Best fit thickness (um)")
+    ax0.set_xlabel("Sweep Index")
+    ax0.set_ylabel("Dicke bester Fit ($\mu$m)")
+    ax1.set_ylabel("Dicke bester Fit ($\mu$m)")
 
     fig, (ax0, ax1) = plt.subplots(2, 1, num=str(sam_meas_.sample.name) + "_single_sweeps_losses")
-    ax0.plot(sweeps, min_losses[0], label="Expr1 min val")
-    ax0.plot(sweeps, min_losses[1], label="d3_err min val")
+    ax0.plot(sweeps, min_losses[0], label="Kleinstes Residuum erste Optimierung")
+    ax0.plot(sweeps, min_losses[1], label="Kleinstes Residuum zweite Optimierung")
 
-    ax1.plot(sweeps, results_d1, label="Thicknesses first layer", c="blue")
-    ax1.plot(sweeps, results_d2, label="Thicknesses second layer", c="red")
-    ax1.plot(sweeps, results_d3, label="Thicknesses third layer", c="green")
-    ax0.set_xlabel("Sweep number")
-    ax0.set_ylabel("Min residual")
-    ax1.set_ylabel("Best fit thickness (um)")
+    ax1.plot(sweeps, results_d1, label="Dicke erste Schicht", c="blue")
+    ax1.plot(sweeps, results_d2, label="Dicke zweite Schicht", c="red")
+    ax1.plot(sweeps, results_d3, label="Dicke dritte Schicht", c="green")
+    ax0.set_xlabel("Sweep Index")
+    ax0.set_ylabel("Kleinstes Residuum")
+    ax1.set_ylabel("Dicke bester Fit ($\mu$m)")
