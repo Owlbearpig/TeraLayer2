@@ -8,7 +8,7 @@ from model.tmm_package import coh_tmm_slim
 from functions import std_err
 
 
-def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement):
+def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement, selected_sweep_):
     num_layers = 5  # first and last layers are air
     pol = "s"
 
@@ -24,9 +24,19 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
     d1_truth, d2_truth, d3_truth = sam_meas_.sample.value.thicknesses.astype(int)
 
-    d1 = np.arange(max(0, d1_truth - 100), d1_truth + 100, 1)
-    d2 = np.arange(max(0, d2_truth - 100), d2_truth + 100, 1)
-    d3 = np.arange(max(0, d3_truth - 100), d3_truth + 100, 1)
+    d_truth = sam_meas_.sample.value.thicknesses.astype(int)
+    bounds = []
+    for i in range(3):
+        min_val = max(0, d_truth[i] - 100)
+        if d_truth[i] - 100 < 0:
+            max_val = 200
+        else:
+            max_val = d_truth[i] + 100
+        bounds.append((min_val, max_val))
+
+    d1 = np.arange(bounds[0][0], bounds[0][1] + 1, 1)
+    d2 = np.arange(bounds[1][0], bounds[1][1] + 1, 1)
+    d3 = np.arange(bounds[2][0], bounds[2][1] + 1, 1)
 
     def eval_sample(sweep_idx=None):
         if sweep_idx is None:
@@ -46,14 +56,15 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
             r_exp_[5] = mod_meas_.r_avg[ts_freq_idx[5]]
 
         if (sam_meas_.sample == SamplesEnum.ampelMannRight) and not is_ts_meas:
+            pass
             # print(print(mod_meas_.freq[ts_freq_idx[2]], mod_meas_.freq[ts_freq_idx[4]], mod_meas_.freq[ts_freq_idx[5]]))
             # r_exp_ = mod_meas_.r_avg[ts_freq_idx]
             # r_exp_[0] = mod_meas_.r_avg[ts_freq_idx[0]]
             # r_exp_[1] = mod_meas_.r_avg[ts_freq_idx[1]]
-            r_exp_[2] = mod_meas_.r_avg[ts_freq_idx[2]]
+            # r_exp_[2] = mod_meas_.r_avg[ts_freq_idx[2]] ##
             # r_exp_[3] = mod_meas_.r_avg[ts_freq_idx[3]]
-            r_exp_[4] = mod_meas_.r_avg[ts_freq_idx[4]]
-            r_exp_[5] = mod_meas_.r_avg[ts_freq_idx[5]]
+            # r_exp_[4] = mod_meas_.r_avg[ts_freq_idx[4]] ##
+            # r_exp_[5] = mod_meas_.r_avg[ts_freq_idx[5]] ##
 
         n_list = sam_meas_.sample.value.get_ref_idx(freqs)
         lam_vac = c_thz / freqs
@@ -119,37 +130,48 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
         return d1_found_, d2_found_, d3_found_, expr1_sum_, d3_err_
 
-    d1_found, d2_found, d3_found, expr1_sum, d3_err = eval_sample()
+    sweep_s = "alle sweeps" if selected_sweep_ is None else f"sweep {selected_sweep_}"
+    if is_ts_meas:
+        sweep_s = ""
 
+    d1_found, d2_found, d3_found, expr1_sum, d3_err = eval_sample(selected_sweep_)
+
+    fig_num = (str(sam_meas_.sample.name) + f"_expr1_sum_sweep_{selected_sweep_}")
     s = "TSweeper" if is_ts_meas else "PIC"
-    plt.figure(str(sam_meas_.sample.name) + f"_expr1_sum_sweep_avg_{s}")
-    plt.title(f"2D Fehler Funktion {s}")
-    plt.imshow(expr1_sum,
-               extent=[d1[0], d1[-1], d2[0], d2[-1]],
-               origin="lower",
-               # interpolation='bilinear',
-               # cmap="plasma",
-               vmin=0, vmax=np.mean(expr1_sum),
-               )
+    if not plt.fignum_exists(fig_num):
+        fig, (ax0, ax1) = plt.subplots(1, 2, num=fig_num)
+    else:
+        fig = plt.figure(fig_num)
+        ax0, ax1 = fig.get_axes()
+    ax = ax1 if is_ts_meas else ax0
+    ax.set_title(f"Residuum {s} {sweep_s}")
+    ax.imshow(expr1_sum,
+              extent=[d1[0], d1[-1], d2[0], d2[-1]],
+              origin="lower",
+              # interpolation='bilinear',
+              # cmap="plasma",
+              vmin=np.min(expr1_sum), vmax=0.25 * np.mean(expr1_sum),
+              )
     s = f"({d1_found}, {d2_found}) PIC"
     if is_ts_meas:
         s = s.replace("PIC", "TSweeper")
-    plt.text(d1_found + 5, d2_found + 5, s, fontsize=14, c="red")
-    plt.scatter(*(d1_found, d2_found), s=20, c="red", marker='x')
-    plt.xlabel("Dicke erste Schicht ($\mu$m)")
-    plt.ylabel("Dicke zweite Schicht ($\mu$m)")
+    ax.text(d1_found + 5, d2_found + 5, s, fontsize=18, c="red")
+    ax.scatter(*(d1_found, d2_found), s=25, c="red", marker='x')
+    ax.set_xlabel("Dicke erste Schicht ($\mu$m)")
+    ax.set_ylabel("Dicke zweite Schicht ($\mu$m)")
 
-    plt.figure(str(sam_meas_.sample.name) + f"_avg_{sam_meas_.system}")
-    plt.plot(d3, d3_err, label=f"Residuen ({sam_meas_.system})")
-    min_point = (d3_found, np.min(d3_err))
-    plt.annotate(f"{min_point[0]}, {np.round(min_point[1],3)}", xy=(min_point[0], min_point[1]),
+    # plt.figure(str(sam_meas_.sample.name) + f"_avg_{sam_meas_.system.name}")
+    plt.figure(str(sam_meas_.sample.name) + f"_sweep_{selected_sweep_}")
+    plt.plot(d3, np.log10(d3_err), label=f"Residuen {sam_meas_.system.name} {sweep_s}")
+    min_point = (d3_found, np.log10(np.min(d3_err)))
+    plt.annotate(f"{min_point[0]}, {np.round(min_point[1], 3)}", xy=(min_point[0], min_point[1]),
                  xytext=(-20, 20),
                  textcoords='offset points', ha='center', va='bottom',
                  bbox=dict(boxstyle='round,pad=0.2', fc='yellow', alpha=0.3),
                  arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.5',
                                  color='red', mutation_scale=22))
     plt.xlabel("Dicke dritter Schicht ($\mu$m)")
-    plt.ylabel("Residuum")
+    plt.ylabel("$\log_{10}$(Residuum)")
 
     return
     if is_ts_meas:
@@ -172,15 +194,18 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
     fig, (ax0, ax1) = plt.subplots(1, 2, num=str(sam_meas_.sample.name) + "_single_sweeps")
     ax0.scatter(sweeps, results_d1, label="Dicke erste Schicht", color="blue")
-    ax0.axhline(mean_d1, label=f"Durchschnittliche Dicke erste Schicht ({mean_d1}$\pm${std_d1} $\mu$m)", c="blue", ls="dashed")
+    ax0.axhline(mean_d1, label=f"Durchschnittliche Dicke erste Schicht ({mean_d1}$\pm${std_d1} $\mu$m)", c="blue",
+                ls="dashed")
     ax0.axhline(d1_truth, label=f"Messschieber Messung erste Schicht", c="blue")
 
     ax0.scatter(sweeps, results_d3, label="Dicke dritte Schicht", color="green")
-    ax0.axhline(mean_d3, label=f"Durchschnittliche Dicke dritte Schicht ({mean_d3}$\pm${std_d3} $\mu$m)", c="green", ls="dashed")
+    ax0.axhline(mean_d3, label=f"Durchschnittliche Dicke dritte Schicht ({mean_d3}$\pm${std_d3} $\mu$m)", c="green",
+                ls="dashed")
     ax0.axhline(d3_truth, label=f"Messschieber Messung dritte Schicht", c="green")
 
     ax1.scatter(sweeps, results_d2, label="Dricke zweite Schicht", c="red")
-    ax1.axhline(mean_d2, label=f"Durchschnittliche Dicke zweite Schicht ({mean_d2}$\pm${std_d2} $\mu$m)", c="red", ls="dashed")
+    ax1.axhline(mean_d2, label=f"Durchschnittliche Dicke zweite Schicht ({mean_d2}$\pm${std_d2} $\mu$m)", c="red",
+                ls="dashed")
     ax1.axhline(d2_truth, label=f"Messschieber Messung zweite Schicht", c="red")
 
     ax0.set_xlabel("Sweep Index")

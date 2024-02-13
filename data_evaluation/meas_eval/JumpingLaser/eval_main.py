@@ -208,7 +208,7 @@ def calc_sample_refl_coe(sample_enum: SamplesEnum):
     return sample_meas
 
 
-def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
+def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_plots=False):
     sample_meas = [meas for meas in all_measurements if meas.sample == sample_enum]
     excluded_systems = [SystemEnum.WaveSource, SystemEnum.WaveSourcePicFreq]
     sample_meas = [meas for meas in sample_meas if meas.system not in excluded_systems]
@@ -216,17 +216,23 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
     sample = sample_enum.value
     layer_cnt = sample.layers
 
-    title = f"Durschnittlicher Reflexionskoeffizient. Probe: {sample_enum.name}"
-    fig_r_avg_num = f"Avg. r {sample_enum.name}"
-    fig_r_avg, (ax0_r_avg, ax1_r_avg) = plt.subplots(nrows=2, ncols=1, num=fig_r_avg_num)
-    fig_r_avg.subplots_adjust(left=0.05 + 0.05 * layer_cnt, bottom=0.15 + 0.05 * layer_cnt)
-    ax0_r_avg.set_title(title)
-    ax0_r_avg.set_ylabel("Amplitude (dB)")
-    ax1_r_avg.set_ylabel("Phase (rad)")
-    ax1_r_avg.set_xlabel("Frequenz (THz)")
-    ax0_r_avg.set_xlim((-0.150, 1.6))
-    ax1_r_avg.set_xlim((-0.150, 1.6))
-    ax0_r_avg.set_ylim((-40, 15))
+    if selected_sweep_ is None:
+        title = f"Reflexionskoeffizient. Probe: {sample_enum.name}, Durchschnitt alle sweeps"
+        sweep_s = f"alle sweeps"
+    else:
+        title = f"Reflexionskoeffizient. Probe: {sample_enum.name}. Sweep {selected_sweep_}"
+        sweep_s = f"sweep {selected_sweep}"
+
+    fig_r_num = f"r_{sample_enum.name}_{sweep_s}"
+    fig_r, (ax0_r, ax1_r) = plt.subplots(nrows=2, ncols=1, num=fig_r_num)
+    fig_r.subplots_adjust(left=0.05 + 0.05 * layer_cnt, bottom=0.15 + 0.05 * layer_cnt)
+    ax0_r.set_title(title)
+    ax0_r.set_ylabel("Amplitude (dB)")
+    ax1_r.set_ylabel("Phase (rad)")
+    ax1_r.set_xlabel("Frequenz (THz)")
+    ax0_r.set_xlim((-0.150, 1.6))
+    ax1_r.set_xlim((-0.150, 1.6))
+    ax0_r.set_ylim((-40, 15))
 
     n_sliders, k_sliders, d_sliders = [], [], []
     n_slider_axes, k_slider_axes, d_slider_axes = [], [], []
@@ -241,18 +247,20 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
         if np.isclose(layer_k_min, layer_k_max):
             layer_k_max += 0.0001
 
-        n_slider_axes.append(fig_r_avg.add_axes([0.15, 0.10 - 0.05 * layer_idx, 0.25, 0.03]))
+        n_slider_axes.append(fig_r.add_axes([0.15, 0.10 - 0.05 * layer_idx, 0.16, 0.03]))
+        label = f"Brechungsindex\nSchicht {layer_idx + 1}" if layer_idx == 0 else f"Schicht {layer_idx + 1}"
         n_slider = RangeSlider(ax=n_slider_axes[layer_idx],
-                               label=f"Brechungsindex\nSchicht {layer_idx+1}",
+                               label=label,
                                valmin=layer_n_min * 0.95,
                                valmax=layer_n_max * 1.05,
                                valinit=(layer_n_min, layer_n_max),
                                )
         n_sliders.append(n_slider)
 
-        k_slider_axes.append(fig_r_avg.add_axes([0.60, 0.10 - 0.05 * layer_idx, 0.20, 0.03]))
+        k_slider_axes.append(fig_r.add_axes([0.60, 0.10 - 0.05 * layer_idx, 0.16, 0.03]))
+        label = f"Extinktionskoeffizient\nSchicht {layer_idx + 1}" if layer_idx == 0 else f"Schicht {layer_idx + 1}"
         k_slider = RangeSlider(ax=k_slider_axes[layer_idx],
-                               label=f"Extinktionskoeffizient\nSchicht {layer_idx+1}",
+                               label=label,
                                valmin=0,
                                valmax=np.abs(layer_k_max) * 1.2,
                                valinit=(np.abs(layer_k_min), np.abs(layer_k_max)),
@@ -261,9 +269,9 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
 
         layer_thickness = sample.thicknesses[layer_idx]
 
-        d_slider_axes.append(fig_r_avg.add_axes([0.03 + 0.04 * layer_idx, 0.20, 0.03, 0.60]))
+        d_slider_axes.append(fig_r.add_axes([0.03 + 0.05 * layer_idx, 0.20, 0.03, 0.60]))
         d_slider = Slider(ax=d_slider_axes[layer_idx],
-                          label=f"Dicke\nSchicht {layer_idx+1}",
+                          label=f"Dicke\nSchicht\n{layer_idx + 1}",
                           valmin=layer_thickness * 0.75,
                           valmax=layer_thickness * 1.25,
                           valinit=layer_thickness,
@@ -271,7 +279,7 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
                           )
         d_sliders.append(d_slider)
 
-    resetax0 = fig_r_avg.add_axes([0.005, 0.01, 0.05, 0.04])
+    resetax0 = fig_r.add_axes([0.005, 0.01, 0.05, 0.04])
     reset_but = Button(resetax0, 'Reset', hovercolor='0.975')
 
     def reset0(event):
@@ -284,23 +292,28 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
     for sam_meas in sample_meas:
         ref_meas = find_nearest_meas(sam_meas, ref_measurements)
 
-        amp_ref, phi_ref = ref_meas.amp, ref_meas.phase
-        amp_sam, phi_sam = sam_meas.amp, sam_meas.phase
-
         if sam_meas.system == SystemEnum.TSweeper:
-            ax0_r_avg.plot(sam_meas.freq, 20 * np.log10(np.abs(sam_meas.r_avg)),
-                           label=sam_meas.system.name, c="grey")
-            ax1_r_avg.plot(sam_meas.freq, np.angle(sam_meas.r_avg), label=sam_meas.system.name, c="grey")
+            r = sam_meas.r_avg
+            ax0_r.plot(sam_meas.freq, 20 * np.log10(np.abs(r)),
+                       label=sam_meas.system.name, c="grey", zorder=8)
+            ax1_r.plot(sam_meas.freq, np.angle(r),
+                       label=sam_meas.system.name, c="grey", zorder=8)
         elif sam_meas.system == SystemEnum.Model:
-            mod_amp_scat = ax0_r_avg.scatter(sam_meas.freq, 20 * np.log10(np.abs(sam_meas.r_avg)),
-                                             label=sam_meas.system.name, c="black")
-            mod_phi_scat = ax1_r_avg.scatter(sam_meas.freq, np.angle(sam_meas.r_avg),
-                                             label=sam_meas.system.name, c="black")
+            r = sam_meas.r_avg
+            mod_amp_scat = ax0_r.plot(sam_meas.freq, 20 * np.log10(np.abs(r)),
+                                      label=sam_meas.system.name, c="black")
+            mod_phi_scat = ax1_r.plot(sam_meas.freq, np.angle(r),
+                                      label=sam_meas.system.name, c="black")
             mod_meas = sam_meas
         else:
-            ax0_r_avg.scatter(sam_meas.freq, 20 * np.log10(np.abs(sam_meas.r_avg)),
-                              label=sam_meas.system.name, s=22, zorder=9)
-            ax1_r_avg.scatter(sam_meas.freq, np.angle(sam_meas.r_avg), label=sam_meas.system.name, s=22, zorder=9)
+            r = sam_meas.r_avg if not selected_sweep_ else sam_meas.r[selected_sweep_]
+            ax0_r.scatter(sam_meas.freq, 20 * np.log10(np.abs(r)),
+                          label=sam_meas.system.name, s=22, zorder=9, c="red")
+            ax1_r.scatter(sam_meas.freq, np.angle(r),
+                          label=sam_meas.system.name, s=22, zorder=9, c="red")
+
+        amp_ref, phi_ref = ref_meas.amp, ref_meas.phase
+        amp_sam, phi_sam = sam_meas.amp, sam_meas.phase
 
         if sam_meas.n_sweeps != 1 and not less_plots:
             fig, (ax0, ax1) = plt.subplots(2, 1, num=str(ref_meas))
@@ -394,7 +407,7 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, less_plots: bool):
 
         mod_amp_scat.set_offsets(np.array([freqs, new_amp]).T)
         mod_phi_scat.set_offsets(np.array([freqs, new_phi]).T)
-        fig_r_avg.canvas.draw_idle()
+        fig_r.canvas.draw_idle()
 
     for slider in n_sliders + k_sliders + d_sliders:
         slider.on_changed(update)
@@ -456,7 +469,7 @@ class Cost:
             return np.sum(amp_error + phi_error)
 
 
-def thickness_eval(sample_enum: SamplesEnum):
+def thickness_eval(sample_enum: SamplesEnum, selected_sweep_=None):
     sample_meas = [meas for meas in all_measurements if meas.sample == sample_enum]
     ts_meas = [meas for meas in sample_meas if meas.system == SystemEnum.TSweeper][0]
     mod_meas = [meas for meas in sample_meas if meas.system == SystemEnum.Model][0]
@@ -464,7 +477,7 @@ def thickness_eval(sample_enum: SamplesEnum):
     for meas in sample_meas:
         if len(meas.sample.value.thicknesses) == 3:
             print(f"Evaluating: {meas} (3 layers)")
-            triple_layer_eval(meas, ts_meas, mod_meas)
+            triple_layer_eval(meas, ts_meas, mod_meas, selected_sweep_)
 
         if meas.system in [SystemEnum.TSweeper, SystemEnum.Model]:
             continue
@@ -478,11 +491,11 @@ def thickness_eval(sample_enum: SamplesEnum):
             double_layer_eval(meas, ts_meas, mod_meas)
 
 
-def triple_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement):
+def triple_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement, selected_sweep_):
     if sam_meas_.system not in [SystemEnum.PIC, SystemEnum.TSweeper]:
         return
 
-    triple_layer_impl(sam_meas_, ts_meas_, mod_meas_)
+    triple_layer_impl(sam_meas_, ts_meas_, mod_meas_, selected_sweep_)
 
 
 def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: Measurement):
@@ -584,7 +597,6 @@ def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
 
 def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement):
-
     ts_f_idx = []
     for selected_freq in sam_meas_.freq:
         ts_f_idx.append(np.argmin(np.abs(selected_freq - ts_meas_.freq)))
@@ -661,12 +673,13 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 if __name__ == '__main__':
     save_plots = True
     selected_sample = SamplesEnum.ampelMannRight
+    selected_sweep = 99
 
     new_rcparams = {"savefig.directory": result_dir / "JumpingLaser" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)
 
     sample_meas = calc_sample_refl_coe(selected_sample)
-    plot_sample_refl_coe(selected_sample, less_plots=True)
-    thickness_eval(selected_sample)
+    plot_sample_refl_coe(selected_sample, selected_sweep, less_plots=True)
+    thickness_eval(selected_sample, selected_sweep)
 
     plt_show(mpl, en_save=save_plots)
