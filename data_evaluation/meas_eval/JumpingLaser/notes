@@ -236,9 +236,9 @@ bwCeramicWhiteUp # works if we exclude freq > 0.8 THz d1: 498 um, d2: 152 um (ra
 ampelMannRight # works d1, d2, d3: (53, 670, 65)
 
 # TODO
-1. Single shot plots und std abweichung
+1. Single shot plots und std abweichung # done
 2. Iron core samples # works
-(3. improve results)
+(3. improve results) #
 
 4. "truevalue" is a mechanical caliper measurement -> 50 um uncertainty.
     -> Mention in report + change label to Mechanical measurement (Mechanisch gemessen)

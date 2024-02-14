@@ -99,7 +99,8 @@ def shift_freq_axis(sam_meas_: Measurement, ref_meas_: Measurement):
         shifts = {SamplesEnum.fpSample3: 0.006,
                   SamplesEnum.ampelMannRight: 0.0, SamplesEnum.fpSample5ceramic: -0 * 0.010,
                   SamplesEnum.fpSample2: 0.003, SamplesEnum.fpSample5Plastic: -0.006, SamplesEnum.fpSample6: 0.0,
-                  SamplesEnum.bwCeramicBlackUp: 0.006, SamplesEnum.ampelMannLeft: 0.000}
+                  SamplesEnum.bwCeramicBlackUp: 0.006,
+                  SamplesEnum.ampelMannLeft: 0.000}
     elif sam_meas_.system == SystemEnum.TSweeper:
         shifts = {SamplesEnum.ampelMannRight: 0.0, SamplesEnum.fpSample5ceramic: -0 * 0.010,
                   SamplesEnum.fpSample2: 0.0, SamplesEnum.fpSample5Plastic: -0.006, SamplesEnum.fpSample6: 0.0}
@@ -125,14 +126,15 @@ def fix_phase_slope(sam_meas_: Measurement):
                         SamplesEnum.fpSample6: 0.1, SamplesEnum.bwCeramicWhiteUp: 0.20,
                         SamplesEnum.bwCeramicBlackUp: 0.26,
                         SamplesEnum.ampelMannRight: -0.02,
-                        SamplesEnum.ampelMannLeft: 0.2, SamplesEnum.opBlackPos1: 0.1}
+                        SamplesEnum.ampelMannLeft: 0.2,
+                        SamplesEnum.opBlackPos1: 0.1}
     else:
         pulse_shifts = {SamplesEnum.fpSample2: 0.09, SamplesEnum.fpSample3: 0.09,
                         SamplesEnum.fpSample5ceramic: -0.16,
                         SamplesEnum.fpSample6: 0.2, SamplesEnum.bwCeramicBlackUp: 0.01,
                         SamplesEnum.bwCeramicWhiteUp: -0.069,
                         SamplesEnum.ampelMannRight: -0.080,  # -0.080
-                        SamplesEnum.ampelMannLeft: 0.70,
+                        SamplesEnum.ampelMannLeft: 0.82,
                         SamplesEnum.opBlackPos1: -0.7}
 
     try:
@@ -677,7 +679,7 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 if __name__ == '__main__':
     save_plots = True
     selected_sample = SamplesEnum.ampelMannLeft
-    selected_sweep = 436
+    selected_sweep = 52
 
     new_rcparams = {"savefig.directory": result_dir / "JumpingLaser" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)

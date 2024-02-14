@@ -154,3 +154,5 @@ model ([45.77, 660.0, 72.6]) r_target:
 experimental (sam_idx=0) r_target:
 [ 0.68861143+0.19188424j  0.40914245+0.21957212j  0.27207933-0.37308845j
  -0.17356888-0.2019538j   0.21104934-0.13649972j  0.03111117+0.24119368j]
+
+give Cond data + scripts to enrique on USBSTICK

@@ -6,6 +6,7 @@ from meas_eval.JumpingLaser.parse_data import Measurement, ModelMeasurement, Sys
 import matplotlib.pyplot as plt
 from model.tmm_package import coh_tmm_slim
 from functions import std_err
+from scipy.optimize import minimize
 
 
 def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement, selected_sweep_):
@@ -43,10 +44,10 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
         weights = np.ones(len(freqs))
     else:
         real_weights, imag_weights = 1 / np.std(sam_meas_.r.real, axis=0), 1 / np.std(sam_meas_.r.imag, axis=0)
-        real_weights, imag_weights = np.ones((2, len(freqs)))
-        real_weights, imag_weights = 1*real_weights, imag_weights
-        #real_weights = np.array([1, 0, 0, 0, 0, 0])
-        #imag_weights = np.array([1, 0, 0, 0, 0, 0])
+        real_weights, imag_weights = 4*real_weights, imag_weights
+        # real_weights, imag_weights = np.ones((2, len(freqs)))
+        # real_weights = np.array([1, 1, 1, 1, 1, 0])
+        # imag_weights = np.array([1, 1, 1, 1, 1, 0])
         weights = np.ones(len(freqs))
 
     def eval_sample(sweep_idx=None):
@@ -58,13 +59,15 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
             r_exp_ = sam_meas_.r_avg[freq_min_idx:freq_max_idx:f_res]
 
         if (sam_meas_.sample == SamplesEnum.ampelMannLeft) and not is_ts_meas:
+            pass
             # print(mod_meas_.freq[ts_freq_idx[2]], mod_meas_.freq[ts_freq_idx[5]])
             # r_exp_[0] = mod_meas_.r_avg[ts_freq_idx[0]]
             # r_exp_[1] = mod_meas_.r_avg[ts_freq_idx[1]]
-            r_exp_[2] = mod_meas_.r_avg[ts_freq_idx[2]]
+            # r_exp_[2] = mod_meas_.r_avg[ts_freq_idx[2]]  ##
             # r_exp_[3] = mod_meas_.r_avg[ts_freq_idx[3]]
             # r_exp_[4] = mod_meas_.r_avg[ts_freq_idx[4]]
-            r_exp_[5] = mod_meas_.r_avg[ts_freq_idx[5]]
+            # r_exp_[5] = mod_meas_.r_avg[ts_freq_idx[5]]  ##
+            # r_exp_[5] = mod_meas_.r_avg[ts_freq_idx[5]].real + 1j*r_exp_[5].imag  ##
 
         if (sam_meas_.sample == SamplesEnum.ampelMannRight) and not is_ts_meas:
             pass
@@ -123,6 +126,29 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
         i, j = np.unravel_index(np.argmin(expr1_sum_), expr1_sum_.shape)
         d1_found_, d2_found_ = d1[j], d2[i]
 
+        def fun(p):
+            r_exp_mod = np.zeros_like(freqs, dtype=complex)
+            for freq_idx_ in range(len(freqs)):
+                d = np.array([np.inf, *p, np.inf], dtype=float)
+                r_exp_mod[freq_idx_] = -coh_tmm_slim(pol, n_list[freq_idx_], d, thea, lam_vac[freq_idx_])
+            real_err = (r_exp_mod.real - r_exp_.real) ** 2
+            imag_err = (r_exp_mod.imag - r_exp_.imag) ** 2
+
+            tot_err = np.sum(real_err * real_weights + imag_err * imag_weights)
+
+            return tot_err
+
+        if sweep_idx == selected_sweep_:
+            best_res = minimize(fun, np.array([d1_found_, d2_found_, d3[0]]))
+            for d3_ in [50, 70]:
+                x0 = np.array([d1_found_, d2_found_, d3_])
+                res = minimize(fun, x0)
+                print(res)
+                if res.fun < best_res.fun:
+                    best_res = res
+
+            print("BEST RES: ", best_res)
+
         r_exp_mod = np.zeros_like(freqs, dtype=complex)
         d3_err_ = []
         best_fit = (None, np.inf)
@@ -142,6 +168,11 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
         print(f"Sweep: {sweep_idx}")
         print(f"Found minimum {np.min(expr1_sum_)} at (d1: {d1_found_}, d2: {d2_found_}, d3: {d3_found_}) um")
+
+        if sweep_idx == selected_sweep_:
+            print(d1_found_, d2_found_, d3_found_)
+            print(best_res)
+            exit()
 
         return d1_found_, d2_found_, d3_found_, expr1_sum_, d3_err_
 
@@ -217,17 +248,20 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     ax0.scatter(sweeps, results_d1, label="Dicke erste Schicht", color="blue", marker="x", s=15)
     ax0.axhline(mean_d1, label=f"Durchschnittliche Dicke erste Schicht\n({mean_d1}$\pm${std_d1} $\mu$m)", c="blue",
                 ls="dashed", lw=2.0)
-    ax0.axhline(d1_truth, label=f"Messschieber Messung erste Schicht", c="blue", lw=2.0)
+    ax0.axhline(d1_truth, label=f"TSweeper Messung erste Schicht\n({d1_truth} $\mu$m)"
+                , c="blue", lw=2.0)
 
     ax0.scatter(sweeps, results_d3, label="Dicke dritte Schicht", color="green", s=15)
     ax0.axhline(mean_d3, label=f"Durchschnittliche Dicke dritte Schicht\n({mean_d3}$\pm${std_d3} $\mu$m)", c="green",
                 ls="dashed", lw=2.0)
-    ax0.axhline(d3_truth, label=f"Messschieber Messung dritte Schicht", c="green", lw=2.0)
+    ax0.axhline(d3_truth, label=f"TSweeper Messung dritte Schicht\n({d3_truth} $\mu$m)",
+                c="green", lw=2.0)
 
     ax1.scatter(sweeps, results_d2, label="Dricke zweite Schicht", c="red", s=15)
     ax1.axhline(mean_d2, label=f"Durchschnittliche Dicke zweite Schicht\n({mean_d2}$\pm${std_d2} $\mu$m)", c="red",
                 ls="dashed", lw=2.0)
-    ax1.axhline(d2_truth, label=f"Messschieber Messung zweite Schicht", c="red", lw=2.0)
+    ax1.axhline(d2_truth, label=f"TSweeper Messung zweite Schicht\n({d2_truth} $\mu$m)",
+                c="red", lw=2.0)
 
     ax0.set_xlabel("Sweep Index")
     ax0.set_ylabel("Dicke bester Fit ($\mu$m)")
