@@ -131,7 +131,8 @@ def fix_phase_slope(sam_meas_: Measurement):
                         SamplesEnum.fpSample5ceramic: -0.16,
                         SamplesEnum.fpSample6: 0.2, SamplesEnum.bwCeramicBlackUp: 0.01,
                         SamplesEnum.bwCeramicWhiteUp: -0.069,
-                        SamplesEnum.ampelMannRight: -0.05, SamplesEnum.ampelMannLeft: 0.70,
+                        SamplesEnum.ampelMannRight: -0.080,  # -0.080
+                        SamplesEnum.ampelMannLeft: 0.70,
                         SamplesEnum.opBlackPos1: -0.7}
 
     try:
@@ -272,8 +273,8 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_pl
         d_slider_axes.append(fig_r.add_axes([0.03 + 0.05 * layer_idx, 0.20, 0.03, 0.60]))
         d_slider = Slider(ax=d_slider_axes[layer_idx],
                           label=f"Dicke\nSchicht\n{layer_idx + 1}",
-                          valmin=layer_thickness * 0.75,
-                          valmax=layer_thickness * 1.25,
+                          valmin=layer_thickness * 0,
+                          valmax=layer_thickness * 3.0,
                           valinit=layer_thickness,
                           orientation='vertical',
                           )
@@ -288,7 +289,7 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_pl
 
     reset_but.on_clicked(reset0)
 
-    mod_amp_scat, mod_phi_scat, mod_meas = None, None, None
+    mod_amp_line, mod_phi_line, mod_meas = None, None, None
     for sam_meas in sample_meas:
         ref_meas = find_nearest_meas(sam_meas, ref_measurements)
 
@@ -300,10 +301,10 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_pl
                        label=sam_meas.system.name, c="grey", zorder=8)
         elif sam_meas.system == SystemEnum.Model:
             r = sam_meas.r_avg
-            mod_amp_scat = ax0_r.plot(sam_meas.freq, 20 * np.log10(np.abs(r)),
-                                      label=sam_meas.system.name, c="black")
-            mod_phi_scat = ax1_r.plot(sam_meas.freq, np.angle(r),
-                                      label=sam_meas.system.name, c="black")
+            mod_amp_line, = ax0_r.plot(sam_meas.freq, 20 * np.log10(np.abs(r)),
+                                       label=sam_meas.system.name, c="black")
+            mod_phi_line, = ax1_r.plot(sam_meas.freq, np.angle(r),
+                                       label=sam_meas.system.name, c="black")
             mod_meas = sam_meas
         else:
             r = sam_meas.r_avg if not selected_sweep_ else sam_meas.r[selected_sweep_]
@@ -357,12 +358,15 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_pl
             plt.plot(sam_meas.freq[:-2], sam_meas.phase[:-2], label=sam_meas)
             # plt.plot(bkg_meas.freq, bkg_meas.phase, label="background")
 
-        if less_plots:
+        if less_plots or sam_meas.n_sweeps <= 1:
             continue
 
-        freq_idx = 2
-        fig_num = f"r all meas. {sam_meas.sample.name}"
-        title = f"Reflexionskoeffizient. Alle sweeps. {sam_meas.sample.name} {np.round(sam_meas.freq[freq_idx], 2)} THz"
+        fig_num = f"r_all_sweeps_{sam_meas.system.name}_{sam_meas.sample.name}"
+        freq_idx = None
+
+        title = f"Reflexionskoeffizient {sam_meas.sample.name}. {sam_meas.system.name} alle sweeps"
+        if freq_idx is not None:
+            title += f" {np.round(sam_meas.freq[freq_idx], 2)} THz"
 
         if not plt.fignum_exists(fig_num):
             fig, (ax0, ax1) = plt.subplots(2, 1, num=fig_num)
@@ -384,10 +388,10 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_pl
             print(f"r direct mean Amp. {np.mean(r_amp_db, axis=0)}±{np.std(r_amp_db, axis=0)}")
             print(f"r direct mean phase: {np.mean(r_phi, axis=0)}±{np.std(r_phi, axis=0)}\n")
             for i, freq in enumerate(sam_meas.freq):
-                if i != freq_idx:
+                if freq_idx and (i != freq_idx):
                     continue
-                ax0.plot(r_amp_db[:, i], label=f"{sam_meas} {np.round(freq, 2)} THz")
-                ax1.plot(r_phi[:, i], label=f"{sam_meas} {np.round(freq, 2)} THz")
+                ax0.plot(r_amp_db[:, i], label=f"{np.round(freq, 2)} THz")
+                ax1.plot(r_phi[:, i], label=f"{np.round(freq, 2)} THz")
 
     def update(val):
         new_ref_idx = []
@@ -405,8 +409,8 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_pl
         freqs = mod_meas.freq
         new_amp, new_phi = 20 * np.log10(np.abs(mod_meas.r_avg)), np.angle(mod_meas.r_avg)
 
-        mod_amp_scat.set_offsets(np.array([freqs, new_amp]).T)
-        mod_phi_scat.set_offsets(np.array([freqs, new_phi]).T)
+        mod_amp_line.set_data(freqs, new_amp)
+        mod_phi_line.set_data(freqs, new_phi)
         fig_r.canvas.draw_idle()
 
     for slider in n_sliders + k_sliders + d_sliders:
@@ -672,8 +676,8 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
 if __name__ == '__main__':
     save_plots = True
-    selected_sample = SamplesEnum.ampelMannRight
-    selected_sweep = 99
+    selected_sample = SamplesEnum.ampelMannLeft
+    selected_sweep = 436
 
     new_rcparams = {"savefig.directory": result_dir / "JumpingLaser" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)

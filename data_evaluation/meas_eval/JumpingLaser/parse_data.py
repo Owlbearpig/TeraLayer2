@@ -13,8 +13,11 @@ from tmm_package import coh_tmm_slim_unsafe
 
 data_dir = data_root / "Jumping Laser THz/Probe Measurements (Reflexion)/2024-01-11"
 
-sub_dirs = ["Discrete Frequencies - PIC", "Discrete Frequencies - WaveSource",
-            "Discrete Frequencies - WaveSource (PIC-Freuqency Set)", "T-Sweeper"]
+sub_dirs = ["Discrete Frequencies - WaveSource",
+            "Discrete Frequencies - WaveSource (PIC-Freuqency Set)", "T-Sweeper",
+            "Discrete Frequencies - PIC all sweeps",
+            # "Discrete Frequencies - PIC",
+            ]
 
 
 class SystemEnum(Enum):

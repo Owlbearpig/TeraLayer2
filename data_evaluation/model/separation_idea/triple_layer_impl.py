@@ -27,7 +27,7 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     d_truth = sam_meas_.sample.value.thicknesses.astype(int)
     bounds = []
     for i in range(3):
-        min_val = max(0, d_truth[i] - 100)
+        min_val = max(20, d_truth[i] - 100)
         if d_truth[i] - 100 < 0:
             max_val = 200
         else:
@@ -36,7 +36,18 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
     d1 = np.arange(bounds[0][0], bounds[0][1] + 1, 1)
     d2 = np.arange(bounds[1][0], bounds[1][1] + 1, 1)
-    d3 = np.arange(bounds[2][0], bounds[2][1] + 1, 1)
+    d3 = np.arange(bounds[2][0], 150 + 1, 1)
+
+    if is_ts_meas:
+        real_weights, imag_weights = np.ones((2, len(freqs)))
+        weights = np.ones(len(freqs))
+    else:
+        real_weights, imag_weights = 1 / np.std(sam_meas_.r.real, axis=0), 1 / np.std(sam_meas_.r.imag, axis=0)
+        real_weights, imag_weights = np.ones((2, len(freqs)))
+        real_weights, imag_weights = 1*real_weights, imag_weights
+        #real_weights = np.array([1, 0, 0, 0, 0, 0])
+        #imag_weights = np.array([1, 0, 0, 0, 0, 0])
+        weights = np.ones(len(freqs))
 
     def eval_sample(sweep_idx=None):
         if sweep_idx is None:
@@ -105,12 +116,13 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
         X, Y = np.meshgrid(d1, d2)
 
-        expr1_sum_ = np.sum([expr1_(X, Y, f_idx) for f_idx in range(len(freqs))], axis=0)
+        expr1_err = np.array([expr1_(X, Y, f_idx) for f_idx in range(len(freqs))])
+        expr1_err = (np.multiply(expr1_err.T, weights)).T
+        expr1_sum_ = np.sum(expr1_err, axis=0)
 
         i, j = np.unravel_index(np.argmin(expr1_sum_), expr1_sum_.shape)
         d1_found_, d2_found_ = d1[j], d2[i]
 
-        # plt.title("(full model - measurement)$^2$, wrt $d_3$")
         r_exp_mod = np.zeros_like(freqs, dtype=complex)
         d3_err_ = []
         best_fit = (None, np.inf)
@@ -118,10 +130,13 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
             for freq_idx_ in range(len(freqs)):
                 d = np.array([np.inf, d1_found_, d2_found_, d3_, np.inf], dtype=float)
                 r_exp_mod[freq_idx_] = -coh_tmm_slim(pol, n_list[freq_idx_], d, thea, lam_vac[freq_idx_])
-            err = np.sum((r_exp_mod.real - r_exp_.real) ** 2 + (r_exp_mod.imag - r_exp_.imag) ** 2)
-            d3_err_.append(err)
-            if err < best_fit[1]:
-                best_fit = (d3_, err)
+            real_err = (r_exp_mod.real - r_exp_.real) ** 2
+            imag_err = (r_exp_mod.imag - r_exp_.imag) ** 2
+
+            tot_err = np.sum(real_err * real_weights + imag_err * imag_weights)
+            d3_err_.append(tot_err)
+            if tot_err < best_fit[1]:
+                best_fit = (d3_, tot_err)
 
         d3_found_ = d3[np.argmin(d3_err_)]
 
@@ -144,13 +159,15 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
         fig = plt.figure(fig_num)
         ax0, ax1 = fig.get_axes()
     ax = ax1 if is_ts_meas else ax0
-    ax.set_title(f"Residuum {s} {sweep_s}")
-    ax.imshow(expr1_sum,
+    ax.set_title("$\log_{10}$" + f"(Residuum) {s} {sweep_s}")
+    vmin = np.min(np.log10(expr1_sum))
+    vmax = np.mean(np.log10(expr1_sum))
+    ax.imshow(np.log10(expr1_sum),
               extent=[d1[0], d1[-1], d2[0], d2[-1]],
               origin="lower",
               # interpolation='bilinear',
               # cmap="plasma",
-              vmin=np.min(expr1_sum), vmax=0.25 * np.mean(expr1_sum),
+              vmin=vmin, vmax=vmax,
               )
     s = f"({d1_found}, {d2_found}) PIC"
     if is_ts_meas:
@@ -162,6 +179,7 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
     # plt.figure(str(sam_meas_.sample.name) + f"_avg_{sam_meas_.system.name}")
     plt.figure(str(sam_meas_.sample.name) + f"_sweep_{selected_sweep_}")
+    plt.title(f"Residuum {sweep_s}")
     plt.plot(d3, np.log10(d3_err), label=f"Residuen {sam_meas_.system.name} {sweep_s}")
     min_point = (d3_found, np.log10(np.min(d3_err)))
     plt.annotate(f"{min_point[0]}, {np.round(min_point[1], 3)}", xy=(min_point[0], min_point[1]),
@@ -173,7 +191,7 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     plt.xlabel("Dicke dritter Schicht ($\mu$m)")
     plt.ylabel("$\log_{10}$(Residuum)")
 
-    return
+    # return
     if is_ts_meas:
         return
 
@@ -193,23 +211,27 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     std_d3 = np.round(std_err(results_d3), 2)
 
     fig, (ax0, ax1) = plt.subplots(1, 2, num=str(sam_meas_.sample.name) + "_single_sweeps")
-    ax0.scatter(sweeps, results_d1, label="Dicke erste Schicht", color="blue")
-    ax0.axhline(mean_d1, label=f"Durchschnittliche Dicke erste Schicht ({mean_d1}$\pm${std_d1} $\mu$m)", c="blue",
-                ls="dashed")
-    ax0.axhline(d1_truth, label=f"Messschieber Messung erste Schicht", c="blue")
+    ax1.set_ylim((mean_d2 - 100, mean_d2 + 100))
+    ax0.set_ylim((-10, 210))
 
-    ax0.scatter(sweeps, results_d3, label="Dicke dritte Schicht", color="green")
-    ax0.axhline(mean_d3, label=f"Durchschnittliche Dicke dritte Schicht ({mean_d3}$\pm${std_d3} $\mu$m)", c="green",
-                ls="dashed")
-    ax0.axhline(d3_truth, label=f"Messschieber Messung dritte Schicht", c="green")
+    ax0.scatter(sweeps, results_d1, label="Dicke erste Schicht", color="blue", marker="x", s=15)
+    ax0.axhline(mean_d1, label=f"Durchschnittliche Dicke erste Schicht\n({mean_d1}$\pm${std_d1} $\mu$m)", c="blue",
+                ls="dashed", lw=2.0)
+    ax0.axhline(d1_truth, label=f"Messschieber Messung erste Schicht", c="blue", lw=2.0)
 
-    ax1.scatter(sweeps, results_d2, label="Dricke zweite Schicht", c="red")
-    ax1.axhline(mean_d2, label=f"Durchschnittliche Dicke zweite Schicht ({mean_d2}$\pm${std_d2} $\mu$m)", c="red",
-                ls="dashed")
-    ax1.axhline(d2_truth, label=f"Messschieber Messung zweite Schicht", c="red")
+    ax0.scatter(sweeps, results_d3, label="Dicke dritte Schicht", color="green", s=15)
+    ax0.axhline(mean_d3, label=f"Durchschnittliche Dicke dritte Schicht\n({mean_d3}$\pm${std_d3} $\mu$m)", c="green",
+                ls="dashed", lw=2.0)
+    ax0.axhline(d3_truth, label=f"Messschieber Messung dritte Schicht", c="green", lw=2.0)
+
+    ax1.scatter(sweeps, results_d2, label="Dricke zweite Schicht", c="red", s=15)
+    ax1.axhline(mean_d2, label=f"Durchschnittliche Dicke zweite Schicht\n({mean_d2}$\pm${std_d2} $\mu$m)", c="red",
+                ls="dashed", lw=2.0)
+    ax1.axhline(d2_truth, label=f"Messschieber Messung zweite Schicht", c="red", lw=2.0)
 
     ax0.set_xlabel("Sweep Index")
     ax0.set_ylabel("Dicke bester Fit ($\mu$m)")
+    ax1.set_xlabel("Sweep Index")
     ax1.set_ylabel("Dicke bester Fit ($\mu$m)")
 
     fig, (ax0, ax1) = plt.subplots(2, 1, num=str(sam_meas_.sample.name) + "_single_sweeps_losses")
