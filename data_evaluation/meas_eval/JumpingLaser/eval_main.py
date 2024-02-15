@@ -134,7 +134,7 @@ def fix_phase_slope(sam_meas_: Measurement):
                         SamplesEnum.fpSample6: 0.2, SamplesEnum.bwCeramicBlackUp: 0.01,
                         SamplesEnum.bwCeramicWhiteUp: -0.069,
                         SamplesEnum.ampelMannRight: -0.080,  # -0.080
-                        SamplesEnum.ampelMannLeft: 0.82,
+                        SamplesEnum.ampelMannLeft: 0.825,  # 0.825 best
                         SamplesEnum.opBlackPos1: -0.7}
 
     try:
@@ -275,8 +275,8 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_pl
         d_slider_axes.append(fig_r.add_axes([0.03 + 0.05 * layer_idx, 0.20, 0.03, 0.60]))
         d_slider = Slider(ax=d_slider_axes[layer_idx],
                           label=f"Dicke\nSchicht\n{layer_idx + 1}",
-                          valmin=layer_thickness * 0,
-                          valmax=layer_thickness * 3.0,
+                          valmin=layer_thickness * 0.75,
+                          valmax=layer_thickness * 1.25,
                           valinit=layer_thickness,
                           orientation='vertical',
                           )
@@ -475,7 +475,7 @@ class Cost:
             return np.sum(amp_error + phi_error)
 
 
-def thickness_eval(sample_enum: SamplesEnum, selected_sweep_=None):
+def thickness_eval(sample_enum: SamplesEnum, selected_sweep_=None, single_sweep_eval=False):
     sample_meas = [meas for meas in all_measurements if meas.sample == sample_enum]
     ts_meas = [meas for meas in sample_meas if meas.system == SystemEnum.TSweeper][0]
     mod_meas = [meas for meas in sample_meas if meas.system == SystemEnum.Model][0]
@@ -483,7 +483,7 @@ def thickness_eval(sample_enum: SamplesEnum, selected_sweep_=None):
     for meas in sample_meas:
         if len(meas.sample.value.thicknesses) == 3:
             print(f"Evaluating: {meas} (3 layers)")
-            triple_layer_eval(meas, ts_meas, mod_meas, selected_sweep_)
+            triple_layer_eval(meas, ts_meas, mod_meas, selected_sweep_, single_sweep_eval)
 
         if meas.system in [SystemEnum.TSweeper, SystemEnum.Model]:
             continue
@@ -494,17 +494,19 @@ def thickness_eval(sample_enum: SamplesEnum, selected_sweep_=None):
 
         if len(meas.sample.value.thicknesses) == 2:
             print(f"Evaluating: {meas} (2 layers)")
-            double_layer_eval(meas, ts_meas, mod_meas)
+            double_layer_eval(meas, ts_meas, mod_meas, selected_sweep_, single_sweep_eval)
 
 
-def triple_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement, selected_sweep_):
+def triple_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement,
+                      selected_sweep_, single_sweep_eval):
     if sam_meas_.system not in [SystemEnum.PIC, SystemEnum.TSweeper]:
         return
 
-    triple_layer_impl(sam_meas_, ts_meas_, mod_meas_, selected_sweep_)
+    triple_layer_impl(sam_meas_, ts_meas_, mod_meas_, selected_sweep_, single_sweep_eval)
 
 
-def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: Measurement):
+def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: Measurement,
+                      selected_sweep_, single_sweep_eval):
     if sam_meas_.system != SystemEnum.PIC:
         return
 
@@ -551,7 +553,7 @@ def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     plt.plot(d2, d2_loss)
     plt.xlabel("Zweite Shicht ($\mu$m)")
 
-    if sam_meas_.system != SystemEnum.PIC:
+    if single_sweep_eval or sam_meas_.system != SystemEnum.PIC:
         return
 
     n_sweeps = sam_meas_.n_sweeps
@@ -662,7 +664,7 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     std = np.round(std_err(results), 2)
 
     plt.figure(str(sam_meas_.sample.name) + "_single_sweeps")
-    plt.plot(sweeps, results)
+    plt.scatter(sweeps, results, marker="x", s=15)
     plt.axhline(mean, label=f"Durchschnittliche Dicke ({mean}$\pm${std} um)", c="red")
     plt.axhline(d_truth, label=f"Messschieber Messung", c="blue")
     plt.xlabel("Sweep Index")
@@ -678,14 +680,17 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
 if __name__ == '__main__':
     save_plots = True
-    selected_sample = SamplesEnum.ampelMannLeft
-    selected_sweep = 52
+    selected_sample = SamplesEnum.bwCeramicBlackUp
+    n_sweeps = [meas for meas in sam_measurements if meas.system == SystemEnum.PIC][0].n_sweeps
+    selected_sweep = np.random.randint(0, n_sweeps)  # 52 b ## 593 g # 1319 b # 519 b
+    selected_sweep = 50
+    # selected_sweep = 420
 
     new_rcparams = {"savefig.directory": result_dir / "JumpingLaser" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)
 
     sample_meas = calc_sample_refl_coe(selected_sample)
-    plot_sample_refl_coe(selected_sample, selected_sweep, less_plots=True)
-    thickness_eval(selected_sample, selected_sweep)
+    plot_sample_refl_coe(selected_sample, selected_sweep, less_plots=False)
+    thickness_eval(selected_sample, selected_sweep, single_sweep_eval=True)
 
     plt_show(mpl, en_save=save_plots)
