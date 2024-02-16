@@ -41,6 +41,8 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     d1 = np.arange(bounds[0][0], bounds[0][1] + 1, 1)
     d2 = np.arange(bounds[1][0], bounds[1][1] + 1, 1)
     d3 = np.arange(bounds[2][0], bounds[2][1] + 1, 1)
+    if sam_meas_.sample == SamplesEnum.ampelMannRight:
+        d3 = np.arange(bounds[2][0], 100, 1)
 
     if is_ts_meas:
         real_weights, imag_weights = np.ones((2, len(freqs)))

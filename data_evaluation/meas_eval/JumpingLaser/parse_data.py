@@ -285,14 +285,21 @@ class ModelMeasurement(Measurement):
             if fast and f_idx > 1600:
                 continue
 
-            if fast and (f_idx % 2) != 0:
-                pass
+            if fast and (f_idx % 4) != 0:
+                r_mod[f_idx] = r_mod[f_idx - 1]
+                continue
+
             lam_vac = c_thz / freq
             if has_iron_core:
                 d_ = np.array([np.inf, *d_truth, 10, np.inf], dtype=float)
             else:
                 d_ = np.array([np.inf, *d_truth, np.inf], dtype=float)
             r_mod[f_idx] = -1 * coh_tmm_slim_unsafe("s", n[f_idx], d_, thea, lam_vac)
+
+        for f_idx in range(len(self.freq)):
+            if fast and (f_idx % 4) != 0:
+                continue
+                # r_mod[f_idx] = r_mod[f_idx - 1]
 
         ref_fd = np.array([self.freq, self.amp * np.exp(1j * self.phase)]).T
 

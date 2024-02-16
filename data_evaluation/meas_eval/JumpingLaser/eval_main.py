@@ -127,15 +127,19 @@ def fix_phase_slope(sam_meas_: Measurement):
                         SamplesEnum.bwCeramicBlackUp: 0.26,
                         SamplesEnum.ampelMannRight: -0.02,
                         SamplesEnum.ampelMannLeft: 0.2,
-                        SamplesEnum.opBlackPos1: 0.1}
+                        SamplesEnum.opBlackPos1: 0.1,
+                        SamplesEnum.opRedPos1: 0.2,  # not done
+                        SamplesEnum.opBluePos1: 0.43}
     else:
         pulse_shifts = {SamplesEnum.fpSample2: 0.09, SamplesEnum.fpSample3: 0.09,
                         SamplesEnum.fpSample5ceramic: -0.16,
                         SamplesEnum.fpSample6: 0.2, SamplesEnum.bwCeramicBlackUp: 0.01,
                         SamplesEnum.bwCeramicWhiteUp: -0.069,
+                        # SamplesEnum.ampelMannRight: -0.080,  # best
                         SamplesEnum.ampelMannRight: -0.080,  # -0.080
                         SamplesEnum.ampelMannLeft: 0.825,  # 0.825 best
-                        SamplesEnum.opBlackPos1: -0.7}
+                        SamplesEnum.opBlackPos1: -0.7,
+                        SamplesEnum.opBluePos1: -0.95}
 
     try:
         pulse_shift = pulse_shifts[sam_meas_.sample]
@@ -275,8 +279,8 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_pl
         d_slider_axes.append(fig_r.add_axes([0.03 + 0.05 * layer_idx, 0.20, 0.03, 0.60]))
         d_slider = Slider(ax=d_slider_axes[layer_idx],
                           label=f"Dicke\nSchicht\n{layer_idx + 1}",
-                          valmin=layer_thickness * 0.75,
-                          valmax=layer_thickness * 1.25,
+                          valmin=layer_thickness * 0.25,
+                          valmax=layer_thickness * 2,
                           valinit=layer_thickness,
                           orientation='vertical',
                           )
@@ -522,7 +526,7 @@ def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     avg_cost = cost.calc_cost
 
     truth_d1, truth_d2 = sam_meas_.sample.value.thicknesses.astype(int)
-    d1, d2 = np.arange(max(0, truth_d1 - 50), truth_d1 + 50, 1), np.arange(max(0, truth_d2 - 100), truth_d2 + 100, 1)
+    d1, d2 = np.arange(max(0, truth_d1 - 20), truth_d1 + 20, 1), np.arange(max(0, truth_d2 - 20), truth_d2 + 20, 1)
 
     plt.figure(str(sam_meas_.sample.name) + "_avg")
     img = np.zeros((len(d1), len(d2)))
@@ -678,19 +682,46 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     ax1.set_ylabel("Dicke bester Fit ($\mu$m)")
 
 
+def integrated_std_err_plot(selected_sample_: SamplesEnum, std_err_=None):
+    dt = 0.960  # us
+    n_sweeps_ = 2000
+    layer_cnt = selected_sample_.value.layers
+    std_err_dict = {SamplesEnum.ampelMannLeft: [0.02, 0.02, 0.06], }
+    if std_err_ is None:
+        try:
+            std_err_ = np.array(std_err_dict[selected_sample_], dtype=float)
+        except KeyError:
+            std_err_ = np.zeros(layer_cnt)
+
+    sigma = std_err_ * np.sqrt(n_sweeps_)
+    n = np.arange(1, 20+1, 1)
+
+    plt.figure(f"Integrated_standard_error_{selected_sample_.name}")
+    plt.title("Standardfehler in abhängigkeit von der Messzeit")
+    plt.xlabel("Messzeit (ms)")
+    plt.ylabel("Standardfehler ($\mu$m)")
+
+    for layer_idx in range(layer_cnt):
+        std_err_ = sigma[layer_idx] / np.sqrt(n)
+        label = f"Schicht {layer_idx + 1} ($\sigma =${np.round(sigma[layer_idx],  2)} $\mu$m)"
+        plt.plot(n*dt, std_err_, label=label, lw=3.0, markersize=5)
+
+
 if __name__ == '__main__':
     save_plots = True
-    selected_sample = SamplesEnum.bwCeramicBlackUp
+    selected_sample = SamplesEnum.ampelMannLeft
     n_sweeps = [meas for meas in sam_measurements if meas.system == SystemEnum.PIC][0].n_sweeps
     selected_sweep = np.random.randint(0, n_sweeps)  # 52 b ## 593 g # 1319 b # 519 b
-    selected_sweep = 50
+    selected_sweep = None
     # selected_sweep = 420
 
     new_rcparams = {"savefig.directory": result_dir / "JumpingLaser" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)
 
     sample_meas = calc_sample_refl_coe(selected_sample)
-    plot_sample_refl_coe(selected_sample, selected_sweep, less_plots=False)
-    thickness_eval(selected_sample, selected_sweep, single_sweep_eval=True)
+    plot_sample_refl_coe(selected_sample, selected_sweep, less_plots=True)
+    # thickness_eval(selected_sample, selected_sweep, single_sweep_eval=False)
+
+    integrated_std_err_plot(selected_sample)
 
     plt_show(mpl, en_save=save_plots)

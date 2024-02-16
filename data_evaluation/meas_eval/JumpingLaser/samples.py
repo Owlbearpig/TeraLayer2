@@ -72,14 +72,14 @@ class SamplesEnum(Enum):
     fpSample6 = Sample([0.600], [(1.34 - 0.028j, 1.370 - 0.15j)])  # kriege ich nicht gut hin ...
 
     # 1 layer + mirror core
-    opBluePos1 = Sample([0.210], [(1.93, 1.93)], True)
+    opBluePos1 = Sample([0.210], [(1.747 - 0.0001j, 1.980 - 0.065j)], True) # works
     opBluePos2 = Sample([0.295], [(2.25, 2.25)], True)
-    opBlackPos1 = Sample([0.172], [(1.597 - 0.0001j, 1.73 - 0.065j)], True)  # Lauri d1: 0.145
+    opBlackPos1 = Sample([0.172], [(1.597 - 0.0001j, 1.73 - 0.065j)], True)  # works Lauri d1: 0.145
     opBlackPos2 = Sample([0.210], [(1.93, 1.93)], True)
-    opRedPos1 = Sample([0.235], [(1.93, 1.93)], True)
+    opRedPos1 = Sample([0.235], [(1.93, 1.93)], True) # not done
     opRedPos2 = Sample([0.335], [(1.93, 1.93)], True)
     opDarkRedPos1 = Sample([0.285], [(1.93, 1.93)], True)
-    opDarkRedPos2 = Sample([0.385], [(1.93, 1.93)], True)
+    opDarkRedPos2 = Sample([0.385], [(1.1 - 0.0001j, 2.73 - 0.065j)], True)
     opToolRedPos1 = Sample([0.235], [(1.93, 1.93)], True)
     opToolRedPos2 = Sample([0.335], [(1.93, 1.93)], True)
     opToolBluePos1 = Sample([0.210], [(1.93, 1.93)], True)
@@ -88,10 +88,13 @@ class SamplesEnum(Enum):
     # 2 layer
     # WORKS? [(2.911 - 0.001j, 2.950 - 0.059j), (2.685 - 0.001j, 2.722 - 0.0636j)]
     bwCeramicWhiteUp = Sample([0.500, 0.140],
-                              [(2.911 - 0.001j, 2.950 - 0.0236j), (2.685 - 0.001j, 2.737 - 0.0236j)])
+                              [(2.911 - 0.001j, 2.950 - 0.0236j),
+                               (2.685 - 0.001j, 2.737 - 0.0236j)])
     # WORKS
     bwCeramicBlackUp = Sample([0.140, 0.500],
-                              [(1.3 - 0.001j, 1.8 - 0.0636j), (2.911 - 0.001j, 2.950 - 0.059j)])
+                              [(2.685 - 0.001j, 2.737 - 0.0236j),
+                               (2.911 - 0.001j, 2.950 - 0.0236j),
+                               ])
 
     # 3 layer
     ampelMannRight = Sample([0.045, 0.660, 0.076], [(1.504, 1.54),
