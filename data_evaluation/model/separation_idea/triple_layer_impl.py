@@ -178,7 +178,7 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
         return d1_found_, d2_found_, d3_found_, expr1_sum_, d3_err_
 
-    sweep_s = "alle sweeps" if selected_sweep_ is None else f"sweep {selected_sweep_}"
+    sweep_s = "alle Aufnahmen" if selected_sweep_ is None else f"Aufnahme {selected_sweep_}"
     if is_ts_meas:
         sweep_s = ""
 
@@ -268,9 +268,9 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     ax1.axhline(d2_truth, label=f"TSweeper Messung zweite Schicht\n({d2_truth} $\mu$m)",
                 c="black", ls="dashed", lw=2, zorder=9)
 
-    ax0.set_xlabel("Sweep Index")
+    ax0.set_xlabel("Aufnahme Index")
     ax0.set_ylabel("Dicke bester Fit ($\mu$m)")
-    ax1.set_xlabel("Sweep Index")
+    ax1.set_xlabel("Aufnahme Index")
     ax1.set_ylabel("Dicke bester Fit ($\mu$m)")
 
     fig, (ax0, ax1) = plt.subplots(2, 1, num=str(sam_meas_.sample.name) + "_single_sweeps_losses")
@@ -280,6 +280,6 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     ax1.plot(sweeps, results_d1, label="Dicke erste Schicht", c="blue")
     ax1.plot(sweeps, results_d2, label="Dicke zweite Schicht", c="red")
     ax1.plot(sweeps, results_d3, label="Dicke dritte Schicht", c="green")
-    ax0.set_xlabel("Sweep Index")
+    ax0.set_xlabel("Aufnahme Index")
     ax0.set_ylabel("Kleinstes Residuum")
     ax1.set_ylabel("Dicke bester Fit ($\mu$m)")

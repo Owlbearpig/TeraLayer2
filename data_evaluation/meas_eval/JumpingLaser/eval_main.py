@@ -224,10 +224,10 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_pl
     layer_cnt = sample.layers
 
     if selected_sweep_ is None:
-        title = f"Reflexionskoeffizient. Probe: {sample_enum.name}, Durchschnitt alle sweeps"
+        title = f"Reflexionskoeffizient. Probe: {sample_enum.name}, Durchschnitt alle Aufnahmen"
         sweep_s = f"alle sweeps"
     else:
-        title = f"Reflexionskoeffizient. Probe: {sample_enum.name}. Sweep {selected_sweep_}"
+        title = f"Reflexionskoeffizient. Probe: {sample_enum.name}. Aufnahme {selected_sweep_}"
         sweep_s = f"sweep {selected_sweep}"
 
     fig_r_num = f"r_{sample_enum.name}_{sweep_s}"
@@ -315,9 +315,9 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_pl
         else:
             r = sam_meas.r_avg if not selected_sweep_ else sam_meas.r[selected_sweep_]
             ax0_r.scatter(sam_meas.freq, 20 * np.log10(np.abs(r)),
-                          label=sam_meas.system.name, s=22, zorder=9, c="red")
+                          label=sam_meas.system.name, s=40, zorder=9, c="red")
             ax1_r.scatter(sam_meas.freq, np.angle(r),
-                          label=sam_meas.system.name, s=22, zorder=9, c="red")
+                          label=sam_meas.system.name, s=40, zorder=9, c="red")
 
         amp_ref, phi_ref = ref_meas.amp, ref_meas.phase
         amp_sam, phi_sam = sam_meas.amp, sam_meas.phase
@@ -325,7 +325,7 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_pl
         if sam_meas.n_sweeps != 1 and not less_plots:
             fig, (ax0, ax1) = plt.subplots(2, 1, num=str(ref_meas))
             ax0.set_title(f"{ref_meas}")
-            ax1.set_xlabel("Sweep Index")
+            ax1.set_xlabel("Aufnahme Index")
             ax0.set_ylabel("Amplitude (dB)")
             ax1.set_ylabel("Phase (rad)")
 
@@ -335,7 +335,7 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_pl
 
             fig, (ax0, ax1) = plt.subplots(2, 1, num=str(sam_meas))
             ax0.set_title(f"{sam_meas}")
-            ax1.set_xlabel("Sweep Index")
+            ax1.set_xlabel("Aufnahme Index")
             ax0.set_ylabel("Amplitude (dB)")
             ax1.set_ylabel("Phase (rad)")
 
@@ -370,14 +370,14 @@ def plot_sample_refl_coe(sample_enum: SamplesEnum, selected_sweep_=None, less_pl
         fig_num = f"r_all_sweeps_{sam_meas.system.name}_{sam_meas.sample.name}"
         freq_idx = None
 
-        title = f"Reflexionskoeffizient {sam_meas.sample.name}. {sam_meas.system.name} alle sweeps"
+        title = f"Reflexionskoeffizient {sam_meas.sample.name}. {sam_meas.system.name} alle Aufnahmen"
         if freq_idx is not None:
             title += f" {np.round(sam_meas.freq[freq_idx], 2)} THz"
 
         if not plt.fignum_exists(fig_num):
             fig, (ax0, ax1) = plt.subplots(2, 1, num=fig_num)
             ax0.set_title(title)
-            ax1.set_xlabel("Sweep Index")
+            ax1.set_xlabel("Aufnahme Index")
             ax0.set_ylabel("Amplitude (dB)")
             ax1.set_ylabel("Phase (rad)")
         else:
@@ -595,7 +595,7 @@ def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     ax1.axhline(mean_d2, label=f"Durschnittliche Dicke ({mean_d2}$\pm${std_d2} $\mu$m)", c="red")
     ax1.axhline(truth_d2, label=f"Messschieber Messung", c="blue")
 
-    ax0.set_xlabel("Sweep Index")
+    ax0.set_xlabel("Aufnahme Index")
     ax0.set_ylabel("Dicke bester Fit ($\mu$m)")
     ax1.set_ylabel("Dicke bester Fit ($\mu$m)")
 
@@ -603,7 +603,7 @@ def double_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     ax0.plot(sweeps, min_losses)
     ax1.plot(sweeps, results_d1, label="Dicke erste Schicht")
     ax1.plot(sweeps, results_d2, label="Dicke zweite Schicht")
-    ax0.set_xlabel("Sweep Index")
+    ax0.set_xlabel("Aufnahme Index")
     ax0.set_ylabel("Kleinstes Residuum")
     ax1.set_ylabel("Dicke bester Fit ($\mu$m)")
 
@@ -671,13 +671,13 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     plt.scatter(sweeps, results, marker="x", s=15)
     plt.axhline(mean, label=f"Durchschnittliche Dicke ({mean}$\pm${std} um)", c="red")
     plt.axhline(d_truth, label=f"Messschieber Messung", c="blue")
-    plt.xlabel("Sweep Index")
+    plt.xlabel("Aufnahme Index")
     plt.ylabel("Dicke bester Fit ($\mu$m)")
 
     fig, (ax0, ax1) = plt.subplots(2, 1, num=str(sam_meas_.sample.name) + "_single_sweeps_losses")
     ax0.plot(sweeps, min_losses)
     ax1.plot(sweeps, results)
-    ax0.set_xlabel("Sweep Index")
+    ax0.set_xlabel("Aufnahme Index")
     ax0.set_ylabel("Kleinstes Residuum")
     ax1.set_ylabel("Dicke bester Fit ($\mu$m)")
 
@@ -713,14 +713,14 @@ if __name__ == '__main__':
     n_sweeps = [meas for meas in sam_measurements if meas.system == SystemEnum.PIC][0].n_sweeps
     selected_sweep = np.random.randint(0, n_sweeps)  # 52 b ## 593 g # 1319 b # 519 b
     selected_sweep = None
-    # selected_sweep = 420
+    selected_sweep = 420
 
     new_rcparams = {"savefig.directory": result_dir / "JumpingLaser" / str(selected_sample.name)}
     mpl.rcParams = mpl_style_params(new_rcparams)
 
     sample_meas = calc_sample_refl_coe(selected_sample)
     plot_sample_refl_coe(selected_sample, selected_sweep, less_plots=True)
-    # thickness_eval(selected_sample, selected_sweep, single_sweep_eval=False)
+    thickness_eval(selected_sample, selected_sweep, single_sweep_eval=True)
 
     integrated_std_err_plot(selected_sample)
 

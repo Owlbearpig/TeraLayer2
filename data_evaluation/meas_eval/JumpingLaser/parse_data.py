@@ -15,8 +15,8 @@ data_dir = data_root / "Jumping Laser THz/Probe Measurements (Reflexion)/2024-01
 
 sub_dirs = ["Discrete Frequencies - WaveSource",
             "Discrete Frequencies - WaveSource (PIC-Freuqency Set)", "T-Sweeper",
-            # "Discrete Frequencies - PIC all sweeps",
-            "Discrete Frequencies - PIC",
+            "Discrete Frequencies - PIC all sweeps",
+            # "Discrete Frequencies - PIC",
             ]
 
 
