@@ -708,7 +708,7 @@ def integrated_std_err_plot(selected_sample_: SamplesEnum, std_err_=None):
 
 
 if __name__ == '__main__':
-    save_plots = True
+    save_plots = False
     selected_sample = SamplesEnum.ampelMannLeft
     n_sweeps = [meas for meas in sam_measurements if meas.system == SystemEnum.PIC][0].n_sweeps
     selected_sweep = np.random.randint(0, n_sweeps)  # 52 b ## 593 g # 1319 b # 519 b
@@ -722,6 +722,6 @@ if __name__ == '__main__':
     plot_sample_refl_coe(selected_sample, selected_sweep, less_plots=True)
     thickness_eval(selected_sample, selected_sweep, single_sweep_eval=True)
 
-    integrated_std_err_plot(selected_sample)
+    # integrated_std_err_plot(selected_sample)
 
     plt_show(mpl, en_save=save_plots)

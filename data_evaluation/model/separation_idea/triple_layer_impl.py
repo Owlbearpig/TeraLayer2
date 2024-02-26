@@ -7,12 +7,21 @@ import matplotlib.pyplot as plt
 from model.tmm_package import coh_tmm_slim
 from functions import std_err
 from scipy.optimize import minimize
+from itertools import product
 
 minimum_prec = 4
 
 
 def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement, selected_sweep_,
                       single_sweep_eval):
+    def grid_points(spacing=50, x_shift=0, y_shift=0):
+        d11 = np.arange(d1[0] + x_shift, d1[-1], spacing)
+        d22 = np.arange(d2[0] + y_shift, d2[-1], spacing)
+
+        grid = list(product(d11, d22))
+
+        return grid
+
     num_layers = 5  # first and last layers are air
     pol = "s"
 
@@ -55,7 +64,7 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
         # imag_weights = np.array([1, 1, 1, 1, 1, 0.0])
         weights = np.ones(len(freqs))
 
-    def eval_sample(sweep_idx=None):
+    def eval_sample(sweep_idx=None, grid_=None):
         if sweep_idx is None:
             r_exp_ = sam_meas_.r_avg
         else:
@@ -122,6 +131,45 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
             return (1 - s) ** 2
 
+        ###
+        # extension for grid search ->
+        ###
+        if grid_:
+            def expr1_sum_fun(p_):
+                d1_, d2_ = p_
+                loss = np.sum(np.array([expr1_(d1_, d2_, f_idx) for f_idx in range(len(freqs))]), axis=0)
+                return np.log10(loss)
+
+            def initial_simplex(x0_, spread=10):
+                simplex = np.zeros((3, 2))
+                for i in range(3):
+                    for j in range(2):
+                        if i - 1 == j:
+                            simplex[i, j] = x0_[j] - spread
+                        else:
+                            simplex[i, j] = x0_[j]
+
+                return simplex
+
+            opt_bounds = [(d1[0], d1[-1]), (d2[0], d2[-1])]
+            x0 = np.array([*grid_[0]], dtype=float)
+            best_res = minimize(expr1_sum_fun, x0, bounds=opt_bounds, method="Nelder-Mead")
+            best_start_val = None
+            for grid_point_ in grid_:
+                x0 = np.array([*grid_point_], dtype=float)
+                res = minimize(expr1_sum_fun, x0, method="Nelder-Mead",
+                               options={"initial_simplex": initial_simplex(x0)})
+
+                if res.fun < best_res.fun:
+                    best_res = res
+                    best_start_val = x0
+            x = np.round(best_res.x, 2)
+            print(f"Grid opt minimum {np.round(best_res.fun, minimum_prec)} at ({x[0]}, {x[1]}) um\n")
+            print(best_start_val)
+            print(best_res)
+
+            return best_start_val
+
         X, Y = np.meshgrid(d1, d2)
 
         expr1_err = np.array([expr1_(X, Y, f_idx) for f_idx in range(len(freqs))])
@@ -131,7 +179,7 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
         i, j = np.unravel_index(np.argmin(expr1_sum_), expr1_sum_.shape)
         d1_found_, d2_found_ = d1[j], d2[i]
 
-        # 2nd stage
+        # 2nd stage. Use p0 from previous 2D opt. problem to find last thickness
         def fun(p):
             if any(p) < 0:
                 return np.inf
@@ -150,11 +198,11 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
         d3_found_ = None
         if not is_ts_meas:
             opt_bounds = [(d1[0], d1[-1]), (d2[0], d2[-1]), (d3[0], d3[-1])]
-            x0 = np.array([d1_found_, d2_found_, d3[len(d3)//2]], dtype=float)
-            best_res = minimize(fun, x0, bounds=opt_bounds)
+            x0 = np.array([d1_found_, d2_found_, d3[len(d3) // 2]], dtype=float)
+            best_res = minimize(fun, x0, bounds=opt_bounds, method="Nelder-Mead")
             for d3_ in [20.0, 70.0, 120.0, 170.0]:
                 x0 = np.array([d1_found_, d2_found_, d3_], dtype=float)
-                res = minimize(fun, x0, bounds=opt_bounds)
+                res = minimize(fun, x0, bounds=opt_bounds, method="Nelder-Mead")
                 if res.fun < best_res.fun:
                     best_res = res
             x = np.round(best_res.x, 2)
@@ -207,8 +255,18 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     s = f"({expr1_min_d1}, {expr1_min_d2}) PIC"
     if is_ts_meas:
         s = s.replace("PIC", "TSweeper")
-    ax.text(expr1_min_d1 + 5, expr1_min_d2 + 5, s, fontsize=18, c="red")
-    ax.scatter(*(expr1_min_d1, expr1_min_d2), s=25, c="red", marker='x')
+    else: # if True:
+        grid = grid_points(spacing=50, x_shift=10, y_shift=10)
+        for i, grid_point in enumerate(grid):
+            if i == 0:
+                ax.scatter(*grid_point, s=40, c="black", label="Anfangswertgitter")
+            else:
+                ax.scatter(*grid_point, s=40, c="black")
+        best_x0 = eval_sample(grid_=grid)
+        ax.scatter(*best_x0, s=40, c="red", label="Anfangswert der zum Optimum führt")
+
+    ax.text(expr1_min_d1 + 5, expr1_min_d2 - 5, s, fontsize=18, c="red")
+    ax.scatter(*(expr1_min_d1, expr1_min_d2), s=40, c="red", marker='x')
     ax.set_xlabel("Dicke erste Schicht ($\mu$m)")
     ax.set_ylabel("Dicke zweite Schicht ($\mu$m)")
 
