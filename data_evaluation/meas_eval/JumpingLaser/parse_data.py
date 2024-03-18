@@ -13,7 +13,8 @@ from tmm_package import coh_tmm_slim_unsafe
 
 data_dir = data_root / "Jumping Laser THz/Probe Measurements (Reflexion)/2024-01-11"
 
-sub_dirs = ["Discrete Frequencies - WaveSource",
+sub_dirs = [#"Discrete Frequencies - WaveSource",
+            "Discrete Frequencies - WaveSource all sweeps",
             "Discrete Frequencies - WaveSource (PIC-Freuqency Set)", "T-Sweeper",
             "Discrete Frequencies - PIC all sweeps",
             # "Discrete Frequencies - PIC",
@@ -50,6 +51,7 @@ class Measurement:
     sample = None
     r = None
     r_avg = None
+    pulse_shift = None
 
     def __init__(self, file_path=None):
         self._parse_file(file_path)

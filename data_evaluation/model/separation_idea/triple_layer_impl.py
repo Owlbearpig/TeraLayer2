@@ -8,12 +8,17 @@ from model.tmm_package import coh_tmm_slim
 from functions import std_err
 from scipy.optimize import minimize
 from itertools import product
+from pathlib import Path
 
 minimum_prec = 4
 
 
-def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement, selected_sweep_,
-                      single_sweep_eval):
+def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement, options: dict):
+    single_sweep_eval = options["single_sweep_eval"]
+    selected_sweep_ = options["selected_sweep"]
+    save_file = options["save_dir"] / f"opt_res_{str(sam_meas_.sample.name)}.txt"
+    plot_grid = options["plot_grid"]
+
     def grid_points(spacing=50, x_shift=0, y_shift=0):
         d11 = np.arange(d1[0] + x_shift, d1[-1], spacing)
         d22 = np.arange(d2[0] + y_shift, d2[-1], spacing)
@@ -195,7 +200,7 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
             return tot_err
 
-        d3_found_ = None
+        d3_found_, best_res_fun = None, np.inf
         if not is_ts_meas:
             opt_bounds = [(d1[0], d1[-1]), (d2[0], d2[-1]), (d3[0], d3[-1])]
             x0 = np.array([d1_found_, d2_found_, d3[len(d3) // 2]], dtype=float)
@@ -206,7 +211,8 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
                 if res.fun < best_res.fun:
                     best_res = res
             x = np.round(best_res.x, 2)
-            print(f"2nd stage opt minimum {np.round(best_res.fun, minimum_prec)} at ({x[0]}, {x[1]}, {x[2]}) um\n")
+            best_res_fun = best_res.fun
+            print(f"2nd stage opt minimum {np.round(best_res_fun, minimum_prec)} at ({x[0]}, {x[1]}, {x[2]}) um\n")
             d1_found_, d2_found_, d3_found_ = x
 
         d3_err_ = []
@@ -231,11 +237,12 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
         sweep_s = ""
 
     d1_found, d2_found, d3_found, expr1_sum, d3_err = eval_sample(selected_sweep_)
+
     i, j = np.unravel_index(np.argmin(expr1_sum), expr1_sum.shape)
     expr1_min_d1, expr1_min_d2 = d1[j], d2[i]
 
     fig_num = (str(sam_meas_.sample.name) + f"_expr1_sum_sweep_{selected_sweep_}")
-    s = "TSweeper" if is_ts_meas else "PIC"
+    s = "TSweeper" if is_ts_meas else sam_meas_.system.name
     if not plt.fignum_exists(fig_num):
         fig, (ax0, ax1) = plt.subplots(1, 2, num=fig_num)
     else:
@@ -252,10 +259,10 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
               # cmap="plasma",
               vmin=vmin, vmax=vmax,
               )
-    s = f"({expr1_min_d1}, {expr1_min_d2}) PIC"
+    s = f"({expr1_min_d1}, {expr1_min_d2}) {sam_meas_.system.name}"
     if is_ts_meas:
-        s = s.replace("PIC", "TSweeper")
-    else: # if True:
+        s = s.replace(f"{sam_meas_.system.name}", "TSweeper")
+    elif plot_grid:  # if True:
         grid = grid_points(spacing=50, x_shift=10, y_shift=10)
         for i, grid_point in enumerate(grid):
             if i == 0:
@@ -284,6 +291,15 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     plt.xlabel("Dicke dritter Schicht ($\mu$m)")
     plt.ylabel("$\log_{10}$(Residuum)")
 
+    if not single_sweep_eval and is_ts_meas:
+        with open(save_file, "r") as file:
+            lines = file.readlines()
+            ts_str = f"TSweeper (um): {d1_found}, {d2_found}, {d3_found}\n"
+            lines.insert(0, ts_str)
+
+        with open(save_file, 'w') as file:
+            file.writelines(lines)
+
     if single_sweep_eval or is_ts_meas:
         return
 
@@ -291,11 +307,15 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     sweeps = list(range(n_sweeps))
     results_d1, results_d2, results_d3 = np.zeros((3, n_sweeps), dtype=float)
     min_losses = np.zeros((2, n_sweeps), dtype=float)
-    for sweep_idx in sweeps:
-        d1_found, d2_found, d3_found, expr1_sum, d3_err = eval_sample(sweep_idx)
 
-        results_d1[sweep_idx], results_d2[sweep_idx], results_d3[sweep_idx] = d1_found, d2_found, d3_found
-        min_losses[:, sweep_idx] = np.min(expr1_sum), np.min(d3_err)
+    with open(save_file, "a") as file:
+        file.write("sweep, d0 (um), d1 (um), d2 (um)\n")
+        for sweep_idx in sweeps:
+            d1_found, d2_found, d3_found, expr1_sum, d3_err = eval_sample(sweep_idx)
+
+            results_d1[sweep_idx], results_d2[sweep_idx], results_d3[sweep_idx] = d1_found, d2_found, d3_found
+            min_losses[:, sweep_idx] = np.min(expr1_sum), np.min(d3_err)
+            file.write(f"{sweep_idx}, {d1_found}, {d2_found}, {d3_found}\n")
 
     mean_d1 = np.round(np.mean(results_d1), 2)
     mean_d2 = np.round(np.mean(results_d2), 2)
@@ -303,6 +323,14 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
     std_d1 = np.round(std_err(results_d1), 2)
     std_d2 = np.round(std_err(results_d2), 2)
     std_d3 = np.round(std_err(results_d3), 2)
+
+    with open(save_file, "r") as file:
+        lines = file.readlines()
+        mean_str = f"Mean: {mean_d1}±{std_d1}, {mean_d2}±{std_d2}, {mean_d3}±{std_d3}\n"
+        lines.insert(1, mean_str)
+
+    with open(save_file, 'w') as file:
+        file.writelines(lines)
 
     fig, (ax0, ax1) = plt.subplots(1, 2, num=str(sam_meas_.sample.name) + "_single_sweeps")
     ax1.set_ylim((mean_d2 - 100, mean_d2 + 100))
