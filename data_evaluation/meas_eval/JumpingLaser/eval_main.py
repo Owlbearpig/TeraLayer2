@@ -207,7 +207,7 @@ class JumpingLaserEval:
                             SamplesEnum.opBlackPos1: -0.7,
                             SamplesEnum.opBluePos1: -0.95}
         elif sam_meas_.system == SystemEnum.WaveSource:
-            pulse_shifts = {SamplesEnum.ampelMannLeft: 0.55,
+            pulse_shifts = {SamplesEnum.ampelMannLeft: 0.50,
                             }
         else:
             return
@@ -740,9 +740,9 @@ if __name__ == '__main__':
 
     # selected_sweep: int, None or "random" # 52 b ## 593 g # 1319 b # 519 b # 420 used in report /w PIC
     options = {"selected_system": SystemEnum.WaveSource, "selected_sample": SamplesEnum.ampelMannLeft,
-               "selected_sweep": 12,
+               "selected_sweep": 4770,
                "less_plots": True,
-               "single_sweep_eval": True,
+               "single_sweep_eval": False,
                "debug_info": False,
                "plot_grid": False
                }

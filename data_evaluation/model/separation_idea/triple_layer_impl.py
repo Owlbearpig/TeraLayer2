@@ -70,12 +70,13 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
         weights = np.ones(len(freqs))
 
     def eval_sample(sweep_idx=None, grid_=None):
-        if sweep_idx is None:
-            r_exp_ = sam_meas_.r_avg
-        else:
-            r_exp_ = sam_meas_.r[sweep_idx]
         if is_ts_meas:
             r_exp_ = sam_meas_.r_avg[freq_min_idx:freq_max_idx:f_res]
+        else:
+            if sweep_idx is None:
+                r_exp_ = sam_meas_.r_avg
+            else:
+                r_exp_ = sam_meas_.r[sweep_idx]
 
         if (sam_meas_.sample == SamplesEnum.ampelMannLeft) and not is_ts_meas:
             pass
