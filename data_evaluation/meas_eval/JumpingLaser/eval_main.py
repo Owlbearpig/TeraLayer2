@@ -683,10 +683,11 @@ def single_layer_eval(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
 
 def integrated_std_err_plot(selected_sample_: SamplesEnum, std_err_=None):
-    dt = 0.960  # us
+    dt = 0.960  # ms
     n_sweeps_ = 2000
     layer_cnt = selected_sample_.value.layers
-    std_err_dict = {SamplesEnum.ampelMannLeft: [0.02, 0.02, 0.06], }
+    std_err_dict = {SamplesEnum.ampelMannLeft: [0.02, 0.02, 0.06],
+                    SamplesEnum.ampelMannRight: [0.12, 0.10, 0.07]}
     if std_err_ is None:
         try:
             std_err_ = np.array(std_err_dict[selected_sample_], dtype=float)
@@ -709,7 +710,7 @@ def integrated_std_err_plot(selected_sample_: SamplesEnum, std_err_=None):
 
 if __name__ == '__main__':
     save_plots = False
-    selected_sample = SamplesEnum.ampelMannLeft
+    selected_sample = SamplesEnum.ampelMannRight
     n_sweeps = [meas for meas in sam_measurements if meas.system == SystemEnum.PIC][0].n_sweeps
     selected_sweep = np.random.randint(0, n_sweeps)  # 52 b ## 593 g # 1319 b # 519 b
     selected_sweep = None
@@ -720,8 +721,8 @@ if __name__ == '__main__':
 
     sample_meas = calc_sample_refl_coe(selected_sample)
     plot_sample_refl_coe(selected_sample, selected_sweep, less_plots=True)
-    thickness_eval(selected_sample, selected_sweep, single_sweep_eval=True)
+    # thickness_eval(selected_sample, selected_sweep, single_sweep_eval=True)
 
-    # integrated_std_err_plot(selected_sample)
+    integrated_std_err_plot(selected_sample)
 
     plt_show(mpl, en_save=save_plots)
