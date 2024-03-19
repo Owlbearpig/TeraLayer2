@@ -67,9 +67,11 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
         # real_weights, imag_weights = np.ones((2, len(freqs)))
         # real_weights = np.array([1, 1, 1, 1, 1, 0.0])
         # imag_weights = np.array([1, 1, 1, 1, 1, 0.0])
-        weights = np.ones(len(freqs))
+        weights = np.ones(len(freqs)) * (real_weights + imag_weights)
+        weights[0] = 0
 
     def eval_sample(sweep_idx=None, grid_=None):
+        print(f"Evaluating sweep: {sweep_idx}")
         if is_ts_meas:
             r_exp_ = sam_meas_.r_avg[freq_min_idx:freq_max_idx:f_res]
         else:
@@ -170,7 +172,7 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
                     best_res = res
                     best_start_val = x0
             x = np.round(best_res.x, 2)
-            print(f"Grid opt minimum {np.round(best_res.fun, minimum_prec)} at ({x[0]}, {x[1]}) um\n")
+            print(f"Grid opt minimum {np.round(best_res.fun, minimum_prec)} at ({x[0]}, {x[1]}) um")
             print(best_start_val)
             print(best_res)
 
@@ -184,6 +186,8 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
 
         i, j = np.unravel_index(np.argmin(expr1_sum_), expr1_sum_.shape)
         d1_found_, d2_found_ = d1[j], d2[i]
+        print(f"First OF minimum: {np.round(np.min(expr1_sum_), 3)}, at "
+              f"({np.round(d1_found_, minimum_prec)}, {np.round(d2_found_, minimum_prec)}) um")
 
         # 2nd stage. Use p0 from previous 2D opt. problem to find last thickness
         def fun(p):
@@ -213,7 +217,7 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
                     best_res = res
             x = np.round(best_res.x, 2)
             best_res_fun = best_res.fun
-            print(f"2nd stage opt minimum {np.round(best_res_fun, minimum_prec)} at ({x[0]}, {x[1]}, {x[2]}) um\n")
+            print(f"2nd stage opt minimum {np.round(best_res_fun, minimum_prec)} at ({x[0]}, {x[1]}, {x[2]}) um")
             d1_found_, d2_found_, d3_found_ = x
 
         d3_err_ = []
@@ -227,9 +231,8 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: 
         if not d3_found_:
             d3_found_ = d3[np.argmin(d3_err_)]
 
-        print(f"Sweep: {sweep_idx}")
-        print(f"Found minimum {np.round(np.min(expr1_sum_), minimum_prec)}, {np.round(best_fit[1], minimum_prec)} at "
-              f"({d1_found_}, {d2_found_}, {d3_found_}) um")
+        print(f"Sweep opt. result: {np.round(np.min(expr1_sum_), minimum_prec)}, {np.round(best_fit[1], minimum_prec)}"
+              f" at ({d1_found_}, {d2_found_}, {d3_found_}) um\n")
 
         return d1_found_, d2_found_, d3_found_, expr1_sum_, d3_err_
 

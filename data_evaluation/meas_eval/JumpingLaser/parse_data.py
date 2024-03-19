@@ -179,7 +179,7 @@ class Measurement:
         sorted_indices = np.argsort(self.freq)
 
         self.freq = self.freq[sorted_indices]
-        self.freq_OSA = self.freq_OSA[sorted_indices]  # ! Assume oder is the same
+        self.freq_OSA = self.freq_OSA[sorted_indices]  # ! Assume order is the same
 
         phase = json_dict['Phase [rad]'][:, sorted_indices]
         phase_raw = json_dict["Phase [rad] (raw)"][:, sorted_indices]
