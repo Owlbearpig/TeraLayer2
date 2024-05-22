@@ -512,7 +512,7 @@ class JumpingLaserEval:
         for meas in sample_meas:
             if len(meas.sample.value.thicknesses) == 3:
                 print(f"Evaluating: {meas} (3 layers)")
-                self.triple_layer_eval(meas, ts_meas, mod_meas, single_sweep_eval)
+                self.triple_layer_eval(meas, ts_meas, mod_meas)
 
             if meas.system in [SystemEnum.TSweeper, SystemEnum.Model]:
                 continue
@@ -525,9 +525,10 @@ class JumpingLaserEval:
                 print(f"Evaluating: {meas} (2 layers)")
                 self.double_layer_eval(meas, ts_meas, mod_meas, single_sweep_eval)
 
-    def triple_layer_eval(self, sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement,
-                          single_sweep_eval):
+    def triple_layer_eval(self, sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement):
         selected_system = self.__options["selected_system"]
+        print(sam_meas_.system, [selected_system, SystemEnum.TSweeper])
+        print(sam_meas_.system in [selected_system, SystemEnum.TSweeper])
         if sam_meas_.system not in [selected_system, SystemEnum.TSweeper]:
             return
 
@@ -740,9 +741,9 @@ if __name__ == '__main__':
 
     # selected_sweep: int, None or "random" # 52 b ## 593 g # 1319 b # 519 b # 420 used in report /w PIC
     options = {"selected_system": SystemEnum.WaveSource, "selected_sample": SamplesEnum.ampelMannLeft,
-               "selected_sweep": 4770,
+               "selected_sweep": 69,
                "less_plots": True,
-               "single_sweep_eval": False,
+               "single_sweep_eval": True,
                "debug_info": False,
                "plot_grid": False
                }
