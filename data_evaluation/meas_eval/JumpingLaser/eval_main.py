@@ -1,13 +1,13 @@
-from parse_data import get_all_measurements, SystemEnum, MeasTypeEnum, SamplesEnum, Measurement, ModelMeasurement
+from parse_data import (all_measurements, SystemEnum, MeasTypeEnum, SamplesEnum,
+                        Measurement, ModelMeasurement, find_nearest_meas)
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.widgets import RangeSlider, Button, Slider
-from helpers import plt_show
+from helpers import plt_show, read_opt_res_file
 from meas_eval.mpl_settings import mpl_style_params, result_dir
 from consts import thea, c_thz
 from tmm_package import coh_tmm_slim_unsafe
-from typing import List, Union
 from samples import Sample
 from functools import partial
 from functions import do_ifft, moving_average, std_err
@@ -70,7 +70,7 @@ class JumpingLaserEval:
     def __init__(self, new_options: dict):
         np.set_printoptions(precision=2)
 
-        self.all_measurements = get_all_measurements(add_model_measurements=True)
+        self.all_measurements = all_measurements
 
         self.ref_measurements = [meas for meas in self.all_measurements if meas.meas_type == MeasTypeEnum.Reference]
         self.bkg_measurements = [meas for meas in self.all_measurements if meas.meas_type == MeasTypeEnum.Background]
@@ -88,6 +88,7 @@ class JumpingLaserEval:
 
         __options = {"less_plots": False,
                      "debug_info": False,
+                     "read_res_if_exists": False,
                      }
         __options.update(options_)
 
@@ -95,24 +96,6 @@ class JumpingLaserEval:
             print("DONT SAVE")  # Don't save plots with debug info on (not formatted correctly)
 
         return __options
-
-    def find_nearest_meas(self, meas1: Measurement, meas_list: List[Measurement]):
-        if meas1.system == SystemEnum.Model:
-            return meas1
-
-        all_meas_same_system = [meas2 for meas2 in meas_list if meas1.system == meas2.system]
-        abs_time_diffs = []
-        for meas2 in all_meas_same_system:
-            abs_time_diff = np.abs(meas2.time_diff(meas1))
-            abs_time_diffs.append((abs_time_diff, meas2))
-
-        sorted_time_diffs = sorted(abs_time_diffs, key=lambda x: x[0])
-
-        closest_meas = sorted_time_diffs[0][1]
-        if meas1.system != SystemEnum.TSweeper:
-            closest_meas = sorted_time_diffs[0][1]
-
-        return closest_meas
 
     def plot_all_sweeps(self, measurements, freq_idx=2):
         for system in SystemEnum:
@@ -207,7 +190,7 @@ class JumpingLaserEval:
                             SamplesEnum.opBlackPos1: -0.7,
                             SamplesEnum.opBluePos1: -0.95}
         elif sam_meas_.system == SystemEnum.WaveSource:
-            pulse_shifts = {SamplesEnum.ampelMannLeft: 0.50,
+            pulse_shifts = {SamplesEnum.ampelMannLeft: 0.49,
                             }
         else:
             return
@@ -246,11 +229,7 @@ class JumpingLaserEval:
         selected_sample = self.__options["selected_sample"]
         sample_meas = [meas for meas in self.all_measurements if meas.sample == selected_sample]
         for sam_meas in sample_meas:
-            if sam_meas.system == SystemEnum.Model:
-                sam_meas.simulate_sam_measurement()
-                continue
-
-            ref_meas = self.find_nearest_meas(sam_meas, self.ref_measurements)
+            ref_meas = find_nearest_meas(sam_meas, self.ref_measurements)
             self.shift_freq_axis(sam_meas, ref_meas)
             self.fix_phase_slope(sam_meas)
 
@@ -284,12 +263,53 @@ class JumpingLaserEval:
 
         return sample_meas
 
+    def plot_model_refl_coe(self):
+        # publication plot
+        selected_system = self.__options["selected_system"]
+        selected_sweep_ = self.__options["selected_sweep"]
+        selected_sample = self.__options["selected_sample"]
+
+        opt_res = read_opt_res_file(options["save_dir"] / f"opt_res_{str(selected_sample.name)}.txt")
+        new_thicknesses = [opt_res[f"results_d{i}"][selected_sweep_] for i in [1, 2, 3]]
+        selected_sample.value.set_thicknesses(new_thicknesses)
+
+        fig_r_num = f"r_model_{selected_sample.name}_{selected_sweep_}"
+        fig_r, (ax0_r, ax1_r) = plt.subplots(nrows=2, ncols=1, num=fig_r_num)
+        ax0_r.set_ylabel("Amplitude (dB)")
+        ax1_r.set_ylabel("Phase (rad)")
+        ax1_r.set_xlabel("Frequency (THz)")
+        ax0_r.set_xlim((-0.150, 1.3))
+        ax1_r.set_xlim((-0.150, 1.3))
+        ax0_r.set_ylim((-40, 15))
+
+        mod_meas = None
+        for meas in self.all_measurements:
+            if meas.sample != selected_sample:
+                continue
+
+            legend_label = str(meas.system.name)
+            if meas.system == SystemEnum.TSweeper:
+                r = meas.r_avg
+                ax0_r.plot(meas.freq, 20 * np.log10(np.abs(r)), label=legend_label, c="grey", zorder=8)
+                ax1_r.plot(meas.freq, np.angle(r), label=legend_label, c="grey", zorder=8)
+
+                mod_meas = ModelMeasurement(meas)
+            elif meas.system == selected_system:
+                r = meas.r_avg if not selected_sweep_ else meas.r[selected_sweep_]
+                ax0_r.scatter(meas.freq, 20 * np.log10(np.abs(r)), label=legend_label, s=50, zorder=9, c="red")
+                ax1_r.scatter(meas.freq, np.angle(r), label=legend_label, s=50, zorder=9, c="red")
+
+        legend_label = "Model"
+        r_mod = mod_meas.r_avg
+        ax0_r.plot(mod_meas.freq, 20 * np.log10(np.abs(r_mod)), label=legend_label, c="black")
+        ax1_r.plot(mod_meas.freq, np.angle(r_mod), label=legend_label, c="black")
+
     def plot_sample_refl_coe(self):
         selected_system = self.__options["selected_system"]
         selected_sample = self.__options["selected_sample"]
         selected_sweep_ = self.__options["selected_sweep"]
         less_plots = self.__options["less_plots"]
-        shown_systems = [selected_system, SystemEnum.Model, SystemEnum.TSweeper]
+        shown_systems = [selected_system, SystemEnum.TSweeper]
         sample_meas = [meas for meas in self.all_measurements if
                        (meas.sample == selected_sample and meas.system in shown_systems)]
 
@@ -368,9 +388,9 @@ class JumpingLaserEval:
 
         reset_but.on_clicked(reset0)
 
-        mod_amp_line, mod_phi_line, mod_meas = None, None, None
+        mod_meas = None
         for sam_meas in sample_meas:
-            ref_meas = self.find_nearest_meas(sam_meas, self.ref_measurements)
+            ref_meas = find_nearest_meas(sam_meas, self.ref_measurements)
 
             legend_label = str(sam_meas.system.name)
             if self.__options["debug_info"]:
@@ -382,13 +402,7 @@ class JumpingLaserEval:
                            label=legend_label, c="grey", zorder=8)
                 ax1_r.plot(sam_meas.freq, np.angle(r),
                            label=legend_label, c="grey", zorder=8)
-            elif sam_meas.system == SystemEnum.Model:
-                r = sam_meas.r_avg
-                mod_amp_line, = ax0_r.plot(sam_meas.freq, 20 * np.log10(np.abs(r)),
-                                           label=legend_label, c="black")
-                mod_phi_line, = ax1_r.plot(sam_meas.freq, np.angle(r),
-                                           label=legend_label, c="black")
-                mod_meas = sam_meas
+                mod_meas = ModelMeasurement(sam_meas)
             else:
                 r = sam_meas.r_avg if not selected_sweep_ else sam_meas.r[selected_sweep_]
                 ax0_r.scatter(sam_meas.freq, 20 * np.log10(np.abs(r)),
@@ -476,6 +490,11 @@ class JumpingLaserEval:
                     ax0.plot(r_amp_db[:, i], label=f"{np.round(freq, 2)} THz")
                     ax1.plot(r_phi[:, i], label=f"{np.round(freq, 2)} THz")
 
+        legend_label = str(mod_meas.system.name)
+        r_mod = mod_meas.r_avg
+        mod_amp_line, = ax0_r.plot(mod_meas.freq, 20 * np.log10(np.abs(r_mod)), label=legend_label, c="black")
+        mod_phi_line, = ax1_r.plot(mod_meas.freq, np.angle(r_mod), label=legend_label, c="black")
+
         def update(val):
             new_ref_idx = []
             for layer_idx_ in range(layer_cnt):
@@ -507,46 +526,40 @@ class JumpingLaserEval:
 
         sample_meas = [meas for meas in self.all_measurements if meas.sample == selected_sample]
         ts_meas = [meas for meas in sample_meas if meas.system == SystemEnum.TSweeper][0]
-        mod_meas = [meas for meas in sample_meas if meas.system == SystemEnum.Model][0]
 
         for meas in sample_meas:
-            if len(meas.sample.value.thicknesses) == 3:
-                print(f"Evaluating: {meas} (3 layers)")
-                self.triple_layer_eval(meas, ts_meas, mod_meas)
+            n = len(meas.sample.value.thicknesses)
+            if n == 3:
+                self.triple_layer_eval(meas, ts_meas)
 
-            if meas.system in [SystemEnum.TSweeper, SystemEnum.Model]:
+            if meas.system in [SystemEnum.TSweeper]:
                 continue
 
-            if len(meas.sample.value.thicknesses) == 1:
-                print(f"Evaluating: {meas} (1 layer)")
-                self.single_layer_eval(meas, ts_meas, mod_meas)
+            if n == 1:
+                self.single_layer_eval(meas, ts_meas)
 
-            if len(meas.sample.value.thicknesses) == 2:
-                print(f"Evaluating: {meas} (2 layers)")
-                self.double_layer_eval(meas, ts_meas, mod_meas, single_sweep_eval)
+            if n == 2:
+                self.double_layer_eval(meas, ts_meas, single_sweep_eval)
 
-    def triple_layer_eval(self, sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement):
+    def triple_layer_eval(self, sam_meas_: Measurement, ts_meas_: Measurement):
         selected_system = self.__options["selected_system"]
-        print(sam_meas_.system, [selected_system, SystemEnum.TSweeper])
-        print(sam_meas_.system in [selected_system, SystemEnum.TSweeper])
         if sam_meas_.system not in [selected_system, SystemEnum.TSweeper]:
             return
 
-        triple_layer_impl(sam_meas_, ts_meas_, mod_meas_, self.__options)
+        print(f"Evaluating: {sam_meas_} {sam_meas_.sample.value.layers} layers")
+        triple_layer_impl(sam_meas_, ts_meas_, self.__options)
 
-    def double_layer_eval(self, sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: Measurement,
-                          single_sweep_eval):
+    def double_layer_eval(self, sam_meas_: Measurement, ts_meas_: Measurement, single_sweep_eval):
         selected_system = self.__options["selected_system"]
         if sam_meas_.system != selected_system:
             return
+        print(f"Evaluating: {sam_meas_} {sam_meas_.sample.value.layers} layers")
 
         ts_f_idx = []
         for selected_freq in sam_meas_.freq:
             ts_f_idx.append(np.argmin(np.abs(selected_freq - ts_meas_.freq)))
 
         r_amp_ts, r_phi_ts = np.abs(ts_meas_.r_avg[ts_f_idx]), np.angle(ts_meas_.r_avg[ts_f_idx])
-        r_amp_truth, r_phi_truth = np.abs(mod_meas_.r_avg[ts_f_idx]), np.angle(mod_meas_.r_avg[ts_f_idx])
-        r_real_truth, r_imag_truth = mod_meas_.r_avg[ts_f_idx].real, mod_meas_.r_avg[ts_f_idx].imag
 
         cost = Cost(sam_meas_)
         avg_cost = cost.calc_cost
@@ -633,7 +646,7 @@ class JumpingLaserEval:
         ax0.set_ylabel("Kleinstes Residuum")
         ax1.set_ylabel("Dicke bester Fit ($\mu$m)")
 
-    def single_layer_eval(self, sam_meas_: Measurement, ts_meas_: Measurement, mod_meas_: ModelMeasurement):
+    def single_layer_eval(self, sam_meas_: Measurement, ts_meas_: Measurement):
         selected_system = self.__options["selected_system"]
 
         ts_f_idx = []
@@ -641,8 +654,6 @@ class JumpingLaserEval:
             ts_f_idx.append(np.argmin(np.abs(selected_freq - ts_meas_.freq)))
 
         r_amp_ts, r_phi_ts = np.abs(ts_meas_.r_avg[ts_f_idx]), np.angle(ts_meas_.r_avg[ts_f_idx])
-        r_amp_truth, r_phi_truth = np.abs(mod_meas_.r_avg[ts_f_idx]), np.angle(mod_meas_.r_avg[ts_f_idx])
-        r_real_truth, r_imag_truth = mod_meas_.r_avg[ts_f_idx].real, mod_meas_.r_avg[ts_f_idx].imag
 
         d_truth = sam_meas_.sample.value.thicknesses
 
@@ -674,6 +685,7 @@ class JumpingLaserEval:
 
         if sam_meas_.system != selected_system:
             return
+        print(f"Evaluating: {sam_meas_} {sam_meas_.sample.value.thicknesses} layers")
 
         n_sweeps = sam_meas_.n_sweeps
         sweeps = list(range(n_sweeps))
@@ -715,7 +727,7 @@ class JumpingLaserEval:
         n_sweeps_ = 2000
         layer_cnt = selected_sample_.value.layers
         std_err_dict = {SamplesEnum.ampelMannLeft: [0.02, 0.02, 0.06],
-                    SamplesEnum.ampelMannRight: [0.12, 0.10, 0.07]}
+                        SamplesEnum.ampelMannRight: [0.12, 0.10, 0.07]}
         if std_err_ is None:
             try:
                 std_err_ = np.array(std_err_dict[selected_sample_], dtype=float)
@@ -737,15 +749,17 @@ class JumpingLaserEval:
 
 
 if __name__ == '__main__':
-    save_plots = False
+    save_plots = True
 
     # selected_sweep: int, None or "random" # 52 b ## 593 g # 1319 b # 519 b # 420 used in report /w PIC
-    options = {"selected_system": SystemEnum.WaveSource, "selected_sample": SamplesEnum.ampelMannLeft,
-               "selected_sweep": 69,
+    options = {"selected_system": SystemEnum.PIC,
+               "selected_sample": SamplesEnum.ampelMannLeft,
+               "selected_sweep": "random",
                "less_plots": True,
-               "single_sweep_eval": True,
+               "single_sweep_eval": False,
                "debug_info": False,
-               "plot_grid": False
+               "plot_grid": False,
+               "read_res_if_exists": True
                }
 
     save_dir = result_dir / "JumpingLaser" / str(options["selected_system"].name) / str(options["selected_sample"].name)
@@ -757,6 +771,7 @@ if __name__ == '__main__':
     new_eval = JumpingLaserEval(options)
 
     new_eval.calc_sample_refl_coe()
+    new_eval.plot_model_refl_coe()
     new_eval.plot_sample_refl_coe()
     new_eval.thickness_eval()
 

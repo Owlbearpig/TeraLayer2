@@ -10,15 +10,38 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 from meas_eval.consts import c_thz, thea
 from tmm_package import coh_tmm_slim_unsafe
+from typing import List
 
 data_dir = data_root / "Jumping Laser THz/Probe Measurements (Reflexion)/2024-01-11"
 
-sub_dirs = [#"Discrete Frequencies - WaveSource",
-            "Discrete Frequencies - WaveSource all sweeps",
-            "Discrete Frequencies - WaveSource (PIC-Freuqency Set)", "T-Sweeper",
+sub_dirs = ["Discrete Frequencies - WaveSource",
+            # "Discrete Frequencies - WaveSource all sweeps",
+            "Discrete Frequencies - WaveSource (PIC-Freuqency Set)",
+            "T-Sweeper",
             "Discrete Frequencies - PIC all sweeps",
             # "Discrete Frequencies - PIC",
             ]
+
+
+def get_all_measurements():
+    all_dirs = [dir_ for dir_ in [data_dir / sub_dir for sub_dir in sub_dirs]]
+    all_files = [file_path for sublist in [list(dir_path.glob('*')) for dir_path in all_dirs] for file_path in sublist]
+
+    excluded_files = ["01_Gold_Plate_short.csv"]
+    included_filetypes = ["csv", "json"]
+
+    filtered_files = []
+    for file in all_files:
+        if file.name in excluded_files:
+            continue
+        if file.suffix[1:] not in included_filetypes:
+            continue
+
+        filtered_files.append(file)
+
+    all_measurements_ = [Measurement(file_path) for file_path in filtered_files]
+
+    return all_measurements_
 
 
 class SystemEnum(Enum):
@@ -179,7 +202,7 @@ class Measurement:
         sorted_indices = np.argsort(self.freq)
 
         self.freq = self.freq[sorted_indices]
-        self.freq_OSA = self.freq_OSA[sorted_indices]  # ! Assume oder is the same
+        self.freq_OSA = self.freq_OSA[sorted_indices]  # ! Assume order is the same
 
         phase = json_dict['Phase [rad]'][:, sorted_indices]
         phase_raw = json_dict["Phase [rad] (raw)"][:, sorted_indices]
@@ -266,13 +289,13 @@ class Measurement:
 
 
 class ModelMeasurement(Measurement):
-    def __init__(self, sample_enum: SamplesEnum):
-        ref_file = data_dir / "T-Sweeper" / "17_Gold_Plate_short.csv"
-        super().__init__(ref_file)
-        self.sample = sample_enum
-        self.system = SystemEnum.Model
+    def __init__(self, meas: Measurement):
+        super().__init__(meas.file_path)
+        self.sample = meas.sample
         self.meas_type = MeasTypeEnum.Sample
         self.name = f"Model {self.sample}"
+        self.ref_meas = find_nearest_meas(self, refs)
+        self.simulate_sam_measurement()
 
     def simulate_sam_measurement(self, fast=False):
         err_conf = np.seterr(divide='ignore')
@@ -303,7 +326,9 @@ class ModelMeasurement(Measurement):
                 continue
                 # r_mod[f_idx] = r_mod[f_idx - 1]
 
-        ref_fd = np.array([self.freq, self.amp * np.exp(1j * self.phase)]).T
+        # ref_meas = find_nearest_meas()
+        ref_meas = self.ref_meas
+        ref_fd = np.array([ref_meas.freq, ref_meas.amp * np.exp(1j * ref_meas.phase)]).T
 
         self.amp, self.phase = np.abs(ref_fd[:, 1] * r_mod), np.angle(ref_fd[:, 1] * r_mod)
         self.amp_avg, self.phase_avg = self.amp, self.phase
@@ -314,34 +339,29 @@ class ModelMeasurement(Measurement):
         return n
 
 
-def get_all_measurements(add_model_measurements=False):
-    all_dirs = [dir_ for dir_ in [data_dir / sub_dir for sub_dir in sub_dirs]]
-    all_files = [file_path for sublist in [list(dir_path.glob('*')) for dir_path in all_dirs] for file_path in sublist]
+def find_nearest_meas(meas1: Measurement, meas_list: List[Measurement]):
+    all_meas_same_system = [meas2 for meas2 in meas_list if meas1.system == meas2.system]
+    abs_time_diffs = []
+    for meas2 in all_meas_same_system:
+        abs_time_diff = np.abs(meas2.time_diff(meas1))
+        abs_time_diffs.append((abs_time_diff, meas2))
 
-    excluded_files = ["01_Gold_Plate_short.csv"]
-    included_filetypes = ["csv", "json"]
+    sorted_time_diffs = sorted(abs_time_diffs, key=lambda x: x[0])
 
-    filtered_files = []
-    for file in all_files:
-        if file.name in excluded_files:
-            continue
-        if file.suffix[1:] not in included_filetypes:
-            continue
+    closest_meas = sorted_time_diffs[0][1]
+    if meas1.system != SystemEnum.TSweeper:
+        closest_meas = sorted_time_diffs[0][1]
 
-        filtered_files.append(file)
+    return closest_meas
 
-    all_measurements = [Measurement(file_path) for file_path in filtered_files]
 
-    if add_model_measurements:
-        for sample in SamplesEnum:
-            all_measurements.append(ModelMeasurement(sample))
-
-    return all_measurements
-
+all_measurements = get_all_measurements()
+sams = [meas for meas in all_measurements if meas.meas_type == MeasTypeEnum.Sample]
+refs = [meas for meas in all_measurements if meas.meas_type == MeasTypeEnum.Reference]
 
 if __name__ == '__main__':
-    for measurement in get_all_measurements():
+    for measurement in all_measurements:
         print(measurement)
 
-    tmm = ModelMeasurement(SamplesEnum.fpSample2)
+    tmm = ModelMeasurement(all_measurements[-1])
     print(tmm.sample)
