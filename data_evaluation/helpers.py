@@ -96,6 +96,7 @@ def save_fig(fig_num_, mpl=None, save_dir=None, filename=None, **kwargs):
     filename_s.replace(" ", "_")
 
     fig.set_size_inches((16, 9), forward=False)
+    plt.subplots_adjust(wspace=0.3)
     plt.savefig(save_dir / (filename_s + ".png"), bbox_inches='tight', dpi=300, pad_inches=0, **kwargs)
 
 
@@ -111,6 +112,22 @@ def plt_show(mpl_, en_save=False):
         if en_save:
             save_fig(fig_num, mpl_)
     plt_.show()
+
+
+def read_opt_res_file(file_path):
+    with open(file_path, 'r') as f:
+        skip_lines = 3
+        d1, d2, d3 = [], [], []
+        for i, line in enumerate(f.readlines()):
+            if i < skip_lines:
+                continue
+            splits = line.split(",")
+
+            d1.append(float(splits[1].replace(" ", "")))
+            d2.append(float(splits[2].replace(" ", "")))
+            d3.append(float(splits[3].replace(" ", "")))
+
+    return {"results_d1": d1, "results_d2": d2, "results_d3": d3}
 
 
 if __name__ == '__main__':

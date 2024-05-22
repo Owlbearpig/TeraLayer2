@@ -29,7 +29,7 @@ def mpl_style_params(new_rcparams=None):
     rcParams['figure.autolayout'] = False
     rcParams['savefig.format'] = 'png'
     rcParams["scatter.marker"] = "o"  # "x"
-    rcParams.update({'font.size': 14})
+    rcParams.update({'font.size': 16})
 
     # Say, "the default sans-serif font is COMIC SANS"
     # rcParams['font.sans-serif'] = 'Liberation Sans'
