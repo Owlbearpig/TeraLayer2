@@ -273,36 +273,61 @@ class JumpingLaserEval:
         new_thicknesses = [opt_res[f"results_d{i}"][selected_sweep_] for i in [1, 2, 3]]
         selected_sample.value.set_thicknesses(new_thicknesses)
 
+        font_size = 26
+        en_legend = False
+
+        max_freq = 1.0
+
         fig_r_num = f"r_model_{selected_sample.name}_{selected_sweep_}"
-        fig_r, (ax0_r, ax1_r) = plt.subplots(nrows=2, ncols=1, num=fig_r_num)
-        ax0_r.set_ylabel("Amplitude (dB)")
-        ax1_r.set_ylabel("Phase (rad)")
-        ax1_r.set_xlabel("Frequency (THz)")
-        ax0_r.set_xlim((-0.150, 1.3))
-        ax1_r.set_xlim((-0.150, 1.3))
+        fig_r, (ax0_r, ax1_r) = plt.subplots(nrows=2, ncols=1, num=fig_r_num, sharex=True)
+        ax0_r.set_ylabel("Amplitude (dB)", size=font_size)
+        ax1_r.set_ylabel("Phase (rad)", size=font_size)
+        ax1_r.set_xlabel("Frequency (THz)", size=font_size)
+        ax0_r.set_xlim((-0.150, max_freq + 0.1))
+        ax1_r.set_xlim((-0.150, max_freq + 0.1))
         ax0_r.set_ylim((-40, 15))
+        ax0_r.grid(False), ax1_r.grid(False)
+
+        ax0_r.tick_params(axis='both', which='major', labelsize=font_size)
+        ax0_r.tick_params(axis='both', which='minor', labelsize=font_size)
+        ax1_r.tick_params(axis='both', which='major', labelsize=font_size)
+        ax1_r.tick_params(axis='both', which='minor', labelsize=font_size)
+
+        ax0_r.annotate('T-Sweeper', xy=(0.024, 6.5), xytext=(0.15, 10),
+                        arrowprops=dict(facecolor='grey', shrink=0.12, ec="grey"),
+                       size=font_size, c="grey", va='top')
+        d1_, d2_, d3_ = new_thicknesses
+        s = f"Optimization result ({d1_}, {d2_}, {d3_}) $\mu$m"
+        ax0_r.annotate(s, xy=(0.232, -36), xytext=(0.35, -33),
+                       arrowprops=dict(facecolor='black', shrink=0.12, ec="black"),
+                       size=font_size, c="black", va='top')
+        ax0_r.text(0.755, -5, "PIC", size=font_size, c="red", ha="center")
 
         mod_meas = None
         for meas in self.all_measurements:
             if meas.sample != selected_sample:
                 continue
+            limits = (meas.freq < max_freq)
+            freq = meas.freq[limits]
 
-            legend_label = str(meas.system.name)
+            legend_label = en_legend * str(meas.system.name)
             if meas.system == SystemEnum.TSweeper:
-                r = meas.r_avg
-                ax0_r.plot(meas.freq, 20 * np.log10(np.abs(r)), label=legend_label, c="grey", zorder=8)
-                ax1_r.plot(meas.freq, np.angle(r), label=legend_label, c="grey", zorder=8)
+                r = meas.r_avg[limits]
+                ax0_r.plot(freq, 20 * np.log10(np.abs(r)), label=legend_label, c="grey", zorder=8, lw=5)
+                ax1_r.plot(freq, np.angle(r), label=legend_label, c="grey", zorder=8, lw=5)
 
                 mod_meas = ModelMeasurement(meas)
             elif meas.system == selected_system:
-                r = meas.r_avg if not selected_sweep_ else meas.r[selected_sweep_]
-                ax0_r.scatter(meas.freq, 20 * np.log10(np.abs(r)), label=legend_label, s=50, zorder=9, c="red")
-                ax1_r.scatter(meas.freq, np.angle(r), label=legend_label, s=50, zorder=9, c="red")
+                r = meas.r_avg[limits] if not selected_sweep_ else meas.r[selected_sweep_][limits]
+                ax0_r.scatter(freq, 20 * np.log10(np.abs(r)), label=legend_label, s=100, zorder=9, c="red")
+                ax1_r.scatter(freq, np.angle(r), label=legend_label, s=100, zorder=9, c="red")
 
-        legend_label = "Model"
-        r_mod = mod_meas.r_avg
-        ax0_r.plot(mod_meas.freq, 20 * np.log10(np.abs(r_mod)), label=legend_label, c="black")
-        ax1_r.plot(mod_meas.freq, np.angle(r_mod), label=legend_label, c="black")
+        limits = (mod_meas.freq < max_freq)
+        freq = mod_meas.freq[limits]
+        legend_label = en_legend * f"Optimization result\n({new_thicknesses}) $/mu$m"
+        r_mod = mod_meas.r_avg[limits]
+        ax0_r.plot(freq, 20 * np.log10(np.abs(r_mod)), label=legend_label, c="black", lw=5)
+        ax1_r.plot(freq, np.angle(r_mod), label=legend_label, c="black", lw=5)
 
     def plot_sample_refl_coe(self):
         selected_system = self.__options["selected_system"]
@@ -754,7 +779,7 @@ if __name__ == '__main__':
     # selected_sweep: int, None or "random" # 52 b ## 593 g # 1319 b # 519 b # 420 used in report /w PIC
     options = {"selected_system": SystemEnum.PIC,
                "selected_sample": SamplesEnum.ampelMannLeft,
-               "selected_sweep": "random",
+               "selected_sweep": 420,
                "less_plots": True,
                "single_sweep_eval": False,
                "debug_info": False,
