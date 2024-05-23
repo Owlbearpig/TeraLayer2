@@ -275,6 +275,7 @@ class JumpingLaserEval:
 
         font_size = 26
         en_legend = False
+        ts_color, pic_color, mod_color = "blue", "red", "black"
 
         max_freq = 1.0
 
@@ -293,15 +294,18 @@ class JumpingLaserEval:
         ax1_r.tick_params(axis='both', which='major', labelsize=font_size)
         ax1_r.tick_params(axis='both', which='minor', labelsize=font_size)
 
-        ax0_r.annotate('T-Sweeper', xy=(0.024, 6.5), xytext=(0.15, 10),
-                        arrowprops=dict(facecolor='grey', shrink=0.12, ec="grey"),
-                       size=font_size, c="grey", va='top')
+        ax0_r.annotate("Full CW-spectrum", xy=(0.024, 6.5), xytext=(0.15, 10),
+                        arrowprops=dict(facecolor=ts_color, shrink=0.12, ec=ts_color),
+                       size=font_size-4, c=ts_color, va='top')
         d1_, d2_, d3_ = new_thicknesses
-        s = f"Optimization result ({d1_}, {d2_}, {d3_}) $\mu$m"
-        ax0_r.annotate(s, xy=(0.232, -36), xytext=(0.35, -33),
-                       arrowprops=dict(facecolor='black', shrink=0.12, ec="black"),
-                       size=font_size, c="black", va='top')
-        ax0_r.text(0.755, -5, "PIC", size=font_size, c="red", ha="center")
+        # s = f"Optimization result ({d1_}, {d2_}, {d3_}) $\mu$m"
+        """
+        s = f"Optimization result"
+        ax0_r.annotate(s, xy=(0.232, -36), xytext=(0.35, -35),  # -45 below fig.
+                       arrowprops=dict(facecolor=mod_color, shrink=0.12, ec=mod_color),
+                       size=font_size-4, c=mod_color, va='center')
+        """
+        ax0_r.text(0.755, -5, "PIC", size=font_size-4, c=pic_color, ha="center")
 
         mod_meas = None
         for meas in self.all_measurements:
@@ -313,21 +317,21 @@ class JumpingLaserEval:
             legend_label = en_legend * str(meas.system.name)
             if meas.system == SystemEnum.TSweeper:
                 r = meas.r_avg[limits]
-                ax0_r.plot(freq, 20 * np.log10(np.abs(r)), label=legend_label, c="grey", zorder=8, lw=5)
-                ax1_r.plot(freq, np.angle(r), label=legend_label, c="grey", zorder=8, lw=5)
+                ax0_r.plot(freq, 20 * np.log10(np.abs(r)), label=legend_label, c=ts_color, zorder=1, lw=7)
+                ax1_r.plot(freq, np.angle(r), label=legend_label, c=ts_color, zorder=1, lw=7)
 
                 mod_meas = ModelMeasurement(meas)
-            elif meas.system == selected_system:
+            elif meas.system == selected_system:  # usually PIC
                 r = meas.r_avg[limits] if not selected_sweep_ else meas.r[selected_sweep_][limits]
-                ax0_r.scatter(freq, 20 * np.log10(np.abs(r)), label=legend_label, s=100, zorder=9, c="red")
-                ax1_r.scatter(freq, np.angle(r), label=legend_label, s=100, zorder=9, c="red")
+                ax0_r.scatter(freq, 20 * np.log10(np.abs(r)), label=legend_label, s=100, zorder=3, c=pic_color)
+                ax1_r.scatter(freq, np.angle(r), label=legend_label, s=100, zorder=3, c=pic_color)
 
         limits = (mod_meas.freq < max_freq)
         freq = mod_meas.freq[limits]
         legend_label = en_legend * f"Optimization result\n({new_thicknesses}) $/mu$m"
         r_mod = mod_meas.r_avg[limits]
-        ax0_r.plot(freq, 20 * np.log10(np.abs(r_mod)), label=legend_label, c="black", lw=5)
-        ax1_r.plot(freq, np.angle(r_mod), label=legend_label, c="black", lw=5)
+        ax0_r.plot(freq, 20 * np.log10(np.abs(r_mod)), label=legend_label, c=mod_color, lw=4, zorder=2)
+        ax1_r.plot(freq, np.angle(r_mod), label=legend_label, c=mod_color, lw=4, zorder=2)
 
     def plot_sample_refl_coe(self):
         selected_system = self.__options["selected_system"]

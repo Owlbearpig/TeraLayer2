@@ -95,9 +95,9 @@ def save_fig(fig_num_, mpl=None, save_dir=None, filename=None, **kwargs):
         filename_s = filename_s.replace(char, '')
     filename_s.replace(" ", "_")
 
-    fig.set_size_inches((16, 9), forward=False)
+    fig.set_size_inches((12, 9), forward=False)
     plt.subplots_adjust(wspace=0.3)
-    plt.savefig(save_dir / (filename_s + ".png"), bbox_inches='tight', dpi=300, pad_inches=0, **kwargs)
+    plt.savefig(save_dir / (filename_s + ".pdf"), bbox_inches='tight', dpi=300, pad_inches=0, **kwargs)
 
 
 def plt_show(mpl_, en_save=False):
@@ -115,10 +115,10 @@ def plt_show(mpl_, en_save=False):
 
 
 def read_opt_res_file(file_path):
-    with open(file_path, 'r') as f:
+    with open(file_path, 'r') as file:
         skip_lines = 3
         d1, d2, d3 = [], [], []
-        for i, line in enumerate(f.readlines()):
+        for i, line in enumerate(file.readlines()):
             if i < skip_lines:
                 continue
             splits = line.split(",")

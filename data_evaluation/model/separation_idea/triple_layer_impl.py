@@ -35,16 +35,18 @@ def plot_opt_res(res_):
     if publication_plot:
         en_labels = False
         font_size = 26
+        text_font = font_size - 6
         ax0.grid(False), ax1.grid(False)
         ax0.set_ylim((-15, 210))
     else:
         en_labels = True
         font_size = mpl.rcParams["font.size"]
         ax0.set_ylim((-10, 210))
+        text_font = font_size
 
-    ax0.text(1000, 125, s="Layer 1", c="blue", size=font_size, ha="center")
+    ax0.text(1000, 125, s="Layer 1", c="blue", size=text_font, ha="center")
     s = f"Mean (-): ({mean_d1}$\pm${std_d1}) $\mu$m\nNominal (--): {d1_truth_} $\mu$m"
-    ax0.text(1000, 96, s=s, c="blue", size=font_size, ha="center")
+    ax0.text(1000, 96, s=s, c="blue", size=text_font, ha="center")
     label = en_labels*"Dicke erste Schicht"
     ax0.scatter(sweeps, results_d1, label=label, color="blue", marker="o", s=10, alpha=0.15, linewidths=0)
     label = en_labels * f"Durchschnittliche Dicke erste Schicht\n({mean_d1}$\pm${std_d1} $\mu$m)"
@@ -52,9 +54,9 @@ def plot_opt_res(res_):
     label = en_labels * f"TSweeper Messung erste Schicht\n({d1_truth_} $\mu$m)"
     ax0.axhline(d1_truth_, label=label, c="blue", ls="dashed", lw=2, zorder=9)
 
-    ax1.text(1000, 710, s="Layer 2", c="red", size=font_size, ha="center")
+    ax1.text(1000, 710, s="Layer 2", c="red", size=text_font, ha="center")
     s = f"Mean (-): ({mean_d2}$\pm${std_d2}) $\mu$m\nNominal (--): {d2_truth_} $\mu$m"
-    ax1.text(1000, 681, s=s, c="red", size=font_size, ha="center")
+    ax1.text(1000, 681, s=s, c="red", size=text_font, ha="center")
     label = en_labels * "Dricke zweite Schicht"
     ax1.scatter(sweeps, results_d2, label=label, c="red", s=10, alpha=0.15)
     label = en_labels * f"Durchschnittliche Dicke zweite Schicht\n({mean_d2}$\pm${std_d2} $\mu$m)"
@@ -62,9 +64,9 @@ def plot_opt_res(res_):
     label = en_labels * f"TSweeper Messung zweite Schicht\n({d2_truth_} $\mu$m)"
     ax1.axhline(d2_truth_, label=label, c="red", ls="dashed", lw=2, zorder=9)
 
-    ax0.text(1000, 24, s="Layer 3", c="green", size=font_size, ha="center")
+    ax0.text(1000, 24, s="Layer 3", c="green", size=text_font, ha="center")
     s = f"Mean (-): ({mean_d3}$\pm${std_d3}) $\mu$m\nNominal (--): {d3_truth_} $\mu$m"
-    ax0.text(1000, -5, s=s, c="green", size=font_size, ha="center")
+    ax0.text(1000, -5, s=s, c="green", size=text_font, ha="center")
     label = en_labels * "Dicke dritte Schicht"
     ax0.scatter(sweeps, results_d3, label=label, c="green", s=10, alpha=0.15)
     label = en_labels * f"Durchschnittliche Dicke dritte Schicht\n({mean_d3}$\pm${std_d3} $\mu$m)"
@@ -73,9 +75,9 @@ def plot_opt_res(res_):
     ax0.axhline(d3_truth_, label=label, c="green", ls="dashed", lw=2, zorder=9)
 
     if publication_plot:
-        ax0.set_xlabel("Sweep index", size=font_size)
+        ax0.set_xlabel("Sweep number", size=font_size)
         ax0.set_ylabel("Layer thickness ($\mu$m)", size=font_size)
-        ax1.set_xlabel("Sweep index", size=font_size)
+        ax1.set_xlabel("Sweep number", size=font_size)
         ax1.set_ylabel("Layer thickness ($\mu$m)", size=font_size)
         ax0.tick_params(axis='both', which='major', labelsize=font_size)
         ax0.tick_params(axis='both', which='minor', labelsize=font_size)
