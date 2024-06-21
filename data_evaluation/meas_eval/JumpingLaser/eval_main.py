@@ -4,7 +4,8 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.widgets import RangeSlider, Button, Slider
-from helpers import plt_show, read_opt_res_file
+from matplotlib.ticker import MultipleLocator, FuncFormatter
+from helpers import plt_show, read_opt_res_file, format_func
 from meas_eval.mpl_settings import mpl_style_params, result_dir
 from consts import thea, c_thz
 from tmm_package import coh_tmm_slim_unsafe
@@ -93,7 +94,7 @@ class JumpingLaserEval:
         __options.update(options_)
 
         if options_["debug_info"]:
-            print("DONT SAVE")  # Don't save plots with debug info on (not formatted correctly)
+            print("DONT SAVE")  # Don't save plots with debug info enabled (not formatted correctly)
 
         return __options
 
@@ -269,7 +270,16 @@ class JumpingLaserEval:
         selected_sweep_ = self.__options["selected_sweep"]
         selected_sample = self.__options["selected_sample"]
 
-        opt_res = read_opt_res_file(options["save_dir"] / f"opt_res_{str(selected_sample.name)}.txt")
+        try:
+            opt_res = read_opt_res_file(options["save_dir"] / f"opt_res_{str(selected_sample.name)}.txt")
+            if not opt_res:
+                print("Opt res file empty: ", end="")
+                print("Can not plot reflection coefficient model based on optimization result")
+                return
+        except FileNotFoundError as e:
+            print(f"No opt res file found:\n{e}")
+            return
+
         new_thicknesses = [opt_res[f"results_d{i}"][selected_sweep_] for i in [1, 2, 3]]
         selected_sample.value.set_thicknesses(new_thicknesses)
 
@@ -277,7 +287,7 @@ class JumpingLaserEval:
         en_legend = False
         ts_color, pic_color, mod_color = "blue", "red", "black"
 
-        max_freq = 1.0
+        max_freq = 1.55
 
         fig_r_num = f"r_model_{selected_sample.name}_{selected_sweep_}"
         fig_r, (ax0_r, ax1_r) = plt.subplots(nrows=2, ncols=1, num=fig_r_num, sharex=True)
@@ -287,6 +297,11 @@ class JumpingLaserEval:
         ax0_r.set_xlim((-0.150, max_freq + 0.1))
         ax1_r.set_xlim((-0.150, max_freq + 0.1))
         ax0_r.set_ylim((-40, 15))
+
+        ax1_r.yaxis.set_major_locator(MultipleLocator(base=np.pi))
+        ax1_r.yaxis.set_major_formatter(FuncFormatter(format_func))
+        ax1_r.set_ylim(-np.pi*1.1, np.pi*1.1)
+
         ax0_r.grid(False), ax1_r.grid(False)
 
         ax0_r.tick_params(axis='both', which='major', labelsize=font_size)
@@ -297,15 +312,18 @@ class JumpingLaserEval:
         ax0_r.annotate("Full CW-spectrum", xy=(0.024, 6.5), xytext=(0.15, 10),
                         arrowprops=dict(facecolor=ts_color, shrink=0.12, ec=ts_color),
                        size=font_size-4, c=ts_color, va='top')
-        d1_, d2_, d3_ = new_thicknesses
-        # s = f"Optimization result ({d1_}, {d2_}, {d3_}) $\mu$m"
         """
+        d1_, d2_, d3_ = new_thicknesses
+        s = f"Optimization result ({d1_}, {d2_}, {d3_}) $\mu$m"
         s = f"Optimization result"
         ax0_r.annotate(s, xy=(0.232, -36), xytext=(0.35, -35),  # -45 below fig.
                        arrowprops=dict(facecolor=mod_color, shrink=0.12, ec=mod_color),
                        size=font_size-4, c=mod_color, va='center')
         """
-        ax0_r.text(0.755, -5, "PIC", size=font_size-4, c=pic_color, ha="center")
+        # ax0_r.text(1.000, 0, "Discrete\nmeasurement", size=font_size-4, c=pic_color, ha="center")
+        ax0_r.annotate("Discrete\nmeasurement", xy=(0.605, -7.5), xytext=(1.00, 0),
+                       arrowprops=dict(facecolor=pic_color, shrink=0.12, ec=pic_color),
+                       size=font_size - 4, c=pic_color, ha="center")
 
         mod_meas = None
         for meas in self.all_measurements:
@@ -781,9 +799,9 @@ if __name__ == '__main__':
     save_plots = True
 
     # selected_sweep: int, None or "random" # 52 b ## 593 g # 1319 b # 519 b # 420 used in report /w PIC
-    options = {"selected_system": SystemEnum.PIC,
+    options = {"selected_system": SystemEnum.WaveSource,
                "selected_sample": SamplesEnum.ampelMannLeft,
-               "selected_sweep": 420,
+               "selected_sweep": 120,
                "less_plots": True,
                "single_sweep_eval": False,
                "debug_info": False,

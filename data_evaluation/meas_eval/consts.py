@@ -9,12 +9,12 @@ ROOT_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
 if 'posix' in os_name:
     base_dir = Path(r"/home/ftpuser/ftp/Data/")
     data_dir = base_dir / "TeraLayer2" / "Foil_glue" / "Img0"
-    # result_dir = Path(r"/home/alex/MEGA/AG/Projects/TeraLayer/Implementation/Results")
-    result_dir = Path(r"/home/alex/MEGA/AG/Projects/TeraLayer/Endreport/Figures")
+    result_dir = Path(r"/home/alex/MEGA/AG/Projects/TeraLayer/Implementation/Results")
+    # result_dir = Path(r"/home/alex/MEGA/AG/Projects/TeraLayer/Endreport/Figures")
 else:
     data_dir = Path(r"")
-    # result_dir = Path(r"E:\Mega\AG\Projects\TeraLayer\Implementation\Results")
-    result_dir = Path(r"E:\Mega\AG\Projects\TeraLayer\Endreport\Figures")
+    result_dir = Path(r"E:\Mega\AG\Projects\TeraLayer\Implementation\Results")
+    # result_dir = Path(r"E:\Mega\AG\Projects\TeraLayer\Endreport\Figures")
 
 try:
     os.scandir(data_dir)

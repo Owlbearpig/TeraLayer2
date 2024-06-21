@@ -16,6 +16,8 @@ minimum_prec = 4
 
 
 def plot_opt_res(res_):
+    if not res_:
+        return
     sam_meas = res_["sam_meas"]
     d1_truth_, d2_truth_, d3_truth_ = res_["d1_truth"], res_["d2_truth"], res_["d3_truth"]
     results_d1, results_d2, results_d3 = res_["results_d1"], res_["results_d2"], res_["results_d3"]
@@ -25,6 +27,11 @@ def plot_opt_res(res_):
     std_d1 = np.round(std_err(results_d1), 2)
     std_d2 = np.round(std_err(results_d2), 2)
     std_d3 = np.round(std_err(results_d3), 2)
+
+    d1_truth_ = np.round(d1_truth_, 2)
+    d2_truth_ = np.round(d2_truth_, 2)
+    d3_truth_ = np.round(d3_truth_, 2)
+
     sweeps = list(range(len(results_d1)))
 
     fig, (ax0, ax1) = plt.subplots(1, 2, num=str(sam_meas.sample.name) + "_single_sweeps")
@@ -44,9 +51,10 @@ def plot_opt_res(res_):
         ax0.set_ylim((-10, 210))
         text_font = font_size
 
-    ax0.text(1000, 125, s="Layer 1", c="blue", size=text_font, ha="center")
+    x_pos = .5*len(sweeps)
+    ax0.text(x_pos, 125, s="Layer 1", c="blue", size=text_font, ha="center")
     s = f"Mean (-): ({mean_d1}$\pm${std_d1}) $\mu$m\nNominal (--): {d1_truth_} $\mu$m"
-    ax0.text(1000, 96, s=s, c="blue", size=text_font, ha="center")
+    ax0.text(x_pos, 96, s=s, c="blue", size=text_font, ha="center")
     label = en_labels*"Dicke erste Schicht"
     ax0.scatter(sweeps, results_d1, label=label, color="blue", marker="o", s=10, alpha=0.15, linewidths=0)
     label = en_labels * f"Durchschnittliche Dicke erste Schicht\n({mean_d1}$\pm${std_d1} $\mu$m)"
@@ -54,9 +62,9 @@ def plot_opt_res(res_):
     label = en_labels * f"TSweeper Messung erste Schicht\n({d1_truth_} $\mu$m)"
     ax0.axhline(d1_truth_, label=label, c="blue", ls="dashed", lw=2, zorder=9)
 
-    ax1.text(1000, 710, s="Layer 2", c="red", size=text_font, ha="center")
+    ax1.text(x_pos, 710, s="Layer 2", c="red", size=text_font, ha="center")
     s = f"Mean (-): ({mean_d2}$\pm${std_d2}) $\mu$m\nNominal (--): {d2_truth_} $\mu$m"
-    ax1.text(1000, 681, s=s, c="red", size=text_font, ha="center")
+    ax1.text(x_pos, 681, s=s, c="red", size=text_font, ha="center")
     label = en_labels * "Dricke zweite Schicht"
     ax1.scatter(sweeps, results_d2, label=label, c="red", s=10, alpha=0.15)
     label = en_labels * f"Durchschnittliche Dicke zweite Schicht\n({mean_d2}$\pm${std_d2} $\mu$m)"
@@ -64,9 +72,9 @@ def plot_opt_res(res_):
     label = en_labels * f"TSweeper Messung zweite Schicht\n({d2_truth_} $\mu$m)"
     ax1.axhline(d2_truth_, label=label, c="red", ls="dashed", lw=2, zorder=9)
 
-    ax0.text(1000, 24, s="Layer 3", c="green", size=text_font, ha="center")
+    ax0.text(x_pos, 24, s="Layer 3", c="green", size=text_font, ha="center")
     s = f"Mean (-): ({mean_d3}$\pm${std_d3}) $\mu$m\nNominal (--): {d3_truth_} $\mu$m"
-    ax0.text(1000, -5, s=s, c="green", size=text_font, ha="center")
+    ax0.text(x_pos, -5, s=s, c="green", size=text_font, ha="center")
     label = en_labels * "Dicke dritte Schicht"
     ax0.scatter(sweeps, results_d3, label=label, c="green", s=10, alpha=0.15)
     label = en_labels * f"Durchschnittliche Dicke dritte Schicht\n({mean_d3}$\pm${std_d3} $\mu$m)"
@@ -99,11 +107,13 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, options: di
     d1_truth, d2_truth, d3_truth = sam_meas_.sample.value.thicknesses.astype(int)
 
     res = {"sam_meas": sam_meas_, "d1_truth": d1_truth, "d2_truth": d2_truth, "d3_truth": d3_truth}
-    if options["read_res_if_exists"]:
+    if options["read_res_if_exists"] and not single_sweep_eval:
         if save_file.exists():
-            res.update(read_opt_res_file(save_file))
-            plot_opt_res(res)
-            return
+            read_results = read_opt_res_file(save_file)
+            if read_results:
+                res.update(read_results)
+                plot_opt_res(res)
+                return
         else:
             pass
 
@@ -155,11 +165,11 @@ def triple_layer_impl(sam_meas_: Measurement, ts_meas_: Measurement, options: di
         # real_weights = np.array([1, 1, 1, 1, 1, 0.0])
         # imag_weights = np.array([1, 1, 1, 1, 1, 0.0])
         weights = np.ones(len(freqs)) * (real_weights + imag_weights)
-        if sam_meas_.system == SystemEnum.WaveSource:
+        if sam_meas_.system.value == SystemEnum.WaveSource.value and np.isclose(freqs[0], 0.05, atol=0.01):
             weights[0] = 0
 
     def eval_sample(sweep_idx=None, grid_=None):
-        print(f"Evaluating sweep: {sweep_idx}")
+        print(f"Evaluating sweep: {sweep_idx}, at {freqs} THz")
         if is_ts_meas:
             r_exp_ = sam_meas_.r_avg[freq_min_idx:freq_max_idx:f_res]
         else:

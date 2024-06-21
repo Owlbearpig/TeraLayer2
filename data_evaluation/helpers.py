@@ -115,7 +115,17 @@ def plt_show(mpl_, en_save=False):
 
 
 def read_opt_res_file(file_path):
+    opt_res_dict = {}
     with open(file_path, 'r') as file:
+        first_line = file.readline()
+        if not first_line:
+            print("opt res file empty")
+            return {}
+
+        splits_line0 = first_line.split(" ")
+        d1_truth, d2_truth, d3_truth = [float(di.replace(",", "")) for di in splits_line0[-3:]]
+        opt_res_dict.update({"d1_truth": d1_truth, "d2_truth": d2_truth, "d3_truth": d3_truth})
+
         skip_lines = 3
         d1, d2, d3 = [], [], []
         for i, line in enumerate(file.readlines()):
@@ -127,7 +137,22 @@ def read_opt_res_file(file_path):
             d2.append(float(splits[2].replace(" ", "")))
             d3.append(float(splits[3].replace(" ", "")))
 
-    return {"results_d1": d1, "results_d2": d2, "results_d3": d3}
+    opt_res_dict.update({"results_d1": d1, "results_d2": d2, "results_d3": d3})
+
+    return opt_res_dict
+
+
+# Function to format y-axis labels in terms of π
+def format_func(value, tick_number):
+    N = int(np.round(value / np.pi))
+    if N == 0:
+        return "0"
+    elif N == 1:
+        return r"$\pi$"
+    elif N == -1:
+        return r"-$\pi$"
+    else:
+        return r"${0}\pi$".format(N)
 
 
 if __name__ == '__main__':

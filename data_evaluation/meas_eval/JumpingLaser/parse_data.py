@@ -14,13 +14,16 @@ from typing import List
 
 data_dir = data_root / "Jumping Laser THz/Probe Measurements (Reflexion)/2024-01-11"
 
-sub_dirs = ["Discrete Frequencies - WaveSource",
-            # "Discrete Frequencies - WaveSource all sweeps",
-            "Discrete Frequencies - WaveSource (PIC-Freuqency Set)",
-            "T-Sweeper",
-            "Discrete Frequencies - PIC all sweeps",
-            # "Discrete Frequencies - PIC",
-            ]
+sub_dirs = [  # "Discrete Frequencies - WaveSource",
+    "Discrete Frequencies - WaveSource all sweeps",
+    "Discrete Frequencies - WaveSource (PIC-Freuqency Set)",
+    "T-Sweeper",
+    "Discrete Frequencies - PIC all sweeps",
+    # "Discrete Frequencies - PIC",
+]
+
+wavesource_freq_selection = np.array([0, 1, 1, 1, 0, 1, 1, 1], dtype=bool)
+print(f"Wavesource frequency selection: {wavesource_freq_selection}")
 
 
 def get_all_measurements():
@@ -201,6 +204,9 @@ class Measurement:
 
         sorted_indices = np.argsort(self.freq)
 
+        if self.system == SystemEnum.WaveSource:
+            sorted_indices = sorted_indices[wavesource_freq_selection]
+
         self.freq = self.freq[sorted_indices]
         self.freq_OSA = self.freq_OSA[sorted_indices]  # ! Assume order is the same
 
@@ -360,8 +366,7 @@ sams = [meas for meas in all_measurements if meas.meas_type == MeasTypeEnum.Samp
 refs = [meas for meas in all_measurements if meas.meas_type == MeasTypeEnum.Reference]
 
 if __name__ == '__main__':
-    for measurement in all_measurements:
-        print(measurement)
+    for i, measurement in enumerate(all_measurements):
+        print(i, measurement)
 
-    tmm = ModelMeasurement(all_measurements[-1])
-    print(tmm.sample)
+    print(all_measurements[3].freq)
