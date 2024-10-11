@@ -1,0 +1,2250 @@
+cur_data_real, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+cur_data_imag, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, xxxxxxxxxxxxxxxxxxxxxxxxx
+cd_real_norm_pw, xxxxxxxxxxxxxxxxxxxxxxxxx
+cd_imag_norm_pw, xxxxxxxxxxxxxxxxxxxxxxxxx
+r_enum_real, xxxxxxxxxxxxxxxxxxxxxxxxx
+r_enum_imag, xxxxxxxxxxxxxxxxxxxxxxxxx
+diff_sqr_real, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+diff_sqr_imag, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 0 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, 0.0
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 0 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, xxxxxxxxxxxxxxxxxxxxxxxxx
+cd_real_norm_pw, xxxxxxxxxxxxxxxxxxxxxxxxx
+cd_imag_norm_pw, xxxxxxxxxxxxxxxxxxxxxxxxx
+r_enum_real, xxxxxxxxxxxxxxxxxxxxxxxxx
+r_enum_imag, xxxxxxxxxxxxxxxxxxxxxxxxx
+diff_sqr_real, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+diff_sqr_imag, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 1 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, 0.0
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 1 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, xxxxxxxxxxxxxxxxxxxxxxxxx
+cd_real_norm_pw, xxxxxxxxxxxxxxxxxxxxxxxxx
+cd_imag_norm_pw, xxxxxxxxxxxxxxxxxxxxxxxxx
+r_enum_real, xxxxxxxxxxxxxxxxxxxxxxxxx
+r_enum_imag, xxxxxxxxxxxxxxxxxxxxxxxxx
+diff_sqr_real, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+diff_sqr_imag, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 2 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, 0.0
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 2 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, xxxxxxxxxxxxxxxxxxxxxxxxx
+cd_real_norm_pw, xxxxxxxxxxxxxxxxxxxxxxxxx
+cd_imag_norm_pw, xxxxxxxxxxxxxxxxxxxxxxxxx
+r_enum_real, xxxxxxxxxxxxxxxxxxxxxxxxx
+r_enum_imag, xxxxxxxxxxxxxxxxxxxxxxxxx
+diff_sqr_real, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+diff_sqr_imag, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 3 done 
+
+busy, 1
+temp_loss, 0.0
+loss_buffer, 0.0
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 3 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.2681706
+r0_imag, 0.19678712
+r_denum, 0.76390052
+cd_real_norm_pw, 0.20485544
+cd_imag_norm_pw, 0.15032578
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.041966
+diff_sqr_imag, 0.022598
+r_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cntr, 0001
+o_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxx
+clk cycle 4 done 
+
+busy, 1
+temp_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+loss_buffer, 0.0
+latched, 0
+r_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cntr, 0001
+o_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxx
+clk cycle 4 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.38423276
+r0_imag, 0.09832096
+r_denum, 0.76390052
+cd_real_norm_pw, 0.29351544
+cd_imag_norm_pw, 0.07510734
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.086151
+diff_sqr_imag, 0.005641
+r_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cntr, 0010
+o_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxx
+clk cycle 5 done 
+
+busy, 1
+temp_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+loss_buffer, 0.0
+latched, 0
+r_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cntr, 0010
+o_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxx
+clk cycle 5 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.56695628
+r0_imag, -0.02628994
+r_denum, 2.77938962
+cd_real_norm_pw, 1.57579231
+cd_imag_norm_pw, -0.07307005
+r_enum_real, 3.12720346
+r_enum_imag, -0.30370712
+diff_sqr_real, 2.406877
+diff_sqr_imag, 0.053193
+r_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cntr, 0011
+o_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxx
+clk cycle 6 done 
+
+busy, 1
+temp_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+loss_buffer, 0.0
+latched, 0
+r_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cntr, 0011
+o_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxx
+clk cycle 6 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.30706263
+r0_imag, 0.02696228
+r_denum, -3.10073376
+cd_real_norm_pw, -0.95211959
+cd_imag_norm_pw, -0.08360291
+r_enum_real, 0.64878011
+r_enum_imag, -0.04829001
+diff_sqr_real, 2.56288
+diff_sqr_imag, 0.001247
+r_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cntr, 0100
+o_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxx
+clk cycle 7 done 
+
+busy, 1
+temp_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+loss_buffer, 0.0
+latched, 0
+r_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cntr, 0100
+o_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxx
+clk cycle 7 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, -0.47306275
+r0_imag, -0.07977128
+r_denum, 1.26031876
+cd_real_norm_pw, -0.59621
+cd_imag_norm_pw, -0.1005373
+r_enum_real, 0.20688152
+r_enum_imag, 1.19158149
+diff_sqr_real, 0.644956
+diff_sqr_imag, 1.669571
+r_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cntr, 0101
+o_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxx
+clk cycle 8 done 
+
+busy, 1
+temp_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+loss_buffer, 0.0
+latched, 0
+r_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cntr, 0101
+o_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxx
+clk cycle 8 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.26780868
+r0_imag, 0.47600126
+r_denum, 0.86871767
+cd_real_norm_pw, 0.23265004
+cd_imag_norm_pw, 0.41351056
+r_enum_real, -0.03216934
+r_enum_imag, 0.16482425
+diff_sqr_real, 0.070129
+diff_sqr_imag, 0.061845
+r_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cntr, 0110
+o_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxx
+clk cycle 9 done 
+
+busy, 0
+temp_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+loss_buffer, 0.0
+latched, 0
+r_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cntr, 0110
+o_total_loss, xxxxxxxxxxxxxxxxxxxxxxxxx
+clk cycle 9 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 2.32919002
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, -3.14376068
+r_enum_imag, 0.57204843
+diff_sqr_real, 9.883231
+diff_sqr_imag, 0.327239
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 10 done 
+
+busy, 1
+temp_loss, 0.0
+loss_buffer, xxxxxxxxxxxxxxxxxxxxxxxxx
+latched, 1
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 10 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.2681706
+r0_imag, 0.19678712
+r_denum, 1.81536245
+cd_real_norm_pw, 0.48682666
+cd_imag_norm_pw, 0.35723972
+r_enum_real, -0.69894361
+r_enum_imag, -2.67768335
+diff_sqr_real, 1.406051
+diff_sqr_imag, 9.210758
+r_total_loss, 5.105235
+cntr, 0001
+o_total_loss, -2.8947649
+clk cycle 11 done 
+
+busy, 1
+temp_loss, 5.105235
+loss_buffer, xxxxxxxxxxxxxxxxxxxxxxxxx
+latched, 0
+r_total_loss, 5.105235
+cntr, 0001
+o_total_loss, -2.8947649
+clk cycle 11 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.38423276
+r0_imag, 0.09832096
+r_denum, 1.71000004
+cd_real_norm_pw, 0.65703797
+cd_imag_norm_pw, 0.16812873
+r_enum_real, 0.04618001
+r_enum_imag, 0.13126278
+diff_sqr_real, 0.373147
+diff_sqr_imag, 0.001359
+r_total_loss, 10.41364
+cntr, 0010
+o_total_loss, 2.41363978
+clk cycle 12 done 
+
+busy, 1
+temp_loss, 10.41364
+loss_buffer, xxxxxxxxxxxxxxxxxxxxxxxxx
+latched, 0
+r_total_loss, 10.41364
+cntr, 0010
+o_total_loss, 2.41363978
+clk cycle 12 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.56695628
+r0_imag, -0.02628994
+r_denum, 1.52387071
+cd_real_norm_pw, 0.8639679
+cd_imag_norm_pw, -0.04006267
+r_enum_real, 0.51960349
+r_enum_imag, -0.53039432
+diff_sqr_real, 0.118587
+diff_sqr_imag, 0.240425
+r_total_loss, 10.600893
+cntr, 0011
+o_total_loss, 2.60089302
+clk cycle 13 done 
+
+busy, 1
+temp_loss, 10.600893
+loss_buffer, xxxxxxxxxxxxxxxxxxxxxxxxx
+latched, 0
+r_total_loss, 10.600893
+cntr, 0011
+o_total_loss, 2.60089302
+clk cycle 13 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.30706263
+r0_imag, 0.02696228
+r_denum, -1.79481459
+cd_real_norm_pw, -0.55112052
+cd_imag_norm_pw, -0.0483923
+r_enum_real, 0.7161243
+r_enum_imag, 0.43186641
+diff_sqr_real, 1.605909
+diff_sqr_imag, 0.230648
+r_total_loss, 10.780399
+cntr, 0100
+o_total_loss, 2.78039908
+clk cycle 14 done 
+
+busy, 1
+temp_loss, 10.780399
+loss_buffer, xxxxxxxxxxxxxxxxxxxxxxxxx
+latched, 0
+r_total_loss, 10.780399
+cntr, 0100
+o_total_loss, 2.78039908
+clk cycle 14 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, -0.47306275
+r0_imag, -0.07977128
+r_denum, 1.26031876
+cd_real_norm_pw, -0.59621
+cd_imag_norm_pw, -0.1005373
+r_enum_real, 0.20688152
+r_enum_imag, 1.19158149
+diff_sqr_real, 0.644956
+diff_sqr_imag, 1.669571
+r_total_loss, 11.698678
+cntr, 0101
+o_total_loss, 3.69867802
+clk cycle 15 done 
+
+busy, 1
+temp_loss, 11.698678
+loss_buffer, xxxxxxxxxxxxxxxxxxxxxxxxx
+latched, 0
+r_total_loss, 11.698678
+cntr, 0101
+o_total_loss, 3.69867802
+clk cycle 15 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.26780868
+r0_imag, 0.47600126
+r_denum, 0.86871767
+cd_real_norm_pw, 0.23265004
+cd_imag_norm_pw, 0.41351056
+r_enum_real, -0.03216934
+r_enum_imag, 0.16482425
+diff_sqr_real, 0.070129
+diff_sqr_imag, 0.061845
+r_total_loss, 12.855942
+cntr, 0110
+o_total_loss, -3.14405847
+clk cycle 16 done 
+
+busy, 0
+temp_loss, 12.855942
+loss_buffer, xxxxxxxxxxxxxxxxxxxxxxxxx
+latched, 0
+r_total_loss, 12.855942
+cntr, 0110
+o_total_loss, -3.14405847
+clk cycle 16 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 2.32919002
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, -3.14376068
+r_enum_imag, 0.57204843
+diff_sqr_real, 9.883231
+diff_sqr_imag, 0.327239
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 17 done 
+
+busy, 1
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 1
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 17 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.2681706
+r0_imag, 0.19678712
+r_denum, 1.81536245
+cd_real_norm_pw, 0.48682666
+cd_imag_norm_pw, 0.35723972
+r_enum_real, -0.69894361
+r_enum_imag, -2.67768335
+diff_sqr_real, 1.406051
+diff_sqr_imag, 9.210758
+r_total_loss, 5.105235
+cntr, 0001
+o_total_loss, -2.8947649
+clk cycle 18 done 
+
+busy, 1
+temp_loss, 5.105235
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 5.105235
+cntr, 0001
+o_total_loss, -2.8947649
+clk cycle 18 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.38423276
+r0_imag, 0.09832096
+r_denum, 1.71000004
+cd_real_norm_pw, 0.65703797
+cd_imag_norm_pw, 0.16812873
+r_enum_real, 0.04618001
+r_enum_imag, 0.13126278
+diff_sqr_real, 0.373147
+diff_sqr_imag, 0.001359
+r_total_loss, 10.41364
+cntr, 0010
+o_total_loss, 2.41363978
+clk cycle 19 done 
+
+busy, 1
+temp_loss, 10.41364
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 10.41364
+cntr, 0010
+o_total_loss, 2.41363978
+clk cycle 19 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.56695628
+r0_imag, -0.02628994
+r_denum, 1.52387071
+cd_real_norm_pw, 0.8639679
+cd_imag_norm_pw, -0.04006267
+r_enum_real, 0.51960349
+r_enum_imag, -0.53039432
+diff_sqr_real, 0.118587
+diff_sqr_imag, 0.240425
+r_total_loss, 10.600893
+cntr, 0011
+o_total_loss, 2.60089302
+clk cycle 20 done 
+
+busy, 1
+temp_loss, 10.600893
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 10.600893
+cntr, 0011
+o_total_loss, 2.60089302
+clk cycle 20 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.30706263
+r0_imag, 0.02696228
+r_denum, -1.79481459
+cd_real_norm_pw, -0.55112052
+cd_imag_norm_pw, -0.0483923
+r_enum_real, 0.7161243
+r_enum_imag, 0.43186641
+diff_sqr_real, 1.605909
+diff_sqr_imag, 0.230648
+r_total_loss, 10.780399
+cntr, 0100
+o_total_loss, 2.78039908
+clk cycle 21 done 
+
+busy, 1
+temp_loss, 10.780399
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 10.780399
+cntr, 0100
+o_total_loss, 2.78039908
+clk cycle 21 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, -0.47306275
+r0_imag, -0.07977128
+r_denum, 1.26031876
+cd_real_norm_pw, -0.59621
+cd_imag_norm_pw, -0.1005373
+r_enum_real, 0.20688152
+r_enum_imag, 1.19158149
+diff_sqr_real, 0.644956
+diff_sqr_imag, 1.669571
+r_total_loss, 11.698678
+cntr, 0101
+o_total_loss, 3.69867802
+clk cycle 22 done 
+
+busy, 1
+temp_loss, 11.698678
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 11.698678
+cntr, 0101
+o_total_loss, 3.69867802
+clk cycle 22 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.26780868
+r0_imag, 0.47600126
+r_denum, 0.86871767
+cd_real_norm_pw, 0.23265004
+cd_imag_norm_pw, 0.41351056
+r_enum_real, -0.03216934
+r_enum_imag, 0.16482425
+diff_sqr_real, 0.070129
+diff_sqr_imag, 0.061845
+r_total_loss, 12.855942
+cntr, 0110
+o_total_loss, -3.14405847
+clk cycle 23 done 
+
+busy, 0
+temp_loss, 12.855942
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 12.855942
+cntr, 0110
+o_total_loss, -3.14405847
+clk cycle 23 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 2.32919002
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, -3.14376068
+r_enum_imag, 0.57204843
+diff_sqr_real, 9.883231
+diff_sqr_imag, 0.327239
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 24 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 1
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 24 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 1.7098434
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.04850173
+r_enum_imag, 0.12938786
+diff_sqr_real, 0.002352
+diff_sqr_imag, 0.016741
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 25 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 25 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 1.70921421
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.06923199
+r_enum_imag, 0.11499619
+diff_sqr_real, 0.004793
+diff_sqr_imag, 0.013224
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 26 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 26 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 27 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 27 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 28 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 28 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 29 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 29 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 30 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 30 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 31 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 31 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 32 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 32 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 33 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 33 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 34 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 34 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 35 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 35 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 36 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 36 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 37 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 37 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 38 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 38 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 39 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 39 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 40 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 40 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 41 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 41 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 42 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 42 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 43 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 43 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 44 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 44 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 45 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 45 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 46 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 46 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 47 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 47 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 48 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 48 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 49 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 49 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 50 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 50 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 51 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 51 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 52 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 52 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 53 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 53 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 54 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 54 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 55 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 55 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 56 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 56 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 57 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 57 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 58 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 58 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 59 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 59 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 60 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 60 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 61 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 61 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 62 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 62 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 63 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 63 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 64 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 64 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 65 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 65 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 66 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 66 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 67 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 67 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 68 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 68 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 69 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 69 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 70 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 70 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 71 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 71 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 72 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 72 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 73 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 73 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 74 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 74 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 75 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 75 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 76 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 76 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 77 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 77 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 78 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 78 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 79 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 79 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 80 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 80 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 81 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 81 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 82 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 82 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 83 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 83 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 84 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 84 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 85 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 85 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 86 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 86 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 87 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 87 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 88 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 88 done 
+
+cur_data_real, 0.2681706, 0.38423276, 0.56695628, 0.30706263, -0.47306275, 0.26780868
+cur_data_imag, 0.19678712, 0.09832096, -0.02628994, 0.02696228, -0.07977128, 0.47600126
+r0_real, 0.0
+r0_imag, 0.0
+r_denum, 0.76390052
+cd_real_norm_pw, 0.0
+cd_imag_norm_pw, 0.0
+r_enum_real, 0.0
+r_enum_imag, 0.0
+diff_sqr_real, 0.0
+diff_sqr_imag, 0.0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 89 done 
+
+busy, 0
+temp_loss, 0.0
+loss_buffer, -3.14405847
+latched, 0
+r_total_loss, 0.0
+cntr, 0000
+o_total_loss, 0.0
+clk cycle 89 done 
+

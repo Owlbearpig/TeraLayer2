@@ -1,6 +1,5 @@
 from numpy import array
-from model.multir_numba import multir_numba
-from consts import um, um_to_m, custom_mask, default_mask
+from consts import um, default_mask
 from functions import format_data, calc_loss, calc_full_loss
 from visualizing.plotting import plot_result
 from scipy.optimize import least_squares
@@ -15,7 +14,7 @@ d0=array([0.000045, 0.00060, 0.000045])
 lb = array([0.000001, 0.00001, 0.000001])
 hb = array([0.001, 0.001, 0.001])
 
-from model.explicit_eval import reflectance, jacobian
+from model.initial_tests.explicit_eval import reflectance, jacobian
 
 def residuals(p):
     return (reflectance(lam, p) - R)**2

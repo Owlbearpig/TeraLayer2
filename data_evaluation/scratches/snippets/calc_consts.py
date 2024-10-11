@@ -13,12 +13,12 @@ g = array([
 for g_ in g:
     g_ *= um_to_m
     i, p = 0, 20
-    print(dec_to_twoscompl(g_, int_width=i, frac_width=p, format=True), f'{g_}')
+    print(dec_to_twoscompl(g_, pd=i, p=p, format=True), f'{g_}')
 
 for f_ in f:
     f_ *= um_to_m
     i, p = 0, 20
-    print(dec_to_twoscompl(f_, int_width=i, frac_width=p, format=True), f'{f_}')
+    print(dec_to_twoscompl(f_, pd=i, p=p, format=True), f'{f_}')
 
 c0 = (1 - a * a) * b
 c1 = (1 - a * a)
@@ -42,7 +42,7 @@ cnst_lst = [c0, c1, c2, c3, c4, c5, c6, c7, c8]
 
 for cnst in cnst_lst:
     i, p = 3, 17
-    print(dec_to_twoscompl(cnst, int_width=i, frac_width=p), f'{cnst}')
+    print(dec_to_twoscompl(cnst, pd=i, p=p), f'{cnst}')
 
 # calc current data:
 # [421. 521. 651. 801. 851. 951.] GHz, sample_idx 10, custom_mask_420
@@ -50,4 +50,4 @@ R0 = [0.01619003, 0.3079267,  0.11397636, 0.13299026, 0.05960753, 0.08666484]
 
 for r0 in R0:
     i, p = 3, 17
-    print(dec_to_twoscompl(r0, int_width=i, frac_width=p, format=True) , f'{r0}')
+    print(dec_to_twoscompl(r0, pd=i, p=p, format=True), f'{r0}')

@@ -1,0 +1,262 @@
+Samples:
+3: BlueCube
+4: FPSample2
+5: FPSample3
+6: FPSample5Plastic
+7: FPSample5Ceramic
+8: FPSample6
+9: OPBlueP1
+10: OPBlueP2
+11: OPBlackP1
+12: OPBlackP2
+13: OPRedP1
+14: OPRedP2
+15: OPDarkRedP1
+16: OPDarkRedP2
+19: BWCeramicWhiteFaceUP
+20: BWCeramicBlackFaceUP
+21: AmpelMannFaceRight
+22: AmpelMannFaceLeft
+26: OPRedP1
+27: OPRedP2
+28: OPBlueP1
+29: OPBlueP2
+
+
+
+Discrete Frequencies - WaveSource (PIC-Freuqency Set)
+01_Gold_Plate_short.json
+"Frequency [THz]": [0.301, 0.357, -0.083, 0.741, 0.756, 0.8180000000000001, 0.12000000000000002, 1.0000000000000002], "Frequency [THz] (OSA measurement)": [0.30068100000000003, 0.35709900000000006, -0.041314000000000003, 0.741529, 0.7564050000000001, 0.817014, 0.11914400000000001, 1.000002]
+
+Discrete Frequencies - WaveSource
+01_Gold_Plate_short.json
+"Frequency [THz]": [0.05, 0.15, 0.2, 0.6, 0.75, 0.8, 1.0000000000000002, 1.5], "Frequency [THz] (OSA measurement)": [0.051021000000000004, 0.14866100000000002, 0.199132, 0.600431, 0.751053, 0.8011320000000001, 0.9985040000000001, 1.499568]
+
+
+Discrete Frequencies - PIC
+01_Gold_Plate_short.json
+{"Frequency [THz]": [0.301, 0.357, -0.083, 0.741, 0.756, 0.8180000000000001], "Frequency [THz] (OSA measurement)": [0.300548, 0.356887, -0.082737, 0.7409430000000001, 0.7556550000000001, 0.818495],
+
+Manual interference evaluation of single layers:
+
+FPceramic5: (!!! "Einfachste" Probe)
+dw = 0.285 THz - 0.244 THz  = 0.041 THz
+c/(2n * dw) = 300 um/ps / (2*2.3 * 0.041 1/ps) = 1590 um
+Evaluating: (07_FP.Probe5_ceramic, 104, PIC)
+Found minimum:  1615.0
+Evaluating: (07_FP.Probe5_ceramic, 234, WaveSource)
+Found minimum:  2300.0
+Evaluating: (07_FP.Probe5_ceramic, 105, WaveSourcePicFreq)
+Found minimum:  1619.0
+
+FPplastic5:
+dw = 0.184 THz - 0.205 THz = 0.021 THz
+c/(2n * dw) = 300 um/ps / (2*1.37 * 0.021 1/ps) = 5213 um
+Evaluating: (06_FP-Probe5_plastic, 103, PIC)
+Found minimum:  5430.0
+Evaluating: (06_FP-Probe5_plastic, 233, WaveSource)
+Found minimum:  4876.0
+Evaluating: (06_FP-Probe5_plastic, 104, WaveSourcePicFreq)
+Found minimum:  5433.0
+
+fpSample3:
+dw = 0.156 THz - 0.233 THz = 0.077 THz
+c/(2n * dw) = 300 um/ps / (2*1.65 * 0.077 1/ps) = 1181 um
+Evaluating: (05_FP-Probe3, 102, PIC)
+Found minimum:  1192.0
+Evaluating: (05_FP-Probe3, 232, WaveSource)
+Found minimum:  1238.0
+Evaluating: (05_FP-Probe3, 103, WaveSourcePicFreq)
+Found minimum:  932.0
+
+fpSample2:
+dw = 0.156 THz - 0.177 THz = 0.021 THz
+c/(2n * dw) = 300 um/ps / (2*1.785 * 0.021 1/ps) = 4002 um
+Evaluating: (04_FP-Probe2, 101, PIC)
+Found minimum:  3995.0
+Evaluating: (04_FP-Probe2, 231, WaveSource)
+Found minimum:  3805.0
+Evaluating: (04_FP-Probe2, 102, WaveSourcePicFreq)
+Found minimum:  4446.0
+
+blueCube:
+dw = around 3 GHz assuming n = 1.54
+Evaluating: (03_Blue_cube, 100, PIC)
+Found minimum:  30364.0
+Evaluating: (03_Blue_cube, 230, WaveSource)
+Found minimum:  29676.0
+Evaluating: (03_Blue_cube, 101, WaveSourcePicFreq)
+Found minimum:  30091.0
+
+fpSample6:
+dw = 0.185 THz - 0.370 THz = 0.185 THz
+c/(2n * dw) = 300 um/ps / (2*1.35 * 0.185 1/ps) = 601 um
+Evaluating: (08_FP-Probe6, 105, PIC)
+Found minimum:  920.0
+Evaluating: (08_FP-Probe6, 235, WaveSource)
+Found minimum:  487.0
+Evaluating: (08_FP-Probe6, 106, WaveSourcePicFreq)
+Found minimum:  631.0
+
+opBluePos1: (Unsure, can't really see interference pattern in TSWeeper meas.)
+dw = 1.730 THz - 2.100 THz = 0.370 THz
+c/(2n * dw) = 300 um/ps / (2*1.93 * 0.370 1/ps) = 210 um
+
+Evaluating: (09_OP_blue_pos1, 108, PIC)
+Found minimum:  350.0
+Evaluating: (09_OP_blue_pos1, 238, WaveSource)
+Found minimum:  342.0
+Evaluating: (09_OP_blue_pos1, 109, WaveSourcePicFreq)
+Found minimum:  350.0
+
+Evaluating: (10_OP_blue_pos2, 109, PIC)
+Found minimum:  350.0
+Evaluating: (10_OP_blue_pos2, 239, WaveSource)
+Found minimum:  897.0
+Evaluating: (10_OP_blue_pos2, 110, WaveSourcePicFreq)
+Found minimum:  351.0
+
+Evaluating: (11_OP_black_pos1, 110, PIC)
+Found minimum:  351.0
+Evaluating: (11_OP_black_pos1, 240, WaveSource)
+Found minimum:  814.0
+Evaluating: (11_OP_black_pos1, 111, WaveSourcePicFreq)
+Found minimum:  350.0
+
+Evaluating: (12_OP_black_pos2, 111, PIC)
+Found minimum:  349.0
+Evaluating: (12_OP_black_pos2, 241, WaveSource)
+Found minimum:  341.0
+Evaluating: (12_OP_black_pos2, 112, WaveSourcePicFreq)
+Found minimum:  350.0
+
+Evaluating: (13_OP_red_pos1, 112, PIC)
+Found minimum:  351.0
+Evaluating: (13_OP_red_pos1, 242, WaveSource)
+Found minimum:  342.0
+Evaluating: (13_OP_red_pos1, 113, WaveSourcePicFreq)
+Found minimum:  351.0
+
+Evaluating: (14_OP_red_pos2, 113, PIC)
+Found minimum:  353.0
+Evaluating: (14_OP_red_pos2, 243, WaveSource)
+Found minimum:  894.0
+Evaluating: (14_OP_red_pos2, 114, WaveSourcePicFreq)
+Found minimum:  352.0
+
+Evaluating: (15_OP_darkred_pos1, 114, PIC)
+Found minimum:  352.0
+Evaluating: (15_OP_darkred_pos1, 244, WaveSource)
+Found minimum:  342.0
+Evaluating: (15_OP_darkred_pos1, 115, WaveSourcePicFreq)
+Found minimum:  354.0
+
+Evaluating: (16_OP_darkred_pos2, 115, PIC)
+Found minimum:  350.0
+Evaluating: (16_OP_darkred_pos2, 245, WaveSource)
+Found minimum:  600.0
+Evaluating: (16_OP_darkred_pos2, 116, WaveSourcePicFreq)
+Found minimum:  353.0
+
+Evaluating: (26_OP_tool_red_pos1, 118, PIC)
+Found minimum:  111.0
+Evaluating: (26_OP_tool_red_pos1, 248, WaveSource)
+Found minimum:  341.0
+Evaluating: (26_OP_tool_red_pos1, 119, WaveSourcePicFreq)
+Found minimum:  10.0
+
+Evaluating: (27_OP_tool_red_pos2, 119, PIC)
+Found minimum:  8.0
+Evaluating: (27_OP_tool_red_pos2, 249, WaveSource)
+Found minimum:  401.0
+Evaluating: (27_OP_tool_red_pos2, 120, WaveSourcePicFreq)
+Found minimum:  349.0
+
+Evaluating: (28_OP_tool_blue_pos1, 120, PIC)
+Found minimum:  354.0
+Evaluating: (28_OP_tool_blue_pos1, 250, WaveSource)
+Found minimum:  845.0
+Evaluating: (28_OP_tool_blue_pos1, 121, WaveSourcePicFreq)
+Found minimum:  358.0
+
+Evaluating: (29_OP_tool_blue_pos2, 121, PIC)
+Found minimum:  348.0
+Evaluating: (29_OP_tool_blue_pos2, 251, WaveSource)
+Found minimum:  713.0
+Evaluating: (29_OP_tool_blue_pos2, 122, WaveSourcePicFreq)
+Found minimum:  353.0
+
+With n=2.25
+Evaluating: (29_OP_tool_blue_pos2, 121, PIC)
+Found minimum:  297.0
+Evaluating: (29_OP_tool_blue_pos2, 251, WaveSource)
+Found minimum:  611.0
+Evaluating: (29_OP_tool_blue_pos2, 122, WaveSourcePicFreq)
+Found minimum:  303.0
+
+Evaluating: (10_OP_blue_pos2, 109, PIC)
+Found minimum:  300.0
+Evaluating: (10_OP_blue_pos2, 239, WaveSource)
+Found minimum:  567.0
+Evaluating: (10_OP_blue_pos2, 110, WaveSourcePicFreq)
+Found minimum:  301.0
+
+########################################################################################################################
+FREQUENZEN (THz):
+Discrete Frequencies - PIC:
+Berechnet: [0.301, 0.357, -0.083, 0.741, 0.756, 0.8180000000000001],
+OSA: [0.300548, 0.356887, -0.082737, 0.7409430000000001, 0.7556550000000001, 0.818495]
+
+Discrete Frequencies - WaveSource
+Berechnet: [0.05, 0.15, 0.2, 0.6, 0.75, 0.8, 1.0000000000000002, 1.5],
+OSA: [0.051021000000000004, 0.14866100000000002, 0.199132, 0.600431, 0.751053, 0.8011320000000001, 0.9985040000000001, 1.499568]
+
+Discrete Frequencies - WaveSource (PIC-Freuqency Set)
+Berechnet: [0.301, 0.357, -0.083, 0.741, 0.756, 0.8180000000000001, 0.12000000000000002, 1.0000000000000002],
+OSA: [0.30068100000000003, 0.35709900000000006, -0.041314000000000003, 0.741529, 0.7564050000000001, 0.817014, 0.11914400000000001, 1.000002]
+
+TSweeper:
+[-0.109 - 4.630], 0.001 step, boundaries included
+
+1. Ungef. Brechungsindex bestimmt anhand von Amplitude plot
+n = c / (2 d delta_freq)
+
+2. TSweeper messung angepasst:
+    a) Schiebe Frequenzachse
+
+    b) Ziehe phi_shift = - 2pi * freq * t0 von Phase der Messung ab. Suche t0 s.d. Phase ungef. glm. um 0 schwingt.
+        => phi_diff = phi_sam - phi_ref + phi_shift
+
+    c) Ziehe mittelwert von der Phase von phi diff ab (Manchmal hat es ein vertikales offset)
+
+3. Passe n, k vom Model an, s.d. es mit TSWeeper Messung passt (Phase + Amp)
+
+4. Bestimme t0 von PIC Messung s.d. Phase zum Model passt. + Frequenzachse verschieben
+
+5. Berechne Summe über Freq. von (abs(r) - abs(r_mod))^2 + (angle(r) - angle(r_mod))^2 für Dicken in einem Interval.
+
+# single layer
+(blueCube # probably ifft -> window -> fft)
+fpSample2 # works if we exclude freq < 0 (3980 um)
+fpSample3 # works 1162 um
+(fpSample5Plastic # Cannot find ref idx. muss auf beiden seiten von 0 gleich viel "rauschen" sein?)
+fpSample5ceramic # works 1602 um
+fpSample6 # works 612 um
+
+# double layer
+bwCeramicBlackUp # works if we exclude freq > 0.8 THz d1: 153 um, d2: 487 um (range: 100, 200)
+bwCeramicWhiteUp # works if we exclude freq > 0.8 THz d1: 498 um, d2: 152 um (range: 200, 200)
+
+# triple layer
+ampelMannRight # works d1, d2, d3: (53, 670, 65)
+
+# TODO
+1. Single shot plots und std abweichung # done
+2. Iron core samples # works
+(3. improve results) #
+
+4. "truevalue" is a mechanical caliper measurement -> 50 um uncertainty.
+    -> Mention in report + change label to Mechanical measurement (Mechanisch gemessen)
+5. Is all/many frequency TSWeeper comparison possible? (Got an example for Ampelmann) (Done)
+6. sigma/(sqrt(sweep_idx)) vs sweep_idx * dt, dt = 0.960 ms for PIC (800 us Wavesource)
+    -> can add both errors in case of two error functions

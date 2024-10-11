@@ -1,11 +1,8 @@
-import time
 import numpy as np
 from numpy import array, sum
-from functions import format_data, residuals, avg_runtime
-from consts import um, custom_mask, default_mask, full_range_mask
-from model.multir_numba import multir_numba
-from model.explicitEvalOptimized import explicit_reflectance
-import multiprocessing
+from functions import format_data
+from consts import full_range_mask
+from model.initial_tests.explicitEvalOptimized import explicit_reflectance
 from joblib import Parallel, delayed
 from pathlib import Path
 

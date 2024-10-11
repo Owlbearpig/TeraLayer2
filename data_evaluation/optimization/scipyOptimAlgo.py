@@ -1,9 +1,8 @@
-from model.multir_numba import multir_numba
-from model.explicit_eval import jacobian
+from model.initial_tests.multir_numba import multir_numba
 from consts import *
 from functions import format_data, calc_loss, calc_full_loss, residuals
 from visualizing.plotting import plot_result
-from scipy.optimize import least_squares, minimize
+from scipy.optimize import least_squares
 
 chosen_mask = default_mask
 

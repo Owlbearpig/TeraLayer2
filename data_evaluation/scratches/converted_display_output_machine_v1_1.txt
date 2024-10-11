@@ -1,0 +1,2805 @@
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.0 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 16, after valid, assign initial guess, cost(p0). Next 17 
+clk cycle 0 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.0 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 16, after valid, assign initial guess, cost(p0). Next 17 
+clk cycle 1 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.0 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 16, after valid, assign initial guess, cost(p0). Next 17 
+clk cycle 2 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.0 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 16, after valid, assign initial guess, cost(p0). Next 17 
+clk cycle 3 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.0 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 16, after valid, assign initial guess, cost(p0). Next 17 
+clk cycle 4 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.0 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 16, after valid, assign initial guess, cost(p0). Next 17 
+clk cycle 5 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.0 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 16, after valid, assign initial guess, cost(p0). Next 17 
+clk cycle 6 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.0 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 16, after valid, assign initial guess, cost(p0). Next 17 
+clk cycle 7 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.0 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 16, after valid, assign initial guess, cost(p0). Next 17 
+clk cycle 8 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 17, cost(p1). Next 18 
+clk cycle 9 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 17, cost(p1). Next 18 
+clk cycle 10 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 17, cost(p1). Next 18 
+clk cycle 11 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 17, cost(p1). Next 18 
+clk cycle 12 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 17, cost(p1). Next 18 
+clk cycle 13 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 17, cost(p1). Next 18 
+clk cycle 14 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 17, cost(p1). Next 18 
+clk cycle 15 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 17, cost(p1). Next 18 
+clk cycle 16 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.0 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 17, cost(p1). Next 18 
+clk cycle 17 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 18, cost(p2). Next 19 
+clk cycle 18 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 18, cost(p2). Next 19 
+clk cycle 19 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 18, cost(p2). Next 19 
+clk cycle 20 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 18, cost(p2). Next 19 
+clk cycle 21 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 18, cost(p2). Next 19 
+clk cycle 22 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 18, cost(p2). Next 19 
+clk cycle 23 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 18, cost(p2). Next 19 
+clk cycle 24 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 18, cost(p2). Next 19 
+clk cycle 25 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.0 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 18, cost(p2). Next 19 
+clk cycle 26 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.26037598 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 19, cost(p3). Next 20 
+clk cycle 27 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.26037598 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 19, cost(p3). Next 20 
+clk cycle 28 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.26037598 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 19, cost(p3). Next 20 
+clk cycle 29 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.26037598 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 19, cost(p3). Next 20 
+clk cycle 30 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.26037598 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 19, cost(p3). Next 20 
+clk cycle 31 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.26037598 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 19, cost(p3). Next 20 
+clk cycle 32 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.26037598 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 19, cost(p3). Next 20 
+clk cycle 33 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.26037598 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 19, cost(p3). Next 20 
+clk cycle 34 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.26037598 
+p3, x: [30.0, 620.0, 31.5], fx 0.0 
+state: 19, cost(p3). Next 20 
+clk cycle 35 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 651.0, 30.0], fx 0.26037598 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 20, sort simplex. Next 21 
+clk cycle 36 
+
+p_r, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [0.0, 0.0, 0.0], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 21, set initial centroid. Next 0 
+clk cycle 37 
+
+p_r, x: [30.996, 588.924, 30.996], fx xxxxxxxxxxxxxxxxxx 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 38 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 39 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 40 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 41 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 42 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 43 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 44 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 45 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 46 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 3, Next r_fx < p2_fx ? 6 : 7 
+clk cycle 47 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 7, Next r_fx < p3_fx ? 8 : 9 
+clk cycle 48 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx xxxxxxxxxxxxxxxxxx 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 49 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.0 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 50 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.0 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 51 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.0 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 52 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.0 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 53 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.0 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 54 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.0 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 55 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.0 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 56 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.0 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 57 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.0, 651.0, 30.0], fx 0.26037598 
+state: 12, contract inside copy(c, p3). Next 13 
+clk cycle 58 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p1, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p2, x: [30.0, 620.0, 30.0], fx 0.19293213 
+p3, x: [30.249, 635.481, 30.249], fx 0.14678955 
+state: 13, sort simplex + transform done. Next 15 
+clk cycle 59 
+
+p_r, x: [30.996, 588.924, 30.996], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.498, 619.962, 30.498], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 15, upd(ce), iter_cnt + 1. Next 0 
+clk cycle 60 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.44021606 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 61 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 62 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 63 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 64 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 65 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 66 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 67 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 68 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.0 
+p_e, x: [xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxxxxxxxxx], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 69 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p_e, x: [31.743, 635.367, 31.743], fx xxxxxxxxxxxxxxxxxx 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 70 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p_e, x: [31.743, 635.367, 31.743], fx 0.0 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 71 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p_e, x: [31.743, 635.367, 31.743], fx 0.0 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 72 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p_e, x: [31.743, 635.367, 31.743], fx 0.0 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 73 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p_e, x: [31.743, 635.367, 31.743], fx 0.0 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 74 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p_e, x: [31.743, 635.367, 31.743], fx 0.0 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 75 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p_e, x: [31.743, 635.367, 31.743], fx 0.0 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 76 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p_e, x: [31.743, 635.367, 31.743], fx 0.0 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 77 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p_e, x: [31.743, 635.367, 31.743], fx 0.0 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 78 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [30.0, 620.0, 30.0], fx 0.19293213 
+state: 5, reflect 1 copy(r, p3). Next 13 
+clk cycle 79 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p1, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p2, x: [31.5, 620.0, 30.0], fx 0.18258667 
+p3, x: [31.162, 630.244, 31.162], fx 0.12161255 
+state: 13, sort simplex + transform done. Next 15 
+clk cycle 80 
+
+p_r, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.581, 625.122, 30.581], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p3, x: [31.5, 620.0, 30.0], fx 0.18258667 
+state: 15, upd(ce), iter_cnt + 1. Next 0 
+clk cycle 81 
+
+p_r, x: [29.437, 637.074, 31.937], fx 0.12161255 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.469, 628.537, 30.969], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p3, x: [31.5, 620.0, 30.0], fx 0.18258667 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 82 
+
+p_r, x: [29.437, 637.074, 31.937], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.469, 628.537, 30.969], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p3, x: [31.5, 620.0, 30.0], fx 0.18258667 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 83 
+
+p_r, x: [29.437, 637.074, 31.937], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.469, 628.537, 30.969], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p3, x: [31.5, 620.0, 30.0], fx 0.18258667 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 84 
+
+p_r, x: [29.437, 637.074, 31.937], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.469, 628.537, 30.969], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p3, x: [31.5, 620.0, 30.0], fx 0.18258667 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 85 
+
+p_r, x: [29.437, 637.074, 31.937], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.469, 628.537, 30.969], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p3, x: [31.5, 620.0, 30.0], fx 0.18258667 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 86 
+
+p_r, x: [29.437, 637.074, 31.937], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.469, 628.537, 30.969], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p3, x: [31.5, 620.0, 30.0], fx 0.18258667 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 87 
+
+p_r, x: [29.437, 637.074, 31.937], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.469, 628.537, 30.969], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p3, x: [31.5, 620.0, 30.0], fx 0.18258667 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 88 
+
+p_r, x: [29.437, 637.074, 31.937], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.469, 628.537, 30.969], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p3, x: [31.5, 620.0, 30.0], fx 0.18258667 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 89 
+
+p_r, x: [29.437, 637.074, 31.937], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.469, 628.537, 30.969], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p3, x: [31.5, 620.0, 30.0], fx 0.18258667 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 90 
+
+p_r, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.469, 628.537, 30.969], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p3, x: [31.5, 620.0, 30.0], fx 0.18258667 
+state: 3, Next r_fx < p2_fx ? 6 : 7 
+clk cycle 91 
+
+p_r, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.469, 628.537, 30.969], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p3, x: [31.5, 620.0, 30.0], fx 0.18258667 
+state: 6, reflect 2 copy(r, p3). Next 13 
+clk cycle 92 
+
+p_r, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.469, 628.537, 30.969], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [30.0, 620.0, 31.5], fx 0.18255615 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 13, sort simplex + transform done. Next 15 
+clk cycle 93 
+
+p_r, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.469, 628.537, 30.969], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 15, upd(ce), iter_cnt + 1. Next 0 
+clk cycle 94 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.14752197 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 95 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 96 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 97 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 98 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 99 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 100 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 101 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 102 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 103 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 3, Next r_fx < p2_fx ? 6 : 7 
+clk cycle 104 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 7, Next r_fx < p3_fx ? 8 : 9 
+clk cycle 105 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.14678955 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 106 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.0 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 107 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.0 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 108 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.0 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 109 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.0 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 110 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.0 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 111 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.0 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 112 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.0 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 113 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.0 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 114 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.0, 620.0, 31.5], fx 0.18255615 
+state: 12, contract inside copy(c, p3). Next 13 
+clk cycle 115 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p2, x: [29.437, 637.074, 31.937], fx 0.14752197 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 13, sort simplex + transform done. Next 15 
+clk cycle 116 
+
+p_r, x: [30.562, 648.455, 30.728], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.281, 634.228, 31.114], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 15, upd(ce), iter_cnt + 1. Next 0 
+clk cycle 117 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.23544312 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 118 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 119 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 120 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 121 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 122 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 123 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 124 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 125 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 126 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 3, Next r_fx < p2_fx ? 6 : 7 
+clk cycle 127 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 7, Next r_fx < p3_fx ? 8 : 9 
+clk cycle 128 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13607788 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 129 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.0 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 130 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.0 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 131 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.0 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 132 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.0 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 133 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.0 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 134 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.0 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 135 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.0 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 136 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.0 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 9, upd_2(c) + cost(c) + assign. Next c_fx <= p3_fx ? 12 : 14 
+clk cycle 137 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.437, 637.074, 31.937], fx 0.14752197 
+state: 12, contract inside copy(c, p3). Next 13 
+clk cycle 138 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p2, x: [30.249, 635.481, 30.249], fx 0.14678955 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 13, sort simplex + transform done. Next 15 
+clk cycle 139 
+
+p_r, x: [31.594, 624.742, 29.871], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.515, 630.908, 30.904], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p2, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p3, x: [30.249, 635.481, 30.249], fx 0.14678955 
+state: 15, upd(ce), iter_cnt + 1. Next 0 
+clk cycle 140 
+
+p_r, x: [30.6, 625.341, 32.34], fx 0.14764404 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.424, 630.411, 31.295], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p2, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p3, x: [30.249, 635.481, 30.249], fx 0.14678955 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 141 
+
+p_r, x: [30.6, 625.341, 32.34], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.424, 630.411, 31.295], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p2, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p3, x: [30.249, 635.481, 30.249], fx 0.14678955 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 142 
+
+p_r, x: [30.6, 625.341, 32.34], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.424, 630.411, 31.295], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p2, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p3, x: [30.249, 635.481, 30.249], fx 0.14678955 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 143 
+
+p_r, x: [30.6, 625.341, 32.34], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.424, 630.411, 31.295], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p2, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p3, x: [30.249, 635.481, 30.249], fx 0.14678955 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 144 
+
+p_r, x: [30.6, 625.341, 32.34], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.424, 630.411, 31.295], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p2, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p3, x: [30.249, 635.481, 30.249], fx 0.14678955 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 145 
+
+p_r, x: [30.6, 625.341, 32.34], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.424, 630.411, 31.295], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p2, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p3, x: [30.249, 635.481, 30.249], fx 0.14678955 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 146 
+
+p_r, x: [30.6, 625.341, 32.34], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.424, 630.411, 31.295], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p2, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p3, x: [30.249, 635.481, 30.249], fx 0.14678955 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 147 
+
+p_r, x: [30.6, 625.341, 32.34], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.424, 630.411, 31.295], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p2, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p3, x: [30.249, 635.481, 30.249], fx 0.14678955 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 148 
+
+p_r, x: [30.6, 625.341, 32.34], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.424, 630.411, 31.295], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p2, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p3, x: [30.249, 635.481, 30.249], fx 0.14678955 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 149 
+
+p_r, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.424, 630.411, 31.295], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p2, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p3, x: [30.249, 635.481, 30.249], fx 0.14678955 
+state: 3, Next r_fx < p2_fx ? 6 : 7 
+clk cycle 150 
+
+p_r, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.424, 630.411, 31.295], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p2, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p3, x: [30.249, 635.481, 30.249], fx 0.14678955 
+state: 6, reflect 2 copy(r, p3). Next 13 
+clk cycle 151 
+
+p_r, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.424, 630.411, 31.295], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p2, x: [30.14, 627.114, 31.307], fx 0.13607788 
+p3, x: [30.6, 625.341, 32.34], fx 0.13299561 
+state: 13, sort simplex + transform done. Next 15 
+clk cycle 152 
+
+p_r, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.424, 630.411, 31.295], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 15, upd(ce), iter_cnt + 1. Next 0 
+clk cycle 153 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.13299561 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 154 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 155 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 156 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 157 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 158 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 159 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 160 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 161 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.0 
+p_e, x: [31.743, 635.367, 31.743], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 162 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p_e, x: [31.452, 635.233, 32.303], fx 0.12219238 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 163 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p_e, x: [31.452, 635.233, 32.303], fx 0.0 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 164 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p_e, x: [31.452, 635.233, 32.303], fx 0.0 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 165 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p_e, x: [31.452, 635.233, 32.303], fx 0.0 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 166 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p_e, x: [31.452, 635.233, 32.303], fx 0.0 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 167 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p_e, x: [31.452, 635.233, 32.303], fx 0.0 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 168 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p_e, x: [31.452, 635.233, 32.303], fx 0.0 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 169 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p_e, x: [31.452, 635.233, 32.303], fx 0.0 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 170 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p_e, x: [31.452, 635.233, 32.303], fx 0.0 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 2, upd(e) + cost(e) + assign. Next e_fx < r_fx ? 4 : 5 
+clk cycle 171 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [30.14, 627.114, 31.307], fx 0.13607788 
+state: 5, reflect 1 copy(r, p3). Next 13 
+clk cycle 172 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p1, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p2, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p3, x: [31.015, 632.527, 31.971], fx 0.11721802 
+state: 13, sort simplex + transform done. Next 15 
+clk cycle 173 
+
+p_r, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.578, 629.82, 31.639], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 15, upd(ce), iter_cnt + 1. Next 0 
+clk cycle 174 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.11721802 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 175 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255  
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 176 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 177 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 178 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 179 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 180 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 181 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 182 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 183 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 184 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 185 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 186 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 187 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 188 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 189 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 190 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 191 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 192 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 193 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 194 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 195 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 196 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 197 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 198 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 199 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 200 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 201 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 202 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 203 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 204 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 205 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 206 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 207 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 208 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 209 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 210 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 211 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 212 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 213 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 214 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 215 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 216 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 217 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 218 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 219 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 220 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 221 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 222 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 223 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 224 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 225 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 226 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 227 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 228 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 229 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 230 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 231 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 232 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 233 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 234 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 235 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 236 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 237 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 238 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 239 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 240 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 241 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 242 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 243 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 244 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 245 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 246 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 247 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 248 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 249 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 250 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 251 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 252 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 253 
+
+p_r, x: [31.871, 624.674, 32.225], fx 0.0 
+p_e, x: [31.452, 635.233, 32.303], fx 0.11950684 
+p_c, x: [29.976, 633.991, 31.421], fx 0.13357544 
+p_ce, x: [30.924, 629.332, 31.823], fx None 
+p0, x: [31.015, 632.527, 31.971], fx 0.11721802 
+p1, x: [31.162, 630.244, 31.162], fx 0.12161255 
+p2, x: [30.6, 625.341, 32.34], fx 0.13299561 
+p3, x: [29.976, 633.991, 31.421], fx 0.13357544 
+state: 0, upd(r) + cost(r) + assign. Next r_fx < p0_fx ? 2 : 3 
+clk cycle 254 
+
