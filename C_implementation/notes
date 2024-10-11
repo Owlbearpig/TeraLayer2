@@ -54,6 +54,7 @@ point_t point_c;
 point_t centroid;
 
 **start of while loop** (eg change into for loop and do 100 iterations).
+
 shrink = False
 
 update_point(RHO, &point_r);  // set init values of r

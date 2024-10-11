@@ -26,7 +26,7 @@ int main(int argc, const char *argv[]) {
     optimset.tolf = 0.01;
     optimset.max_iter = 1000;
     optimset.max_eval = 1000;
-    optimset.verbose = 0;
+    optimset.verbose = 1;
 
     // evaluate and print starting point
     printf("Initial point\n");

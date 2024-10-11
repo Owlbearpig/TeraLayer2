@@ -56,7 +56,6 @@ void nelder_mead(int n, const point_t *start, point_t *solution,
         for (int j = 0; j < n; j++) {
             simplex.p[i].x[j] = (i - 1 == j) ? (start->x[j] != 0.0 ? 1.05 * start->x[j] : 0.00025) : start->x[j];
         }
-        printf("p%d, d0: %f, d1: %f, d2: %f\n", i, simplex.p[i].x[0], simplex.p[i].x[1], simplex.p[i].x[2]);
         cost_function(simplex.p + i);
         eval_count++;
     }
@@ -65,6 +64,11 @@ void nelder_mead(int n, const point_t *start, point_t *solution,
     simplex_sort(&simplex);
     // compute the simplex centroid
     get_centroid(&simplex, &centroid);
+    printf("Centroid ");
+    print_point(3, &centroid);
+    for (int i = 0; i < n + 1; i++) {
+        printf("p%d, d0: %f, d1: %f, d2: %f\n", i, simplex.p[i].x[0], simplex.p[i].x[1], simplex.p[i].x[2]);
+    }
     iter_count++;
 
     // continue minimization until stop conditions are met
@@ -76,6 +80,11 @@ void nelder_mead(int n, const point_t *start, point_t *solution,
         }
         update_point(&simplex, &centroid, RHO, &point_r);
         cost_function(&point_r);
+        printf("simplex.p3.x: ");
+        print_point(3, &simplex.p[3]);
+        printf("point_r.x: ");
+        print_point(3, &point_r);
+        printf("point_r.fx: %f\n", point_r.fx);
         eval_count++;
         if (point_r.fx < simplex.p[0].fx) {
             update_point(&simplex, &centroid, RHO * CHI, &point_e);
@@ -121,12 +130,14 @@ void nelder_mead(int n, const point_t *start, point_t *solution,
                     }
                 } else {
                     update_point(&simplex, &centroid, -GAMMA, &point_c);
+                    printf("point_c: ");
+                    print_point(3, &point_c);
                     cost_function(&point_c);
                     eval_count++;
                     if (point_c.fx <= simplex.p[n].fx) {
                         // contract inside
                         if (optimset->verbose) {
-                            printf("contract in     ");
+                            printf("contract in     \n");
                         }
                         copy_point(n, &point_c, simplex.p + n);
                     } else {
@@ -138,6 +149,9 @@ void nelder_mead(int n, const point_t *start, point_t *solution,
                     }
                 }
             }
+        }
+        for (int i = 0; i < n + 1; i++) {
+            printf("simplex b4 swap: p%d, d0: %f, d1: %f, d2: %f\n", i, simplex.p[i].x[0], simplex.p[i].x[1], simplex.p[i].x[2]);
         }
         if (shrink) {
             for (int i = 1; i < n + 1; i++) {
@@ -155,6 +169,12 @@ void nelder_mead(int n, const point_t *start, point_t *solution,
         }
         get_centroid(&simplex, &centroid);
         iter_count++;
+        printf("Centroid: ");
+        print_point(3, &centroid);
+        for (int i = 0; i < n + 1; i++) {
+            printf("p%d, d0: %f, d1: %f, d2: %f\n", i, simplex.p[i].x[0], simplex.p[i].x[1], simplex.p[i].x[2]);
+        }
+
 
         if (optimset->verbose) {
             // print current minimum
@@ -165,6 +185,7 @@ void nelder_mead(int n, const point_t *start, point_t *solution,
             printf("]    %.2f \n", simplex.p[0].fx);
         }
     }
+
 
     // save solution in output argument
     solution->x = malloc(n * sizeof(double));
